@@ -1,5 +1,94 @@
 .site-shell {
   min-height: 100svh;
+  overflow-x: hidden;
+  background:
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(180deg, var(--grid-line) 1px, transparent 1px),
+    var(--background);
+  background-size: var(--grid-size, 72px) var(--grid-size, 72px);
+  color: var(--text);
+  transition: background 220ms ease, color 220ms ease;
+}
+
+.theme-general,
+.theme-gate {
+  --background: #0e0e10;
+  --surface: #1c1c21;
+  --text: #f0f0f0;
+  --muted: #a7a7a7;
+  --line: rgba(245, 245, 245, 0.11);
+  --line-strong: rgba(245, 245, 245, 0.22);
+  --signal: #00d4aa;
+  --grid-line: rgba(245, 245, 245, 0.035);
+}
+
+.theme-radonc {
+  --background: #130b0d;
+  --surface: #201216;
+  --text: #fff5ef;
+  --muted: #c7aaa3;
+  --line: rgba(255, 228, 214, 0.13);
+  --line-strong: rgba(255, 228, 214, 0.26);
+  --signal: #ff6a4d;
+  --grid-line: rgba(255, 106, 77, 0.05);
+}
+
+.theme-racing {
+  --background: #0d0d08;
+  --surface: #19180f;
+  --text: #faf7d0;
+  --muted: #b8b38d;
+  --line: rgba(250, 247, 208, 0.13);
+  --line-strong: rgba(250, 247, 208, 0.28);
+  --signal: #d9e021;
+  --grid-line: rgba(217, 224, 33, 0.055);
+  --grid-size: 54px;
+}
+
+.theme-research {
+  --background: #f4efe3;
+  --surface: #fffaf0;
+  --text: #19140d;
+  --muted: #62594b;
+  --line: rgba(25, 20, 13, 0.14);
+  --line-strong: rgba(25, 20, 13, 0.3);
+  --signal: #8b4a08;
+  --grid-line: rgba(25, 20, 13, 0.055);
+  --grid-size: 96px;
+}
+
+.theme-radonc .stage-viewport {
+  border-color: color-mix(in srgb, var(--signal) 44%, var(--line-strong));
+}
+
+.theme-racing .stage-viewport {
+  border-radius: 0;
+}
+
+.theme-racing .stage-viewport::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  border: 0 solid transparent;
+  border-top-width: 4px;
+  border-image: repeating-linear-gradient(90deg, var(--signal) 0 18px, transparent 18px 36px) 1;
+  pointer-events: none;
+}
+
+.theme-research .stage-viewport,
+.theme-research .command-panel,
+.theme-research .contact-links {
+  background: var(--surface);
+}
+
+.theme-research .stage-image {
+  filter: grayscale(0.05) contrast(1.02) brightness(0.98);
+  opacity: 0.72;
+}
+
+.theme-research .stage-readout {
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
 }
 
 .scroll-rail {
@@ -24,11 +113,12 @@
   top: 0;
   z-index: 40;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: auto 1fr auto;
   width: min(100% - 48px, 1240px);
+  max-width: calc(100vw - 48px);
   margin: 0 auto;
   border-bottom: 1px solid var(--line);
-  background: rgba(14, 14, 16, 0.86);
+  background: color-mix(in srgb, var(--background) 86%, transparent);
   backdrop-filter: blur(16px);
 }
 
@@ -46,6 +136,7 @@
 
 .topbar nav {
   display: flex;
+  justify-content: end;
 }
 
 .topbar nav a {
@@ -68,9 +159,41 @@
   color: var(--text);
 }
 
+.mode-switcher {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  border-left: 1px solid var(--line);
+}
+
+.mode-switcher button {
+  height: 54px;
+  min-width: 78px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.mode-switcher button:last-child {
+  border-right: 0;
+}
+
+.mode-switcher button.active,
+.mode-switcher button:hover,
+.mode-switcher button:focus-visible {
+  background: color-mix(in srgb, var(--signal) 12%, transparent);
+  color: var(--text);
+}
+
 main,
 footer {
   width: min(100% - 48px, 1240px);
+  max-width: calc(100vw - 48px);
   margin: 0 auto;
 }
 
@@ -81,6 +204,14 @@ footer {
   min-height: calc(100svh - 55px);
   padding: 56px 0 34px;
   border-bottom: 1px solid var(--line);
+}
+
+.hero-section > *,
+.stage-shell,
+.stage-viewport,
+.section > *,
+.contact-section > * {
+  min-width: 0;
 }
 
 .hero-copy {
@@ -178,7 +309,7 @@ footer {
   overflow: hidden;
   border: 1px solid var(--line-strong);
   border-radius: 8px;
-  background: #050505;
+  background: color-mix(in srgb, var(--background) 88%, #000);
   isolation: isolate;
 }
 
@@ -228,7 +359,7 @@ footer {
   inset: 0;
   z-index: 3;
   background:
-    linear-gradient(180deg, transparent 0 46%, rgba(0, 212, 170, 0.0) 46%, rgba(0, 212, 170, 0.46) 49%, transparent 52%),
+    linear-gradient(180deg, transparent 0 46%, transparent 46%, color-mix(in srgb, var(--signal) 46%, transparent) 49%, transparent 52%),
     repeating-linear-gradient(180deg, rgba(245, 245, 245, 0.06) 0 1px, transparent 1px 5px);
   mix-blend-mode: screen;
   animation: scan 4.8s linear infinite;
@@ -239,7 +370,7 @@ footer {
   position: absolute;
   inset: 12% 18% 17% 14%;
   z-index: 4;
-  border: 1px solid rgba(0, 212, 170, 0.48);
+  border: 1px solid color-mix(in srgb, var(--signal) 50%, transparent);
   pointer-events: none;
 }
 
@@ -247,7 +378,7 @@ footer {
 .stage-crosshair::after {
   content: '';
   position: absolute;
-  background: rgba(0, 212, 170, 0.54);
+  background: color-mix(in srgb, var(--signal) 56%, transparent);
 }
 
 .stage-crosshair::before {
@@ -272,7 +403,7 @@ footer {
   width: min(330px, calc(100% - 36px));
   border: 1px solid rgba(245, 245, 245, 0.18);
   border-radius: 6px;
-  background: rgba(8, 8, 9, 0.82);
+  background: color-mix(in srgb, var(--background) 82%, transparent);
 }
 
 .stage-readout p {
@@ -333,7 +464,7 @@ footer {
 .stage-tabs button.active,
 .stage-tabs button:hover,
 .stage-tabs button:focus-visible {
-  background: rgba(0, 212, 170, 0.12);
+  background: color-mix(in srgb, var(--signal) 12%, transparent);
   color: var(--text);
 }
 
@@ -363,7 +494,7 @@ footer {
 }
 
 .work-strip article:hover {
-  background: rgba(0, 212, 170, 0.055);
+  background: color-mix(in srgb, var(--signal) 6%, transparent);
 }
 
 .work-strip p,
@@ -480,7 +611,7 @@ footer {
 .command-panel {
   border: 1px solid var(--line-strong);
   border-radius: 8px;
-  background: #111113;
+  background: var(--surface);
 }
 
 .command-panel h2 {
@@ -514,7 +645,7 @@ footer {
 
 .command-list a:hover,
 .command-list a:focus-visible {
-  background: rgba(0, 212, 170, 0.09);
+  background: color-mix(in srgb, var(--signal) 10%, transparent);
   color: var(--signal);
 }
 
@@ -558,8 +689,102 @@ footer {
 
 .contact-links a:hover,
 .contact-links a:focus-visible {
-  background: rgba(0, 212, 170, 0.09);
+  background: color-mix(in srgb, var(--signal) 10%, transparent);
   color: var(--signal);
+}
+
+.audience-gate {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 46px;
+  width: min(100% - 48px, 1240px);
+  min-height: 100svh;
+  align-items: center;
+  margin: 0 auto;
+  padding: 44px 0;
+}
+
+.gate-copy p {
+  margin: 0 0 26px;
+  color: var(--signal);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.gate-copy h1 {
+  max-width: 590px;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(44px, 6.7vw, 96px);
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  line-height: 0.9;
+}
+
+.gate-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line-strong);
+  border-left: 1px solid var(--line-strong);
+}
+
+.gate-option {
+  display: grid;
+  min-height: 245px;
+  align-content: space-between;
+  padding: 22px;
+  border: 0;
+  border-right: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background: color-mix(in srgb, var(--surface) 54%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.gate-option span {
+  color: var(--signal);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.gate-option strong {
+  display: block;
+  max-width: 290px;
+  color: inherit;
+  font-size: clamp(24px, 2.7vw, 38px);
+  font-weight: 880;
+  letter-spacing: -0.05em;
+  line-height: 0.96;
+}
+
+.gate-option em {
+  display: block;
+  max-width: 310px;
+  color: var(--muted);
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1.48;
+}
+
+.gate-option:hover,
+.gate-option:focus-visible {
+  background: color-mix(in srgb, var(--signal) 12%, var(--surface));
+}
+
+.gate-radonc {
+  --signal: #ff6a4d;
+}
+
+.gate-racing {
+  --signal: #d9e021;
+}
+
+.gate-research {
+  --signal: #d39a45;
 }
 
 footer {
@@ -645,6 +870,7 @@ footer {
   main,
   footer {
     width: min(100% - 28px, 1240px);
+    max-width: calc(100vw - 28px);
   }
 
   .topbar {
@@ -660,13 +886,30 @@ footer {
   .topbar nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
   }
 
   .topbar nav a {
     min-width: 0;
     border-bottom: 1px solid var(--line);
     border-left: 0;
-    font-size: 12px;
+    font-size: 10px;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .mode-switcher {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .mode-switcher button {
+    min-width: 0;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    font-size: 10px;
   }
 
   .hero-section {
@@ -688,6 +931,7 @@ footer {
   }
 
   .stage-viewport {
+    width: 100%;
     min-height: 410px;
   }
 
@@ -725,5 +969,21 @@ footer {
 
   footer {
     flex-direction: column;
+  }
+
+  .audience-gate {
+    grid-template-columns: 1fr;
+    width: min(100% - 28px, 1240px);
+    max-width: calc(100vw - 28px);
+    align-content: center;
+    gap: 34px;
+  }
+
+  .gate-options {
+    grid-template-columns: 1fr;
+  }
+
+  .gate-option {
+    min-height: 185px;
   }
 }
