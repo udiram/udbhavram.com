@@ -29,11 +29,26 @@ const modes: Record<SiteMode, { label: string; title: string; text: string }> = 
 const modeOrder = Object.keys(modes) as SiteMode[]
 const storageKey = 'udbhavram-site-mode'
 
+const profileFacts = [
+  ['Current focus', 'Clinical AI, medical physics software, radiation oncology workflows, and race strategy systems.'],
+  ['McMaster', 'Fifth-year Medical & Biological Physics student and Science Co-op Student of the Year winner.'],
+  ['UAB', 'International Visiting Scholar in Radiation Oncology and UAB-McMaster Ambassador.'],
+  ['Clinical translation', 'Work spans adaptive radiotherapy, SRS planning, auto-segmentation, QA, and human-reviewed AI.'],
+]
+
 const researchPapers = [
+  [
+    '2025',
+    'Dosimetric evaluation of Ethos 2.0 high-fidelity mode for single-isocenter SRS',
+    'Journal of Applied Clinical Medical Physics',
+  ],
+  [
+    '2025',
+    'Assessing quantitative performance and expert review of deep learning frameworks for CT abdominal organ auto-segmentation',
+    'Intelligent Oncology',
+  ],
   ['2025', 'Improving TG-263 target name compliance using locally hosted large language models', 'AAPM Blue Ribbon Poster'],
-  ['2025', 'Evaluation of High-Fidelity Mode for multi-met single-isocenter stereotactic radiosurgery planning', 'RSS / Cureus abstract'],
-  ['2025', 'Assessing state-of-the-art deep learning models in abdominal organ auto-segmentation', 'IJROBP'],
-  ['2020', "The connection between nutrition and Alzheimer's disease", 'Molecular Nutrition & Food Research'],
+  ['2020', "The effects of resveratrol, caffeine, beta-carotene, and EGCG on amyloid aggregation", 'Molecular Nutrition & Food Research'],
 ]
 
 const generalSystems = [
@@ -45,7 +60,7 @@ const generalSystems = [
 
 const radOncChecks = [
   ['TG-263 harmonization', 'Local LLM pipelines that convert messy target names into rule-checked clinical nomenclature.'],
-  ['Ethos 2.0 SRS planning', 'High-fidelity plan evaluation for multi-met, single-isocenter stereotactic workflows.'],
+  ['Ethos 2.0 SRS planning', 'Published high-fidelity mode evaluation for multi-met, single-isocenter stereotactic workflows.'],
   ['Adaptive APBI contours', 'Interobserver variability work around Ethos adaptive accelerated partial breast irradiation.'],
   ['TrueBeam SBRT commissioning', 'Multi-institution 6X versus 10X FFF comparisons for SBRT plan behavior.'],
 ]
@@ -65,16 +80,68 @@ const projectRows = [
 ]
 
 const awards = [
+  ['2026', 'McMaster Science Co-op Student of the Year for UAB radiation oncology work'],
   ['2025', 'AAPM Blue Ribbon Poster for locally hosted LLMs in radiation oncology naming workflows'],
+  ['2025', 'UAB-McMaster Ambassador supporting institutional partnership and student advising'],
   ['2024', 'Society of Physics Students / AAPM undergraduate research poster recognition'],
   ['2023', 'CUPC Overall Winner, Best Talk, for optimizing dose delivery during fractionated radiotherapy'],
+  ['2024', 'McMaster Science Co-op Emerging Employer of the Year nomination for UAB mentor Carlos Cardenas'],
 ]
 
 const presentationRows = [
   ['AAPM 2025', 'Blue Ribbon Poster: Improving TG-263 target name compliance using locally hosted LLMs'],
   ['COMP 2024', 'Invited talk: locally hosted LLMs for TG-263 target-name compliance'],
-  ['AAPM 2024', 'Posters on Ethos 2.0 SRS planning and autoML segmentation workflows'],
+  ['AAPM 2024', 'Posters on Ethos 2.0 SRS planning and AutoML segmentation workflows'],
   ['CUPC 2023', 'Best Talk: Optimizing dose delivery during fractionated radiotherapy'],
+  ['AAPM 2023', 'Interactive e-poster on deep learning auto-contouring for abdominal normal tissues'],
+  ['CAP 2021', 'Oral undergraduate presentation on smartphone gel electrophoresis analysis'],
+]
+
+const affiliations = [
+  ['University of Alabama at Birmingham', 'International Visiting Scholar, Department of Radiation Oncology.'],
+  ['McMaster University', 'Medical & Biological Physics, co-op ambassador and UAB-McMaster partnership advocate.'],
+  ['Juravinski Cancer Centre / Hamilton Health Sciences', 'Radiation oncology and medical physics research collaboration.'],
+  ['Lawson Health Research Institute', 'Research experience around imaging, biomedical workflows, and clinical translation.'],
+  ['Hamilton Centre for Kidney Research', 'Research fellow work intersecting imaging, surgery, and computer vision.'],
+  ['Laboratory for Membrane and Protein Dynamics', 'Early biophysics work in McMaster Physics and Astronomy.'],
+]
+
+const researchProjects = [
+  ['Adaptive APBI contours', 'Interobserver variability for Ethos adaptive accelerated partial breast irradiation plans.'],
+  ['TrueBeam SBRT commissioning', 'Dosimetric comparison of 6X and 10X FFF photon beams using Eclipse TPS.'],
+  ['Ethos SRS high-fidelity mode', 'Semi-automated comparative analysis for multi-met, single-isocenter stereotactic radiotherapy.'],
+  ['Auto-segmentation benchmark', 'Auto3DSeg, nnU-Net, and SwinUNETR comparison for abdominal organ segmentation.'],
+  ['Formula car lap simulation', 'Ordinary differential equation models for formula car lap-time simulation.'],
+  ['Open-world driving agents', 'Deep learning and computer vision models for simulated driving behavior.'],
+  ['Genomic LQ modeling', 'Machine learning models for genomic linear-quadratic radiation dose behavior.'],
+  ['Optical brain measurements', 'Models predicting in vivo hemoglobin oxygenation from optical measurements.'],
+  ['Gel electrophoresis analysis', 'Smartphone and cloud workflow for quantitative gel electrophoresis sizing.'],
+  ['Surgical computer vision', 'Computer vision application for chronic kidney disease surgical model accuracy.'],
+  ['Amyloid aggregation', 'Food ingredient effects on amyloid-beta aggregation in synthetic brain membranes.'],
+]
+
+const softwareProjects = [
+  ['AAPM Explorer', 'Fast conference browser for abstracts, sessions, authors, institutions, favorites, schedules, and mobile workflows.'],
+  ['Radiology and RT demos', 'Clinical AI workbenches, DICOM safety flows, local LLM review, and report QA prototypes.'],
+  ['Full-stack research apps', 'Flask/Django backends, cloud ML services, Android/iOS/web frontends, and CI/CD pipelines.'],
+  ['Robotics and autonomy', 'FRC programming, Zone01 mentoring, openpilot driver assistance experiments, and vehicle controls.'],
+]
+
+const activityRows = [
+  ['Clinical exposure', 'Shadowed radiation oncologists and medical physicists at UAB Radiation Oncology.'],
+  ['UAB Hindu YUVA', 'Community involvement around cultural programming and student support.'],
+  ['Volunteer work', 'Humber River Hospital medical imaging, surgical inpatient, and information services volunteering.'],
+  ['Yoga', 'Registered yoga instructor; taught at Anytime Fitness Brampton and McMaster University.'],
+  ['Aviation', 'Private pilot training through Brampton Flight Centre.'],
+  ['Music', 'Western classical violin, Carnatic violin, Carnatic vocal training, and Royal Conservatory piano awards.'],
+  ['Sport', 'Scuba, equestrian experience, hockey, badminton, chess, go-karting, and motorsport testing.'],
+]
+
+const sourceLinks = [
+  ['McMaster profile', 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/'],
+  ['UAB profile', 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor'],
+  ['Co-op award', 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/'],
+  ['Google Scholar', 'https://scholar.google.com/citations?hl=en&user=5NGyc78AAAAJ'],
 ]
 
 function getInitialMode() {
@@ -320,8 +387,16 @@ function GeneralContent() {
   return (
     <>
       <section className="general-strip" id="work">
-        <p>currently</p>
-        <h2>Medical physics research, clinical AI tools, software systems, and motorsport engineering.</h2>
+        <p>profile</p>
+        <h2>McMaster medical physics, UAB radiation oncology, clinical AI software, and motorsport engineering.</h2>
+      </section>
+      <section className="info-grid facts-grid" aria-label="Profile facts">
+        {profileFacts.map(([title, text]) => (
+          <article key={title}>
+            <span>{title}</span>
+            <p>{text}</p>
+          </article>
+        ))}
       </section>
       <section className="project-matrix" aria-label="General work areas">
         {projectRows.map(([title, text]) => (
@@ -331,12 +406,30 @@ function GeneralContent() {
           </article>
         ))}
       </section>
+      <section className="compact-ledger" aria-label="Software and project work">
+        <h2>Software and projects</h2>
+        <div>
+          {softwareProjects.map(([title, text]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
       <section className="award-ribbon" id="research">
         {awards.map(([year, title]) => (
           <article key={title}>
             <strong>{year}</strong>
             <p>{title}</p>
           </article>
+        ))}
+      </section>
+      <section className="source-strip" aria-label="Source links">
+        {sourceLinks.map(([title, href]) => (
+          <a key={title} href={href} target="_blank" rel="noreferrer">
+            {title} <Arrow />
+          </a>
         ))}
       </section>
     </>
@@ -358,11 +451,22 @@ function RadOncContent() {
       <section className="rt-evidence" id="research">
         <div>
           <p>translation target</p>
-          <h2>Build the tool, validate the output, keep a human in the loop.</h2>
+          <h2>Build the tool, validate the output, publish the work, keep a human in the loop.</h2>
         </div>
         <div className="dose-readout">
-          {['non-PHI inputs', 'source-traced outputs', 'physics review', 'clinic-safe deployment'].map((item) => (
+          {['non-PHI inputs', 'source-traced outputs', 'physician review', 'physics signoff', 'clinical deployment'].map((item) => (
             <span key={item}>{item}</span>
+          ))}
+        </div>
+      </section>
+      <section className="compact-ledger rt-ledger" aria-label="Radiation oncology evidence">
+        <h2>Clinical research thread</h2>
+        <div>
+          {researchProjects.slice(0, 5).map(([title, text]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
           ))}
         </div>
       </section>
@@ -394,6 +498,22 @@ function RacingContent() {
           explainable after the fact.
         </p>
       </section>
+      <section className="compact-ledger race-ledger-extra" aria-label="Motorsport transfer work">
+        <h2>Transferable systems</h2>
+        <div>
+          {[
+            ['Strategy tooling', 'Deterministic simulations, timing windows, stint comparisons, and race-weekend decision support.'],
+            ['Vehicle software', 'Controls, dynamics, dashboards, and data review for McMaster Formula SAE Electric.'],
+            ['Driver context', 'Formula LGB 1300 development testing and VW Polo Cup testing at Madras International Circuit.'],
+            ['Technical bridge', 'The same habits carry into clinical software: traceable inputs, fast review, and calm interfaces.'],
+          ].map(([title, text]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </>
   )
 }
@@ -410,6 +530,28 @@ function ResearchContent() {
           </article>
         ))}
       </section>
+      <section className="compact-ledger research-ledger" aria-label="Research affiliations and projects">
+        <h2>Affiliations</h2>
+        <div>
+          {affiliations.map(([title, text]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+      <section className="compact-ledger research-ledger" aria-label="Project index">
+        <h2>Project index</h2>
+        <div>
+          {researchProjects.map(([title, text]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
       <section className="talk-timeline" id="research">
         {presentationRows.map(([event, title]) => (
           <article key={title}>
@@ -417,6 +559,17 @@ function ResearchContent() {
             <p>{title}</p>
           </article>
         ))}
+      </section>
+      <section className="compact-ledger research-ledger" aria-label="Activities and teaching">
+        <h2>Activities</h2>
+        <div>
+          {activityRows.map(([title, text]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
       </section>
     </>
   )

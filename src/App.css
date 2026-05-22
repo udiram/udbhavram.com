@@ -663,8 +663,11 @@ button {
 }
 
 .general-strip,
+.info-grid,
 .project-matrix,
 .award-ribbon,
+.compact-ledger,
+.source-strip,
 .rt-flow,
 .rt-evidence,
 .race-ledger,
@@ -707,6 +710,20 @@ button {
   border-left: 1px solid var(--line);
 }
 
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.info-grid article {
+  min-height: 190px;
+  padding: 22px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
 .project-matrix article,
 .award-ribbon article,
 .rt-flow article,
@@ -723,6 +740,7 @@ button {
 }
 
 .project-matrix span,
+.info-grid span,
 .rt-flow span,
 .publication-index span,
 .talk-timeline strong,
@@ -735,6 +753,7 @@ button {
 }
 
 .project-matrix p,
+.info-grid p,
 .award-ribbon p,
 .rt-flow p,
 .race-ledger p,
@@ -796,6 +815,10 @@ button {
   border-left: 1px solid var(--line);
 }
 
+.dose-readout {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .dose-readout span,
 .delta-board span {
   padding: 18px;
@@ -833,6 +856,86 @@ button {
 
 .race-transfer p {
   color: var(--text);
+}
+
+.compact-ledger {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 34px;
+  padding: 68px 0 0;
+}
+
+.compact-ledger h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.compact-ledger > div {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.compact-ledger article {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.34fr) minmax(0, 1fr);
+  gap: 22px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.compact-ledger strong {
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.compact-ledger p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.rt-ledger,
+.race-ledger-extra,
+.research-ledger {
+  padding-top: 68px;
+  border-top: 1px solid var(--line);
+}
+
+.source-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 56px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.source-strip a {
+  display: inline-flex;
+  min-height: 64px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 18px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.source-strip svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
 }
 
 .publication-index {
@@ -999,7 +1102,8 @@ button {
   .work-table,
   .contact-panel,
   .rt-evidence,
-  .race-transfer {
+  .race-transfer,
+  .compact-ledger {
     grid-template-columns: 1fr;
   }
 
@@ -1016,10 +1120,12 @@ button {
   }
 
   .project-matrix,
+  .info-grid,
   .award-ribbon,
   .rt-flow,
   .race-ledger,
-  .talk-timeline {
+  .talk-timeline,
+  .source-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1051,8 +1157,11 @@ button {
   .work-table,
   .contact-panel,
   .general-strip,
+  .info-grid,
   .project-matrix,
   .award-ribbon,
+  .compact-ledger,
+  .source-strip,
   .rt-flow,
   .rt-evidence,
   .race-ledger,
@@ -1071,12 +1180,15 @@ button {
 
   .gate-grid,
   .systems-board,
+  .info-grid,
   .project-matrix,
   .award-ribbon,
   .rt-flow,
   .race-ledger,
   .talk-timeline,
-  .delta-board {
+  .delta-board,
+  .dose-readout,
+  .source-strip {
     grid-template-columns: 1fr;
   }
 
@@ -1132,11 +1244,26 @@ button {
   }
 
   .project-matrix article,
+  .info-grid article,
   .award-ribbon article,
   .rt-flow article,
   .race-ledger article,
   .talk-timeline article {
     min-height: 0;
+  }
+
+  .compact-ledger {
+    gap: 20px;
+    padding-top: 48px;
+  }
+
+  .compact-ledger h2 {
+    font-size: 30px;
+  }
+
+  .compact-ledger article {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .publication-index article {
