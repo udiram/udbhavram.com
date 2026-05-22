@@ -51,13 +51,6 @@ const researchPapers = [
   ['2020', "The effects of resveratrol, caffeine, beta-carotene, and EGCG on amyloid aggregation", 'Molecular Nutrition & Food Research'],
 ]
 
-const generalSystems = [
-  ['Clinical AI', 'Human-reviewable models, local-first LLM workflows, and validation loops for clinical settings.'],
-  ['Radiation oncology', 'Planning, segmentation, adaptive workflows, TG-263 naming, and pragmatic QA tools.'],
-  ['Motorsport systems', 'Strategy simulation, telemetry review, vehicle controls, and race weekend decision support.'],
-  ['Builder mode', 'Full-stack tools, research software, backend infrastructure, and polished demos that actually run.'],
-]
-
 const radOncChecks = [
   ['TG-263 harmonization', 'Local LLM pipelines that convert messy target names into rule-checked clinical nomenclature.'],
   ['Ethos 2.0 SRS planning', 'Published high-fidelity mode evaluation for multi-met, single-isocenter stereotactic workflows.'],
@@ -216,12 +209,120 @@ function ModeSwitcher({ active, onChoose }: { active: SiteMode; onChoose: (mode:
   )
 }
 
-function MediaSlice({ variant }: { variant: 'general' | 'rt' | 'race' | 'research' }) {
+function GeneralAtlas() {
   return (
-    <div className={`media-slice media-${variant}`}>
-      <img src="/assets/hero-collage.png" alt="Synthetic imaging, radiotherapy, code, and racing engineering collage" />
-      <i className="scan-x" />
-      <i className="scan-y" />
+    <div className="general-atlas" aria-label="General profile map">
+      <div className="atlas-orbit" aria-hidden="true">
+        <svg viewBox="0 0 420 420">
+          <path d="M72 212C72 128 128 76 210 76s138 52 138 136-56 132-138 132S72 296 72 212Z" />
+          <path d="M118 118 302 302" />
+          <path d="M304 116 116 304" />
+          <circle cx="210" cy="210" r="22" />
+          <circle cx="116" cy="116" r="7" />
+          <circle cx="304" cy="116" r="7" />
+          <circle cx="304" cy="304" r="7" />
+          <circle cx="116" cy="304" r="7" />
+        </svg>
+        <strong>UR</strong>
+      </div>
+      <div className="atlas-quadrants">
+        {[
+          ['Clinic', 'Radiation oncology and clinical AI'],
+          ['Code', 'Research software and deployed tools'],
+          ['Physics', 'Medical and biological systems'],
+          ['Speed', 'Motorsport strategy and telemetry'],
+        ].map(([title, text]) => (
+          <article key={title}>
+            <strong>{title}</strong>
+            <p>{text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function RtWorkstation() {
+  return (
+    <div className="rt-workstation">
+      <div className="rt-monitor">
+        <div className="rt-monitor-head">
+          <span>case_review.ts</span>
+          <span>non-PHI</span>
+        </div>
+        <pre>{`targetName.check()
+  input:   GTVp_7000
+  rule:    TG-263
+  status:  aligned
+
+plan.compare()
+  dose:    readable
+  review:  physician + physics
+  trace:   attached`}</pre>
+      </div>
+      <div className="rt-console">
+        <p>RT_CHECKLIST</p>
+        <span>Plan compare</span>
+        <span>Contour review</span>
+        <span>Dose QA</span>
+      </div>
+    </div>
+  )
+}
+
+function RacingPitWall() {
+  const laps = ['P01 1:28.420', 'P02 +0.118', 'P03 +0.406', 'P04 +0.911', 'BOX L18']
+
+  return (
+    <div className="pit-wall" aria-label="Racing telemetry pit wall">
+      <div className="track-map">
+        <svg viewBox="0 0 360 220" aria-hidden="true">
+          <path className="track-base" d="M52 138 C36 72 108 28 178 42 C268 60 332 94 309 148 C286 202 208 179 169 154 C128 127 75 188 52 138Z" />
+          <path className="track-fast" d="M52 138 C36 72 108 28 178 42 C268 60 332 94 309 148 C286 202 208 179 169 154 C128 127 75 188 52 138Z" />
+          <circle cx="177" cy="42" r="5" />
+          <circle cx="309" cy="148" r="5" />
+          <circle cx="52" cy="138" r="5" />
+        </svg>
+      </div>
+      <div className="strategy-board">
+        <div>
+          <span>stint</span>
+          <strong>L18-L34</strong>
+        </div>
+        <div>
+          <span>delta</span>
+          <strong>+0.083</strong>
+        </div>
+        <div>
+          <span>risk</span>
+          <strong>hold</strong>
+        </div>
+      </div>
+      <div className="timing-tower">
+        {laps.map((row) => (
+          <p key={row}>{row}</p>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ResearchDossier() {
+  return (
+    <div className="research-dossier" aria-label="Research dossier preview">
+      <div className="dossier-spine">
+        <span>Selected work</span>
+        <strong>2020-2026</strong>
+      </div>
+      <div className="dossier-pages">
+        {researchPapers.slice(0, 3).map(([year, title, venue]) => (
+          <article key={title}>
+            <span>{year}</span>
+            <h2>{title}</h2>
+            <p>{venue}</p>
+          </article>
+        ))}
+      </div>
     </div>
   )
 }
@@ -255,14 +356,7 @@ function GeneralSite() {
             View work <Arrow />
           </a>
         </div>
-        <div className="systems-board">
-          {generalSystems.map(([title, text]) => (
-            <article key={title}>
-              <h2>{title}</h2>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
+        <GeneralAtlas />
       </section>
       <GeneralContent />
       <ContactPanel accent="general" />
@@ -300,15 +394,7 @@ function RadOncSite() {
             Review clinical work <Arrow />
           </a>
         </div>
-        <div className="rt-workstation">
-          <MediaSlice variant="rt" />
-          <div className="rt-console">
-            <p>RT_CHECKLIST</p>
-            <span>Plan compare</span>
-            <span>Contour review</span>
-            <span>Dose QA</span>
-          </div>
-        </div>
+        <RtWorkstation />
       </section>
       <RadOncContent />
       <ContactPanel accent="rt" />
@@ -339,14 +425,7 @@ function RacingSite() {
             engineer can trust while the clock is running.
           </p>
         </div>
-        <div className="pit-wall">
-          <MediaSlice variant="race" />
-          <div className="timing-tower">
-            {['P01 1:28.420', 'P02 +0.118', 'P03 +0.406', 'P04 +0.911', 'BOX L18'].map((row) => (
-              <p key={row}>{row}</p>
-            ))}
-          </div>
-        </div>
+        <RacingPitWall />
       </section>
       <section className="race-cards" id="work">
         {racePrograms.slice(0, 3).map(([title, text]) => (
@@ -384,15 +463,7 @@ function ResearchSite() {
             workflow-aware software.
           </p>
         </div>
-        <div className="paper-stack">
-          {researchPapers.map(([year, title, venue]) => (
-            <article key={title}>
-              <span>{year}</span>
-              <h2>{title}</h2>
-              <p>{venue}</p>
-            </article>
-          ))}
-        </div>
+        <ResearchDossier />
       </section>
       <ResearchContent />
       <ContactPanel accent="paper" />
