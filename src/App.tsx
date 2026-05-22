@@ -83,9 +83,20 @@ const awards = [
   ['2026', 'McMaster Science Co-op Student of the Year for UAB radiation oncology work'],
   ['2025', 'AAPM Blue Ribbon Poster for locally hosted LLMs in radiation oncology naming workflows'],
   ['2025', 'UAB-McMaster Ambassador supporting institutional partnership and student advising'],
+  ['2025', 'Carlos Cardenas received McMaster Emerging Science Co-op Employer of the Year after Udbhav nomination'],
   ['2024', 'Society of Physics Students / AAPM undergraduate research poster recognition'],
   ['2023', 'CUPC Overall Winner, Best Talk, for optimizing dose delivery during fractionated radiotherapy'],
-  ['2024', 'McMaster Science Co-op Emerging Employer of the Year nomination for UAB mentor Carlos Cardenas'],
+  ['2024', 'Featured by McMaster University and UAB Heersink School of Medicine'],
+  ['2024', 'Ethos adaptive radiotherapy clinical school training'],
+  ['2021', 'Advanced Placement Scholar with Distinction'],
+  ['2020', 'HOSA national second place recognition'],
+  ['2020', 'Top 25 percent in mathematics recognition'],
+  ['2020', 'French language certification'],
+  ['2019', 'SPARK Hackathon runner-up for a computer vision recycling sorter'],
+  ['2020', 'The Mirai Project runner-up for a medical case study'],
+  ['Music', 'Royal Conservatory piano bronze, silver, and gold medals'],
+  ['Sport', 'Provincial chess champion, go-karting runner-up, badminton runner-up, robotics awards'],
+  ['Safety', 'CPR, first aid, and AED certification'],
 ]
 
 const presentationRows = [
@@ -124,6 +135,8 @@ const softwareProjects = [
   ['AAPM Explorer', 'Fast conference browser for abstracts, sessions, authors, institutions, favorites, schedules, and mobile workflows.'],
   ['Radiology and RT demos', 'Clinical AI workbenches, DICOM safety flows, local LLM review, and report QA prototypes.'],
   ['Full-stack research apps', 'Flask/Django backends, cloud ML services, Android/iOS/web frontends, and CI/CD pipelines.'],
+  ['Synth-Med Biotechnologies', 'Full-stack and research development work around biomedical software and translational tools.'],
+  ['WAAW Group', 'DevOps infrastructure and backend leadership.'],
   ['Robotics and autonomy', 'FRC programming, Zone01 mentoring, openpilot driver assistance experiments, and vehicle controls.'],
 ]
 
@@ -133,6 +146,9 @@ const activityRows = [
   ['Volunteer work', 'Humber River Hospital medical imaging, surgical inpatient, and information services volunteering.'],
   ['Yoga', 'Registered yoga instructor; taught at Anytime Fitness Brampton and McMaster University.'],
   ['Aviation', 'Private pilot training through Brampton Flight Centre.'],
+  ['Hackathons', 'SPARK 2019 computer vision recycling sorter and The Mirai Project 2020 medical case study finalist work.'],
+  ['STEM education', "French program coordination for Sparkin' STEM with in-house curriculum integration."],
+  ['Biomedical software', 'Synth-Med full-stack development, WAAW DevOps/backend work, and biomedical research software.'],
   ['Music', 'Western classical violin, Carnatic violin, Carnatic vocal training, and Royal Conservatory piano awards.'],
   ['Sport', 'Scuba, equestrian experience, hockey, badminton, chess, go-karting, and motorsport testing.'],
 ]
@@ -141,6 +157,7 @@ const sourceLinks = [
   ['McMaster profile', 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/'],
   ['UAB profile', 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor'],
   ['Co-op award', 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/'],
+  ['LinkedIn', 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine'],
   ['Google Scholar', 'https://scholar.google.com/citations?hl=en&user=5NGyc78AAAAJ'],
 ]
 
@@ -584,6 +601,9 @@ function ContactPanel({ accent }: { accent: 'general' | 'rt' | 'race' | 'paper' 
         <a href="mailto:ramu@mcmaster.ca">ramu@mcmaster.ca</a>
         <a href="https://x.com/UdbhavRam" target="_blank" rel="noreferrer">
           x.com/UdbhavRam
+        </a>
+        <a href="https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine" target="_blank" rel="noreferrer">
+          LinkedIn
         </a>
         <a href="https://github.com/udiram" target="_blank" rel="noreferrer">
           github.com/udiram

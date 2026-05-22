@@ -907,7 +907,7 @@ button {
 
 .source-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   margin-top: 56px;
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
