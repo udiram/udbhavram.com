@@ -40,9 +40,9 @@ button {
 .gate-intro h1 {
   max-width: 580px;
   margin: 0;
-  font-size: clamp(48px, 7vw, 104px);
+  font-size: 78px;
   font-weight: 900;
-  letter-spacing: -0.075em;
+  letter-spacing: 0;
   line-height: 0.88;
 }
 
@@ -80,9 +80,9 @@ button {
 
 .gate-card strong {
   max-width: 300px;
-  font-size: clamp(28px, 3vw, 42px);
+  font-size: 34px;
   font-weight: 900;
-  letter-spacing: -0.055em;
+  letter-spacing: 0;
   line-height: 0.95;
 }
 
@@ -300,9 +300,9 @@ button {
 .paper-hero h1 {
   margin: 0;
   color: var(--text);
-  font-size: clamp(44px, 5.1vw, 74px);
+  font-size: 64px;
   font-weight: 950;
-  letter-spacing: -0.065em;
+  letter-spacing: 0;
   line-height: 0.94;
 }
 
@@ -335,7 +335,7 @@ button {
   margin: 0 0 80px;
   color: var(--text);
   font-size: 28px;
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
 }
 
 .systems-board p {
@@ -368,7 +368,7 @@ button {
 
 .rt-hero h1 {
   max-width: 680px;
-  font-size: clamp(38px, 4.4vw, 64px);
+  font-size: 56px;
 }
 
 .terminal-panel {
@@ -582,7 +582,7 @@ button {
   margin: 0 0 44px;
   color: var(--text);
   font-size: 30px;
-  letter-spacing: -0.05em;
+  letter-spacing: 0;
 }
 
 .race-cards p {
@@ -616,7 +616,7 @@ button {
 
 .paper-hero h1 {
   max-width: 620px;
-  font-size: clamp(42px, 4.7vw, 68px);
+  font-size: 58px;
 }
 
 .paper-stack {
@@ -641,7 +641,7 @@ button {
   margin: 16px 0;
   color: var(--text);
   font-size: 24px;
-  letter-spacing: -0.045em;
+  letter-spacing: 0;
   line-height: 1.05;
 }
 
@@ -662,6 +662,215 @@ button {
   border-top: 1px solid var(--line);
 }
 
+.general-strip,
+.project-matrix,
+.award-ribbon,
+.rt-flow,
+.rt-evidence,
+.race-ledger,
+.race-transfer,
+.publication-index,
+.talk-timeline {
+  width: min(100% - 56px, 1240px);
+  margin: 0 auto;
+}
+
+.general-strip {
+  display: grid;
+  gap: 20px;
+  padding: 82px 0;
+  border-top: 1px solid var(--line);
+}
+
+.general-strip p,
+.rt-evidence p {
+  margin: 0;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.general-strip h2,
+.rt-evidence h2,
+.race-transfer p {
+  max-width: 980px;
+  margin: 0;
+  color: var(--text);
+  font-size: 42px;
+  line-height: 1.08;
+}
+
+.project-matrix {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.project-matrix article,
+.award-ribbon article,
+.rt-flow article,
+.race-ledger article,
+.publication-index article,
+.talk-timeline article {
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.project-matrix article {
+  min-height: 260px;
+  padding: 22px;
+}
+
+.project-matrix span,
+.rt-flow span,
+.publication-index span,
+.talk-timeline strong,
+.award-ribbon strong,
+.race-transfer span {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.project-matrix p,
+.award-ribbon p,
+.rt-flow p,
+.race-ledger p,
+.publication-index p,
+.talk-timeline p {
+  margin: 34px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.award-ribbon {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 54px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.award-ribbon article {
+  min-height: 180px;
+  padding: 22px;
+}
+
+.rt-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.rt-flow article {
+  min-height: 330px;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.rt-flow h2,
+.race-ledger h2,
+.publication-index h2 {
+  margin: 56px 0 0;
+  color: var(--text);
+  font-size: 26px;
+  line-height: 1.05;
+}
+
+.rt-evidence {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  gap: 40px;
+  padding: 82px 0;
+  border-top: 1px solid var(--line);
+}
+
+.dose-readout,
+.delta-board {
+  display: grid;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.dose-readout span,
+.delta-board span {
+  padding: 18px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.race-ledger {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 64px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.race-ledger article {
+  min-height: 230px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(224, 237, 32, 0.08), transparent 44%);
+}
+
+.race-transfer {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.65fr) minmax(0, 1fr);
+  gap: 40px;
+  padding: 82px 0;
+}
+
+.delta-board {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.race-transfer p {
+  color: var(--text);
+}
+
+.publication-index {
+  display: grid;
+  gap: 10px;
+  padding: 40px 0 0;
+}
+
+.publication-index article {
+  display: grid;
+  grid-template-columns: 94px minmax(0, 1fr) minmax(170px, 0.35fr);
+  gap: 24px;
+  padding: 22px 0;
+  border-right: 0;
+}
+
+.publication-index h2 {
+  margin: 0;
+}
+
+.publication-index p {
+  margin: 0;
+}
+
+.talk-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: 54px;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.talk-timeline article {
+  min-height: 210px;
+  padding: 22px;
+  background: var(--surface);
+}
+
 .work-table > div:first-child p {
   margin: 0 0 18px;
   color: var(--accent);
@@ -672,9 +881,9 @@ button {
 .contact-panel h2 {
   margin: 0;
   color: var(--text);
-  font-size: clamp(32px, 4.8vw, 66px);
+  font-size: 56px;
   font-weight: 950;
-  letter-spacing: -0.06em;
+  letter-spacing: 0;
   line-height: 0.9;
 }
 
@@ -788,7 +997,9 @@ button {
   .race-hero,
   .paper-hero,
   .work-table,
-  .contact-panel {
+  .contact-panel,
+  .rt-evidence,
+  .race-transfer {
     grid-template-columns: 1fr;
   }
 
@@ -802,6 +1013,22 @@ button {
 
   .race-cards {
     grid-template-columns: 1fr;
+  }
+
+  .project-matrix,
+  .award-ribbon,
+  .rt-flow,
+  .race-ledger,
+  .talk-timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .publication-index article {
+    grid-template-columns: 70px minmax(0, 1fr);
+  }
+
+  .publication-index article p {
+    grid-column: 2;
   }
 }
 
@@ -822,7 +1049,16 @@ button {
   .paper-hero,
   .race-cards,
   .work-table,
-  .contact-panel {
+  .contact-panel,
+  .general-strip,
+  .project-matrix,
+  .award-ribbon,
+  .rt-flow,
+  .rt-evidence,
+  .race-ledger,
+  .race-transfer,
+  .publication-index,
+  .talk-timeline {
     width: min(calc(100vw - 28px), 362px);
     max-width: 362px;
     margin-left: 14px;
@@ -834,7 +1070,13 @@ button {
   }
 
   .gate-grid,
-  .systems-board {
+  .systems-board,
+  .project-matrix,
+  .award-ribbon,
+  .rt-flow,
+  .race-ledger,
+  .talk-timeline,
+  .delta-board {
     grid-template-columns: 1fr;
   }
 
@@ -869,10 +1111,41 @@ button {
   .race-hero h1,
   .paper-hero h1 {
     font-size: 38px;
-    letter-spacing: -0.05em;
+    letter-spacing: 0;
     line-height: 1;
     overflow-wrap: anywhere;
     word-break: break-word;
+  }
+
+  .gate-intro h1 {
+    font-size: 44px;
+  }
+
+  .general-strip h2,
+  .rt-evidence h2,
+  .race-transfer p {
+    font-size: 30px;
+  }
+
+  .contact-panel h2 {
+    font-size: 42px;
+  }
+
+  .project-matrix article,
+  .award-ribbon article,
+  .rt-flow article,
+  .race-ledger article,
+  .talk-timeline article {
+    min-height: 0;
+  }
+
+  .publication-index article {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .publication-index article p {
+    grid-column: auto;
   }
 
   .terminal-panel {

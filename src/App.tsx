@@ -29,16 +29,52 @@ const modes: Record<SiteMode, { label: string; title: string; text: string }> = 
 const modeOrder = Object.keys(modes) as SiteMode[]
 const storageKey = 'udbhavram-site-mode'
 
-const papers = [
-  ['2025', 'Deep learning auto-segmentation models for abdominal organs on CT and MRI', 'IJROBP'],
-  ['2025', 'Ethos 2.0 high-fidelity segmentation and treatment planning for multi-metastases SRS', 'JACMP'],
-  ['2024', 'LLM agent integration for radiation oncology review and documentation workflows', 'UAB Radiation Oncology'],
+const researchPapers = [
+  ['2025', 'Improving TG-263 target name compliance using locally hosted large language models', 'AAPM Blue Ribbon Poster'],
+  ['2025', 'Evaluation of High-Fidelity Mode for multi-met single-isocenter stereotactic radiosurgery planning', 'RSS / Cureus abstract'],
+  ['2025', 'Assessing state-of-the-art deep learning models in abdominal organ auto-segmentation', 'IJROBP'],
+  ['2020', "The connection between nutrition and Alzheimer's disease", 'Molecular Nutrition & Food Research'],
 ]
 
-const tools = [
-  ['Clinical AI QA', 'Validation loops, contour review, source checks, and uncertainty-aware workflows.'],
-  ['Radiotherapy Utilities', 'Structure naming, plan comparison, dose review, and small tools that remove clinical friction.'],
-  ['Strategy Simulation', 'Lap-time deltas, stint windows, telemetry review, and race-state modeling.'],
+const generalSystems = [
+  ['Clinical AI', 'Human-reviewable models, local-first LLM workflows, and validation loops for clinical settings.'],
+  ['Radiation oncology', 'Planning, segmentation, adaptive workflows, TG-263 naming, and pragmatic QA tools.'],
+  ['Motorsport systems', 'Strategy simulation, telemetry review, vehicle controls, and race weekend decision support.'],
+  ['Builder mode', 'Full-stack tools, research software, backend infrastructure, and polished demos that actually run.'],
+]
+
+const radOncChecks = [
+  ['TG-263 harmonization', 'Local LLM pipelines that convert messy target names into rule-checked clinical nomenclature.'],
+  ['Ethos 2.0 SRS planning', 'High-fidelity plan evaluation for multi-met, single-isocenter stereotactic workflows.'],
+  ['Adaptive APBI contours', 'Interobserver variability work around Ethos adaptive accelerated partial breast irradiation.'],
+  ['TrueBeam SBRT commissioning', 'Multi-institution 6X versus 10X FFF comparisons for SBRT plan behavior.'],
+]
+
+const racePrograms = [
+  ['Arrow McLaren IndyCar', 'Data and strategy internship: deterministic simulation, race-weekend tooling, telemetry, and car performance monitoring.'],
+  ['McMaster Formula SAE Electric', 'Software engineering for vehicle controls, dynamics, and custom dashboard implementations.'],
+  ['Formula LGB 1300', 'Test and development driver program with Momentum Motorsports.'],
+  ['VW Polo Cup testing', 'MRF test driver work at Madras International Circuit.'],
+]
+
+const projectRows = [
+  ['Clinical software', 'Flask/Django backends, research apps, automated review flows, and deployment pipelines.'],
+  ['Open source', 'Contributions around MONAI and OpenHands, plus small utilities for medical imaging workflows.'],
+  ['Robotics and autonomy', 'FRC programming, Zone01 robotics mentoring, openpilot experimentation, and control systems.'],
+  ['STEM + teaching', 'Sparkin STEM French program coordination, yoga instruction, and volunteer clinical exposure.'],
+]
+
+const awards = [
+  ['2025', 'AAPM Blue Ribbon Poster for locally hosted LLMs in radiation oncology naming workflows'],
+  ['2024', 'Society of Physics Students / AAPM undergraduate research poster recognition'],
+  ['2023', 'CUPC Overall Winner, Best Talk, for optimizing dose delivery during fractionated radiotherapy'],
+]
+
+const presentationRows = [
+  ['AAPM 2025', 'Blue Ribbon Poster: Improving TG-263 target name compliance using locally hosted LLMs'],
+  ['COMP 2024', 'Invited talk: locally hosted LLMs for TG-263 target-name compliance'],
+  ['AAPM 2024', 'Posters on Ethos 2.0 SRS planning and autoML segmentation workflows'],
+  ['CUPC 2023', 'Best Talk: Optimizing dose delivery during fractionated radiotherapy'],
 ]
 
 function getInitialMode() {
@@ -136,12 +172,7 @@ function GeneralSite() {
           </a>
         </div>
         <div className="systems-board">
-          {[
-            ['Clinical AI', 'Human-reviewable models and workflow agents'],
-            ['Medical Physics', 'Dose, planning, QA, and uncertainty'],
-            ['Software', 'Small tools that remove operational friction'],
-            ['Performance', 'Telemetry, simulation, and decision support'],
-          ].map(([title, text]) => (
+          {generalSystems.map(([title, text]) => (
             <article key={title}>
               <h2>{title}</h2>
               <p>{text}</p>
@@ -149,7 +180,8 @@ function GeneralSite() {
           ))}
         </div>
       </section>
-      <ContentRows accent="general" />
+      <GeneralContent />
+      <ContactPanel accent="general" />
     </main>
   )
 }
@@ -194,7 +226,8 @@ function RadOncSite() {
           </div>
         </div>
       </section>
-      <ContentRows accent="rt" />
+      <RadOncContent />
+      <ContactPanel accent="rt" />
     </main>
   )
 }
@@ -232,18 +265,15 @@ function RacingSite() {
         </div>
       </section>
       <section className="race-cards" id="work">
-        {[
-          ['Strategy', 'Stint windows, tire state, fuel burn, and pit timing as changing constraints.'],
-          ['Telemetry', 'Readable traces for fast diagnosis, not a wall of vanity plots.'],
-          ['Transfer', 'The same discipline applies to clinical systems: measure, simplify, decide.'],
-        ].map(([title, text]) => (
+        {racePrograms.slice(0, 3).map(([title, text]) => (
           <article key={title}>
             <h2>{title}</h2>
             <p>{text}</p>
           </article>
         ))}
       </section>
-      <ContentRows accent="race" />
+      <RacingContent />
+      <ContactPanel accent="race" />
     </main>
   )
 }
@@ -271,7 +301,7 @@ function ResearchSite() {
           </p>
         </div>
         <div className="paper-stack">
-          {papers.map(([year, title, venue]) => (
+          {researchPapers.map(([year, title, venue]) => (
             <article key={title}>
               <span>{year}</span>
               <h2>{title}</h2>
@@ -280,54 +310,133 @@ function ResearchSite() {
           ))}
         </div>
       </section>
-      <ContentRows accent="paper" />
+      <ResearchContent />
+      <ContactPanel accent="paper" />
     </main>
   )
 }
 
-function ContentRows({ accent }: { accent: 'general' | 'rt' | 'race' | 'paper' }) {
+function GeneralContent() {
   return (
     <>
-      <section className={`work-table work-table-${accent}`} id="work">
-        <div>
-          <p>01</p>
-          <h2>Current work</h2>
-        </div>
-        <div className="row-list">
-          {tools.map(([title, text]) => (
-            <article key={title}>
-              <h3>{title}</h3>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
+      <section className="general-strip" id="work">
+        <p>currently</p>
+        <h2>Medical physics research, clinical AI tools, software systems, and motorsport engineering.</h2>
       </section>
-      <section className={`work-table work-table-${accent}`} id="research">
-        <div>
-          <p>02</p>
-          <h2>Research</h2>
-        </div>
-        <div className="row-list">
-          {papers.map(([year, title, venue]) => (
-            <article key={title}>
-              <span>{year}</span>
-              <h3>{title}</h3>
-              <p>{venue}</p>
-            </article>
-          ))}
-        </div>
+      <section className="project-matrix" aria-label="General work areas">
+        {projectRows.map(([title, text]) => (
+          <article key={title}>
+            <span>{title}</span>
+            <p>{text}</p>
+          </article>
+        ))}
       </section>
-      <section className={`contact-panel contact-${accent}`} id="contact">
-        <h2>Get in touch</h2>
-        <p>Research collaborations, clinical AI projects, medical physics software, racing analytics, and technical systems.</p>
+      <section className="award-ribbon" id="research">
+        {awards.map(([year, title]) => (
+          <article key={title}>
+            <strong>{year}</strong>
+            <p>{title}</p>
+          </article>
+        ))}
+      </section>
+    </>
+  )
+}
+
+function RadOncContent() {
+  return (
+    <>
+      <section className="rt-flow" id="work" aria-label="Radiation oncology workflow">
+        {radOncChecks.map(([title, text], index) => (
+          <article key={title}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h2>{title}</h2>
+            <p>{text}</p>
+          </article>
+        ))}
+      </section>
+      <section className="rt-evidence" id="research">
         <div>
-          <a href="mailto:hello@udbhavram.com">hello@udbhavram.com</a>
-          <a href="https://x.com/UdbhavRam" target="_blank" rel="noreferrer">
-            x.com/UdbhavRam
-          </a>
+          <p>translation target</p>
+          <h2>Build the tool, validate the output, keep a human in the loop.</h2>
+        </div>
+        <div className="dose-readout">
+          {['non-PHI inputs', 'source-traced outputs', 'physics review', 'clinic-safe deployment'].map((item) => (
+            <span key={item}>{item}</span>
+          ))}
         </div>
       </section>
     </>
+  )
+}
+
+function RacingContent() {
+  return (
+    <>
+      <section className="race-ledger" id="research">
+        {racePrograms.map(([title, text]) => (
+          <article key={title}>
+            <h2>{title}</h2>
+            <p>{text}</p>
+          </article>
+        ))}
+      </section>
+      <section className="race-transfer">
+        <div className="delta-board">
+          {['signal', 'model', 'decision', 'feedback'].map((item, index) => (
+            <span key={item}>
+              {index + 1} / {item}
+            </span>
+          ))}
+        </div>
+        <p>
+          The racing version is about pressure-tested engineering: noisy inputs, limited time, and decisions that need to be
+          explainable after the fact.
+        </p>
+      </section>
+    </>
+  )
+}
+
+function ResearchContent() {
+  return (
+    <>
+      <section className="publication-index" id="work">
+        {researchPapers.map(([year, title, venue]) => (
+          <article key={title}>
+            <span>{year}</span>
+            <h2>{title}</h2>
+            <p>{venue}</p>
+          </article>
+        ))}
+      </section>
+      <section className="talk-timeline" id="research">
+        {presentationRows.map(([event, title]) => (
+          <article key={title}>
+            <strong>{event}</strong>
+            <p>{title}</p>
+          </article>
+        ))}
+      </section>
+    </>
+  )
+}
+
+function ContactPanel({ accent }: { accent: 'general' | 'rt' | 'race' | 'paper' }) {
+  return (
+    <section className={`contact-panel contact-${accent}`} id="contact">
+      <h2>Get in touch</h2>
+      <p>Research collaborations, clinical AI projects, medical physics software, racing analytics, and technical systems.</p>
+      <div>
+        <a href="mailto:ramu@mcmaster.ca">ramu@mcmaster.ca</a>
+        <a href="https://x.com/UdbhavRam" target="_blank" rel="noreferrer">
+          x.com/UdbhavRam
+        </a>
+        <a href="https://github.com/udiram" target="_blank" rel="noreferrer">
+          github.com/udiram
+        </a>
+      </div>
+    </section>
   )
 }
 
