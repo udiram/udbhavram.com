@@ -430,7 +430,7 @@ function App() {
 
       <section className="intro-section" id="home">
         <div className="intro-copy">
-          <p>Clinical AI / radiation oncology / software / motorsport systems</p>
+          <p>McMaster Medical & Biological Physics · UAB Radiation Oncology · Arrow McLaren data/strategy</p>
           <h1>I build reviewable clinical AI, research software, and race strategy tools.</h1>
           <p>
             I am a McMaster Medical & Biological Physics student, UAB Radiation Oncology international visiting scholar,
@@ -447,7 +447,7 @@ function App() {
         </div>
         <aside className="fit-panel" aria-label="Employer summary">
           <div className="fit-title">
-            <span>Why this matters</span>
+            <span>Portfolio signal</span>
             <strong>Clinical judgment, software execution, and engineering under pressure.</strong>
           </div>
           <div className="fit-grid">

@@ -1,8 +1,8 @@
 :root {
   font-family:
     "Avenir Next", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
-  color: #151512;
-  background: #f6f4ee;
+  color: #f4f0e6;
+  background: #0b0c0b;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,7 +21,7 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  background: #f6f4ee;
+  background: #0b0c0b;
 }
 
 button,
@@ -32,5 +32,5 @@ select {
 }
 
 ::selection {
-  background: rgba(49, 95, 79, 0.2);
+  background: rgba(89, 217, 165, 0.28);
 }
