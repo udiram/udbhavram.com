@@ -1,166 +1,296 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import './App.css'
 
-type SiteMode = 'general' | 'radonc' | 'racing' | 'research'
+type SectionId = 'home' | 'research' | 'media' | 'projects' | 'activities' | 'awards' | 'motorsports'
 
-const modes: Record<SiteMode, { label: string; title: string; text: string }> = {
-  general: {
-    label: 'General',
-    title: 'Full spectrum',
-    text: 'Clinical AI, medical physics, software, and performance systems.',
-  },
-  radonc: {
-    label: 'Rad Onc',
-    title: 'Radiation oncology',
-    text: 'Planning, QA, segmentation, adaptive workflows, and reviewable AI.',
-  },
-  racing: {
-    label: 'Racing',
-    title: 'Motorsports',
-    text: 'Telemetry, race strategy, simulation, and performance engineering.',
-  },
-  research: {
-    label: 'Research',
-    title: 'Research profile',
-    text: 'Publications, talks, collaborations, and the academic thread.',
-  },
+type LinkItem = {
+  label: string
+  href: string
+  meta?: string
 }
 
-const modeOrder = Object.keys(modes) as SiteMode[]
-const storageKey = 'udbhavram-site-mode'
-
-const profileFacts = [
-  ['Current focus', 'Clinical AI, medical physics software, radiation oncology workflows, and race strategy systems.'],
-  ['McMaster', 'Fifth-year Medical & Biological Physics student and Science Co-op Student of the Year winner.'],
-  ['UAB', 'International Visiting Scholar in Radiation Oncology and UAB-McMaster Ambassador.'],
-  ['Clinical translation', 'Work spans adaptive radiotherapy, SRS planning, auto-segmentation, QA, and human-reviewed AI.'],
-]
-
-const researchPapers = [
-  [
-    '2025',
-    'Dosimetric evaluation of Ethos 2.0 high-fidelity mode for single-isocenter SRS',
-    'Journal of Applied Clinical Medical Physics',
-  ],
-  [
-    '2025',
-    'Assessing quantitative performance and expert review of deep learning frameworks for CT abdominal organ auto-segmentation',
-    'Intelligent Oncology',
-  ],
-  ['2025', 'Improving TG-263 target name compliance using locally hosted large language models', 'AAPM Blue Ribbon Poster'],
-  ['2020', "The effects of resveratrol, caffeine, beta-carotene, and EGCG on amyloid aggregation", 'Molecular Nutrition & Food Research'],
-]
-
-const radOncChecks = [
-  ['TG-263 harmonization', 'Local LLM pipelines that convert messy target names into rule-checked clinical nomenclature.'],
-  ['Ethos 2.0 SRS planning', 'Published high-fidelity mode evaluation for multi-met, single-isocenter stereotactic workflows.'],
-  ['Adaptive APBI contours', 'Interobserver variability work around Ethos adaptive accelerated partial breast irradiation.'],
-  ['TrueBeam SBRT commissioning', 'Multi-institution 6X versus 10X FFF comparisons for SBRT plan behavior.'],
-]
-
-const racePrograms = [
-  ['Arrow McLaren IndyCar', 'Data and strategy internship: deterministic simulation, race-weekend tooling, telemetry, and car performance monitoring.'],
-  ['McMaster Formula SAE Electric', 'Software engineering for vehicle controls, dynamics, and custom dashboard implementations.'],
-  ['Formula LGB 1300', 'Test and development driver program with Momentum Motorsports.'],
-  ['VW Polo Cup testing', 'MRF test driver work at Madras International Circuit.'],
-]
-
-const projectRows = [
-  ['Clinical software', 'Flask/Django backends, research apps, automated review flows, and deployment pipelines.'],
-  ['Open source', 'Contributions around MONAI and OpenHands, plus small utilities for medical imaging workflows.'],
-  ['Robotics and autonomy', 'FRC programming, Zone01 robotics mentoring, openpilot experimentation, and control systems.'],
-  ['STEM + teaching', 'Sparkin STEM French program coordination, yoga instruction, and volunteer clinical exposure.'],
-]
-
-const awards = [
-  ['2026', 'McMaster Science Co-op Student of the Year for UAB radiation oncology work'],
-  ['2025', 'AAPM Blue Ribbon Poster for locally hosted LLMs in radiation oncology naming workflows'],
-  ['2025', 'UAB-McMaster Ambassador supporting institutional partnership and student advising'],
-  ['2025', 'Carlos Cardenas received McMaster Emerging Science Co-op Employer of the Year after Udbhav nomination'],
-  ['2024', 'Society of Physics Students / AAPM undergraduate research poster recognition'],
-  ['2023', 'CUPC Overall Winner, Best Talk, for optimizing dose delivery during fractionated radiotherapy'],
-  ['2024', 'Featured by McMaster University and UAB Heersink School of Medicine'],
-  ['2024', 'Ethos adaptive radiotherapy clinical school training'],
-  ['2021', 'Advanced Placement Scholar with Distinction'],
-  ['2020', 'HOSA national second place recognition'],
-  ['2020', 'Top 25 percent in mathematics recognition'],
-  ['2020', 'French language certification'],
-  ['2019', 'SPARK Hackathon runner-up for a computer vision recycling sorter'],
-  ['2020', 'The Mirai Project runner-up for a medical case study'],
-  ['Music', 'Royal Conservatory piano bronze, silver, and gold medals'],
-  ['Sport', 'Provincial chess champion, go-karting runner-up, badminton runner-up, robotics awards'],
-  ['Safety', 'CPR, first aid, and AED certification'],
-]
-
-const presentationRows = [
-  ['AAPM 2025', 'Blue Ribbon Poster: Improving TG-263 target name compliance using locally hosted LLMs'],
-  ['COMP 2024', 'Invited talk: locally hosted LLMs for TG-263 target-name compliance'],
-  ['AAPM 2024', 'Posters on Ethos 2.0 SRS planning and AutoML segmentation workflows'],
-  ['CUPC 2023', 'Best Talk: Optimizing dose delivery during fractionated radiotherapy'],
-  ['AAPM 2023', 'Interactive e-poster on deep learning auto-contouring for abdominal normal tissues'],
-  ['CAP 2021', 'Oral undergraduate presentation on smartphone gel electrophoresis analysis'],
-]
-
-const affiliations = [
-  ['University of Alabama at Birmingham', 'International Visiting Scholar, Department of Radiation Oncology.'],
-  ['McMaster University', 'Medical & Biological Physics, co-op ambassador and UAB-McMaster partnership advocate.'],
-  ['Juravinski Cancer Centre / Hamilton Health Sciences', 'Radiation oncology and medical physics research collaboration.'],
-  ['Lawson Health Research Institute', 'Research experience around imaging, biomedical workflows, and clinical translation.'],
-  ['Hamilton Centre for Kidney Research', 'Research fellow work intersecting imaging, surgery, and computer vision.'],
-  ['Laboratory for Membrane and Protein Dynamics', 'Early biophysics work in McMaster Physics and Astronomy.'],
-]
-
-const researchProjects = [
-  ['Adaptive APBI contours', 'Interobserver variability for Ethos adaptive accelerated partial breast irradiation plans.'],
-  ['TrueBeam SBRT commissioning', 'Dosimetric comparison of 6X and 10X FFF photon beams using Eclipse TPS.'],
-  ['Ethos SRS high-fidelity mode', 'Semi-automated comparative analysis for multi-met, single-isocenter stereotactic radiotherapy.'],
-  ['Auto-segmentation benchmark', 'Auto3DSeg, nnU-Net, and SwinUNETR comparison for abdominal organ segmentation.'],
-  ['Formula car lap simulation', 'Ordinary differential equation models for formula car lap-time simulation.'],
-  ['Open-world driving agents', 'Deep learning and computer vision models for simulated driving behavior.'],
-  ['Genomic LQ modeling', 'Machine learning models for genomic linear-quadratic radiation dose behavior.'],
-  ['Optical brain measurements', 'Models predicting in vivo hemoglobin oxygenation from optical measurements.'],
-  ['Gel electrophoresis analysis', 'Smartphone and cloud workflow for quantitative gel electrophoresis sizing.'],
-  ['Surgical computer vision', 'Computer vision application for chronic kidney disease surgical model accuracy.'],
-  ['Amyloid aggregation', 'Food ingredient effects on amyloid-beta aggregation in synthetic brain membranes.'],
-]
-
-const softwareProjects = [
-  ['AAPM Explorer', 'Fast conference browser for abstracts, sessions, authors, institutions, favorites, schedules, and mobile workflows.'],
-  ['Radiology and RT demos', 'Clinical AI workbenches, DICOM safety flows, local LLM review, and report QA prototypes.'],
-  ['Full-stack research apps', 'Flask/Django backends, cloud ML services, Android/iOS/web frontends, and CI/CD pipelines.'],
-  ['Synth-Med Biotechnologies', 'Full-stack and research development work around biomedical software and translational tools.'],
-  ['WAAW Group', 'DevOps infrastructure and backend leadership.'],
-  ['Robotics and autonomy', 'FRC programming, Zone01 mentoring, openpilot driver assistance experiments, and vehicle controls.'],
-]
-
-const activityRows = [
-  ['Clinical exposure', 'Shadowed radiation oncologists and medical physicists at UAB Radiation Oncology.'],
-  ['UAB Hindu YUVA', 'Community involvement around cultural programming and student support.'],
-  ['Volunteer work', 'Humber River Hospital medical imaging, surgical inpatient, and information services volunteering.'],
-  ['Yoga', 'Registered yoga instructor; taught at Anytime Fitness Brampton and McMaster University.'],
-  ['Aviation', 'Private pilot training through Brampton Flight Centre.'],
-  ['Hackathons', 'SPARK 2019 computer vision recycling sorter and The Mirai Project 2020 medical case study finalist work.'],
-  ['STEM education', "French program coordination for Sparkin' STEM with in-house curriculum integration."],
-  ['Biomedical software', 'Synth-Med full-stack development, WAAW DevOps/backend work, and biomedical research software.'],
-  ['Music', 'Western classical violin, Carnatic violin, Carnatic vocal training, and Royal Conservatory piano awards.'],
-  ['Sport', 'Scuba, equestrian experience, hockey, badminton, chess, go-karting, and motorsport testing.'],
-]
-
-const sourceLinks = [
-  ['McMaster profile', 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/'],
-  ['UAB profile', 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor'],
-  ['Co-op award', 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/'],
-  ['LinkedIn', 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine'],
-  ['Google Scholar', 'https://scholar.google.com/citations?hl=en&user=5NGyc78AAAAJ'],
-]
-
-function getInitialMode() {
-  const urlMode = new URLSearchParams(window.location.search).get('mode')
-  if (modeOrder.includes(urlMode as SiteMode)) return urlMode as SiteMode
-
-  const saved = window.localStorage.getItem(storageKey)
-  return modeOrder.includes(saved as SiteMode) ? (saved as SiteMode) : null
+type Entry = {
+  title: string
+  text: string
+  meta?: string
+  href?: string
 }
+
+const navItems: { id: SectionId; label: string; tone: string }[] = [
+  { id: 'home', label: 'Home', tone: 'neutral' },
+  { id: 'research', label: 'Research', tone: 'research' },
+  { id: 'media', label: 'Media', tone: 'media' },
+  { id: 'projects', label: 'Projects', tone: 'projects' },
+  { id: 'activities', label: 'Activities', tone: 'activities' },
+  { id: 'awards', label: 'Awards', tone: 'awards' },
+  { id: 'motorsports', label: 'Motorsports', tone: 'motorsports' },
+]
+
+const socialLinks: LinkItem[] = [
+  { label: 'Email', href: 'mailto:ramu@mcmaster.ca' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/udbhav-ramamurthy-clinical-software-engineer/' },
+  { label: 'GitHub', href: 'https://github.com/udiram' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?hl=en&user=5NGyc78AAAAJ' },
+  { label: 'Medium', href: 'https://medium.com/@udbhavram41' },
+  { label: 'YouTube', href: 'https://www.youtube.com/channel/UCTn6NYNbV55T4zs9v1nHOwA' },
+  { label: 'X', href: 'https://x.com/UdbhavRam' },
+]
+
+const proofLinks: LinkItem[] = [
+  {
+    label: 'McMaster profile',
+    href: 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/',
+    meta: 'International visiting scholar profile',
+  },
+  {
+    label: 'UAB profile',
+    href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+    meta: 'McMaster-UAB AI/radiation oncology feature',
+  },
+  {
+    label: 'Co-op award',
+    href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+    meta: 'Science Co-op Student of the Year',
+  },
+  {
+    label: 'Convocation profile',
+    href: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
+    meta: 'McMaster Science feature',
+  },
+]
+
+const homeHighlights: Entry[] = [
+  {
+    title: 'Clinical AI and radiation oncology',
+    text: 'International Visiting Scholar at UAB Radiation Oncology, working on clinical AI, adaptive radiotherapy workflows, plan evaluation, naming compliance, and reviewable software.',
+    meta: 'UAB + McMaster',
+  },
+  {
+    title: 'Software that reaches users',
+    text: 'Full-stack builder across Flask, Django, cloud ML services, Android, iOS, web frontends, CI/CD, research apps, and conference tools.',
+    meta: 'Backend + frontend + deployment',
+  },
+  {
+    title: 'Performance engineering',
+    text: 'Arrow McLaren IndyCar data and strategy internship, McMaster Formula SAE Electric software, vehicle controls, telemetry, and deterministic race-session simulation.',
+    meta: 'Motorsport systems',
+  },
+  {
+    title: 'Research breadth',
+    text: 'Eight years of computational and clinical research experience across medical physics, segmentation, treatment planning, computer vision, optical measurement, and biophysics.',
+    meta: 'Publications + presentations',
+  },
+]
+
+const currentResearch: Entry[] = [
+  {
+    title: 'LLM agent integration in clinical workflows',
+    text: 'Clinical workflow research at UAB focused on how local, reviewable AI systems can support radiation oncology teams without hiding the source trail.',
+    meta: 'UAB Radiation Oncology',
+  },
+  {
+    title: 'Ethos 2.0 treatment planning for single-isocentre SRS',
+    text: 'Validation of high-fidelity treatment planning for multi-met, single-isocentre stereotactic radiosurgery, including semi-automated comparative analysis.',
+    meta: 'UAB',
+    href: 'https://aapm.onlinelibrary.wiley.com/doi/full/10.1002/acm2.70370',
+  },
+  {
+    title: 'Adaptive APBI contour variability',
+    text: 'Evaluation of interobserver variability for Ethos adaptive accelerated partial breast irradiation plans.',
+    meta: 'Submitted to IJROBP',
+  },
+  {
+    title: 'TrueBeam SBRT commissioning',
+    text: 'Multi-institution commissioning study comparing 6X and 10X flattening filter-free beams for SBRT on TrueBeam iTX using Eclipse TPS.',
+    meta: 'JCC + UAB',
+  },
+]
+
+const publications: Entry[] = [
+  {
+    title: 'Dosimetric evaluation of Ethos 2.0 high-fidelity mode for single-isocenter SRS',
+    text: 'Journal of Applied Clinical Medical Physics publication on high-fidelity mode evaluation for multi-met stereotactic radiotherapy.',
+    meta: '2025, JACMP',
+    href: 'https://aapm.onlinelibrary.wiley.com/doi/full/10.1002/acm2.70370',
+  },
+  {
+    title: 'Assessing quantitative performance and expert review of deep learning frameworks for CT abdominal organ auto-segmentation',
+    text: 'Intelligent Oncology paper comparing state-of-the-art deep learning frameworks for abdominal organ segmentation.',
+    meta: '2025, Intelligent Oncology',
+    href: 'https://doi.org/10.1016/j.intonc.2025.03.003',
+  },
+  {
+    title: 'Improving TG-263 target name compliance using locally hosted large language models',
+    text: 'AAPM Blue Ribbon Poster on locally hosted LLMs for radiation oncology target-name compliance.',
+    meta: '2025, AAPM Blue Ribbon Poster',
+    href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+  },
+  {
+    title: 'The effects of resveratrol, caffeine, beta-carotene, and EGCG on amyloid aggregation',
+    text: 'Early biophysics publication studying food ingredient effects on amyloid-beta aggregation in synthetic brain membranes.',
+    meta: '2020, Molecular Nutrition & Food Research',
+    href: 'https://onlinelibrary.wiley.com/doi/10.1002/mnfr.202000632',
+  },
+]
+
+const researchProjects: Entry[] = [
+  { title: 'Auto-segmentation benchmark', text: 'Auto3DSeg, nnU-Net, SwinUNETR, and public data comparisons for abdominal organ segmentation.', meta: 'Deep learning + medical imaging' },
+  { title: 'Formula car lap-time modeling', text: 'Ordinary differential equation models for lap-time simulation and performance analysis.', meta: 'Completed December 2022' },
+  { title: 'Open-world driving agents', text: 'Deep learning and computer vision models for effective driving agents in simulated open-world environments.', meta: 'Autonomy' },
+  { title: 'Genomic LQ modeling', text: 'Deep learning and machine learning models for genomic linear-quadratic radiation dose behavior.', meta: 'Radiobiology' },
+  { title: 'Optical brain measurements', text: 'Machine learning models using optical measurements to predict in vivo hemoglobin oxygenation.', meta: 'Completed December 2022' },
+  { title: 'Gel electrophoresis analysis', text: 'Smartphone and cloud workflow for quantitative gel electrophoresis analysis.', meta: 'Completed July 2021' },
+  { title: 'Surgical computer vision', text: 'Computer vision application to improve accuracy in surgical chronic kidney disease models.', meta: 'Completed September 2023' },
+  { title: 'Nutrition and Alzheimer’s disease', text: 'Biophysics work connecting nutrition-related compounds and amyloid aggregation.', meta: 'Published 2020' },
+]
+
+const presentations: Entry[] = [
+  { title: 'AAPM 2025', text: 'Blue Ribbon Poster: Improving TG-263 target name compliance using locally hosted LLMs.', meta: 'Washington, DC', href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105' },
+  { title: 'COMP 2024', text: 'Invited speaker: Improving TG-263 target name compliance using locally hosted large language models.', meta: 'Regina, SK' },
+  { title: 'COMP 2024', text: 'Oral contributor: Ethos 2.0 high-fidelity mode for multi-met single-isocenter stereotactic radiotherapy.', meta: 'Regina, SK' },
+  { title: 'AAPM 2024', text: 'Poster: Ethos 2.0 high-fidelity mode for multi-met single-isocenter stereotactic radiotherapy.', meta: 'Los Angeles, CA', href: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/10372' },
+  { title: 'AAPM 2024', text: 'Poster: Head-to-head comparison of state-of-the-art AutoML segmentation frameworks using public data.', meta: 'Los Angeles, CA', href: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/12166' },
+  { title: 'CUPC 2023', text: 'Overall Winner and Best Talk: Optimizing dose delivery during fractionated radiotherapy.', meta: 'Waterloo, ON' },
+  { title: 'AAPM 2023', text: 'Interactive e-poster: Assessing efficacy of deep learning-based auto-contouring for abdominal normal tissues.', meta: 'Houston, TX', href: 'https://virtual.aapm.org/aapm/2023/eposters/383664/udbhav.ram.assessing.efficacy.of.deep.learning-based.auto-contouring.for.html?f=listing%3D0%2Abrowseby%3D8%2Asortby%3D1%2Asearch%3Dram' },
+  { title: 'CAP 2021', text: 'Oral contributor: The quantitative analysis of gel electrophoresis on a smartphone.', meta: 'Virtual' },
+]
+
+const affiliations: Entry[] = [
+  { title: 'University of Alabama at Birmingham', text: 'International Visiting Scholar, Department of Radiation Oncology.', meta: 'Clinical AI + radiation oncology' },
+  { title: 'Hamilton Health Sciences, Juravinski Cancer Centre', text: 'Researcher in medical physics and radiation oncology workflows.', meta: 'Clinical collaboration' },
+  { title: 'University of Western Ontario, Lawson Health Research Institute', text: 'Researcher working across imaging, biomedical workflows, and clinical translation.', meta: 'Research' },
+  { title: 'Hamilton Centre for Kidney Research', text: 'Research fellow intersecting imaging, surgery, and computer vision.', meta: 'Computer vision' },
+  { title: 'McMaster Physics and Astronomy', text: 'Laboratory for Membrane and Protein Dynamics biophysics research.', meta: 'Biophysics' },
+]
+
+const mediaItems: Entry[] = [
+  {
+    title: 'McMaster student and UAB mentor drive changes in medicine through AI',
+    text: 'UAB feature on the McMaster-UAB collaboration and AI projects in radiation treatment and planning.',
+    meta: 'UAB Heersink School of Medicine',
+    href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+  },
+  {
+    title: 'Udbhav Ram’s co-op supervisors flew in from Alabama to give him an award',
+    text: 'McMaster profile on the UAB radiation oncology collaboration and Science Co-op Student of the Year recognition.',
+    meta: 'McMaster Daily News',
+    href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+  },
+  {
+    title: 'McMaster-UAB international visiting scholar',
+    text: 'Profile on becoming an international visiting scholar and building the institutional research connection.',
+    meta: 'McMaster Daily News',
+    href: 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/',
+  },
+  {
+    title: 'Carlos Cardenas receives McMaster Co-op Emerging Employer of the Year Award',
+    text: 'UAB article on the McMaster employer award connected to mentorship and the international co-op research experience.',
+    meta: 'UAB',
+    href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
+  },
+  {
+    title: 'Recognizing Excellence in Science 2024 Co-op Employer of the Year Awards',
+    text: 'McMaster Science careers coverage of the co-op employer award ecosystem.',
+    meta: 'McMaster Science',
+    href: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
+  },
+  {
+    title: 'Convocation countdown with Udbhav Ram',
+    text: 'McMaster Science profile covering academic path, research direction, and next steps.',
+    meta: 'McMaster Science',
+    href: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
+  },
+]
+
+const softwareProjects: Entry[] = [
+  { title: 'AAPM Explorer', text: 'Conference browser for abstracts, sessions, authors, institutions, favorites, schedules, and mobile workflows.', meta: 'Research software' },
+  { title: 'Radiology and radiation oncology demos', text: 'Clinical AI workbenches, DICOM safety flows, local LLM review, report QA, and documentation consolidation prototypes.', meta: 'Clinical software' },
+  { title: 'Full-stack research applications', text: 'Flask and Django backends, cloud ML services, Android/iOS/web frontends, and CI/CD pipelines on Azure, GCS, AWS, Railway, and GitHub.', meta: 'Full-stack' },
+  { title: 'Synth-Med Biotechnologies', text: 'Full-stack and research development work around biomedical software and translational workflows.', meta: 'R&D', href: 'https://synth-med.com/about/' },
+  { title: 'WAAW Group', text: 'Lead DevOps infrastructure and backend work.', meta: 'Backend + infrastructure' },
+  { title: 'Open source', text: 'Contributor to MONAI tutorials and OpenHands.', meta: 'Public contributions' },
+]
+
+const projectLinks: LinkItem[] = [
+  { label: 'GitHub profile', href: 'https://github.com/udiram', meta: 'Code and repositories' },
+  { label: 'MONAI contribution', href: 'https://github.com/Project-MONAI/tutorials/pull/1129', meta: 'Medical AI open source' },
+  { label: 'OpenHands contribution', href: 'https://github.com/All-Hands-AI/OpenHands/pull/731', meta: 'AI engineering open source' },
+  { label: 'Automated prosthetic limb prototype', href: 'https://sites.google.com/view/prostheticlimbprototype/home', meta: 'Robotics project archive' },
+  { label: 'Sparkin STEM organizers', href: 'https://www.sparkinstem.ca/organizers', meta: 'STEM outreach' },
+  { label: 'YouTube channel', href: 'https://www.youtube.com/channel/UCTn6NYNbV55T4zs9v1nHOwA', meta: 'Videos and demos' },
+]
+
+const activities: Entry[] = [
+  { title: 'Clinical shadowing', text: 'Shadowed radiation oncologists and medical physicists at UAB Radiation Oncology.', meta: 'Clinical exposure' },
+  { title: 'UAB Hindu YUVA', text: 'Community involvement promoting, practicing, protecting, and preserving Hindu values through events and activities.', meta: 'Community' },
+  { title: 'McMaster Formula SAE Electric', text: 'Software engineering subteam work on vehicle controls, dynamics, and custom dashboard implementations.', meta: 'Vehicle software' },
+  { title: 'Biomedical research', text: 'Research fellow and software contributor across UAB, UWO, McMaster, and St. Joseph’s Healthcare Hamilton.', meta: 'Research' },
+  { title: 'Hospital volunteering', text: 'Volunteer at Humber River Hospital, assisting in medical imaging, surgical inpatient, and information services departments.', meta: 'Healthcare' },
+  { title: 'Yoga instruction', text: 'Certified yoga instructor; taught at Anytime Fitness Brampton and McMaster University.', meta: 'Teaching' },
+  { title: 'Robotics', text: 'Senior programmer and outreach member for FRC Team 4939; lead mentor for Zone01 Robotics.', meta: 'Mentorship' },
+  { title: 'Flight training', text: 'Private pilot training through Brampton Flight Centre.', meta: 'Aviation' },
+  { title: 'Scuba diving', text: 'Certified NAUI/SSI open water diver.', meta: 'Certification' },
+  { title: 'Equestrian sports', text: 'Member of Equestrian Canada and Ontario Equestrian with over five years of English and Western riding experience.', meta: 'Sport' },
+  { title: 'Music', text: 'Western classical violin, Carnatic violin, Carnatic vocal training, and Royal Conservatory piano certification.', meta: 'Music' },
+]
+
+const awards: Entry[] = [
+  { title: 'McMaster Science Co-op Student of the Year', text: 'Recognized for UAB radiation oncology research and international collaboration.', meta: '2026', href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/' },
+  { title: 'AAPM Blue Ribbon Poster', text: 'Improving TG-263 target name compliance using locally hosted LLMs.', meta: '2025', href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105' },
+  { title: 'UAB-McMaster Ambassador', text: 'Supported institutional partnership and student advising around the UAB-McMaster research path.', meta: '2025' },
+  { title: 'Emerging Science Co-op Employer nomination', text: 'Carlos Cardenas received McMaster recognition after Udbhav nomination and mentorship experience.', meta: '2025', href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award' },
+  { title: 'Society of Physics Students recognition', text: 'Undergraduate research poster recognition around Ethos 2.0 SRS work.', meta: '2024', href: 'https://spscon2025.up.railway.app/poster/263' },
+  { title: 'Canadian Undergraduate Physics Conference', text: 'Overall Winner and Best Talk for optimizing dose delivery during fractionated radiotherapy.', meta: '2023' },
+  { title: 'Advanced Placement Scholar with honors', text: 'Academic recognition from secondary school coursework.', meta: '2021' },
+  { title: 'HOSA national recognition', text: 'Second place national recognition.', meta: '2020' },
+  { title: 'SPARK Hackathon runner-up', text: 'Computer vision and machine learning powered recycling sorter.', meta: '2019' },
+  { title: 'The Mirai Project runner-up', text: 'Medical case study finalist work.', meta: '2020' },
+  { title: 'Royal Conservatory piano medals', text: 'Bronze, silver, and gold medals plus certified pianist recognition.', meta: 'Music' },
+  { title: 'Sport and robotics awards', text: 'Provincial chess champion, go-karting runner-up, badminton runner-up, and robotics awards.', meta: 'Activities' },
+  { title: 'CPR, first aid, and AED certification', text: 'Safety training certification.', meta: 'Certification' },
+  { title: 'French language certification', text: 'French language achievement.', meta: 'Certification' },
+]
+
+const motorsports: Entry[] = [
+  {
+    title: 'Arrow McLaren IndyCar',
+    text: 'Data and strategy intern in Indianapolis. Implemented deterministic simulation for strategy prediction during race sessions, learned internal race-weekend tools, monitored telemetry and car performance, and contributed to race, performance, and strategy engineering projects.',
+    meta: 'Data + strategy',
+  },
+  {
+    title: 'McMaster Formula SAE Electric',
+    text: 'Software engineering in vehicle controls and dynamics, including custom dashboard implementations and engineering support for electric race-car systems.',
+    meta: 'Vehicle controls',
+  },
+  {
+    title: 'Formula LGB 1300',
+    text: 'Test and development driver program with Momentum Motorsports.',
+    meta: 'Driver development',
+  },
+  {
+    title: 'VW Polo Cup',
+    text: 'MRF test driver work at Madras International Circuit.',
+    meta: 'Track testing',
+  },
+]
+
+const videos: LinkItem[] = [
+  { label: 'Research video 1', href: 'https://youtu.be/7JgRKwVRkEo' },
+  { label: 'Research video 2', href: 'https://youtu.be/I0ESYlp85Rk' },
+  { label: 'Research video 3', href: 'https://youtu.be/xW7umxU6NSM' },
+  { label: 'Video archive', href: 'https://youtu.be/8IKr1QauMGc' },
+  { label: 'Video archive', href: 'https://youtu.be/A7_TRUWW6EI' },
+]
+
+const allExternalLinks = [
+  ...socialLinks,
+  ...proofLinks,
+  ...publications.filter((item) => item.href).map((item) => ({ label: item.title, href: item.href as string, meta: item.meta })),
+  ...presentations.filter((item) => item.href).map((item) => ({ label: item.title, href: item.href as string, meta: item.text })),
+  ...mediaItems.map((item) => ({ label: item.title, href: item.href as string, meta: item.meta })),
+  ...projectLinks,
+  ...videos,
+]
 
 function Arrow() {
   return (
@@ -170,546 +300,268 @@ function Arrow() {
   )
 }
 
-function LensGate({ onChoose }: { onChoose: (mode: SiteMode) => void }) {
+function ExternalLink({ href, children, className = '' }: { href: string; children: ReactNode; className?: string }) {
   return (
-    <main className="lens-gate">
-      <section className="gate-intro">
-        <p>udbhavram.com</p>
-        <h1>Pick the version that matches why you are here.</h1>
-      </section>
-      <section className="gate-grid" aria-label="Choose site version">
-        {modeOrder.map((mode) => (
-          <button className={`gate-card gate-card-${mode}`} key={mode} type="button" onClick={() => onChoose(mode)}>
-            <span>{modes[mode].label}</span>
-            <strong>{modes[mode].title}</strong>
-            <em>{modes[mode].text}</em>
-          </button>
-        ))}
-      </section>
-    </main>
+    <a className={className} href={href} target="_blank" rel="noreferrer">
+      {children}
+    </a>
   )
 }
 
-function ModeSwitcher({ active, onChoose }: { active: SiteMode; onChoose: (mode: SiteMode) => void }) {
+function EntryList({ items, compact = false }: { items: Entry[]; compact?: boolean }) {
   return (
-    <aside className={`lens-switcher mode-${active}`} aria-label="Switch site version">
-      <span>Lens</span>
-      {modeOrder.map((mode) => (
-        <button
-          className={active === mode ? 'active' : ''}
-          key={mode}
-          type="button"
-          aria-pressed={active === mode}
-          onClick={() => onChoose(mode)}
-        >
-          {modes[mode].label}
-        </button>
-      ))}
-    </aside>
-  )
-}
-
-function GeneralAtlas() {
-  return (
-    <div className="general-atlas" aria-label="General profile map">
-      <div className="atlas-orbit" aria-hidden="true">
-        <svg viewBox="0 0 420 420">
-          <path d="M72 212C72 128 128 76 210 76s138 52 138 136-56 132-138 132S72 296 72 212Z" />
-          <path d="M118 118 302 302" />
-          <path d="M304 116 116 304" />
-          <circle cx="210" cy="210" r="22" />
-          <circle cx="116" cy="116" r="7" />
-          <circle cx="304" cy="116" r="7" />
-          <circle cx="304" cy="304" r="7" />
-          <circle cx="116" cy="304" r="7" />
-        </svg>
-        <strong>UR</strong>
-      </div>
-      <div className="atlas-quadrants">
-        {[
-          ['Clinic', 'Radiation oncology and clinical AI'],
-          ['Code', 'Research software and deployed tools'],
-          ['Physics', 'Medical and biological systems'],
-          ['Speed', 'Motorsport strategy and telemetry'],
-        ].map(([title, text]) => (
-          <article key={title}>
-            <strong>{title}</strong>
-            <p>{text}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function RtWorkstation() {
-  return (
-    <div className="rt-workstation">
-      <div className="rt-monitor">
-        <div className="rt-monitor-head">
-          <span>case_review.ts</span>
-          <span>non-PHI</span>
-        </div>
-        <pre>{`targetName.check()
-  input:   GTVp_7000
-  rule:    TG-263
-  status:  aligned
-
-plan.compare()
-  dose:    readable
-  review:  physician + physics
-  trace:   attached`}</pre>
-      </div>
-      <div className="rt-console">
-        <p>RT_CHECKLIST</p>
-        <span>Plan compare</span>
-        <span>Contour review</span>
-        <span>Dose QA</span>
-      </div>
-    </div>
-  )
-}
-
-function RacingPitWall() {
-  const laps = ['P01 1:28.420', 'P02 +0.118', 'P03 +0.406', 'P04 +0.911', 'BOX L18']
-
-  return (
-    <div className="pit-wall" aria-label="Racing telemetry pit wall">
-      <div className="track-map">
-        <svg viewBox="0 0 360 220" aria-hidden="true">
-          <path className="track-base" d="M52 138 C36 72 108 28 178 42 C268 60 332 94 309 148 C286 202 208 179 169 154 C128 127 75 188 52 138Z" />
-          <path className="track-fast" d="M52 138 C36 72 108 28 178 42 C268 60 332 94 309 148 C286 202 208 179 169 154 C128 127 75 188 52 138Z" />
-          <circle cx="177" cy="42" r="5" />
-          <circle cx="309" cy="148" r="5" />
-          <circle cx="52" cy="138" r="5" />
-        </svg>
-      </div>
-      <div className="strategy-board">
-        <div>
-          <span>stint</span>
-          <strong>L18-L34</strong>
-        </div>
-        <div>
-          <span>delta</span>
-          <strong>+0.083</strong>
-        </div>
-        <div>
-          <span>risk</span>
-          <strong>hold</strong>
-        </div>
-      </div>
-      <div className="timing-tower">
-        {laps.map((row) => (
-          <p key={row}>{row}</p>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function ResearchDossier() {
-  return (
-    <div className="research-dossier" aria-label="Research dossier preview">
-      <div className="dossier-spine">
-        <span>Selected work</span>
-        <strong>2020-2026</strong>
-      </div>
-      <div className="dossier-pages">
-        {researchPapers.slice(0, 3).map(([year, title, venue]) => (
-          <article key={title}>
-            <span>{year}</span>
-            <h2>{title}</h2>
-            <p>{venue}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function GeneralSite() {
-  return (
-    <main className="site-page general-site">
-      <header className="site-nav">
-        <a href="#top">Udbhav Ram</a>
-        <nav>
-          <a href="#work">Work</a>
-          <a href="#research">Research</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </header>
-      <section className="general-hero" id="top">
-        <div>
-          <p className="mode-line">clinical ai / medical physics / software / performance systems</p>
-          <h1>
-            Builder across
-            <br />
-            clinic, code,
-            <br />
-            and physics.
-          </h1>
-          <p>
-            I work on clinical AI, radiation oncology workflows, research software, and technical systems that need to be fast,
-            inspectable, and useful under pressure.
-          </p>
-          <a className="action-link" href="#work">
-            View work <Arrow />
-          </a>
-        </div>
-        <GeneralAtlas />
-      </section>
-      <GeneralContent />
-      <ContactPanel accent="general" />
-    </main>
-  )
-}
-
-function RadOncSite() {
-  return (
-    <main className="site-page rt-site">
-      <header className="rt-topline">
-        <span>udbhav@rt-workstation</span>
-        <span>plan-review --ai --qa --human-signoff</span>
-      </header>
-      <section className="rt-hero" id="top">
-        <div className="terminal-panel">
-          <p className="prompt">$ load clinical_workflow.md</p>
-          <h1>
-            Clinic-ready
-            <br />
-            radiation
-            <br />
-            oncology
-            <br />
-            software.
-          </h1>
-          <div className="terminal-output">
-            <p>structure names... aligned</p>
-            <p>synthetic case... non-PHI</p>
-            <p>dose overlay... readable</p>
-            <p>source trace... attached</p>
-            <p>physician / physicist review ready</p>
+    <div className={compact ? 'entry-list compact' : 'entry-list'}>
+      {items.map((item, index) => (
+        <article className="entry-row" key={`${item.title}-${item.meta ?? ''}-${index}`}>
+          <div>
+            {item.meta ? <p className="entry-meta">{item.meta}</p> : null}
+            <h3>{item.title}</h3>
           </div>
-          <a className="action-link" href="#research">
-            Review clinical work <Arrow />
-          </a>
-        </div>
-        <RtWorkstation />
-      </section>
-      <RadOncContent />
-      <ContactPanel accent="rt" />
-    </main>
+          <div>
+            <p>{item.text}</p>
+            {item.href ? (
+              <ExternalLink className="inline-link" href={item.href}>
+                Open link <Arrow />
+              </ExternalLink>
+            ) : null}
+          </div>
+        </article>
+      ))}
+    </div>
   )
 }
 
-function RacingSite() {
+function LinkGrid({ items }: { items: LinkItem[] }) {
   return (
-    <main className="site-page racing-site">
-      <header className="race-bar">
-        <span>pit wall</span>
-        <span>sector delta +0.083</span>
-        <span>window open lap 18</span>
-      </header>
-      <section className="race-hero" id="top">
-        <div className="race-copy">
-          <p className="mode-line">telemetry / strategy / simulation / performance engineering</p>
-          <h1>
-            Race systems
-            <br />
-            for decisions
-            <br />
-            at speed.
-          </h1>
-          <p>
-            Turning noisy telemetry and race context into strategy: stint windows, lap-time models, pit timing, and tools an
-            engineer can trust while the clock is running.
-          </p>
-        </div>
-        <RacingPitWall />
-      </section>
-      <section className="race-cards" id="work">
-        {racePrograms.slice(0, 3).map(([title, text]) => (
-          <article key={title}>
-            <h2>{title}</h2>
-            <p>{text}</p>
-          </article>
-        ))}
-      </section>
-      <RacingContent />
-      <ContactPanel accent="race" />
-    </main>
+    <div className="link-grid">
+      {items.map((item, index) => (
+        <ExternalLink href={item.href} key={`${item.label}-${item.href}-${index}`}>
+          <strong>{item.label}</strong>
+          {item.meta ? <span>{item.meta}</span> : null}
+          <Arrow />
+        </ExternalLink>
+      ))}
+    </div>
   )
 }
 
-function ResearchSite() {
-  return (
-    <main className="site-page research-site">
-      <header className="paper-nav">
-        <a href="#top">Udbhav Ram</a>
-        <span>research index</span>
-      </header>
-      <section className="paper-hero" id="top">
-        <div>
-          <p className="mode-line">publications / talks / collaborations / research software</p>
-          <h1>
-            Research, talks,
-            <br />
-            and tools become
-            <br />
-            inspectable systems.
-          </h1>
-          <p>
-            A publication-first view of work across medical physics, clinical AI, segmentation, treatment planning, and
-            workflow-aware software.
-          </p>
-        </div>
-        <ResearchDossier />
-      </section>
-      <ResearchContent />
-      <ContactPanel accent="paper" />
-    </main>
-  )
+function useActiveSection() {
+  const [active, setActive] = useState<SectionId>('home')
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+        if (visible?.target.id) setActive(visible.target.id as SectionId)
+      },
+      { rootMargin: '-18% 0px -65% 0px', threshold: [0.08, 0.2, 0.35] },
+    )
+
+    navItems.forEach(({ id }) => {
+      const section = document.getElementById(id)
+      if (section) observer.observe(section)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  return { active, setActive }
 }
 
-function GeneralContent() {
-  return (
-    <>
-      <section className="general-strip" id="work">
-        <p>profile</p>
-        <h2>McMaster medical physics, UAB radiation oncology, clinical AI software, and motorsport engineering.</h2>
-      </section>
-      <section className="info-grid facts-grid" aria-label="Profile facts">
-        {profileFacts.map(([title, text]) => (
-          <article key={title}>
-            <span>{title}</span>
-            <p>{text}</p>
-          </article>
-        ))}
-      </section>
-      <section className="project-matrix" aria-label="General work areas">
-        {projectRows.map(([title, text]) => (
-          <article key={title}>
-            <span>{title}</span>
-            <p>{text}</p>
-          </article>
-        ))}
-      </section>
-      <section className="compact-ledger" aria-label="Software and project work">
-        <h2>Software and projects</h2>
-        <div>
-          {softwareProjects.map(([title, text]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="award-ribbon" id="research">
-        {awards.map(([year, title]) => (
-          <article key={title}>
-            <strong>{year}</strong>
-            <p>{title}</p>
-          </article>
-        ))}
-      </section>
-      <section className="source-strip" aria-label="Source links">
-        {sourceLinks.map(([title, href]) => (
-          <a key={title} href={href} target="_blank" rel="noreferrer">
-            {title} <Arrow />
-          </a>
-        ))}
-      </section>
-    </>
-  )
-}
+function SectionShell({
+  id,
+  title,
+  children,
+}: {
+  id: SectionId
+  title: string
+  children: ReactNode
+}) {
+  const tone = navItems.find((item) => item.id === id)?.tone ?? 'neutral'
 
-function RadOncContent() {
   return (
-    <>
-      <section className="rt-flow" id="work" aria-label="Radiation oncology workflow">
-        {radOncChecks.map(([title, text], index) => (
-          <article key={title}>
-            <span>{String(index + 1).padStart(2, '0')}</span>
-            <h2>{title}</h2>
-            <p>{text}</p>
-          </article>
-        ))}
-      </section>
-      <section className="rt-evidence" id="research">
-        <div>
-          <p>translation target</p>
-          <h2>Build the tool, validate the output, publish the work, keep a human in the loop.</h2>
-        </div>
-        <div className="dose-readout">
-          {['non-PHI inputs', 'source-traced outputs', 'physician review', 'physics signoff', 'clinical deployment'].map((item) => (
-            <span key={item}>{item}</span>
-          ))}
-        </div>
-      </section>
-      <section className="compact-ledger rt-ledger" aria-label="Radiation oncology evidence">
-        <h2>Clinical research thread</h2>
-        <div>
-          {researchProjects.slice(0, 5).map(([title, text]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </>
-  )
-}
-
-function RacingContent() {
-  return (
-    <>
-      <section className="race-ledger" id="research">
-        {racePrograms.map(([title, text]) => (
-          <article key={title}>
-            <h2>{title}</h2>
-            <p>{text}</p>
-          </article>
-        ))}
-      </section>
-      <section className="race-transfer">
-        <div className="delta-board">
-          {['signal', 'model', 'decision', 'feedback'].map((item, index) => (
-            <span key={item}>
-              {index + 1} / {item}
-            </span>
-          ))}
-        </div>
-        <p>
-          The racing version is about pressure-tested engineering: noisy inputs, limited time, and decisions that need to be
-          explainable after the fact.
-        </p>
-      </section>
-      <section className="compact-ledger race-ledger-extra" aria-label="Motorsport transfer work">
-        <h2>Transferable systems</h2>
-        <div>
-          {[
-            ['Strategy tooling', 'Deterministic simulations, timing windows, stint comparisons, and race-weekend decision support.'],
-            ['Vehicle software', 'Controls, dynamics, dashboards, and data review for McMaster Formula SAE Electric.'],
-            ['Driver context', 'Formula LGB 1300 development testing and VW Polo Cup testing at Madras International Circuit.'],
-            ['Technical bridge', 'The same habits carry into clinical software: traceable inputs, fast review, and calm interfaces.'],
-          ].map(([title, text]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </>
-  )
-}
-
-function ResearchContent() {
-  return (
-    <>
-      <section className="publication-index" id="work">
-        {researchPapers.map(([year, title, venue]) => (
-          <article key={title}>
-            <span>{year}</span>
-            <h2>{title}</h2>
-            <p>{venue}</p>
-          </article>
-        ))}
-      </section>
-      <section className="compact-ledger research-ledger" aria-label="Research affiliations and projects">
-        <h2>Affiliations</h2>
-        <div>
-          {affiliations.map(([title, text]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="compact-ledger research-ledger" aria-label="Project index">
-        <h2>Project index</h2>
-        <div>
-          {researchProjects.map(([title, text]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="talk-timeline" id="research">
-        {presentationRows.map(([event, title]) => (
-          <article key={title}>
-            <strong>{event}</strong>
-            <p>{title}</p>
-          </article>
-        ))}
-      </section>
-      <section className="compact-ledger research-ledger" aria-label="Activities and teaching">
-        <h2>Activities</h2>
-        <div>
-          {activityRows.map(([title, text]) => (
-            <article key={title}>
-              <strong>{title}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-    </>
-  )
-}
-
-function ContactPanel({ accent }: { accent: 'general' | 'rt' | 'race' | 'paper' }) {
-  return (
-    <section className={`contact-panel contact-${accent}`} id="contact">
-      <h2>Get in touch</h2>
-      <p>Research collaborations, clinical AI projects, medical physics software, racing analytics, and technical systems.</p>
-      <div>
-        <a href="mailto:ramu@mcmaster.ca">ramu@mcmaster.ca</a>
-        <a href="https://x.com/UdbhavRam" target="_blank" rel="noreferrer">
-          x.com/UdbhavRam
-        </a>
-        <a href="https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine" target="_blank" rel="noreferrer">
-          LinkedIn
-        </a>
-        <a href="https://github.com/udiram" target="_blank" rel="noreferrer">
-          github.com/udiram
-        </a>
+    <section className={`section-shell tone-${tone}`} id={id}>
+      <div className="section-heading">
+        <span>{navItems.find((item) => item.id === id)?.label}</span>
+        <h2>{title}</h2>
       </div>
+      {children}
     </section>
   )
 }
 
 function App() {
-  const [mode, setMode] = useState<SiteMode | null>(() => getInitialMode())
+  const { active, setActive } = useActiveSection()
+  const activeTone = navItems.find((item) => item.id === active)?.tone ?? 'neutral'
 
-  const chooseMode = (nextMode: SiteMode) => {
-    setMode(nextMode)
-    window.localStorage.setItem(storageKey, nextMode)
-    window.history.replaceState(null, '', `?mode=${nextMode}`)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }
-
-  useEffect(() => {
-    document.documentElement.dataset.mode = mode ?? 'gate'
-  }, [mode])
-
-  if (!mode) {
-    return <LensGate onChoose={chooseMode} />
-  }
+  const sourceCounts = useMemo(
+    () => [
+      ['Publications', publications.length],
+      ['Research projects', researchProjects.length + currentResearch.length],
+      ['Talks/posters', presentations.length],
+      ['External links', allExternalLinks.length],
+    ],
+    [],
+  )
 
   return (
-    <>
-      <ModeSwitcher active={mode} onChoose={chooseMode} />
-      {mode === 'general' && <GeneralSite />}
-      {mode === 'radonc' && <RadOncSite />}
-      {mode === 'racing' && <RacingSite />}
-      {mode === 'research' && <ResearchSite />}
-    </>
+    <main className={`portfolio-site active-${activeTone}`}>
+      <header className="topbar">
+        <a className="brand" href="#home" onClick={() => setActive('home')}>
+          Udbhav Ram
+        </a>
+        <nav className="tabs" aria-label="Main sections">
+          {navItems.map((item) => (
+            <a
+              className={active === item.id ? 'active' : ''}
+              href={`#${item.id}`}
+              key={item.id}
+              aria-current={active === item.id ? 'page' : undefined}
+              onClick={() => setActive(item.id)}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+      </header>
+
+      <section className="intro-section" id="home">
+        <div className="intro-copy">
+          <p>Clinical AI / radiation oncology / software / motorsport systems</p>
+          <h1>I build reviewable clinical AI, research software, and race strategy tools.</h1>
+          <p>
+            I am a McMaster Medical & Biological Physics student, UAB Radiation Oncology international visiting scholar,
+            software engineer, researcher, and motorsport data/strategy intern. This site is organized like a portfolio
+            an employer can scan: proof first, details one tab away, sources linked directly.
+          </p>
+          <div className="hero-actions">
+            {proofLinks.slice(0, 3).map((link) => (
+              <ExternalLink className="text-button" href={link.href} key={link.label}>
+                {link.label} <Arrow />
+              </ExternalLink>
+            ))}
+          </div>
+        </div>
+        <aside className="fit-panel" aria-label="Employer summary">
+          <div className="fit-title">
+            <span>Why this matters</span>
+            <strong>Clinical judgment, software execution, and engineering under pressure.</strong>
+          </div>
+          <div className="fit-grid">
+            {homeHighlights.map((item) => (
+              <article key={item.title}>
+                <span>{item.meta}</span>
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </aside>
+      </section>
+
+      <section className="source-band" aria-label="Evidence counts">
+        {sourceCounts.map(([label, count]) => (
+          <div key={label}>
+            <strong>{count}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </section>
+
+      <SectionShell id="research" title="Radiation oncology, AI, medical physics, and computational research.">
+        <div className="theme-panel research-terminal">
+          <pre>{`clinical_workflow.load()
+  target: reviewable AI for radiation oncology
+  current: LLM agents, Ethos SRS, adaptive APBI, SBRT commissioning
+  guardrails: source-traced outputs + human signoff`}</pre>
+        </div>
+        <h3 className="subsection-title">Current research</h3>
+        <EntryList items={currentResearch} />
+        <h3 className="subsection-title">Publications and papers</h3>
+        <EntryList items={publications} />
+        <h3 className="subsection-title">Research projects</h3>
+        <EntryList compact items={researchProjects} />
+        <h3 className="subsection-title">Presentations</h3>
+        <EntryList compact items={presentations} />
+        <h3 className="subsection-title">Affiliations</h3>
+        <EntryList compact items={affiliations} />
+      </SectionShell>
+
+      <SectionShell id="media" title="News coverage and external validation.">
+        <div className="theme-panel media-strip">
+          <p>News, profiles, source pages, and public proof points are linked directly. No hidden resume scavenger hunt.</p>
+        </div>
+        <EntryList items={mediaItems} />
+        <h3 className="subsection-title">Core profiles</h3>
+        <LinkGrid items={proofLinks} />
+      </SectionShell>
+
+      <SectionShell id="projects" title="Software, robotics, infrastructure, and practical builds.">
+        <div className="theme-panel project-console">
+          <div>
+            <strong>stack</strong>
+            <span>Flask / Django / React / mobile / cloud ML / CI/CD</span>
+          </div>
+          <div>
+            <strong>habit</strong>
+            <span>Build the demo, test the workflow, deploy the thing.</span>
+          </div>
+        </div>
+        <EntryList items={softwareProjects} />
+        <h3 className="subsection-title">Project and code links</h3>
+        <LinkGrid items={projectLinks} />
+      </SectionShell>
+
+      <SectionShell id="activities" title="Clinical exposure, service, teaching, sport, and creative discipline.">
+        <EntryList items={activities} />
+      </SectionShell>
+
+      <SectionShell id="awards" title="Awards, certifications, and recognition.">
+        <EntryList compact items={awards} />
+      </SectionShell>
+
+      <SectionShell id="motorsports" title="Motorsport data, race strategy, vehicle software, and driver context.">
+        <div className="theme-panel race-board">
+          <div className="track-line" aria-hidden="true" />
+          <dl>
+            <div>
+              <dt>Signal</dt>
+              <dd>Telemetry</dd>
+            </div>
+            <div>
+              <dt>Model</dt>
+              <dd>Deterministic simulation</dd>
+            </div>
+            <div>
+              <dt>Decision</dt>
+              <dd>Race strategy</dd>
+            </div>
+          </dl>
+        </div>
+        <EntryList items={motorsports} />
+      </SectionShell>
+
+      <section className="section-shell tone-neutral" id="links">
+        <div className="section-heading">
+          <span>Links</span>
+          <h2>Everything linked in one place.</h2>
+        </div>
+        <LinkGrid items={allExternalLinks} />
+        <footer className="site-footer">
+          <p>
+            Built from the original Google Site content, expanded for employer review, and organized around evidence:
+            publications, public profiles, project links, and direct social links.
+          </p>
+          <ExternalLink className="inline-link" href="https://sites.google.com/view/udbhav-ram/home">
+            Original Google Site <Arrow />
+          </ExternalLink>
+          <LinkGrid items={socialLinks} />
+        </footer>
+      </section>
+    </main>
   )
 }
 

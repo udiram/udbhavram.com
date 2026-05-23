@@ -1,9 +1,8 @@
 :root {
   font-family:
-    "SF Mono", "SFMono-Regular", "Cascadia Code", "Liberation Mono", Menlo,
-    monospace;
-  color: #f4f4f2;
-  background: #0c0c0d;
+    "Avenir Next", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  color: #151512;
+  background: #f6f4ee;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -16,12 +15,13 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 84px;
 }
 
 body {
   min-width: 320px;
   margin: 0;
-  background: #0c0c0d;
+  background: #f6f4ee;
 }
 
 button,
@@ -32,5 +32,5 @@ select {
 }
 
 ::selection {
-  background: rgba(0, 212, 170, 0.28);
+  background: rgba(49, 95, 79, 0.2);
 }
