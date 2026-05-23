@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import './App.css'
 
 type SectionId = 'home' | 'research' | 'media' | 'projects' | 'activities' | 'awards' | 'motorsports'
@@ -407,10 +407,44 @@ function App() {
     [],
   )
 
+  const scrollToSection = useCallback((id: SectionId, behavior: ScrollBehavior = 'smooth') => {
+    const section = document.getElementById(id)
+    if (!section) return
+
+    setActive(id)
+    const offset = window.matchMedia('(max-width: 720px)').matches ? 132 : 116
+    const top = section.getBoundingClientRect().top + window.scrollY - offset
+    window.scrollTo({ top: Math.max(0, top), behavior })
+  }, [setActive])
+
+  useEffect(() => {
+    const syncHash = () => {
+      const id = window.location.hash.replace('#', '') as SectionId
+      if (!navItems.some((item) => item.id === id)) return
+      window.requestAnimationFrame(() => scrollToSection(id, 'auto'))
+      window.setTimeout(() => scrollToSection(id, 'auto'), 80)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 240)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 700)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 1400)
+    }
+
+    syncHash()
+    window.addEventListener('hashchange', syncHash)
+    return () => window.removeEventListener('hashchange', syncHash)
+  }, [scrollToSection])
+
   return (
     <main className={`portfolio-site active-${activeTone}`}>
       <header className="topbar">
-        <a className="brand" href="#home" onClick={() => setActive('home')}>
+        <a
+          className="brand"
+          href="#home"
+          onClick={(event) => {
+            event.preventDefault()
+            window.history.pushState(null, '', '#home')
+            scrollToSection('home')
+          }}
+        >
           Udbhav Ram
         </a>
         <nav className="tabs" aria-label="Main sections">
@@ -420,7 +454,11 @@ function App() {
               href={`#${item.id}`}
               key={item.id}
               aria-current={active === item.id ? 'page' : undefined}
-              onClick={() => setActive(item.id)}
+              onClick={(event) => {
+                event.preventDefault()
+                window.history.pushState(null, '', `#${item.id}`)
+                scrollToSection(item.id)
+              }}
             >
               {item.label}
             </a>
@@ -430,12 +468,12 @@ function App() {
 
       <section className="intro-section" id="home">
         <div className="intro-copy">
-          <p>McMaster Medical & Biological Physics · UAB Radiation Oncology · Arrow McLaren data/strategy</p>
+          <p>Clinical AI · Research software · Race strategy</p>
           <h1>I build reviewable clinical AI, research software, and race strategy tools.</h1>
           <p>
-            I am a McMaster Medical & Biological Physics student, UAB Radiation Oncology international visiting scholar,
-            software engineer, researcher, and motorsport data/strategy intern. This site is organized like a portfolio
-            an employer can scan: proof first, details one tab away, sources linked directly.
+            McMaster Medical & Biological Physics. UAB Radiation Oncology international visiting scholar. Software
+            engineer, researcher, and motorsport data/strategy intern. The site is built for fast scanning: proof first,
+            full detail one tab away, and every source linked directly.
           </p>
           <div className="hero-actions">
             {proofLinks.slice(0, 3).map((link) => (
@@ -447,7 +485,7 @@ function App() {
         </div>
         <aside className="fit-panel" aria-label="Employer summary">
           <div className="fit-title">
-            <span>Portfolio signal</span>
+            <span>Working range</span>
             <strong>Clinical judgment, software execution, and engineering under pressure.</strong>
           </div>
           <div className="fit-grid">
