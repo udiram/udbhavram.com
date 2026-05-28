@@ -622,9 +622,11 @@ function ExternalLink({ href, children, className = '' }: { href: string; childr
 }
 
 function ImagePlate({ image, className = '' }: { image: ImageAsset; className?: string }) {
+  const isPriority = className.includes('hero-portrait')
+
   return (
     <figure className={`image-plate ${className}`.trim()}>
-      <img src={image.src} alt={image.alt} loading="lazy" />
+      <img src={image.src} alt={image.alt} loading={isPriority ? 'eager' : 'lazy'} />
     </figure>
   )
 }
@@ -1061,23 +1063,33 @@ function useActiveSection() {
   const [active, setActive] = useState<SectionId>('home')
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+    let frame = 0
 
-        if (visible?.target.id) setActive(visible.target.id as SectionId)
-      },
-      { rootMargin: '-20% 0px -62% 0px', threshold: [0.08, 0.22, 0.38] },
-    )
+    const updateActive = () => {
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(() => {
+        const topbar = document.querySelector('.site-nav')
+        const probeY = (topbar?.getBoundingClientRect().height ?? 64) + window.innerHeight * 0.28
+        let current: SectionId = 'home'
 
-    navItems.forEach(({ id }) => {
-      const section = document.getElementById(id)
-      if (section) observer.observe(section)
-    })
+        navItems.forEach(({ id }) => {
+          const section = document.getElementById(id)
+          if (section && section.getBoundingClientRect().top <= probeY) current = id
+        })
 
-    return () => observer.disconnect()
+        setActive(current)
+      })
+    }
+
+    updateActive()
+    window.addEventListener('scroll', updateActive, { passive: true })
+    window.addEventListener('resize', updateActive)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', updateActive)
+      window.removeEventListener('resize', updateActive)
+    }
   }, [])
 
   return { active, setActive }
@@ -1160,6 +1172,8 @@ function App() {
       window.requestAnimationFrame(() => scrollToSection(id, 'auto'))
       window.setTimeout(() => scrollToSection(id, 'auto'), 180)
       window.setTimeout(() => scrollToSection(id, 'auto'), 520)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 1100)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 1800)
     },
     [scrollToSection],
   )
@@ -1170,14 +1184,13 @@ function App() {
     const syncHash = () => {
       const id = window.location.hash.replace('#', '') as SectionId
       if (!navItems.some((item) => item.id === id)) return
-      window.requestAnimationFrame(() => scrollToSection(id, 'auto'))
-      window.setTimeout(() => scrollToSection(id, 'auto'), 120)
+      settleScrollToSection(id, 'auto')
     }
 
     syncHash()
     window.addEventListener('hashchange', syncHash)
     return () => window.removeEventListener('hashchange', syncHash)
-  }, [scrollToSection])
+  }, [settleScrollToSection])
 
   return (
     <div className={`portfolio-site active-${active}`}>

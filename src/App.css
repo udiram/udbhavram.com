@@ -1384,6 +1384,12 @@ input::placeholder {
   }
 }
 
+@media (max-width: 1500px) {
+  .progress-rail {
+    display: none;
+  }
+}
+
 @media (max-width: 760px) {
   .portfolio-site {
     background-size: auto, auto, auto, 48px 48px, 48px 48px, auto;
@@ -1467,13 +1473,13 @@ input::placeholder {
   }
 
   .hero-portrait {
-    inset: 118px 18px 20px auto;
-    width: min(58%, 240px);
-    aspect-ratio: 4 / 5;
+    inset: 142px 18px 20px;
+    width: auto;
+    aspect-ratio: auto;
   }
 
   .hero-portrait img {
-    object-position: 74% 38%;
+    object-position: 64% 38%;
   }
 
   .beam-map {
