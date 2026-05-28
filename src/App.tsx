@@ -1,295 +1,608 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import './App.css'
 
-type SectionId = 'home' | 'research' | 'media' | 'projects' | 'activities' | 'awards' | 'motorsports'
+type SectionId = 'home' | 'research' | 'projects' | 'media' | 'performance' | 'leadership' | 'archive' | 'contact'
+
+type ImageAsset = {
+  src: string
+  alt: string
+  source?: string
+}
 
 type LinkItem = {
   label: string
   href: string
   meta?: string
+  image?: ImageAsset
 }
 
-type Entry = {
+type ResearchCase = {
+  title: string
+  status: string
+  role: string
+  institution: string
+  tags: string[]
+  problem: string
+  method: string
+  impact: string
+  result: string
+  href?: string
+  image: ImageAsset
+}
+
+type ProjectItem = {
+  title: string
+  category: string
+  status: string
+  problem: string
+  solution: string
+  stack: string[]
+  href?: string
+  image: ImageAsset
+}
+
+type TimelineItem = {
+  year: string
   title: string
   text: string
-  meta?: string
-  href?: string
+  tone: 'mcmaster' | 'uab' | 'aapm' | 'uw' | 'performance'
 }
 
-const navItems: { id: SectionId; label: string; tone: string }[] = [
-  { id: 'home', label: 'Home', tone: 'neutral' },
-  { id: 'research', label: 'Research', tone: 'research' },
-  { id: 'media', label: 'Media', tone: 'media' },
-  { id: 'projects', label: 'Projects', tone: 'projects' },
-  { id: 'activities', label: 'Activities', tone: 'activities' },
-  { id: 'awards', label: 'Awards', tone: 'awards' },
-  { id: 'motorsports', label: 'Motorsports', tone: 'motorsports' },
+type ArchiveItem = {
+  title: string
+  text: string
+  meta: string
+  href?: string
+  image: ImageAsset
+}
+
+const imageAssets = {
+  uabMentor: {
+    src: '/assets/sourced/uab-agarwal-udi.jpg',
+    alt: 'Udbhav Ram with Pritish Agarwal in the UAB medicine profile',
+    source: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+  },
+  uabPresentation: {
+    src: '/assets/sourced/uab-udi-presentation.jpg',
+    alt: 'Udbhav Ram presenting clinical AI work at UAB',
+    source: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+  },
+  uabClinic: {
+    src: '/assets/sourced/uab-ai-mentor.jpg',
+    alt: 'UAB clinical AI profile image',
+    source: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+  },
+  mcmasterScholar: {
+    src: '/assets/sourced/mcmaster-uab-scholar-original.jpg',
+    alt: 'Udbhav Ram in the McMaster international visiting scholar profile',
+    source: 'https://science.mcmaster.ca/international-visiting-scholar-at-the-university-of-alabama-at-birmingham-the-latest-of-many-achievements-for-mcmaster-science-undergrad/',
+  },
+  coopAward: {
+    src: '/assets/sourced/mcmaster-coop-award-original.png',
+    alt: 'Udbhav Ram receiving the McMaster Science Co-op Student of the Year award',
+    source: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+  },
+  convocation: {
+    src: '/assets/sourced/mcmaster-convocation.jpg',
+    alt: 'Udbhav Ram in the McMaster Science convocation countdown profile',
+    source: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
+  },
+  employerAward: {
+    src: '/assets/sourced/uab-employer-award-1.jpg',
+    alt: 'Carlos Cardenas receiving the McMaster Co-op Emerging Employer of the Year Award',
+    source: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
+  },
+  employerAwardAlt: {
+    src: '/assets/sourced/uab-employer-award-2.jpg',
+    alt: 'McMaster and UAB employer award presentation group photo',
+    source: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
+  },
+  employerAwards: {
+    src: '/assets/sourced/mcmaster-employer-awards-hero.jpg',
+    alt: 'McMaster Science employer of the year award photo',
+    source: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
+  },
+  employerAwardsUdi: {
+    src: '/assets/sourced/mcmaster-employer-awards-udi.jpg',
+    alt: 'Udbhav Ram with Sean Van Koughnett at the McMaster Science employer awards',
+    source: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
+  },
+  aapm2025: {
+    src: '/assets/sourced/screens/aapm-2025-tg263-page.png',
+    alt: 'AAPM 2025 source page for the TG-263 Blue Ribbon Poster',
+    source: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+  },
+  aapm2024Ethos: {
+    src: '/assets/sourced/screens/aapm-2024-ethos-page.png',
+    alt: 'AAPM 2024 source page for Ethos high-fidelity SRS work',
+    source: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/10372',
+  },
+  aapm2024Automl: {
+    src: '/assets/sourced/screens/aapm-2024-automl-page.png',
+    alt: 'AAPM 2024 source page for AutoML segmentation work',
+    source: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/12166',
+  },
+  githubProfile: {
+    src: '/assets/sourced/github-profile.jpg',
+    alt: 'Udbhav Ram GitHub profile image',
+    source: 'https://github.com/udiram',
+  },
+  monaiPr: {
+    src: '/assets/sourced/screens/monai-pr-page.png',
+    alt: 'MONAI tutorials pull request source page',
+    source: 'https://github.com/Project-MONAI/tutorials/pull/1129',
+  },
+  openhandsPr: {
+    src: '/assets/sourced/screens/openhands-pr-page.png',
+    alt: 'OpenHands pull request source page',
+    source: 'https://github.com/All-Hands-AI/OpenHands/pull/731',
+  },
+  prostheticSite: {
+    src: '/assets/sourced/screens/prosthetic-site-page.png',
+    alt: 'Automated prosthetic limb prototype Google Site screenshot',
+    source: 'https://sites.google.com/view/prostheticlimbprototype/home',
+  },
+  synthMed: {
+    src: '/assets/sourced/screens/synth-med-page.png',
+    alt: 'Synth-Med Biotechnology about page screenshot',
+    source: 'https://synth-med.com/about/',
+  },
+  spsPoster: {
+    src: '/assets/sourced/screens/aapm-2024-ethos-page.png',
+    alt: 'AAPM 2024 Ethos SRS source page connected to the SPS poster recognition',
+    source: 'https://www.aapm.org/pubs/newsletter/archive/5001.pdf',
+  },
+  originalResearch: {
+    src: '/assets/sourced/screens/google-site-research-page.png',
+    alt: 'Original Google Site research archive page',
+    source: 'https://sites.google.com/view/udbhav-ram/research',
+  },
+  originalActivities: {
+    src: '/assets/sourced/screens/google-site-activities-page.png',
+    alt: 'Original Google Site activities archive page',
+    source: 'https://sites.google.com/view/udbhav-ram/activities',
+  },
+  mcmasterScience: {
+    src: '/assets/sourced/mcmaster-science.png',
+    alt: 'McMaster Science official site image',
+    source: 'https://science.mcmaster.ca/',
+  },
+  mcmasterPhysics: {
+    src: '/assets/sourced/screens/mcmaster-physics-page.png',
+    alt: 'McMaster Physics and Astronomy official page screenshot',
+    source: 'https://physics.mcmaster.ca/',
+  },
+  uabRadonc: {
+    src: '/assets/sourced/screens/uab-radonc-page.png',
+    alt: 'UAB Radiation Oncology official page screenshot',
+    source: 'https://www.uab.edu/medicine/radonc/',
+  },
+  western: {
+    src: '/assets/sourced/western-university.jpg',
+    alt: 'Western University official site image',
+    source: 'https://www.uwo.ca/',
+  },
+  lawson: {
+    src: '/assets/sourced/screens/lawson-research-page.png',
+    alt: 'Lawson Research Institute official page screenshot',
+    source: 'https://www.lawsonresearch.ca/',
+  },
+  arrowMcLaren: {
+    src: '/assets/sourced/screens/arrow-mclaren-page.png',
+    alt: 'Arrow McLaren IndyCar official page screenshot',
+    source: 'https://www.mclaren.com/racing/indycar/',
+  },
+  videoOne: {
+    src: '/assets/sourced/yt-7JgRKwVRkEo.jpg',
+    alt: 'YouTube research video thumbnail',
+    source: 'https://youtu.be/7JgRKwVRkEo',
+  },
+  videoTwo: {
+    src: '/assets/sourced/yt-I0ESYlp85Rk.jpg',
+    alt: 'YouTube research video thumbnail',
+    source: 'https://youtu.be/I0ESYlp85Rk',
+  },
+  videoThree: {
+    src: '/assets/sourced/yt-xW7umxU6NSM.jpg',
+    alt: 'YouTube research video thumbnail',
+    source: 'https://youtu.be/xW7umxU6NSM',
+  },
+  videoFour: {
+    src: '/assets/sourced/yt-8IKr1QauMGc.jpg',
+    alt: 'YouTube archive video thumbnail',
+    source: 'https://youtu.be/8IKr1QauMGc',
+  },
+  videoFive: {
+    src: '/assets/sourced/yt-A7_TRUWW6EI.jpg',
+    alt: 'YouTube archive video thumbnail',
+    source: 'https://youtu.be/A7_TRUWW6EI',
+  },
+} satisfies Record<string, ImageAsset>
+
+const navItems: { id: SectionId; label: string }[] = [
+  { id: 'home', label: 'Home' },
+  { id: 'research', label: 'Research' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'media', label: 'Media' },
+  { id: 'performance', label: 'Performance' },
+  { id: 'leadership', label: 'Leadership' },
+  { id: 'archive', label: 'CV' },
+  { id: 'contact', label: 'Contact' },
 ]
 
 const socialLinks: LinkItem[] = [
   { label: 'Email', href: 'mailto:ramu@mcmaster.ca' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/udbhav-ramamurthy-clinical-software-engineer/' },
+  { label: 'LinkedIn', href: 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine' },
   { label: 'GitHub', href: 'https://github.com/udiram' },
-  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?hl=en&user=5NGyc78AAAAJ' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/scholar?q=%22Udbhav+Ram%22' },
   { label: 'Medium', href: 'https://medium.com/@udbhavram41' },
   { label: 'YouTube', href: 'https://www.youtube.com/channel/UCTn6NYNbV55T4zs9v1nHOwA' },
-  { label: 'X', href: 'https://x.com/UdbhavRam' },
 ]
+
+const resumeHref = '/assets/Udbhav_Ram_resume.pdf'
 
 const proofLinks: LinkItem[] = [
   {
     label: 'McMaster profile',
     href: 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/',
     meta: 'International visiting scholar profile',
+    image: imageAssets.mcmasterScholar,
   },
   {
     label: 'UAB profile',
     href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
-    meta: 'McMaster-UAB AI/radiation oncology feature',
+    meta: 'AI and radiation oncology feature',
+    image: imageAssets.uabMentor,
   },
   {
     label: 'Co-op award',
     href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
     meta: 'Science Co-op Student of the Year',
+    image: imageAssets.coopAward,
   },
   {
-    label: 'Convocation profile',
-    href: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
-    meta: 'McMaster Science feature',
-  },
-]
-
-const homeHighlights: Entry[] = [
-  {
-    title: 'Clinical AI and radiation oncology',
-    text: 'International Visiting Scholar at UAB Radiation Oncology, working on clinical AI, adaptive radiotherapy workflows, plan evaluation, naming compliance, and reviewable software.',
-    meta: 'UAB + McMaster',
-  },
-  {
-    title: 'Software that reaches users',
-    text: 'Full-stack builder across Flask, Django, cloud ML services, Android, iOS, web frontends, CI/CD, research apps, and conference tools.',
-    meta: 'Backend + frontend + deployment',
-  },
-  {
-    title: 'Performance engineering',
-    text: 'Arrow McLaren IndyCar data and strategy internship, McMaster Formula SAE Electric software, vehicle controls, telemetry, and deterministic race-session simulation.',
-    meta: 'Motorsport systems',
-  },
-  {
-    title: 'Research breadth',
-    text: 'Eight years of computational and clinical research experience across medical physics, segmentation, treatment planning, computer vision, optical measurement, and biophysics.',
-    meta: 'Publications + presentations',
+    label: 'Original archive',
+    href: 'https://sites.google.com/view/udbhav-ram/home',
+    meta: 'Full legacy Google Site archive',
+    image: imageAssets.originalResearch,
   },
 ]
 
-const currentResearch: Entry[] = [
+const metrics = [
+  ['2', 'peer-reviewed papers'],
+  ['5+', 'conference abstracts'],
+  ['4', 'AAPM/COMP presentations'],
+  ['2', 'poster awards'],
+  ['UAB/McMaster', 'international scholar'],
+  ['MONAI', 'open-source contributor'],
+]
+
+const heroChips = [
+  'AAPM award-winning researcher',
+  'UAB/McMaster international scholar',
+  'AI + clinical workflow + motorsport systems',
+]
+
+const researchCases: ResearchCase[] = [
   {
-    title: 'LLM agent integration in clinical workflows',
-    text: 'Clinical workflow research at UAB focused on how local, reviewable AI systems can support radiation oncology teams without hiding the source trail.',
-    meta: 'UAB Radiation Oncology',
+    title: 'Online adaptive APBI interobserver variability',
+    status: 'Submitted',
+    role: 'Analyst / collaborator',
+    institution: 'UAB Radiation Oncology',
+    tags: ['Radiation Oncology', 'OART', 'CBCT', 'Contouring'],
+    problem: 'Adaptive partial breast workflows depend on contours that must be fast, reproducible, and clinically reviewable.',
+    method: 'Compared interobserver variation across Ethos adaptive APBI structures and reviewed how contour decisions propagate into treatment planning.',
+    impact: 'Frames contour variability as a workflow reliability problem, not just a segmentation metric.',
+    result: 'Submitted to IJROBP',
+    image: imageAssets.uabRadonc,
   },
   {
-    title: 'Ethos 2.0 treatment planning for single-isocentre SRS',
-    text: 'Validation of high-fidelity treatment planning for multi-met, single-isocentre stereotactic radiosurgery, including semi-automated comparative analysis.',
-    meta: 'UAB',
+    title: 'Ethos 2.0 high-fidelity SRS validation',
+    status: 'Published',
+    role: 'Research author / analyst',
+    institution: 'UAB',
+    tags: ['SRS', 'Ethos', 'TPS Validation', 'Automation'],
+    problem: 'Multi-met single-isocentre SRS needs fast planning without quietly losing dosimetric quality.',
+    method: 'Validated Ethos 2.0 high-fidelity planning with semi-automated comparative analysis and treatment-planning review.',
+    impact: 'Turns a planning-system upgrade into measurable evidence for clinical deployment decisions.',
+    result: 'JACMP 2025',
     href: 'https://aapm.onlinelibrary.wiley.com/doi/full/10.1002/acm2.70370',
+    image: imageAssets.aapm2024Ethos,
   },
   {
-    title: 'Adaptive APBI contour variability',
-    text: 'Evaluation of interobserver variability for Ethos adaptive accelerated partial breast irradiation plans.',
-    meta: 'Submitted to IJROBP',
-  },
-  {
-    title: 'TrueBeam SBRT commissioning',
-    text: 'Multi-institution commissioning study comparing 6X and 10X flattening filter-free beams for SBRT on TrueBeam iTX using Eclipse TPS.',
-    meta: 'JCC + UAB',
+    title: 'LLM agents for clinical workflow automation',
+    status: 'Active',
+    role: 'Developer / researcher',
+    institution: 'UAB + McMaster',
+    tags: ['LLMs', 'Clinical UI', 'TG-263', 'Local AI'],
+    problem: 'Clinical teams need automation that is local, auditable, and easy to override.',
+    method: 'Built local LLM review flows for target-name compliance, interface automation, and clinical workflow checks.',
+    impact: 'Connects model behavior to visible clinical operations instead of treating AI as a black box.',
+    result: 'AAPM 2025 Blue Ribbon Poster',
+    href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+    image: imageAssets.aapm2025,
   },
 ]
 
-const publications: Entry[] = [
-  {
-    title: 'Dosimetric evaluation of Ethos 2.0 high-fidelity mode for single-isocenter SRS',
-    text: 'Journal of Applied Clinical Medical Physics publication on high-fidelity mode evaluation for multi-met stereotactic radiotherapy.',
-    meta: '2025, JACMP',
-    href: 'https://aapm.onlinelibrary.wiley.com/doi/full/10.1002/acm2.70370',
-  },
+const researchArchive: ArchiveItem[] = [
   {
     title: 'Assessing quantitative performance and expert review of deep learning frameworks for CT abdominal organ auto-segmentation',
-    text: 'Intelligent Oncology paper comparing state-of-the-art deep learning frameworks for abdominal organ segmentation.',
+    text: 'Paper comparing deep learning frameworks for abdominal organ segmentation.',
     meta: '2025, Intelligent Oncology',
     href: 'https://doi.org/10.1016/j.intonc.2025.03.003',
+    image: imageAssets.aapm2024Automl,
   },
   {
     title: 'Improving TG-263 target name compliance using locally hosted large language models',
-    text: 'AAPM Blue Ribbon Poster on locally hosted LLMs for radiation oncology target-name compliance.',
-    meta: '2025, AAPM Blue Ribbon Poster',
+    text: 'Blue Ribbon Poster on locally hosted LLMs for radiation oncology target-name compliance.',
+    meta: '2025, AAPM',
     href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+    image: imageAssets.aapm2025,
   },
   {
-    title: 'The effects of resveratrol, caffeine, beta-carotene, and EGCG on amyloid aggregation',
-    text: 'Early biophysics publication studying food ingredient effects on amyloid-beta aggregation in synthetic brain membranes.',
+    title: 'TrueBeam SBRT commissioning',
+    text: 'Multi-institution commissioning comparison of 6X and 10X FFF beams for SBRT using Eclipse TPS.',
+    meta: 'JCC + UAB',
+    image: imageAssets.uabClinic,
+  },
+  {
+    title: 'Nutrition and amyloid aggregation',
+    text: 'Biophysics work on food ingredient effects on amyloid-beta aggregation in synthetic brain membranes.',
     meta: '2020, Molecular Nutrition & Food Research',
-    href: 'https://onlinelibrary.wiley.com/doi/10.1002/mnfr.202000632',
+    href: 'https://doi.org/10.1002/mnfr.202000632',
+    image: imageAssets.mcmasterPhysics,
   },
 ]
 
-const researchProjects: Entry[] = [
-  { title: 'Auto-segmentation benchmark', text: 'Auto3DSeg, nnU-Net, SwinUNETR, and public data comparisons for abdominal organ segmentation.', meta: 'Deep learning + medical imaging' },
-  { title: 'Formula car lap-time modeling', text: 'Ordinary differential equation models for lap-time simulation and performance analysis.', meta: 'Completed December 2022' },
-  { title: 'Open-world driving agents', text: 'Deep learning and computer vision models for effective driving agents in simulated open-world environments.', meta: 'Autonomy' },
-  { title: 'Genomic LQ modeling', text: 'Deep learning and machine learning models for genomic linear-quadratic radiation dose behavior.', meta: 'Radiobiology' },
-  { title: 'Optical brain measurements', text: 'Machine learning models using optical measurements to predict in vivo hemoglobin oxygenation.', meta: 'Completed December 2022' },
-  { title: 'Gel electrophoresis analysis', text: 'Smartphone and cloud workflow for quantitative gel electrophoresis analysis.', meta: 'Completed July 2021' },
-  { title: 'Surgical computer vision', text: 'Computer vision application to improve accuracy in surgical chronic kidney disease models.', meta: 'Completed September 2023' },
-  { title: 'Nutrition and Alzheimer’s disease', text: 'Biophysics work connecting nutrition-related compounds and amyloid aggregation.', meta: 'Published 2020' },
+const researchFilters = ['All', 'Radiation Oncology', 'AI/ML', 'Adaptive RT', 'LLMs', 'SRS/SBRT', 'Publications']
+
+const projects: ProjectItem[] = [
+  {
+    title: 'AAPM 2026 Explorer',
+    category: 'Clinical AI tools',
+    status: 'Live',
+    problem: 'AAPM conference content is dense, time-sensitive, and hard to search on mobile.',
+    solution: 'Conference browser for abstracts, sessions, authors, institutions, favorites, and schedule workflows.',
+    stack: ['Flask', 'SQLAlchemy', 'Railway', 'Search', 'Mobile UI'],
+    image: imageAssets.aapm2025,
+  },
+  {
+    title: 'Consigliere journaling app',
+    category: 'Web apps',
+    status: 'Prototype',
+    problem: 'Personal reflection tools often stop at notes instead of extracting useful follow-up signals.',
+    solution: 'Full-stack journaling product with auth, friends, scheduler, email, and Gemini summarization.',
+    stack: ['React', 'Auth', 'Mailjet', 'Gemini', 'Scheduler'],
+    image: imageAssets.githubProfile,
+  },
+  {
+    title: 'Clinical UI automation benchmark',
+    category: 'Clinical AI tools',
+    status: 'Research',
+    problem: 'VLM agents need objective tests before they can be trusted around clinical interfaces.',
+    solution: 'Benchmark table and model-comparison harness for clinical UI actions and review tasks.',
+    stack: ['Python', 'VLMs', 'Evaluation', 'Playwright'],
+    image: imageAssets.uabClinic,
+  },
+  {
+    title: 'TG-263 local LLM tool',
+    category: 'Clinical AI tools',
+    status: 'Research',
+    problem: 'Target-name drift creates review burden and plan-documentation risk.',
+    solution: 'Local LLM naming-compliance interface that shows proposed changes and keeps reviewer control.',
+    stack: ['Local LLM', 'TG-263', 'Radiation Oncology', 'Review UI'],
+    href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+    image: imageAssets.aapm2025,
+  },
+  {
+    title: 'Motorsport strategy simulations',
+    category: 'Motorsport analytics',
+    status: 'Built',
+    problem: 'Race strategy depends on fast decisions under noisy, high-stakes telemetry conditions.',
+    solution: 'Deterministic race-session simulation and telemetry review work from Arrow McLaren and Formula SAE contexts.',
+    stack: ['Simulation', 'Telemetry', 'ODE models', 'Dashboards'],
+    image: imageAssets.arrowMcLaren,
+  },
+  {
+    title: 'Open-source medical AI contributions',
+    category: 'Open source',
+    status: 'Merged',
+    problem: 'Research tooling improves faster when examples and docs stay reproducible.',
+    solution: 'Public contributions to MONAI tutorials and OpenHands engineering workflows.',
+    stack: ['MONAI', 'OpenHands', 'GitHub', 'Docs'],
+    href: 'https://github.com/Project-MONAI/tutorials/pull/1129',
+    image: imageAssets.monaiPr,
+  },
 ]
 
-const presentations: Entry[] = [
-  { title: 'AAPM 2025', text: 'Blue Ribbon Poster: Improving TG-263 target name compliance using locally hosted LLMs.', meta: 'Washington, DC', href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105' },
-  { title: 'COMP 2024', text: 'Invited speaker: Improving TG-263 target name compliance using locally hosted large language models.', meta: 'Regina, SK' },
-  { title: 'COMP 2024', text: 'Oral contributor: Ethos 2.0 high-fidelity mode for multi-met single-isocenter stereotactic radiotherapy.', meta: 'Regina, SK' },
-  { title: 'AAPM 2024', text: 'Poster: Ethos 2.0 high-fidelity mode for multi-met single-isocenter stereotactic radiotherapy.', meta: 'Los Angeles, CA', href: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/10372' },
-  { title: 'AAPM 2024', text: 'Poster: Head-to-head comparison of state-of-the-art AutoML segmentation frameworks using public data.', meta: 'Los Angeles, CA', href: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/12166' },
-  { title: 'CUPC 2023', text: 'Overall Winner and Best Talk: Optimizing dose delivery during fractionated radiotherapy.', meta: 'Waterloo, ON' },
-  { title: 'AAPM 2023', text: 'Interactive e-poster: Assessing efficacy of deep learning-based auto-contouring for abdominal normal tissues.', meta: 'Houston, TX', href: 'https://virtual.aapm.org/aapm/2023/eposters/383664/udbhav.ram.assessing.efficacy.of.deep.learning-based.auto-contouring.for.html?f=listing%3D0%2Abrowseby%3D8%2Asortby%3D1%2Asearch%3Dram' },
-  { title: 'CAP 2021', text: 'Oral contributor: The quantitative analysis of gel electrophoresis on a smartphone.', meta: 'Virtual' },
+const projectCategories = ['All', 'Clinical AI tools', 'Web apps', 'Motorsport analytics', 'Open source']
+
+const timeline: TimelineItem[] = [
+  {
+    year: 'McMaster',
+    title: 'Medical and Biological Physics foundation',
+    text: 'Built the base across medical physics, computational research, biophysics, and engineering-adjacent project work.',
+    tone: 'mcmaster',
+  },
+  {
+    year: 'UAB',
+    title: 'International radiation oncology collaboration',
+    text: 'Joined UAB Radiation Oncology as an international visiting scholar focused on clinical AI and adaptive workflows.',
+    tone: 'uab',
+  },
+  {
+    year: 'AAPM',
+    title: 'Research visibility and poster recognition',
+    text: 'Presented Ethos SRS, AutoML segmentation, and locally hosted LLM work across AAPM and COMP.',
+    tone: 'aapm',
+  },
+  {
+    year: 'UW',
+    title: 'Medical physics PhD direction',
+    text: 'Next direction: clinical AI, medical physics, and translational systems for radiation oncology.',
+    tone: 'uw',
+  },
+  {
+    year: 'Track',
+    title: 'Performance engineering lens',
+    text: 'Arrow McLaren and Formula SAE work turned telemetry, simulation, and real-time decisions into a durable systems mindset.',
+    tone: 'performance',
+  },
 ]
 
-const affiliations: Entry[] = [
-  { title: 'University of Alabama at Birmingham', text: 'International Visiting Scholar, Department of Radiation Oncology.', meta: 'Clinical AI + radiation oncology' },
-  { title: 'Hamilton Health Sciences, Juravinski Cancer Centre', text: 'Researcher in medical physics and radiation oncology workflows.', meta: 'Clinical collaboration' },
-  { title: 'University of Western Ontario, Lawson Health Research Institute', text: 'Researcher working across imaging, biomedical workflows, and clinical translation.', meta: 'Research' },
-  { title: 'Hamilton Centre for Kidney Research', text: 'Research fellow intersecting imaging, surgery, and computer vision.', meta: 'Computer vision' },
-  { title: 'McMaster Physics and Astronomy', text: 'Laboratory for Membrane and Protein Dynamics biophysics research.', meta: 'Biophysics' },
-]
-
-const mediaItems: Entry[] = [
+const mediaItems: ArchiveItem[] = [
   {
     title: 'McMaster student and UAB mentor drive changes in medicine through AI',
     text: 'UAB feature on the McMaster-UAB collaboration and AI projects in radiation treatment and planning.',
     meta: 'UAB Heersink School of Medicine',
     href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+    image: imageAssets.uabMentor,
   },
   {
-    title: 'Udbhav Ram’s co-op supervisors flew in from Alabama to give him an award',
+    title: 'Udbhav Ram\'s co-op supervisors flew in from Alabama to give him an award',
     text: 'McMaster profile on the UAB radiation oncology collaboration and Science Co-op Student of the Year recognition.',
     meta: 'McMaster Daily News',
     href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+    image: imageAssets.coopAward,
   },
   {
     title: 'McMaster-UAB international visiting scholar',
     text: 'Profile on becoming an international visiting scholar and building the institutional research connection.',
     meta: 'McMaster Daily News',
     href: 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/',
+    image: imageAssets.mcmasterScholar,
   },
   {
     title: 'Carlos Cardenas receives McMaster Co-op Emerging Employer of the Year Award',
     text: 'UAB article on the McMaster employer award connected to mentorship and the international co-op research experience.',
     meta: 'UAB',
     href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
-  },
-  {
-    title: 'Recognizing Excellence in Science 2024 Co-op Employer of the Year Awards',
-    text: 'McMaster Science careers coverage of the co-op employer award ecosystem.',
-    meta: 'McMaster Science',
-    href: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
+    image: imageAssets.employerAward,
   },
   {
     title: 'Convocation countdown with Udbhav Ram',
     text: 'McMaster Science profile covering academic path, research direction, and next steps.',
     meta: 'McMaster Science',
     href: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
+    image: imageAssets.convocation,
+  },
+  {
+    title: 'Recognizing Excellence in Science 2024 Co-op Employer of the Year Awards',
+    text: 'McMaster Science careers coverage of the co-op employer award ecosystem.',
+    meta: 'McMaster Science',
+    href: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
+    image: imageAssets.employerAwards,
   },
 ]
 
-const softwareProjects: Entry[] = [
-  { title: 'AAPM Explorer', text: 'Conference browser for abstracts, sessions, authors, institutions, favorites, schedules, and mobile workflows.', meta: 'Research software' },
-  { title: 'Radiology and radiation oncology demos', text: 'Clinical AI workbenches, DICOM safety flows, local LLM review, report QA, and documentation consolidation prototypes.', meta: 'Clinical software' },
-  { title: 'Full-stack research applications', text: 'Flask and Django backends, cloud ML services, Android/iOS/web frontends, and CI/CD pipelines on Azure, GCS, AWS, Railway, and GitHub.', meta: 'Full-stack' },
-  { title: 'Synth-Med Biotechnologies', text: 'Full-stack and research development work around biomedical software and translational workflows.', meta: 'R&D', href: 'https://synth-med.com/about/' },
-  { title: 'WAAW Group', text: 'Lead DevOps infrastructure and backend work.', meta: 'Backend + infrastructure' },
-  { title: 'Open source', text: 'Contributor to MONAI tutorials and OpenHands.', meta: 'Public contributions' },
-]
-
-const projectLinks: LinkItem[] = [
-  { label: 'GitHub profile', href: 'https://github.com/udiram', meta: 'Code and repositories' },
-  { label: 'MONAI contribution', href: 'https://github.com/Project-MONAI/tutorials/pull/1129', meta: 'Medical AI open source' },
-  { label: 'OpenHands contribution', href: 'https://github.com/All-Hands-AI/OpenHands/pull/731', meta: 'AI engineering open source' },
-  { label: 'Automated prosthetic limb prototype', href: 'https://sites.google.com/view/prostheticlimbprototype/home', meta: 'Robotics project archive' },
-  { label: 'Sparkin STEM organizers', href: 'https://www.sparkinstem.ca/organizers', meta: 'STEM outreach' },
-  { label: 'YouTube channel', href: 'https://www.youtube.com/channel/UCTn6NYNbV55T4zs9v1nHOwA', meta: 'Videos and demos' },
-]
-
-const activities: Entry[] = [
-  { title: 'Clinical shadowing', text: 'Shadowed radiation oncologists and medical physicists at UAB Radiation Oncology.', meta: 'Clinical exposure' },
-  { title: 'UAB Hindu YUVA', text: 'Community involvement promoting, practicing, protecting, and preserving Hindu values through events and activities.', meta: 'Community' },
-  { title: 'McMaster Formula SAE Electric', text: 'Software engineering subteam work on vehicle controls, dynamics, and custom dashboard implementations.', meta: 'Vehicle software' },
-  { title: 'Biomedical research', text: 'Research fellow and software contributor across UAB, UWO, McMaster, and St. Joseph’s Healthcare Hamilton.', meta: 'Research' },
-  { title: 'Hospital volunteering', text: 'Volunteer at Humber River Hospital, assisting in medical imaging, surgical inpatient, and information services departments.', meta: 'Healthcare' },
-  { title: 'Yoga instruction', text: 'Certified yoga instructor; taught at Anytime Fitness Brampton and McMaster University.', meta: 'Teaching' },
-  { title: 'Robotics', text: 'Senior programmer and outreach member for FRC Team 4939; lead mentor for Zone01 Robotics.', meta: 'Mentorship' },
-  { title: 'Flight training', text: 'Private pilot training through Brampton Flight Centre.', meta: 'Aviation' },
-  { title: 'Scuba diving', text: 'Certified NAUI/SSI open water diver.', meta: 'Certification' },
-  { title: 'Equestrian sports', text: 'Member of Equestrian Canada and Ontario Equestrian with over five years of English and Western riding experience.', meta: 'Sport' },
-  { title: 'Music', text: 'Western classical violin, Carnatic violin, Carnatic vocal training, and Royal Conservatory piano certification.', meta: 'Music' },
-]
-
-const awards: Entry[] = [
-  { title: 'McMaster Science Co-op Student of the Year', text: 'Recognized for UAB radiation oncology research and international collaboration.', meta: '2026', href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/' },
-  { title: 'AAPM Blue Ribbon Poster', text: 'Improving TG-263 target name compliance using locally hosted LLMs.', meta: '2025', href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105' },
-  { title: 'UAB-McMaster Ambassador', text: 'Supported institutional partnership and student advising around the UAB-McMaster research path.', meta: '2025' },
-  { title: 'Emerging Science Co-op Employer nomination', text: 'Carlos Cardenas received McMaster recognition after Udbhav nomination and mentorship experience.', meta: '2025', href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award' },
-  { title: 'Society of Physics Students recognition', text: 'Undergraduate research poster recognition around Ethos 2.0 SRS work.', meta: '2024', href: 'https://spscon2025.up.railway.app/poster/263' },
-  { title: 'Canadian Undergraduate Physics Conference', text: 'Overall Winner and Best Talk for optimizing dose delivery during fractionated radiotherapy.', meta: '2023' },
-  { title: 'Advanced Placement Scholar with honors', text: 'Academic recognition from secondary school coursework.', meta: '2021' },
-  { title: 'HOSA national recognition', text: 'Second place national recognition.', meta: '2020' },
-  { title: 'SPARK Hackathon runner-up', text: 'Computer vision and machine learning powered recycling sorter.', meta: '2019' },
-  { title: 'The Mirai Project runner-up', text: 'Medical case study finalist work.', meta: '2020' },
-  { title: 'Royal Conservatory piano medals', text: 'Bronze, silver, and gold medals plus certified pianist recognition.', meta: 'Music' },
-  { title: 'Sport and robotics awards', text: 'Provincial chess champion, go-karting runner-up, badminton runner-up, and robotics awards.', meta: 'Activities' },
-  { title: 'CPR, first aid, and AED certification', text: 'Safety training certification.', meta: 'Certification' },
-  { title: 'French language certification', text: 'French language achievement.', meta: 'Certification' },
-]
-
-const motorsports: Entry[] = [
+const performanceItems: ArchiveItem[] = [
   {
-    title: 'Arrow McLaren IndyCar',
-    text: 'Data and strategy intern in Indianapolis. Implemented deterministic simulation for strategy prediction during race sessions, learned internal race-weekend tools, monitored telemetry and car performance, and contributed to race, performance, and strategy engineering projects.',
-    meta: 'Data + strategy',
+    title: 'Arrow McLaren / McLaren Racing',
+    text: 'Data and strategy internship in Indianapolis with deterministic simulation, race-weekend tools, telemetry review, and car-performance context.',
+    meta: 'Race strategy + performance engineering',
+    image: imageAssets.arrowMcLaren,
   },
   {
     title: 'McMaster Formula SAE Electric',
-    text: 'Software engineering in vehicle controls and dynamics, including custom dashboard implementations and engineering support for electric race-car systems.',
-    meta: 'Vehicle controls',
+    text: 'Vehicle controls, custom dashboards, software engineering, and electric race-car systems support.',
+    meta: 'Vehicle software',
+    image: imageAssets.arrowMcLaren,
   },
   {
     title: 'Formula LGB 1300',
-    text: 'Test and development driver program with Momentum Motorsports.',
+    text: 'Test and development driver work with Momentum Motorsports.',
     meta: 'Driver development',
+    image: imageAssets.videoTwo,
   },
   {
-    title: 'VW Polo Cup',
-    text: 'MRF test driver work at Madras International Circuit.',
+    title: 'VW Polo Cup / MRF',
+    text: 'Track testing at Madras International Circuit with driver-development context.',
     meta: 'Track testing',
+    image: imageAssets.videoFive,
   },
 ]
 
-const videos: LinkItem[] = [
-  { label: 'Research video 1', href: 'https://youtu.be/7JgRKwVRkEo' },
-  { label: 'Research video 2', href: 'https://youtu.be/I0ESYlp85Rk' },
-  { label: 'Research video 3', href: 'https://youtu.be/xW7umxU6NSM' },
-  { label: 'Video archive', href: 'https://youtu.be/8IKr1QauMGc' },
-  { label: 'Video archive', href: 'https://youtu.be/A7_TRUWW6EI' },
+const leadershipGroups = [
+  {
+    title: 'Leadership & community',
+    items: ['UAB Hindu YUVA', 'McMaster Hindu YUVA', 'Student ambassador work', 'Mentoring and co-op support', 'STEM outreach'],
+  },
+  {
+    title: 'Clinical & research exposure',
+    items: ['Clinical shadowing', 'Radiation oncology', 'Medical imaging', 'Hospital volunteering'],
+  },
+  {
+    title: 'Technical builder identity',
+    items: ['Software engineering', 'Robotics', 'DevOps', 'Full-stack development'],
+  },
+  {
+    title: 'Exploration & discipline',
+    items: ['Scuba diving', 'Equestrian sports', 'Flight training', 'Yoga instruction'],
+  },
+  {
+    title: 'Music & classical training',
+    items: ['Western classical violin', 'Piano', 'Carnatic violin', 'Carnatic vocal'],
+  },
 ]
 
-const allExternalLinks = [
+const awards: ArchiveItem[] = [
+  {
+    title: 'AAPM Blue Ribbon Poster',
+    text: 'Improving TG-263 target name compliance using locally hosted LLMs.',
+    meta: '2025',
+    href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+    image: imageAssets.aapm2025,
+  },
+  {
+    title: 'McMaster Science Co-op Student of the Year',
+    text: 'Recognized for UAB radiation oncology research and international collaboration.',
+    meta: '2026',
+    href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+    image: imageAssets.coopAward,
+  },
+  {
+    title: 'Society of Physics Students poster recognition',
+    text: 'Undergraduate poster recognition around Ethos 2.0 SRS work.',
+    meta: '2024',
+    href: 'https://www.aapm.org/pubs/newsletter/archive/5001.pdf',
+    image: imageAssets.spsPoster,
+  },
+  {
+    title: 'CUPC Overall Winner and Best Talk',
+    text: 'Optimizing dose delivery during fractionated radiotherapy.',
+    meta: '2023',
+    image: imageAssets.mcmasterPhysics,
+  },
+  {
+    title: 'UAB-McMaster Ambassador',
+    text: 'Supported institutional partnership and student advising around the UAB-McMaster research path.',
+    meta: '2025',
+    image: imageAssets.mcmasterScholar,
+  },
+  {
+    title: 'Ethos Adaptive Radiotherapy certification',
+    text: 'Clinical systems training connected to adaptive radiotherapy workflows.',
+    meta: 'Certification',
+    image: imageAssets.uabRadonc,
+  },
+]
+
+const allExternalLinks: LinkItem[] = [
   ...socialLinks,
   ...proofLinks,
-  ...publications.filter((item) => item.href).map((item) => ({ label: item.title, href: item.href as string, meta: item.meta })),
-  ...presentations.filter((item) => item.href).map((item) => ({ label: item.title, href: item.href as string, meta: item.text })),
-  ...mediaItems.map((item) => ({ label: item.title, href: item.href as string, meta: item.meta })),
-  ...projectLinks,
-  ...videos,
+  ...researchCases
+    .filter((item) => item.href)
+    .map((item) => ({ label: item.title, href: item.href as string, meta: item.result, image: item.image })),
+  ...researchArchive
+    .filter((item) => item.href)
+    .map((item) => ({ label: item.title, href: item.href as string, meta: item.meta, image: item.image })),
+  ...projects
+    .filter((item) => item.href)
+    .map((item) => ({ label: item.title, href: item.href as string, meta: item.status, image: item.image })),
+  ...mediaItems.map((item) => ({ label: item.title, href: item.href as string, meta: item.meta, image: item.image })),
+  ...awards
+    .filter((item) => item.href)
+    .map((item) => ({ label: item.title, href: item.href as string, meta: item.meta, image: item.image })),
 ]
 
 function Arrow() {
@@ -302,26 +615,195 @@ function Arrow() {
 
 function ExternalLink({ href, children, className = '' }: { href: string; children: ReactNode; className?: string }) {
   return (
-    <a className={className} href={href} target="_blank" rel="noreferrer">
+    <a className={className} href={href} target={href.startsWith('#') ? undefined : '_blank'} rel={href.startsWith('#') ? undefined : 'noreferrer'}>
       {children}
     </a>
   )
 }
 
-function EntryList({ items, compact = false }: { items: Entry[]; compact?: boolean }) {
+function ImagePlate({ image, className = '' }: { image: ImageAsset; className?: string }) {
   return (
-    <div className={compact ? 'entry-list compact' : 'entry-list'}>
-      {items.map((item, index) => (
-        <article className="entry-row" key={`${item.title}-${item.meta ?? ''}-${index}`}>
+    <figure className={`image-plate ${className}`.trim()}>
+      <img src={image.src} alt={image.alt} loading="lazy" />
+    </figure>
+  )
+}
+
+function SectionHeader({ title, text, align = 'default' }: { title: string; text: string; align?: 'default' | 'split' }) {
+  return (
+    <div className={`section-header ${align}`}>
+      <h2>{title}</h2>
+      <p>{text}</p>
+    </div>
+  )
+}
+
+function TagList({ tags }: { tags: string[] }) {
+  return (
+    <div className="tag-list">
+      {tags.map((tag) => (
+        <span key={tag}>{tag}</span>
+      ))}
+    </div>
+  )
+}
+
+function ContactLinks({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={compact ? 'contact-links compact' : 'contact-links'} aria-label="Contact and profile links">
+      {socialLinks.slice(0, compact ? 4 : socialLinks.length).map((item) => (
+        <ExternalLink href={item.href} key={item.label}>
+          {item.label}
+          <Arrow />
+        </ExternalLink>
+      ))}
+    </div>
+  )
+}
+
+function ImpactBar() {
+  return (
+    <div className="impact-bar" aria-label="Impact metrics">
+      {metrics.map(([value, label]) => (
+        <div key={label}>
+          <strong>{value}</strong>
+          <span>{label}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function HeroVisual() {
+  return (
+    <div className="hero-visual" aria-label="Selected portrait and proof photos">
+      <ImagePlate image={imageAssets.mcmasterScholar} className="hero-portrait" />
+      <div className="hero-proof-grid">
+        <article>
+          <ImagePlate image={imageAssets.coopAward} />
+          <span>McMaster Science Co-op Student of the Year</span>
+        </article>
+        <article>
+          <ImagePlate image={imageAssets.employerAward} />
+          <span>UAB Radiation Oncology collaboration</span>
+        </article>
+      </div>
+    </div>
+  )
+}
+
+function ResearchCard({ item }: { item: ResearchCase }) {
+  return (
+    <article className="research-card">
+      <ImagePlate image={item.image} />
+      <div className="research-card-body">
+        <div className="card-meta">
+          <span>{item.status}</span>
+          <span>{item.institution}</span>
+        </div>
+        <h3>{item.title}</h3>
+        <TagList tags={item.tags} />
+        <dl>
           <div>
-            {item.meta ? <p className="entry-meta">{item.meta}</p> : null}
-            <h3>{item.title}</h3>
+            <dt>Problem</dt>
+            <dd>{item.problem}</dd>
           </div>
           <div>
+            <dt>Method</dt>
+            <dd>{item.method}</dd>
+          </div>
+          <div>
+            <dt>Impact</dt>
+            <dd>{item.impact}</dd>
+          </div>
+        </dl>
+        <div className="card-footer">
+          <strong>{item.result}</strong>
+          {item.href ? (
+            <ExternalLink href={item.href}>
+              Read <Arrow />
+            </ExternalLink>
+          ) : null}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function ProjectLab() {
+  const [category, setCategory] = useState(projectCategories[0])
+  const filtered = category === 'All' ? projects : projects.filter((project) => project.category === category)
+  const [selectedTitle, setSelectedTitle] = useState(projects[0].title)
+  const selected = filtered.find((project) => project.title === selectedTitle) ?? filtered[0]
+
+  return (
+    <div className="project-lab">
+      <div className="filter-row" role="tablist" aria-label="Project categories">
+        {projectCategories.map((item) => (
+          <button className={category === item ? 'active' : ''} key={item} onClick={() => setCategory(item)} type="button">
+            {item}
+          </button>
+        ))}
+      </div>
+      <div className="project-workbench">
+        <div className="project-list">
+          {filtered.map((project, index) => (
+            <button
+              className={selected.title === project.title ? 'active' : ''}
+              key={project.title}
+              onClick={() => setSelectedTitle(project.title)}
+              type="button"
+            >
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{project.title}</strong>
+              <em>{project.status}</em>
+            </button>
+          ))}
+        </div>
+        <article className="project-detail">
+          <ImagePlate image={selected.image} />
+          <div>
+            <div className="card-meta">
+              <span>{selected.status}</span>
+              <span>{selected.category}</span>
+            </div>
+            <h3>{selected.title}</h3>
+            <dl>
+              <div>
+                <dt>Problem</dt>
+                <dd>{selected.problem}</dd>
+              </div>
+              <div>
+                <dt>Solution</dt>
+                <dd>{selected.solution}</dd>
+              </div>
+            </dl>
+            <TagList tags={selected.stack} />
+            {selected.href ? (
+              <ExternalLink href={selected.href} className="inline-action">
+                Open source <Arrow />
+              </ExternalLink>
+            ) : null}
+          </div>
+        </article>
+      </div>
+    </div>
+  )
+}
+
+function MediaWall({ items }: { items: ArchiveItem[] }) {
+  return (
+    <div className="media-wall">
+      {items.map((item) => (
+        <article key={item.title}>
+          <ImagePlate image={item.image} />
+          <div>
+            <span>{item.meta}</span>
+            <h3>{item.title}</h3>
             <p>{item.text}</p>
             {item.href ? (
-              <ExternalLink className="inline-link" href={item.href}>
-                Open link <Arrow />
+              <ExternalLink href={item.href}>
+                Read <Arrow />
               </ExternalLink>
             ) : null}
           </div>
@@ -331,15 +813,95 @@ function EntryList({ items, compact = false }: { items: Entry[]; compact?: boole
   )
 }
 
-function LinkGrid({ items }: { items: LinkItem[] }) {
+function Timeline() {
+  const [selected, setSelected] = useState(0)
+
   return (
-    <div className="link-grid">
-      {items.map((item, index) => (
-        <ExternalLink href={item.href} key={`${item.label}-${item.href}-${index}`}>
-          <strong>{item.label}</strong>
-          {item.meta ? <span>{item.meta}</span> : null}
-          <Arrow />
-        </ExternalLink>
+    <div className="timeline-module">
+      <div className="timeline-rail" role="tablist" aria-label="Trajectory timeline">
+        {timeline.map((item, index) => (
+          <button
+            className={selected === index ? `active ${item.tone}` : item.tone}
+            key={item.title}
+            onClick={() => setSelected(index)}
+            type="button"
+          >
+            <span>{item.year}</span>
+            <strong>{item.title}</strong>
+          </button>
+        ))}
+      </div>
+      <article className={`timeline-detail ${timeline[selected].tone}`}>
+        <span>{timeline[selected].year}</span>
+        <h3>{timeline[selected].title}</h3>
+        <p>{timeline[selected].text}</p>
+      </article>
+    </div>
+  )
+}
+
+function ArchiveGrid({ items }: { items: ArchiveItem[] }) {
+  return (
+    <div className="archive-grid">
+      {items.map((item) => (
+        <article key={item.title}>
+          <ImagePlate image={item.image} />
+          <div>
+            <span>{item.meta}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            {item.href ? (
+              <ExternalLink href={item.href}>
+                Source <Arrow />
+              </ExternalLink>
+            ) : null}
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+}
+
+function LinkArchive() {
+  const [query, setQuery] = useState('')
+  const filtered = useMemo(() => {
+    const target = query.trim().toLowerCase()
+    if (!target) return allExternalLinks
+    return allExternalLinks.filter((item) => `${item.label} ${item.meta ?? ''} ${item.href}`.toLowerCase().includes(target))
+  }, [query])
+
+  return (
+    <div className="link-archive">
+      <label>
+        <span>Search proof links</span>
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="papers, profiles, code, awards..." />
+      </label>
+      <div className="link-ledger" aria-live="polite">
+        {filtered.map((item, index) => (
+          <ExternalLink href={item.href} key={`${item.href}-${index}`}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{item.label}</strong>
+            <em>{item.meta ?? item.href}</em>
+            <Arrow />
+          </ExternalLink>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function LeadershipPanel() {
+  return (
+    <div className="leadership-grid">
+      {leadershipGroups.map((group) => (
+        <article key={group.title}>
+          <h3>{group.title}</h3>
+          <ul>
+            {group.items.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </article>
       ))}
     </div>
   )
@@ -357,7 +919,7 @@ function useActiveSection() {
 
         if (visible?.target.id) setActive(visible.target.id as SectionId)
       },
-      { rootMargin: '-18% 0px -65% 0px', threshold: [0.08, 0.2, 0.35] },
+      { rootMargin: '-20% 0px -62% 0px', threshold: [0.08, 0.22, 0.38] },
     )
 
     navItems.forEach(({ id }) => {
@@ -371,61 +933,87 @@ function useActiveSection() {
   return { active, setActive }
 }
 
-function SectionShell({
-  id,
-  title,
-  children,
-}: {
-  id: SectionId
-  title: string
-  children: ReactNode
-}) {
-  const tone = navItems.find((item) => item.id === id)?.tone ?? 'neutral'
+function useScrollProgress(active: SectionId) {
+  useEffect(() => {
+    const root = document.documentElement
+    const updateScroll = () => {
+      const scrollable = root.scrollHeight - window.innerHeight
+      const progress = scrollable > 0 ? window.scrollY / scrollable : 0
+      root.style.setProperty('--scroll-progress', progress.toFixed(4))
+    }
 
-  return (
-    <section className={`section-shell tone-${tone}`} id={id}>
-      <div className="section-heading">
-        <span>{navItems.find((item) => item.id === id)?.label}</span>
-        <h2>{title}</h2>
-      </div>
-      {children}
-    </section>
-  )
+    updateScroll()
+    window.addEventListener('scroll', updateScroll, { passive: true })
+    window.addEventListener('resize', updateScroll)
+
+    return () => {
+      window.removeEventListener('scroll', updateScroll)
+      window.removeEventListener('resize', updateScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--active-index', String(Math.max(0, navItems.findIndex((item) => item.id === active))))
+  }, [active])
+}
+
+function useActiveTabIntoView(active: SectionId) {
+  useEffect(() => {
+    const tab = document.querySelector<HTMLAnchorElement>(`.nav-links a[href="#${active}"]`)
+    const tabs = tab?.parentElement
+    if (!tab || !tabs) return
+
+    const left = tab.offsetLeft - (tabs.clientWidth - tab.clientWidth) / 2
+    tabs.scrollTo({ left: Math.max(0, left), behavior: 'smooth' })
+  }, [active])
 }
 
 function App() {
   const { active, setActive } = useActiveSection()
-  const activeTone = navItems.find((item) => item.id === active)?.tone ?? 'neutral'
+  const [researchFilter, setResearchFilter] = useState('All')
+  useScrollProgress(active)
+  useActiveTabIntoView(active)
 
-  const sourceCounts = useMemo(
-    () => [
-      ['Publications', publications.length],
-      ['Research projects', researchProjects.length + currentResearch.length],
-      ['Talks/posters', presentations.length],
-      ['External links', allExternalLinks.length],
-    ],
-    [],
+  const visibleResearch =
+    researchFilter === 'All'
+      ? researchCases
+      : researchCases.filter((item) => {
+          if (researchFilter === 'Publications') return item.status === 'Published'
+          return item.tags.some((tag) => tag.toLowerCase().includes(researchFilter.replace('/ML', '').replace('/SBRT', '').toLowerCase()))
+        })
+
+  const scrollToSection = useCallback(
+    (id: SectionId, behavior: ScrollBehavior = 'smooth') => {
+      const section = document.getElementById(id)
+      if (!section) return
+
+      setActive(id)
+      const topbar = document.querySelector('.site-nav')
+      const offset = Math.ceil((topbar?.getBoundingClientRect().height ?? 64) + 18)
+      const top = section.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top: Math.max(0, top), behavior })
+    },
+    [setActive],
   )
 
-  const scrollToSection = useCallback((id: SectionId, behavior: ScrollBehavior = 'smooth') => {
-    const section = document.getElementById(id)
-    if (!section) return
-
-    setActive(id)
-    const offset = window.matchMedia('(max-width: 720px)').matches ? 132 : 116
-    const top = section.getBoundingClientRect().top + window.scrollY - offset
-    window.scrollTo({ top: Math.max(0, top), behavior })
-  }, [setActive])
+  const settleScrollToSection = useCallback(
+    (id: SectionId, behavior: ScrollBehavior = 'smooth') => {
+      scrollToSection(id, behavior)
+      window.requestAnimationFrame(() => scrollToSection(id, 'auto'))
+      window.setTimeout(() => scrollToSection(id, 'auto'), 180)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 520)
+    },
+    [scrollToSection],
+  )
 
   useEffect(() => {
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
+
     const syncHash = () => {
       const id = window.location.hash.replace('#', '') as SectionId
       if (!navItems.some((item) => item.id === id)) return
       window.requestAnimationFrame(() => scrollToSection(id, 'auto'))
-      window.setTimeout(() => scrollToSection(id, 'auto'), 80)
-      window.setTimeout(() => scrollToSection(id, 'auto'), 240)
-      window.setTimeout(() => scrollToSection(id, 'auto'), 700)
-      window.setTimeout(() => scrollToSection(id, 'auto'), 1400)
+      window.setTimeout(() => scrollToSection(id, 'auto'), 120)
     }
 
     syncHash()
@@ -434,20 +1022,21 @@ function App() {
   }, [scrollToSection])
 
   return (
-    <main className={`portfolio-site active-${activeTone}`}>
-      <header className="topbar">
+    <div className={`portfolio-site active-${active}`}>
+      <header className="site-nav">
         <a
           className="brand"
           href="#home"
           onClick={(event) => {
             event.preventDefault()
             window.history.pushState(null, '', '#home')
-            scrollToSection('home')
+            settleScrollToSection('home')
           }}
         >
-          Udbhav Ram
+          <span className="brand-mark" aria-hidden="true">UR</span>
+          <span>Udbhav Ram</span>
         </a>
-        <nav className="tabs" aria-label="Main sections">
+        <nav className="nav-links" aria-label="Main sections">
           {navItems.map((item) => (
             <a
               className={active === item.id ? 'active' : ''}
@@ -457,7 +1046,7 @@ function App() {
               onClick={(event) => {
                 event.preventDefault()
                 window.history.pushState(null, '', `#${item.id}`)
-                scrollToSection(item.id)
+                settleScrollToSection(item.id)
               }}
             >
               {item.label}
@@ -466,140 +1055,148 @@ function App() {
         </nav>
       </header>
 
-      <section className="intro-section" id="home">
-        <div className="intro-copy">
-          <p>Clinical AI · Research software · Race strategy</p>
-          <h1>I build reviewable clinical AI, research software, and race strategy tools.</h1>
-          <p>
-            McMaster Medical & Biological Physics. UAB Radiation Oncology international visiting scholar. Software
-            engineer, researcher, and motorsport data/strategy intern. The site is built for fast scanning: proof first,
-            full detail one tab away, and every source linked directly.
-          </p>
-          <div className="hero-actions">
-            {proofLinks.slice(0, 3).map((link) => (
-              <ExternalLink className="text-button" href={link.href} key={link.label}>
-                {link.label} <Arrow />
-              </ExternalLink>
+      <main>
+        <section className="hero-section page-section" id="home">
+          <div className="hero-copy">
+            <h1>Udbhav Ram</h1>
+            <p className="hero-position">
+              Medical physicist-in-training building AI systems for radiation oncology, clinical workflow automation, and high-performance decision support.
+            </p>
+            <p className="hero-summary">
+              I work at the intersection of medical physics, machine learning, radiation oncology, software engineering, and performance strategy - translating computational tools into clinically useful systems.
+            </p>
+            <div className="credibility-row" aria-label="Credibility highlights">
+              {heroChips.map((chip) => (
+                <span key={chip}>{chip}</span>
+              ))}
+            </div>
+            <div className="hero-actions">
+              <button type="button" onClick={() => settleScrollToSection('research')}>View Research</button>
+              <button type="button" onClick={() => settleScrollToSection('projects')}>View Projects</button>
+              <a href={resumeHref} download>Download CV</a>
+              <button type="button" onClick={() => settleScrollToSection('contact')}>Contact</button>
+            </div>
+          </div>
+          <HeroVisual />
+        </section>
+
+        <ImpactBar />
+
+        <section className="page-section" id="research">
+          <SectionHeader
+            title="Research"
+            text="AI, automation, and quantitative methods for radiation oncology, adaptive radiotherapy, image segmentation, and clinical decision support."
+            align="split"
+          />
+          <div className="filter-row" role="tablist" aria-label="Research filters">
+            {researchFilters.map((filter) => (
+              <button className={researchFilter === filter ? 'active' : ''} key={filter} onClick={() => setResearchFilter(filter)} type="button">
+                {filter}
+              </button>
             ))}
           </div>
-        </div>
-        <aside className="fit-panel" aria-label="Employer summary">
-          <div className="fit-title">
-            <span>Working range</span>
-            <strong>Clinical judgment, software execution, and engineering under pressure.</strong>
-          </div>
-          <div className="fit-grid">
-            {homeHighlights.map((item) => (
-              <article key={item.title}>
-                <span>{item.meta}</span>
-                <strong>{item.title}</strong>
-                <p>{item.text}</p>
-              </article>
+          <div className="featured-research">
+            {visibleResearch.map((item) => (
+              <ResearchCard item={item} key={item.title} />
             ))}
           </div>
-        </aside>
-      </section>
+          <ArchiveGrid items={researchArchive} />
+        </section>
 
-      <section className="source-band" aria-label="Evidence counts">
-        {sourceCounts.map(([label, count]) => (
-          <div key={label}>
-            <strong>{count}</strong>
-            <span>{label}</span>
+        <section className="page-section" id="projects">
+          <SectionHeader
+            title="Projects Lab"
+            text="Software, AI tools, simulations, dashboards, and experimental systems built across medicine, motorsport, education, and automation."
+            align="split"
+          />
+          <ProjectLab />
+        </section>
+
+        <section className="page-section media-section" id="media">
+          <SectionHeader
+            title="Media Wall"
+            text="Institutional profiles, UAB/McMaster collaboration coverage, award stories, and source pages that validate the work."
+          />
+          <MediaWall items={mediaItems} />
+          <div className="press-kit">
+            <div>
+              <h3>Press kit</h3>
+              <p>Short bio, long bio, headshot source, downloadable CV, and collaboration contact points for conference organizers and research partners.</p>
+            </div>
+            <div className="press-actions">
+              <a href={resumeHref} download>Download CV</a>
+              <ContactLinks compact />
+            </div>
           </div>
-        ))}
-      </section>
+        </section>
 
-      <SectionShell id="research" title="Radiation oncology, AI, medical physics, and computational research.">
-        <div className="theme-panel research-terminal">
-          <pre>{`clinical_workflow.load()
-  target: reviewable AI for radiation oncology
-  current: LLM agents, Ethos SRS, adaptive APBI, SBRT commissioning
-  guardrails: source-traced outputs + human signoff`}</pre>
-        </div>
-        <h3 className="subsection-title">Current research</h3>
-        <EntryList items={currentResearch} />
-        <h3 className="subsection-title">Publications and papers</h3>
-        <EntryList items={publications} />
-        <h3 className="subsection-title">Research projects</h3>
-        <EntryList compact items={researchProjects} />
-        <h3 className="subsection-title">Presentations</h3>
-        <EntryList compact items={presentations} />
-        <h3 className="subsection-title">Affiliations</h3>
-        <EntryList compact items={affiliations} />
-      </SectionShell>
+        <section className="page-section performance-section" id="performance">
+          <SectionHeader
+            title="Performance Engineering"
+            text="From racetrack telemetry to clinical decision support: real-time systems, deterministic simulation, and human-machine decision environments."
+            align="split"
+          />
+          <div className="performance-grid">
+            <div className="telemetry-board">
+              <div className="timing-head">
+                <span>Session</span>
+                <strong>Decision Support</strong>
+              </div>
+              <svg viewBox="0 0 720 260" aria-label="Telemetry traces">
+                <path className="grid-line" d="M0 65H720M0 130H720M0 195H720" />
+                <path className="trace trace-cyan" d="M0 170 C80 120 120 210 190 138 S310 55 382 128 500 218 586 92 668 108 720 78" />
+                <path className="trace trace-amber" d="M0 205 C86 188 112 98 180 144 S294 232 370 168 500 54 590 147 672 190 720 126" />
+                <path className="trace trace-blue" d="M0 82 C92 112 142 46 220 82 S334 158 430 78 545 116 620 68 690 47 720 52" />
+              </svg>
+              <div className="timing-stats">
+                <span>Telemetry</span>
+                <span>Simulation</span>
+                <span>Strategy</span>
+              </div>
+            </div>
+            <ArchiveGrid items={performanceItems} />
+          </div>
+        </section>
 
-      <SectionShell id="media" title="News coverage and external validation.">
-        <div className="theme-panel media-strip">
-          <p>News, profiles, source pages, and public proof points are linked directly. No hidden resume scavenger hunt.</p>
-        </div>
-        <EntryList items={mediaItems} />
-        <h3 className="subsection-title">Core profiles</h3>
-        <LinkGrid items={proofLinks} />
-      </SectionShell>
+        <section className="page-section" id="leadership">
+          <SectionHeader
+            title="Leadership"
+            text="Community work, clinical exposure, technical building, and disciplines that give the technical profile a human operating context."
+            align="split"
+          />
+          <LeadershipPanel />
+          <Timeline />
+        </section>
 
-      <SectionShell id="projects" title="Software, robotics, infrastructure, and practical builds.">
-        <div className="theme-panel project-console">
+        <section className="page-section" id="archive">
+          <SectionHeader
+            title="Awards, Publications, and Archive"
+            text="Featured awards stay visible, while the full proof-link ledger keeps the site complete without overwhelming the primary pages."
+            align="split"
+          />
+          <ArchiveGrid items={awards} />
+          <LinkArchive />
+        </section>
+
+        <section className="page-section contact-section" id="contact">
           <div>
-            <strong>stack</strong>
-            <span>Flask / Django / React / mobile / cloud ML / CI/CD</span>
+            <h2>Interested in AI for radiation oncology, clinical workflow automation, or medical physics collaboration?</h2>
+            <p>
+              Reach out for research collaboration, clinical AI tooling, conference speaking, project review, or performance-engineering crossover work.
+            </p>
           </div>
-          <div>
-            <strong>habit</strong>
-            <span>Build the demo, test the workflow, deploy the thing.</span>
-          </div>
-        </div>
-        <EntryList items={softwareProjects} />
-        <h3 className="subsection-title">Project and code links</h3>
-        <LinkGrid items={projectLinks} />
-      </SectionShell>
-
-      <SectionShell id="activities" title="Clinical exposure, service, teaching, sport, and creative discipline.">
-        <EntryList items={activities} />
-      </SectionShell>
-
-      <SectionShell id="awards" title="Awards, certifications, and recognition.">
-        <EntryList compact items={awards} />
-      </SectionShell>
-
-      <SectionShell id="motorsports" title="Motorsport data, race strategy, vehicle software, and driver context.">
-        <div className="theme-panel race-board">
-          <div className="track-line" aria-hidden="true" />
-          <dl>
-            <div>
-              <dt>Signal</dt>
-              <dd>Telemetry</dd>
-            </div>
-            <div>
-              <dt>Model</dt>
-              <dd>Deterministic simulation</dd>
-            </div>
-            <div>
-              <dt>Decision</dt>
-              <dd>Race strategy</dd>
-            </div>
-          </dl>
-        </div>
-        <EntryList items={motorsports} />
-      </SectionShell>
-
-      <section className="section-shell tone-neutral" id="links">
-        <div className="section-heading">
-          <span>Links</span>
-          <h2>Everything linked in one place.</h2>
-        </div>
-        <LinkGrid items={allExternalLinks} />
-        <footer className="site-footer">
-          <p>
-            Built from the original Google Site content, expanded for employer review, and organized around evidence:
-            publications, public profiles, project links, and direct social links.
-          </p>
-          <ExternalLink className="inline-link" href="https://sites.google.com/view/udbhav-ram/home">
-            Original Google Site <Arrow />
-          </ExternalLink>
-          <LinkGrid items={socialLinks} />
-        </footer>
-      </section>
-    </main>
+          <ContactLinks />
+          <footer>
+            <a href={resumeHref} download>
+              Download CV <Arrow />
+            </a>
+            <ExternalLink href="https://sites.google.com/view/udbhav-ram/home">
+              Legacy Google Site archive <Arrow />
+            </ExternalLink>
+          </footer>
+        </section>
+      </main>
+    </div>
   )
 }
 

@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "audit:site": "node scripts/audit-site.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server.mjs"
