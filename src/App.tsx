@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import './App.css'
 
 type SectionId = 'home' | 'research' | 'projects' | 'media' | 'performance' | 'leadership' | 'archive' | 'contact'
@@ -661,12 +661,57 @@ function ContactLinks({ compact = false }: { compact?: boolean }) {
   )
 }
 
+function AnimatedMetric({ value }: { value: string }) {
+  const ref = useRef<HTMLElement | null>(null)
+  const [display, setDisplay] = useState(value)
+
+  useEffect(() => {
+    const numeric = value.match(/^(\d+)(.*)$/)
+    if (!numeric) return
+
+    const target = Number(numeric[1])
+    const suffix = numeric[2]
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion) {
+      return
+    }
+
+    const node = ref.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        const started = performance.now()
+        const duration = 850
+
+        const tick = (now: number) => {
+          const progress = Math.min(1, (now - started) / duration)
+          const eased = 1 - Math.pow(1 - progress, 3)
+          setDisplay(`${Math.round(target * eased)}${suffix}`)
+          if (progress < 1) window.requestAnimationFrame(tick)
+        }
+
+        window.requestAnimationFrame(tick)
+        observer.disconnect()
+      },
+      { threshold: 0.35 },
+    )
+
+    observer.observe(node)
+    return () => observer.disconnect()
+  }, [value])
+
+  return <strong ref={ref}>{display}</strong>
+}
+
 function ImpactBar() {
   return (
     <div className="impact-bar" aria-label="Impact metrics">
       {metrics.map(([value, label]) => (
         <div key={label}>
-          <strong>{value}</strong>
+          <AnimatedMetric value={value} />
           <span>{label}</span>
         </div>
       ))}
@@ -676,9 +721,34 @@ function ImpactBar() {
 
 function HeroVisual() {
   return (
-    <div className="hero-visual" aria-label="Selected portrait and proof photos">
-      <ImagePlate image={imageAssets.mcmasterScholar} className="hero-portrait" />
-      <div className="hero-proof-grid">
+    <div className="hero-visual" aria-label="Interactive clinical AI and performance visual">
+      <div className="orbital-stage">
+        <ImagePlate image={imageAssets.mcmasterScholar} className="hero-portrait" />
+        <svg className="beam-map" viewBox="0 0 620 620" aria-hidden="true">
+          <defs>
+            <linearGradient id="beamGradient" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.84" />
+              <stop offset="52%" stopColor="#8b5cf6" stopOpacity="0.44" />
+              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.76" />
+            </linearGradient>
+          </defs>
+          <path className="orbit orbit-one" d="M84 312C120 140 324 70 476 164S572 466 388 524 44 460 84 312Z" />
+          <path className="orbit orbit-two" d="M130 190C234 92 438 120 504 260S472 532 294 508 26 312 130 190Z" />
+          <path className="orbit orbit-three" d="M196 112C326 68 512 206 504 348S330 548 206 470 66 156 196 112Z" />
+          <path className="beam" d="M102 514C206 356 308 300 520 110" />
+          <path className="dose-line" d="M160 430C218 388 286 388 340 426S458 470 514 400" />
+          <circle className="scan-dot" cx="388" cy="222" r="5" />
+        </svg>
+        <div className="signal-readout readout-a">
+          <span>OART beam arc</span>
+          <strong>210 deg</strong>
+        </div>
+        <div className="signal-readout readout-b">
+          <span>Telemetry delta</span>
+          <strong>-0.42 s</strong>
+        </div>
+      </div>
+      <div className="hero-proof-grid" aria-label="Selected proof photos">
         <article>
           <ImagePlate image={imageAssets.coopAward} />
           <span>McMaster Science Co-op Student of the Year</span>
@@ -689,6 +759,25 @@ function HeroVisual() {
         </article>
       </div>
     </div>
+  )
+}
+
+function ProgressRail({ active }: { active: SectionId }) {
+  return (
+    <aside className="progress-rail" aria-label="Page progress">
+      <div className="progress-track">
+        <span />
+      </div>
+      <ol>
+        {navItems.map((item) => (
+          <li key={item.id}>
+            <a className={active === item.id ? 'active' : ''} href={`#${item.id}`}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </aside>
   )
 }
 
@@ -840,6 +929,67 @@ function Timeline() {
   )
 }
 
+function PerformanceSimulator() {
+  const [lapPosition, setLapPosition] = useState(42)
+  const speed = Math.round(148 + lapPosition * 1.58)
+  const throttle = Math.min(100, Math.round(42 + Math.sin(lapPosition / 13) * 28 + lapPosition / 2.6))
+  const brake = Math.max(0, Math.round(65 - throttle / 1.4))
+  const gear = Math.min(7, Math.max(2, Math.round(lapPosition / 18) + 2))
+
+  return (
+    <div className="telemetry-board">
+      <div className="timing-head">
+        <span>Lap simulation</span>
+        <strong>Decision Support</strong>
+      </div>
+      <div className="lap-sim">
+        <svg viewBox="0 0 420 300" aria-label="Interactive lap trace">
+          <path className="track-path track-shadow" d="M78 190C36 130 86 52 166 72c54 14 60 65 111 58 66-9 100 24 86 82-18 75-142 84-192 39-34-30-60-14-93-61Z" />
+          <path className="track-path" d="M78 190C36 130 86 52 166 72c54 14 60 65 111 58 66-9 100 24 86 82-18 75-142 84-192 39-34-30-60-14-93-61Z" />
+          <path className="trace trace-cyan" d="M40 246 C92 170 126 230 182 154 S272 80 320 146 374 234 292 258 152 294 40 246" />
+          <circle className="lap-marker" cx={70 + lapPosition * 2.75} cy={210 - Math.sin(lapPosition / 12) * 86} r="7" />
+        </svg>
+        <div className="telemetry-values">
+          <dl>
+            <div>
+              <dt>Speed</dt>
+              <dd>{speed} km/h</dd>
+            </div>
+            <div>
+              <dt>Gear</dt>
+              <dd>{gear}</dd>
+            </div>
+            <div>
+              <dt>Throttle</dt>
+              <dd>{throttle}%</dd>
+            </div>
+            <div>
+              <dt>Brake</dt>
+              <dd>{brake}%</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      <label className="lap-control">
+        <span>Scrub lap state</span>
+        <input
+          aria-label="Scrub lap simulation"
+          max="100"
+          min="0"
+          onChange={(event) => setLapPosition(Number(event.target.value))}
+          type="range"
+          value={lapPosition}
+        />
+      </label>
+      <div className="timing-stats">
+        <span>Telemetry</span>
+        <span>Simulation</span>
+        <span>Strategy</span>
+      </div>
+    </div>
+  )
+}
+
 function ArchiveGrid({ items }: { items: ArchiveItem[] }) {
   return (
     <div className="archive-grid">
@@ -971,8 +1121,16 @@ function useActiveTabIntoView(active: SectionId) {
 function App() {
   const { active, setActive } = useActiveSection()
   const [researchFilter, setResearchFilter] = useState('All')
+  const [isScrolled, setIsScrolled] = useState(false)
   useScrollProgress(active)
   useActiveTabIntoView(active)
+
+  useEffect(() => {
+    const update = () => setIsScrolled(window.scrollY > 24)
+    update()
+    window.addEventListener('scroll', update, { passive: true })
+    return () => window.removeEventListener('scroll', update)
+  }, [])
 
   const visibleResearch =
     researchFilter === 'All'
@@ -1023,7 +1181,8 @@ function App() {
 
   return (
     <div className={`portfolio-site active-${active}`}>
-      <header className="site-nav">
+      <ProgressRail active={active} />
+      <header className={isScrolled ? 'site-nav scrolled' : 'site-nav'}>
         <a
           className="brand"
           href="#home"
@@ -1060,7 +1219,7 @@ function App() {
           <div className="hero-copy">
             <h1>Udbhav Ram</h1>
             <p className="hero-position">
-              Medical physicist-in-training building AI systems for radiation oncology, clinical workflow automation, and high-performance decision support.
+              Medical physicist-in-training building <span>AI systems</span> for <span>radiation oncology</span>, clinical workflow automation, and <span>high-performance decision support</span>.
             </p>
             <p className="hero-summary">
               I work at the intersection of medical physics, machine learning, radiation oncology, software engineering, and performance strategy - translating computational tools into clinically useful systems.
@@ -1137,23 +1296,7 @@ function App() {
             align="split"
           />
           <div className="performance-grid">
-            <div className="telemetry-board">
-              <div className="timing-head">
-                <span>Session</span>
-                <strong>Decision Support</strong>
-              </div>
-              <svg viewBox="0 0 720 260" aria-label="Telemetry traces">
-                <path className="grid-line" d="M0 65H720M0 130H720M0 195H720" />
-                <path className="trace trace-cyan" d="M0 170 C80 120 120 210 190 138 S310 55 382 128 500 218 586 92 668 108 720 78" />
-                <path className="trace trace-amber" d="M0 205 C86 188 112 98 180 144 S294 232 370 168 500 54 590 147 672 190 720 126" />
-                <path className="trace trace-blue" d="M0 82 C92 112 142 46 220 82 S334 158 430 78 545 116 620 68 690 47 720 52" />
-              </svg>
-              <div className="timing-stats">
-                <span>Telemetry</span>
-                <span>Simulation</span>
-                <span>Strategy</span>
-              </div>
-            </div>
+            <PerformanceSimulator />
             <ArchiveGrid items={performanceItems} />
           </div>
         </section>
