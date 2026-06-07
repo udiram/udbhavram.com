@@ -125,6 +125,11 @@ const imageAssets = {
     alt: 'UAB Radiation Oncology official page screenshot',
     source: 'https://www.uab.edu/medicine/radonc/',
   },
+  arrowMcLarenRace: {
+    src: '/assets/sourced/arrow-mclaren-race.png',
+    alt: 'Arrow McLaren IndyCar on track from the original portfolio motorsports page',
+    source: 'https://sites.google.com/view/udbhav-ram/motorsports',
+  },
   arrowMcLaren: {
     src: '/assets/sourced/screens/arrow-mclaren-page.png',
     alt: 'Arrow McLaren IndyCar official page screenshot',
@@ -153,7 +158,7 @@ const researchItems: ResearchItem[] = [
       'Local LLM review flows for target-name compliance, clinical interface automation, and reviewer-controlled workflow checks.',
     methods: ['Local LLM review', 'TG-263 standardization', 'Clinical workflow UI'],
     href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
-    image: imageAssets.aapm2025,
+    image: imageAssets.uabClinic,
   },
   {
     title: 'Ethos 2.0 high-fidelity SRS validation',
@@ -163,7 +168,7 @@ const researchItems: ResearchItem[] = [
       'Validation of high-fidelity Ethos planning for multi-met single-isocentre SRS with semi-automated plan comparison.',
     methods: ['Treatment planning', 'Automation', 'SRS validation'],
     href: 'https://aapm.onlinelibrary.wiley.com/doi/full/10.1002/acm2.70370',
-    image: imageAssets.aapm2024Ethos,
+    image: imageAssets.uabPresentation,
   },
   {
     title: 'Assessing deep learning frameworks for CT abdominal organ auto-segmentation',
@@ -173,7 +178,7 @@ const researchItems: ResearchItem[] = [
       'Quantitative and expert review of abdominal organ segmentation frameworks for clinically relevant model comparison.',
     methods: ['Auto-segmentation', 'Expert review', 'Model evaluation'],
     href: 'https://doi.org/10.1016/j.intonc.2025.03.003',
-    image: imageAssets.aapm2024Automl,
+    image: imageAssets.mcmasterScholar,
   },
   {
     title: 'Online adaptive APBI interobserver variability',
@@ -574,7 +579,7 @@ function Performance() {
         }
       />
       <div className="performance-feature">
-        <ImageFrame image={imageAssets.arrowMcLaren} />
+        <ImageFrame image={imageAssets.arrowMcLarenRace} />
         <div>
           <h3>Race strategy, telemetry, and simulation as a systems lens.</h3>
           <p>
