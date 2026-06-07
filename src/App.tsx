@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from 'react'
 import './App.css'
 
 type SectionId = 'home' | 'research' | 'projects' | 'media' | 'performance' | 'leadership' | 'archive' | 'contact'
@@ -621,6 +621,33 @@ function ExternalLink({ href, children, className = '' }: { href: string; childr
   )
 }
 
+function Icon({ name }: { name: 'arrow' | 'book' | 'code' | 'download' | 'external' | 'filter' | 'grid' | 'home' | 'mail' | 'microscope' | 'pause' | 'play' | 'profile' | 'search' | 'spark' | 'trophy' }) {
+  const paths: Record<string, ReactNode> = {
+    arrow: <path d="M4 10h10.5M10.5 5.5 15 10l-4.5 4.5" />,
+    book: <path d="M5 4.5h8.5A2.5 2.5 0 0 1 16 7v9.5H7A2 2 0 0 1 5 14.5v-10Zm0 0v10M8 8h5M8 11h4" />,
+    code: <><path d="m7.5 6-4 4 4 4" /><path d="m12.5 6 4 4-4 4" /></>,
+    download: <><path d="M10 3v9" /><path d="m6.5 8.5 3.5 3.5 3.5-3.5" /><path d="M4 16h12" /></>,
+    external: <><path d="M7 5H5v10h10v-2" /><path d="M10 4h6v6" /><path d="m9 11 7-7" /></>,
+    filter: <><path d="M4 6h12" /><path d="M7 10h6" /><path d="M9 14h2" /></>,
+    grid: <><path d="M4 4h5v5H4zM11 4h5v5h-5zM4 11h5v5H4zM11 11h5v5h-5z" /></>,
+    home: <><path d="m3 10 7-6 7 6" /><path d="M5 9v7h10V9" /></>,
+    mail: <><path d="M3.5 5.5h13v9h-13z" /><path d="m4 6 6 5 6-5" /></>,
+    microscope: <><path d="M8 4h4M10 4v6M7 16h8M9 10l-3 5M11 10l3 5" /><path d="M8.5 7.5h3v3h-3z" /></>,
+    pause: <><path d="M7 5v10M13 5v10" /></>,
+    play: <path d="M7 5.5 15 10l-8 4.5v-9Z" />,
+    profile: <><path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" /><path d="M4.5 16c.9-3 2.8-4.5 5.5-4.5s4.6 1.5 5.5 4.5" /></>,
+    search: <><circle cx="8.5" cy="8.5" r="4.5" /><path d="m12 12 4 4" /></>,
+    spark: <><path d="M10 3v4M10 13v4M3 10h4M13 10h4" /><path d="m5.8 5.8 2 2M12.2 12.2l2 2M14.2 5.8l-2 2M7.8 12.2l-2 2" /></>,
+    trophy: <><path d="M7 4h6v4a3 3 0 0 1-6 0V4Z" /><path d="M7 6H4.5A2.5 2.5 0 0 0 7 10M13 6h2.5A2.5 2.5 0 0 1 13 10M10 11v4M7 16h6" /></>,
+  }
+
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true">
+      {paths[name]}
+    </svg>
+  )
+}
+
 function ImagePlate({ image, className = '' }: { image: ImageAsset; className?: string }) {
   const isPriority = className.includes('hero-portrait')
 
@@ -721,44 +748,69 @@ function ImpactBar() {
   )
 }
 
-function HeroVisual() {
+function ProofCockpit() {
+  const cards: LinkItem[] = [
+    proofLinks[0],
+    proofLinks[1],
+    proofLinks[2],
+    { label: 'AAPM 2025 TG-263 Poster', href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105', meta: 'Blue Ribbon recognition', image: imageAssets.aapm2025 },
+    { label: 'Open source contributor', href: 'https://github.com/udiram', meta: 'MONAI, OpenHands, clinical tooling', image: imageAssets.githubProfile },
+  ]
+  const [activeCard, setActiveCard] = useState(0)
+  const selected = cards[activeCard]
+
+  const move = (direction: -1 | 1) => {
+    setActiveCard((current) => (current + direction + cards.length) % cards.length)
+  }
+
   return (
-    <div className="hero-visual" aria-label="Interactive clinical AI and performance visual">
-      <div className="orbital-stage">
-        <ImagePlate image={imageAssets.mcmasterScholar} className="hero-portrait" />
-        <svg className="beam-map" viewBox="0 0 620 620" aria-hidden="true">
-          <defs>
-            <linearGradient id="beamGradient" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.84" />
-              <stop offset="52%" stopColor="#8b5cf6" stopOpacity="0.44" />
-              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.76" />
-            </linearGradient>
-          </defs>
-          <path className="orbit orbit-one" d="M84 312C120 140 324 70 476 164S572 466 388 524 44 460 84 312Z" />
-          <path className="orbit orbit-two" d="M130 190C234 92 438 120 504 260S472 532 294 508 26 312 130 190Z" />
-          <path className="orbit orbit-three" d="M196 112C326 68 512 206 504 348S330 548 206 470 66 156 196 112Z" />
-          <path className="beam" d="M102 514C206 356 308 300 520 110" />
-          <path className="dose-line" d="M160 430C218 388 286 388 340 426S458 470 514 400" />
-          <circle className="scan-dot" cx="388" cy="222" r="5" />
-        </svg>
-        <div className="signal-readout readout-a">
-          <span>OART beam arc</span>
-          <strong>210 deg</strong>
+    <div className="proof-cockpit" aria-label="Interactive proof cockpit">
+      <div className="cockpit-topline">
+        <span><Icon name="spark" /> Proof cockpit</span>
+        <span>Drag rail</span>
+      </div>
+      <div className="cockpit-grid">
+        <ExternalLink href={selected.href} className="proof-primary">
+          {selected.image ? <ImagePlate image={selected.image} className="hero-portrait" /> : null}
+          <span className="proof-open"><Icon name="external" /></span>
+          <div>
+            <strong>{selected.label}</strong>
+            <span>{selected.meta}</span>
+          </div>
+        </ExternalLink>
+        <div className="proof-stack">
+          {cards.map((card, index) => (
+            <button className={activeCard === index ? 'active' : ''} key={card.label} onClick={() => setActiveCard(index)} type="button">
+              {card.image ? <ImagePlate image={card.image} /> : null}
+              <span>{card.label}</span>
+            </button>
+          ))}
         </div>
-        <div className="signal-readout readout-b">
-          <span>Telemetry delta</span>
-          <strong>-0.42 s</strong>
+        <div className="github-tile">
+          <ImagePlate image={imageAssets.githubProfile} />
+          <div>
+            <strong>Open source contributor</strong>
+            <span>MONAI, OpenHands, clinical tools</span>
+          </div>
         </div>
       </div>
-      <div className="hero-proof-grid" aria-label="Selected proof photos">
-        <article>
-          <ImagePlate image={imageAssets.coopAward} />
-          <span>McMaster Science Co-op Student of the Year</span>
-        </article>
-        <article>
-          <ImagePlate image={imageAssets.employerAward} />
-          <span>UAB Radiation Oncology collaboration</span>
-        </article>
+      <div className="cockpit-controls">
+        <span>{String(activeCard + 1).padStart(2, '0')}</span>
+        <input
+          aria-label="Select proof card"
+          max={cards.length - 1}
+          min="0"
+          onChange={(event) => setActiveCard(Number(event.target.value))}
+          type="range"
+          value={activeCard}
+        />
+        <span>{String(cards.length).padStart(2, '0')}</span>
+        <button type="button" onClick={() => move(-1)} aria-label="Previous proof">
+          <Icon name="arrow" />
+        </button>
+        <button type="button" onClick={() => move(1)} aria-label="Next proof">
+          <Icon name="arrow" />
+        </button>
       </div>
     </div>
   )
@@ -783,123 +835,244 @@ function ProgressRail({ active }: { active: SectionId }) {
   )
 }
 
-function ResearchCard({ item }: { item: ResearchCase }) {
-  return (
-    <article className="research-card">
-      <ImagePlate image={item.image} />
-      <div className="research-card-body">
-        <div className="card-meta">
-          <span>{item.status}</span>
-          <span>{item.institution}</span>
-        </div>
-        <h3>{item.title}</h3>
-        <TagList tags={item.tags} />
-        <dl>
-          <div>
-            <dt>Problem</dt>
-            <dd>{item.problem}</dd>
-          </div>
-          <div>
-            <dt>Method</dt>
-            <dd>{item.method}</dd>
-          </div>
-          <div>
-            <dt>Impact</dt>
-            <dd>{item.impact}</dd>
-          </div>
-        </dl>
-        <div className="card-footer">
-          <strong>{item.result}</strong>
-          {item.href ? (
-            <ExternalLink href={item.href}>
-              Read <Arrow />
-            </ExternalLink>
-          ) : null}
-        </div>
-      </div>
-    </article>
-  )
-}
-
-function ProjectLab() {
+function ProjectDeck() {
   const [category, setCategory] = useState(projectCategories[0])
   const filtered = category === 'All' ? projects : projects.filter((project) => project.category === category)
-  const [selectedTitle, setSelectedTitle] = useState(projects[0].title)
-  const selected = filtered.find((project) => project.title === selectedTitle) ?? filtered[0]
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const selected = filtered[selectedIndex] ?? filtered[0]
 
   return (
-    <div className="project-lab">
-      <div className="filter-row" role="tablist" aria-label="Project categories">
+    <div className="project-deck">
+      <div className="deck-head">
+        <span>Project deck</span>
+        <strong>{selectedIndex + 1} of {filtered.length}</strong>
+      </div>
+      <div className="deck-stack" aria-label="Selected projects">
+        {filtered.map((project, index) => {
+          const offset = (index - selectedIndex + filtered.length) % filtered.length
+          return (
+            <button
+              className={index === selectedIndex ? 'active' : ''}
+              key={project.title}
+              onClick={() => setSelectedIndex(index)}
+              style={{ '--stack-index': offset } as CSSProperties}
+              type="button"
+            >
+              <span>{project.category}</span>
+              <strong>{project.title}</strong>
+              <em>{project.status}</em>
+            </button>
+          )
+        })}
+      </div>
+      <label className="deck-scrubber">
+        <span>Scrub to explore</span>
+        <input
+          aria-label="Select project"
+          max={Math.max(0, filtered.length - 1)}
+          min="0"
+          onChange={(event) => setSelectedIndex(Number(event.target.value))}
+          type="range"
+          value={selectedIndex}
+        />
+      </label>
+      <div className="filter-row compact" role="tablist" aria-label="Project categories">
         {projectCategories.map((item) => (
-          <button className={category === item ? 'active' : ''} key={item} onClick={() => setCategory(item)} type="button">
+          <button
+            className={category === item ? 'active' : ''}
+            key={item}
+            onClick={() => {
+              setCategory(item)
+              setSelectedIndex(0)
+            }}
+            type="button"
+          >
             {item}
           </button>
         ))}
       </div>
-      <div className="project-workbench">
-        <div className="project-list">
-          {filtered.map((project, index) => (
-            <button
-              className={selected.title === project.title ? 'active' : ''}
-              key={project.title}
-              onClick={() => setSelectedTitle(project.title)}
-              type="button"
-            >
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <strong>{project.title}</strong>
-              <em>{project.status}</em>
+      <article className="project-detail">
+        <ImagePlate image={selected.image} />
+        <div>
+          <div className="card-meta">
+            <span>{selected.status}</span>
+            <span>{selected.category}</span>
+          </div>
+          <h3>{selected.title}</h3>
+          <dl>
+            <div>
+              <dt>Problem</dt>
+              <dd>{selected.problem}</dd>
+            </div>
+            <div>
+              <dt>Solution</dt>
+              <dd>{selected.solution}</dd>
+            </div>
+          </dl>
+          <TagList tags={selected.stack} />
+          <div className="deck-actions">
+            {selected.href ? (
+              <ExternalLink href={selected.href} className="inline-action">
+                Open Source <Icon name="external" />
+              </ExternalLink>
+            ) : null}
+            <button type="button" onClick={() => setSelectedIndex((selectedIndex + 1) % filtered.length)}>
+              Next <Icon name="arrow" />
             </button>
-          ))}
+          </div>
         </div>
-        <article className="project-detail">
+      </article>
+    </div>
+  )
+}
+
+function ResearchWorkbench({ researchFilter, setResearchFilter, visibleResearch }: { researchFilter: string; setResearchFilter: (value: string) => void; visibleResearch: ResearchCase[] }) {
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const selected = visibleResearch[selectedIndex] ?? visibleResearch[0] ?? researchCases[0]
+  const selectFilter = (filter: string) => {
+    setResearchFilter(filter)
+    setSelectedIndex(0)
+  }
+  const countFor = (filter: string) => {
+    if (filter === 'All') return researchCases.length
+    if (filter === 'Publications') return researchCases.filter((item) => item.status === 'Published').length
+    if (filter === 'AI/ML') return researchCases.filter((item) => `${item.title} ${item.tags.join(' ')}`.toLowerCase().includes('ai') || item.tags.includes('LLMs')).length
+    if (filter === 'Adaptive RT') return researchCases.filter((item) => `${item.title} ${item.tags.join(' ')}`.toLowerCase().includes('adaptive') || item.tags.includes('OART')).length
+    if (filter === 'SRS/SBRT') return researchCases.filter((item) => item.tags.some((tag) => ['SRS', 'SBRT'].some((needle) => tag.includes(needle)))).length
+    return researchCases.filter((item) => item.tags.some((tag) => tag.toLowerCase().includes(filter.toLowerCase()))).length
+  }
+
+  return (
+    <div className="research-workbench">
+      <aside className="research-filters" aria-label="Research filters">
+        <span>Filters</span>
+        {researchFilters.map((filter) => (
+          <button className={researchFilter === filter ? 'active' : ''} key={filter} onClick={() => selectFilter(filter)} type="button">
+            <Icon name={filter === 'Publications' ? 'book' : filter === 'LLMs' ? 'code' : 'microscope'} />
+            <strong>{filter}</strong>
+            <em>{countFor(filter)}</em>
+          </button>
+        ))}
+        <button className="clear-filter" onClick={() => selectFilter('All')} type="button">Clear filters</button>
+      </aside>
+
+      <div className="research-console">
+        <div className="console-tabs">
+          <button className="active" type="button">Research</button>
+          <button type="button">Selected Projects</button>
+          <span>{visibleResearch.length} results</span>
+        </div>
+        <article className="research-feature">
           <ImagePlate image={selected.image} />
-          <div>
+          <div className="research-body">
             <div className="card-meta">
               <span>{selected.status}</span>
-              <span>{selected.category}</span>
+              <span>{selected.institution}</span>
             </div>
             <h3>{selected.title}</h3>
+            <TagList tags={selected.tags} />
             <dl>
               <div>
                 <dt>Problem</dt>
                 <dd>{selected.problem}</dd>
               </div>
               <div>
-                <dt>Solution</dt>
-                <dd>{selected.solution}</dd>
+                <dt>Method</dt>
+                <dd>{selected.method}</dd>
+              </div>
+              <div>
+                <dt>Impact</dt>
+                <dd>{selected.impact}</dd>
               </div>
             </dl>
-            <TagList tags={selected.stack} />
-            {selected.href ? (
-              <ExternalLink href={selected.href} className="inline-action">
-                Open source <Arrow />
-              </ExternalLink>
-            ) : null}
+            <div className="source-strip">
+              <span>{selected.result}</span>
+              {selected.href ? (
+                <ExternalLink href={selected.href}>
+                  Open source <Icon name="external" />
+                </ExternalLink>
+              ) : null}
+            </div>
           </div>
         </article>
+        <div className="research-rows">
+          {visibleResearch.map((item, index) => (
+            <button className={index === selectedIndex ? 'active' : ''} key={item.title} onClick={() => setSelectedIndex(index)} type="button">
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <strong>{item.title}</strong>
+              <em>{item.result}</em>
+            </button>
+          ))}
+        </div>
       </div>
+
+      <ProjectDeck />
     </div>
   )
 }
 
 function MediaWall({ items }: { items: ArchiveItem[] }) {
+  const [selected, setSelected] = useState(0)
+  const active = items[selected]
+
   return (
     <div className="media-wall">
-      {items.map((item) => (
-        <article key={item.title}>
-          <ImagePlate image={item.image} />
-          <div>
+      <article className="media-player">
+        <ImagePlate image={active.image} />
+        <button className="play-button" type="button" aria-label="Play selected media">
+          <Icon name="play" />
+        </button>
+        <div className="media-caption">
+          <span>{active.meta}</span>
+          <h3>{active.title}</h3>
+          <p>{active.text}</p>
+        </div>
+        <div className="media-controls">
+          <button type="button" onClick={() => setSelected((selected + items.length - 1) % items.length)} aria-label="Previous media">
+            <Icon name="arrow" />
+          </button>
+          <input
+            aria-label="Select media item"
+            max={items.length - 1}
+            min="0"
+            onChange={(event) => setSelected(Number(event.target.value))}
+            type="range"
+            value={selected}
+          />
+          <button type="button" onClick={() => setSelected((selected + 1) % items.length)} aria-label="Next media">
+            <Icon name="arrow" />
+          </button>
+          {active.href ? (
+            <ExternalLink href={active.href}>
+              Read profile <Icon name="external" />
+            </ExternalLink>
+          ) : null}
+        </div>
+      </article>
+      <div className="media-thumbnails" aria-label="Media thumbnails">
+        {items.map((item, index) => (
+          <button className={index === selected ? 'active' : ''} key={item.title} onClick={() => setSelected(index)} type="button">
+            <ImagePlate image={item.image} />
             <span>{item.meta}</span>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-            {item.href ? (
-              <ExternalLink href={item.href}>
-                Read <Arrow />
-              </ExternalLink>
-            ) : null}
-          </div>
-        </article>
-      ))}
+          </button>
+        ))}
+      </div>
+      <div className="profile-cards">
+        {items.slice(0, 4).map((item) => (
+          <article key={item.title}>
+            <ImagePlate image={item.image} />
+            <div>
+              <span>{item.meta}</span>
+              <h3>{item.title}</h3>
+              {item.href ? (
+                <ExternalLink href={item.href}>
+                  Read profile <Icon name="external" />
+                </ExternalLink>
+              ) : null}
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   )
 }
@@ -926,6 +1099,64 @@ function Timeline() {
         <span>{timeline[selected].year}</span>
         <h3>{timeline[selected].title}</h3>
         <p>{timeline[selected].text}</p>
+      </article>
+    </div>
+  )
+}
+
+function PerformanceTimeline() {
+  const [selected, setSelected] = useState(2)
+  const [compare, setCompare] = useState(false)
+  const markers = [
+    { label: 'AAPM 2024 Ethos SRS', month: 'Mar 11-14', tone: 'green', left: 10 },
+    { label: 'AAPM 2024 AutoML Seg', month: 'Jul 14-17', tone: 'orange', left: 39 },
+    { label: 'TG-263 Blue Ribbon Poster', month: 'Mar 16-20', tone: 'cyan', left: 70 },
+    { label: 'AAPM 2025 Oral Presentation', month: 'Jul 27-30', tone: 'gray', left: 86 },
+  ]
+  const active = markers[selected]
+
+  return (
+    <div className="performance-timeline">
+      <div className="timeline-toolbar">
+        <div>
+          <button className="active" type="button">All</button>
+          <button type="button">2024</button>
+          <button type="button">2025</button>
+        </div>
+        <label>
+          <span>Compare</span>
+          <input checked={compare} onChange={(event) => setCompare(event.target.checked)} type="checkbox" />
+        </label>
+      </div>
+      <div className={compare ? 'marker-stage compare' : 'marker-stage'}>
+        {markers.map((marker, index) => (
+          <button
+            className={index === selected ? `active ${marker.tone}` : marker.tone}
+            key={marker.label}
+            onClick={() => setSelected(index)}
+            style={{ left: `${marker.left}%` }}
+            type="button"
+          >
+            <span>{marker.month}</span>
+            <strong>{marker.label}</strong>
+          </button>
+        ))}
+      </div>
+      <label className="deck-scrubber">
+        <span>Scrub timeline</span>
+        <input
+          aria-label="Select timeline event"
+          max={markers.length - 1}
+          min="0"
+          onChange={(event) => setSelected(Number(event.target.value))}
+          type="range"
+          value={selected}
+        />
+      </label>
+      <article className={`timeline-card ${active.tone}`}>
+        <span>{active.month}</span>
+        <h3>{active.label}</h3>
+        <p>{compare ? 'Comparison mode highlights timing, recognition, and project phase differences.' : 'Selected marker controls the detail card and timeline emphasis.'}</p>
       </article>
     </div>
   )
@@ -988,6 +1219,7 @@ function PerformanceSimulator() {
         <span>Simulation</span>
         <span>Strategy</span>
       </div>
+      <PerformanceTimeline />
     </div>
   )
 }
@@ -1149,7 +1381,10 @@ function App() {
       ? researchCases
       : researchCases.filter((item) => {
           if (researchFilter === 'Publications') return item.status === 'Published'
-          return item.tags.some((tag) => tag.toLowerCase().includes(researchFilter.replace('/ML', '').replace('/SBRT', '').toLowerCase()))
+          if (researchFilter === 'AI/ML') return `${item.title} ${item.tags.join(' ')}`.toLowerCase().includes('ai') || item.tags.includes('LLMs')
+          if (researchFilter === 'Adaptive RT') return `${item.title} ${item.tags.join(' ')}`.toLowerCase().includes('adaptive') || item.tags.includes('OART')
+          if (researchFilter === 'SRS/SBRT') return item.tags.some((tag) => ['SRS', 'SBRT'].some((needle) => tag.includes(needle)))
+          return item.tags.some((tag) => tag.toLowerCase().includes(researchFilter.toLowerCase()))
         })
 
   const scrollToSection = useCallback(
@@ -1226,6 +1461,23 @@ function App() {
           ))}
         </nav>
       </header>
+      <nav className="mobile-dock" aria-label="Mobile quick sections">
+        {navItems.slice(0, 4).map((item) => (
+          <a
+            className={active === item.id ? 'active' : ''}
+            href={`#${item.id}`}
+            key={item.id}
+            onClick={(event) => {
+              event.preventDefault()
+              window.history.pushState(null, '', `#${item.id}`)
+              settleScrollToSection(item.id)
+            }}
+          >
+            <Icon name={item.id === 'home' ? 'home' : item.id === 'research' ? 'search' : item.id === 'projects' ? 'grid' : 'play'} />
+            <span>{item.label}</span>
+          </a>
+        ))}
+      </nav>
 
       <main>
         <section className="hero-section page-section" id="home">
@@ -1243,13 +1495,13 @@ function App() {
               ))}
             </div>
             <div className="hero-actions">
-              <button type="button" onClick={() => settleScrollToSection('research')}>View Research</button>
-              <button type="button" onClick={() => settleScrollToSection('projects')}>View Projects</button>
-              <a href={resumeHref} download>Download CV</a>
-              <button type="button" onClick={() => settleScrollToSection('contact')}>Contact</button>
+              <button type="button" onClick={() => settleScrollToSection('research')}><Icon name="microscope" /> View Research</button>
+              <button type="button" onClick={() => settleScrollToSection('projects')}><Icon name="play" /> Play Project Deck</button>
+              <a href={resumeHref} download><Icon name="download" /> Download CV</a>
+              <button type="button" onClick={() => settleScrollToSection('contact')}><Icon name="mail" /> Contact</button>
             </div>
           </div>
-          <HeroVisual />
+          <ProofCockpit />
         </section>
 
         <ImpactBar />
@@ -1260,39 +1512,28 @@ function App() {
             text="AI, automation, and quantitative methods for radiation oncology, adaptive radiotherapy, image segmentation, and clinical decision support."
             align="split"
           />
-          <div className="filter-row" role="tablist" aria-label="Research filters">
-            {researchFilters.map((filter) => (
-              <button className={researchFilter === filter ? 'active' : ''} key={filter} onClick={() => setResearchFilter(filter)} type="button">
-                {filter}
-              </button>
-            ))}
-          </div>
-          <div className="featured-research">
-            {visibleResearch.map((item) => (
-              <ResearchCard item={item} key={item.title} />
-            ))}
-          </div>
+          <ResearchWorkbench researchFilter={researchFilter} setResearchFilter={setResearchFilter} visibleResearch={visibleResearch} />
           <ArchiveGrid items={researchArchive} />
         </section>
 
         <section className="page-section" id="projects">
           <SectionHeader
-            title="Projects Lab"
+            title="Selected Projects"
             text="Software, AI tools, simulations, dashboards, and experimental systems built across medicine, motorsport, education, and automation."
             align="split"
           />
-          <ProjectLab />
+          <ProjectDeck />
         </section>
 
         <section className="page-section media-section" id="media">
           <SectionHeader
-            title="Media Wall"
+            title="Media"
             text="Institutional profiles, UAB/McMaster collaboration coverage, award stories, and source pages that validate the work."
           />
           <MediaWall items={mediaItems} />
           <div className="press-kit">
             <div>
-              <h3>Press kit</h3>
+              <h3>Press & Profiles</h3>
               <p>Short bio, long bio, headshot source, downloadable CV, and collaboration contact points for conference organizers and research partners.</p>
             </div>
             <div className="press-actions">
@@ -1304,13 +1545,19 @@ function App() {
 
         <section className="page-section performance-section" id="performance">
           <SectionHeader
-            title="Performance Engineering"
+            title="Performance"
             text="From racetrack telemetry to clinical decision support: real-time systems, deterministic simulation, and human-machine decision environments."
             align="split"
           />
           <div className="performance-grid">
             <PerformanceSimulator />
-            <ArchiveGrid items={performanceItems} />
+            <div>
+              <div className="track-work-head">
+                <h3>Track Work</h3>
+                <ExternalLink href="https://www.mclaren.com/racing/indycar/">View project <Icon name="external" /></ExternalLink>
+              </div>
+              <ArchiveGrid items={performanceItems} />
+            </div>
           </div>
         </section>
 
