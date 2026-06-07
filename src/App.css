@@ -360,18 +360,50 @@ dd {
   line-height: 1.35;
 }
 
+.education-list em,
+.role-grid em,
+.project-row em {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
 .education-list p {
   max-width: 760px;
   font-size: 15px;
 }
 
-.experience-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+.education-list ul,
+.education-primary ul {
+  margin-top: 2px;
 }
 
-.experience-grid article,
+.resume-list {
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+}
+
+.resume-list article {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 32px;
+  border-bottom: 1px solid var(--line);
+  padding: 24px 0;
+}
+
+.resume-list article > div:last-child {
+  display: grid;
+  gap: 10px;
+}
+
+.resume-meta {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
 .role-grid article,
 .recognition-list article,
 .archive-grid article,
@@ -381,27 +413,28 @@ dd {
   padding: 18px;
 }
 
-.experience-grid article {
-  display: grid;
-  gap: 11px;
-}
-
-.experience-grid span,
+.resume-meta span,
 .role-grid span,
-.timeline-list span {
+.timeline-list span,
+.recognition-list span {
   color: var(--accent);
   font-size: 13px;
   font-weight: 780;
 }
 
-.experience-grid h3,
+.resume-list h3,
 .archive-grid h3,
 .certification-panel h3,
 .research-archive h3 {
   font-size: 22px;
 }
 
-.experience-grid p,
+.resume-list strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.resume-list p,
 .role-grid p,
 .recognition-list p,
 .archive-grid li,
@@ -552,11 +585,24 @@ ul {
 }
 
 .project-row strong {
+  display: grid;
+  gap: 4px;
   color: var(--ink);
 }
 
 .project-row span {
   color: var(--muted);
+}
+
+.project-row span ul {
+  margin-top: 8px;
+  padding-left: 16px;
+}
+
+.project-row span em {
+  display: block;
+  margin-top: 8px;
+  color: var(--accent);
 }
 
 .project-head span {
@@ -584,6 +630,10 @@ ul {
 .role-grid article {
   display: grid;
   gap: 10px;
+}
+
+.role-grid ul {
+  padding-left: 17px;
 }
 
 .role-grid strong,
@@ -793,7 +843,7 @@ form .button {
 
   .hero,
   .education-layout,
-  .experience-grid,
+  .resume-list article,
   .research-detail,
   .research-archive,
   .performance-feature,
@@ -895,7 +945,7 @@ form .button {
     padding: 22px;
   }
 
-  .experience-grid article,
+  .resume-list article,
   .role-grid article,
   .recognition-list article,
   .archive-grid article,
@@ -918,8 +968,40 @@ form .button {
     gap: 22px;
   }
 
+  .project-table {
+    display: grid;
+    gap: 12px;
+    overflow-x: visible;
+  }
+
+  .project-head {
+    display: none;
+  }
+
   .project-row {
-    min-width: 840px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    min-width: 0;
+    align-items: start;
+    border-top: 1px solid var(--line-strong);
+    background: var(--surface);
+    padding: 16px;
+  }
+
+  .project-row span {
+    display: grid;
+    gap: 4px;
+  }
+
+  .project-row span::before {
+    content: attr(data-label);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 780;
+  }
+
+  .project-row span ul {
+    margin-top: 4px;
   }
 
   form .button {

@@ -32,11 +32,32 @@ type SoftwareItem = {
   stack: string
   role: string
   category: 'Clinical AI' | 'Open source' | 'Web systems' | 'Research tools' | 'Robotics & Outreach'
+  period?: string
+  responsibilities?: string[]
+  outcome?: string
   href?: string
 }
 
 type ProofItem = LinkItem & {
   sourceName: string
+}
+
+type ResumeEntry = {
+  title: string
+  organization: string
+  period: string
+  location?: string
+  summary?: string
+  responsibilities: string[]
+}
+
+type EducationEntry = {
+  degree: string
+  institution: string
+  period: string
+  location: string
+  detail: string
+  responsibilities: string[]
 }
 
 const imageAssets = {
@@ -201,6 +222,9 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Python, MONAI, PyTorch',
     role: 'Contributor',
     category: 'Open source',
+    period: 'Open source',
+    responsibilities: ['Contributed documentation and tutorial improvements for medical imaging deep-learning users.'],
+    outcome: 'Merged contribution to Project MONAI tutorials.',
     href: 'https://github.com/Project-MONAI/tutorials/pull/1129',
   },
   {
@@ -209,6 +233,9 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Python, FastAPI, React',
     role: 'Contributor',
     category: 'Open source',
+    period: 'Open source',
+    responsibilities: ['Worked in an agent software stack spanning Python backend surfaces and React/FastAPI application code.'],
+    outcome: 'Merged contribution to OpenHands.',
     href: 'https://github.com/All-Hands-AI/OpenHands/pull/731',
   },
   {
@@ -217,6 +244,9 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Local LLM, clinical UI, radiation oncology',
     role: 'Developer',
     category: 'Clinical AI',
+    period: '2025',
+    responsibilities: ['Designed local LLM review flows for target-name compliance.', 'Built around reviewer-controlled checks for clinical workflow use.'],
+    outcome: 'AAPM 2025 Blue Ribbon Poster.',
     href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
   },
   {
@@ -225,6 +255,8 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Python, Playwright, VLM evaluation',
     role: 'Researcher',
     category: 'Research tools',
+    responsibilities: ['Created objective tests for vision-language agents operating around clinical interface tasks.'],
+    outcome: 'Internal research tooling for clinical AI evaluation.',
   },
   {
     title: 'AAPM conference explorer',
@@ -232,6 +264,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Flask, SQLAlchemy, Railway',
     role: 'Developer',
     category: 'Web systems',
+    responsibilities: ['Built a search and schedule workflow for navigating dense conference content.', 'Deployed the app with a Flask and SQLAlchemy backend on Railway.'],
   },
   {
     title: 'Automated prosthetic limb prototype',
@@ -239,6 +272,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'C++, Python, ROS',
     role: 'Lead developer',
     category: 'Research tools',
+    responsibilities: ['Led embedded and robotics software work for an automated prosthetic limb prototype.'],
     href: 'https://sites.google.com/view/prostheticlimbprototype/home',
   },
   {
@@ -247,6 +281,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Next.js, TypeScript',
     role: 'Founder',
     category: 'Web systems',
+    responsibilities: ['Led full-stack web development and technical content for Synth-Med Biotechnology.'],
     href: 'https://synth-med.com/about/',
   },
   {
@@ -255,6 +290,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Openpilot, vehicle integration, driver assistance',
     role: 'Builder',
     category: 'Research tools',
+    responsibilities: ['Implemented a Level 2 driver-assistance system using comma.ai and openpilot implementations.'],
   },
   {
     title: 'WAAW group infrastructure',
@@ -262,6 +298,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Backend systems, DevOps, deployment',
     role: 'Infrastructure lead',
     category: 'Web systems',
+    responsibilities: ['Led DevOps infrastructure and backend work for a team software environment.'],
   },
   {
     title: 'Robotique Zone01 and FRC 4939',
@@ -269,6 +306,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Robotics, controls, outreach',
     role: 'Lead mentor and senior programmer',
     category: 'Robotics & Outreach',
+    responsibilities: ['Mentored robotics students through Robotique Zone01.', 'Served as senior programmer and outreach member for FRC Team 4939.'],
   },
   {
     title: "Sparkin' STEM French curriculum",
@@ -276,6 +314,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Curriculum design, STEM outreach, bilingual programming',
     role: 'French program coordinator',
     category: 'Robotics & Outreach',
+    responsibilities: ['Led integration of in-house STEM curriculum with the largest French school board in Canada.'],
   },
   {
     title: 'SPARK recycling sorter',
@@ -283,6 +322,9 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Computer vision, machine learning, prototyping',
     role: 'Hackathon builder',
     category: 'Research tools',
+    period: '2019',
+    responsibilities: ['Built a computer vision and machine-learning powered recycling sorter.'],
+    outcome: 'SPARK Hackathon runner-up.',
   },
   {
     title: 'The Mirai Project',
@@ -290,6 +332,9 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Clinical reasoning, case analysis',
     role: 'Runner-up finalist',
     category: 'Clinical AI',
+    period: '2020',
+    responsibilities: ['Developed medical case-study analysis for a finalist competition workflow.'],
+    outcome: 'Runner-up finalist.',
   },
 ]
 
@@ -369,54 +414,81 @@ const profileFacts = [
   ['Open source', 'MONAI and OpenHands'],
 ]
 
-const educationItems = [
+const educationItems: EducationEntry[] = [
   {
     degree: 'PhD in Medical Physics',
     institution: 'University of Wisconsin-Madison',
+    period: '2026-Present',
+    location: 'Madison, WI',
     detail: "Started doctoral work in Ran Zhang's lab, focused on medical physics, imaging, and clinical AI systems.",
+    responsibilities: ['Developing doctoral research direction across medical physics, imaging, and clinical AI.', 'Continuing translational software work for clinical and research workflows.'],
   },
   {
     degree: 'BSc Honours Medical & Biological Physics',
     institution: 'McMaster University',
+    period: 'Completed 2025',
+    location: 'Hamilton, ON',
     detail: 'Built the foundation across medical physics, biophysics, computation, and radiation oncology research.',
+    responsibilities: ['Coursework and research foundation across medical physics, biophysics, computer vision, and radiotherapy.', 'Completed co-op and visiting-scholar work connected to radiation oncology and AI.'],
   },
   {
     degree: 'International visiting scholar',
     institution: 'UAB Radiation Oncology',
+    period: 'Jan-Aug 2024',
+    location: 'Birmingham, AL',
     detail: 'Worked on clinical AI, adaptive radiotherapy, treatment planning, and workflow automation with UAB collaborators.',
+    responsibilities: ['Worked with UAB collaborators on artificial-intelligence tools for radiation treatment and planning.', 'Contributed to adaptive radiotherapy, treatment-planning validation, and clinical workflow automation projects.'],
   },
 ]
 
-const experienceItems = [
+const experienceItems: ResumeEntry[] = [
   {
-    role: 'Medical Physics PhD student',
-    org: 'University of Wisconsin-Madison',
-    detail: "Doctoral work in Ran Zhang's lab across medical physics, imaging, clinical AI, and translational software.",
+    title: 'Medical Physics PhD student',
+    organization: 'University of Wisconsin-Madison',
+    period: '2026-Present',
+    location: 'Madison, WI',
+    summary: "Doctoral work in Ran Zhang's lab across medical physics, imaging, clinical AI, and translational software.",
+    responsibilities: ['Define doctoral research questions in medical physics and imaging.', 'Build software and AI workflows where clinical precision and human review remain central.'],
   },
   {
-    role: 'International visiting scholar',
-    org: 'UAB Radiation Oncology',
-    detail: 'AI, adaptive radiotherapy, treatment planning, clinical workflow automation, and medical physics research.',
+    title: 'International visiting scholar',
+    organization: 'UAB Radiation Oncology',
+    period: 'Jan-Aug 2024; remote collaboration since 2021',
+    location: 'Birmingham, AL',
+    summary: 'AI, adaptive radiotherapy, treatment planning, clinical workflow automation, and medical physics research.',
+    responsibilities: ['Investigated how AI tools can advance radiation treatment and planning.', 'Built and evaluated clinical AI workflows for target naming, auto-segmentation, and adaptive radiotherapy.', 'Presented UAB/McMaster work at AAPM and COMP meetings.'],
   },
   {
-    role: 'Researcher',
-    org: 'Hamilton Health Sciences, Juravinski Cancer Centre',
-    detail: 'Radiotherapy and clinical research context, including treatment-planning work.',
+    title: 'Researcher',
+    organization: 'Hamilton Health Sciences, Juravinski Cancer Centre',
+    period: 'Undergraduate research',
+    location: 'Hamilton, ON',
+    summary: 'Radiotherapy and clinical research context, including treatment-planning work.',
+    responsibilities: ['Worked in clinical radiotherapy research contexts.', 'Supported treatment-planning analysis and medical physics research workflows.'],
   },
   {
-    role: 'Researcher',
-    org: 'University of Western Ontario, Lawson Health Research Institute',
-    detail: 'Machine-learning models using optical brain measurements to predict in vivo hemoglobin oxygenation.',
+    title: 'Researcher',
+    organization: 'University of Western Ontario, Lawson Health Research Institute',
+    period: 'Completed Dec 2022',
+    location: 'London, ON',
+    summary: 'Machine-learning models using optical brain measurements to predict in vivo hemoglobin oxygenation.',
+    responsibilities: ['Developed machine-learning models from optical brain measurement data.', 'Evaluated prediction workflows for in vivo hemoglobin oxygenation.'],
   },
   {
-    role: 'Research fellow',
-    org: "Hamilton Centre for Kidney Research, St Joseph's Healthcare Hamilton",
-    detail: 'Computer vision and augmented-reality work to improve surgical chronic kidney disease model accuracy.',
+    title: 'Research fellow',
+    organization: "Hamilton Centre for Kidney Research, St Joseph's Healthcare Hamilton",
+    period: 'Undergraduate research',
+    location: 'Hamilton, ON',
+    summary: 'Computer vision and augmented-reality work to improve surgical chronic kidney disease model accuracy.',
+    responsibilities: ['Built computer-vision and augmented-reality approaches for surgical chronic kidney disease model workflows.', 'Connected technical methods to biomedical research constraints.'],
   },
   {
-    role: 'Researcher',
-    org: 'Laboratory for Membrane and Protein Dynamics, McMaster Physics and Astronomy',
-    detail: 'Quantitative analysis of gel electrophoresis on a smartphone and biophysics research foundations.',
+    title: 'Researcher',
+    organization: 'Laboratory for Membrane and Protein Dynamics, McMaster Physics and Astronomy',
+    period: 'Completed Jul 2021',
+    location: 'Hamilton, ON',
+    summary: 'Quantitative analysis of gel electrophoresis on a smartphone and biophysics research foundations.',
+    responsibilities: ['Built smartphone-based quantitative analysis workflows for gel electrophoresis.', 'Presented biophysics work through CAP undergraduate research venues.'],
   },
 ]
 
@@ -449,35 +521,44 @@ const presentationItems = [
 const performanceRoles = [
   {
     title: 'Arrow McLaren IndyCar',
-    meta: 'Data and strategy intern, Indianapolis',
-    detail: 'Deterministic simulation for race-session strategy prediction, telemetry monitoring, car-performance context, and race/performance/strategy engineering projects.',
+    meta: 'Data and strategy intern',
+    period: 'Race-season internship',
+    location: 'Indianapolis, IN',
+    responsibilities: [
+      'Implemented and developed deterministic simulation for strategy prediction during race sessions.',
+      'Applied internal race-weekend tools to monitor telemetry and car performance.',
+      'Participated in race, performance, and strategy engineering projects.',
+    ],
   },
   {
     title: 'MAC Formula SAE Electric',
     meta: 'Software engineering, vehicle controls and dynamics',
-    detail: 'Vehicle-controls work and custom dashboard implementations for an electric Formula SAE program.',
+    period: 'McMaster Formula SAE',
+    responsibilities: ['Worked on vehicle-controls software.', 'Built custom dashboard implementations for the electric race-car program.'],
   },
   {
     title: 'Formula LGB 1300',
     meta: 'Momentum Motorsports',
-    detail: 'Test and development driver program experience.',
+    period: 'Driver development',
+    responsibilities: ['Participated in a Formula LGB 1300 test and development driver program.'],
   },
   {
     title: 'VW Polo Cup',
     meta: 'Madras International Circuit, MRF',
-    detail: 'Test-driver experience at Madras International Circuit.',
+    period: 'Test driver',
+    responsibilities: ['Completed VW Polo Cup test-driver experience at Madras International Circuit.'],
   },
 ]
 
 const recognitionItems = [
-  ['Blue Ribbon Poster', 'Highest-scoring AAPM 2025 abstract designation for LLMs in radiation oncology'],
-  ['Ethos Adaptive Radiotherapy Course', 'Two-and-a-half-day Varian Ethos clinical school credentialing program'],
-  ['Science Co-op Student of the Year', 'McMaster recognition connected to UAB radiation oncology co-op work'],
-  ['Co-op Employer of the Year (Emerging)', 'UAB mentors recognized for a strong co-op learning environment'],
-  ['Outstanding Poster Presentation', '2024 Society of Physics Students-AAPM undergraduate research competition'],
-  ['Featured Highlight - McMaster University', 'International visiting scholar and convocation profile coverage'],
-  ['Featured Highlight - UAB', 'UAB and Heersink School of Medicine coverage of AI and radiation oncology work'],
-  ['Best Talk, CUPC 2023', 'First prize for optimizing dose delivery during fractionated radiotherapy'],
+  ['2025', 'Blue Ribbon Poster', 'Highest-scoring AAPM 2025 abstract designation for LLMs in radiation oncology'],
+  ['2025', 'Ethos Adaptive Radiotherapy Course', 'Two-and-a-half-day Varian Ethos clinical school credentialing program'],
+  ['2025', 'Science Co-op Student of the Year', 'McMaster recognition connected to UAB radiation oncology co-op work'],
+  ['2025', 'Co-op Employer of the Year (Emerging)', 'UAB mentors recognized for a strong co-op learning environment'],
+  ['2024', 'Outstanding Poster Presentation', 'Society of Physics Students-AAPM undergraduate research competition'],
+  ['2024-2025', 'Featured Highlight - McMaster University', 'International visiting scholar and convocation profile coverage'],
+  ['2024-2025', 'Featured Highlight - UAB', 'UAB and Heersink School of Medicine coverage of AI and radiation oncology work'],
+  ['2023', 'Best Talk, CUPC 2023', 'First prize for optimizing dose delivery during fractionated radiotherapy'],
 ]
 
 const certificationItems = [
@@ -503,33 +584,34 @@ const archiveGroups = [
   {
     title: 'Clinical and Service',
     items: [
-      'Clinical shadowing with radiation oncologists and medical physicists at UAB Radiation Oncology',
-      'Volunteer at Humber River Hospital across Medical Imaging, Surgical Inpatient, and Information Services',
-      'UAB Hindu YUVA: promote, practice, protect, and preserve Hindu values through activities and events',
+      '2024: Shadowed radiation oncologists and medical physicists at UAB Radiation Oncology.',
+      'Volunteer: Assisted physicians and teams at Humber River Hospital across Medical Imaging, Surgical Inpatient, and Information Services.',
+      'UAB Hindu YUVA: Helped promote, practice, protect, and preserve Hindu values through activities and events.',
+      'Registered Yoga Instructor: Head Yoga Instructor for Anytime Fitness Brampton and yoga instructor at McMaster University.',
     ],
   },
   {
     title: 'Robotics and STEM Outreach',
     items: [
-      'Senior programmer and outreach member, FRC Team 4939',
-      'Lead mentor, Robotique Zone01',
-      "French program coordinator, Sparkin' STEM",
+      'Senior programmer and outreach member for FRC Team 4939.',
+      'Lead mentor for Robotique Zone01 robotics students.',
+      "French program coordinator for Sparkin' STEM; led curriculum integration with a large French school board.",
     ],
   },
   {
     title: 'Sport and Technical Hobbies',
     items: [
       'NAUI/SSI certified open-water scuba diver',
-      'Private pilot training at Brampton Flight Centre',
+      'Private pilot training at Brampton Flight Centre; old-site target completion listed July 2022.',
       'Equestrian Canada and Ontario Equestrian member with English and Western experience',
-      'School ice hockey team member',
+      'School ice hockey team member, 2018-2020',
     ],
   },
   {
     title: 'Music',
     items: [
       'Royal Conservatory of Music certified pianist',
-      'Central Peel Regional Strings Program graduate with Western classical violin experience',
+      'Central Peel Regional Strings Program graduate with more than 7 years of Western classical violin experience',
       'Indian Carnatic violinist and vocalist with more than 10 years of performance experience',
     ],
   },
@@ -647,18 +729,29 @@ function Education() {
       <SectionHeading title="Education" />
       <div className="education-layout">
         <article className="education-primary">
-          <span>Current</span>
+          <span>{educationItems[0].period} · {educationItems[0].location}</span>
           <h3>PhD student in Medical Physics at the University of Wisconsin-Madison.</h3>
           <p>
             I recently started doctoral work in Ran Zhang's lab, continuing my path across medical physics, imaging, clinical AI, and translational software systems.
           </p>
+          <ul>
+            {educationItems[0].responsibilities.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </article>
         <div className="education-list" aria-label="Education and training">
           {educationItems.map((item) => (
             <article key={`${item.degree}-${item.institution}`}>
-              <span>{item.institution}</span>
+              <span>{item.period} · {item.location}</span>
               <strong>{item.degree}</strong>
+              <em>{item.institution}</em>
               <p>{item.detail}</p>
+              <ul>
+                {item.responsibilities.map((responsibility) => (
+                  <li key={responsibility}>{responsibility}</li>
+                ))}
+              </ul>
             </article>
           ))}
         </div>
@@ -671,12 +764,23 @@ function Experience() {
   return (
     <section className="section" id="experience">
       <SectionHeading title="Experience & Affiliations" />
-      <div className="experience-grid">
+      <div className="resume-list">
         {experienceItems.map((item) => (
-          <article key={`${item.role}-${item.org}`}>
-            <span>{item.role}</span>
-            <h3>{item.org}</h3>
-            <p>{item.detail}</p>
+          <article key={`${item.title}-${item.organization}`}>
+            <div className="resume-meta">
+              <span>{item.period}</span>
+              {item.location ? <span>{item.location}</span> : null}
+            </div>
+            <div>
+              <h3>{item.title}</h3>
+              <strong>{item.organization}</strong>
+              {item.summary ? <p>{item.summary}</p> : null}
+              <ul>
+                {item.responsibilities.map((responsibility) => (
+                  <li key={responsibility}>{responsibility}</li>
+                ))}
+              </ul>
+            </div>
           </article>
         ))}
       </div>
@@ -778,11 +882,24 @@ function Software() {
         </div>
         {visibleItems.map((item) => (
           <div className="project-row" key={item.title}>
-            <strong>{item.title}</strong>
-            <span>{item.purpose}</span>
-            <span>{item.stack}</span>
-            <span>{item.role}</span>
-            <span>
+            <strong>
+              {item.title}
+              {item.period ? <em>{item.period}</em> : null}
+            </strong>
+            <span data-label="Purpose">
+              {item.purpose}
+              {item.responsibilities ? (
+                <ul>
+                  {item.responsibilities.map((responsibility) => (
+                    <li key={responsibility}>{responsibility}</li>
+                  ))}
+                </ul>
+              ) : null}
+              {item.outcome ? <em>{item.outcome}</em> : null}
+            </span>
+            <span data-label="Stack">{item.stack}</span>
+            <span data-label="Role">{item.role}</span>
+            <span data-label="Link">
               {item.href ? (
                 <ExternalLink href={item.href} className="table-link">
                   Open <Icon name="arrow" />
@@ -826,9 +943,14 @@ function Performance() {
       <div className="role-grid">
         {performanceRoles.map((item) => (
           <article key={item.title}>
-            <span>{item.meta}</span>
+            <span>{item.period}{item.location ? ` · ${item.location}` : ''}</span>
             <strong>{item.title}</strong>
-            <p>{item.detail}</p>
+            <em>{item.meta}</em>
+            <ul>
+              {item.responsibilities.map((responsibility) => (
+                <li key={responsibility}>{responsibility}</li>
+              ))}
+            </ul>
           </article>
         ))}
       </div>
@@ -842,8 +964,9 @@ function Recognition() {
       <SectionHeading title="Recognition" />
       <div className="recognition-layout">
         <div className="recognition-list">
-          {recognitionItems.map(([title, detail]) => (
+          {recognitionItems.map(([year, title, detail]) => (
             <article key={title}>
+              <span>{year}</span>
               <strong>{title}</strong>
               <p>{detail}</p>
             </article>
