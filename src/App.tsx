@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
 
-type SectionId = 'home' | 'education' | 'research' | 'software' | 'performance' | 'proof' | 'contact'
+type SectionId = 'home' | 'education' | 'experience' | 'research' | 'software' | 'performance' | 'recognition' | 'proof' | 'archive' | 'contact'
 
 type ImageAsset = {
   src: string
@@ -31,7 +31,7 @@ type SoftwareItem = {
   purpose: string
   stack: string
   role: string
-  category: 'Clinical AI' | 'Open source' | 'Web systems' | 'Research tools'
+  category: 'Clinical AI' | 'Open source' | 'Web systems' | 'Research tools' | 'Robotics & Outreach'
   href?: string
 }
 
@@ -140,10 +140,13 @@ const imageAssets = {
 const navItems: { id: SectionId; label: string }[] = [
   { id: 'home', label: 'Home' },
   { id: 'education', label: 'Education' },
+  { id: 'experience', label: 'Experience' },
   { id: 'research', label: 'Research' },
   { id: 'software', label: 'Software' },
   { id: 'performance', label: 'Performance' },
+  { id: 'recognition', label: 'Recognition' },
   { id: 'proof', label: 'Proof' },
+  { id: 'archive', label: 'Archive' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -246,6 +249,48 @@ const softwareItems: SoftwareItem[] = [
     category: 'Web systems',
     href: 'https://synth-med.com/about/',
   },
+  {
+    title: 'Autonomous car conversion',
+    purpose: 'Level 2 driver-assistance conversion using comma.ai and openpilot implementations',
+    stack: 'Openpilot, vehicle integration, driver assistance',
+    role: 'Builder',
+    category: 'Research tools',
+  },
+  {
+    title: 'WAAW group infrastructure',
+    purpose: 'DevOps infrastructure and backend systems for a team software environment',
+    stack: 'Backend systems, DevOps, deployment',
+    role: 'Infrastructure lead',
+    category: 'Web systems',
+  },
+  {
+    title: 'Robotique Zone01 and FRC 4939',
+    purpose: 'Robotics programming, outreach, mentoring, and competition support',
+    stack: 'Robotics, controls, outreach',
+    role: 'Lead mentor and senior programmer',
+    category: 'Robotics & Outreach',
+  },
+  {
+    title: "Sparkin' STEM French curriculum",
+    purpose: 'Integrated STEM curriculum with a large French school board in Canada',
+    stack: 'Curriculum design, STEM outreach, bilingual programming',
+    role: 'French program coordinator',
+    category: 'Robotics & Outreach',
+  },
+  {
+    title: 'SPARK recycling sorter',
+    purpose: 'Computer vision and machine-learning powered recycling sorter; SPARK hackathon runner-up',
+    stack: 'Computer vision, machine learning, prototyping',
+    role: 'Hackathon builder',
+    category: 'Research tools',
+  },
+  {
+    title: 'The Mirai Project',
+    purpose: 'Medical case-study finalist work',
+    stack: 'Clinical reasoning, case analysis',
+    role: 'Runner-up finalist',
+    category: 'Clinical AI',
+  },
 ]
 
 const proofItems: ProofItem[] = [
@@ -339,6 +384,154 @@ const educationItems = [
     degree: 'International visiting scholar',
     institution: 'UAB Radiation Oncology',
     detail: 'Worked on clinical AI, adaptive radiotherapy, treatment planning, and workflow automation with UAB collaborators.',
+  },
+]
+
+const experienceItems = [
+  {
+    role: 'Medical Physics PhD student',
+    org: 'University of Wisconsin-Madison',
+    detail: "Doctoral work in Ran Zhang's lab across medical physics, imaging, clinical AI, and translational software.",
+  },
+  {
+    role: 'International visiting scholar',
+    org: 'UAB Radiation Oncology',
+    detail: 'AI, adaptive radiotherapy, treatment planning, clinical workflow automation, and medical physics research.',
+  },
+  {
+    role: 'Researcher',
+    org: 'Hamilton Health Sciences, Juravinski Cancer Centre',
+    detail: 'Radiotherapy and clinical research context, including treatment-planning work.',
+  },
+  {
+    role: 'Researcher',
+    org: 'University of Western Ontario, Lawson Health Research Institute',
+    detail: 'Machine-learning models using optical brain measurements to predict in vivo hemoglobin oxygenation.',
+  },
+  {
+    role: 'Research fellow',
+    org: "Hamilton Centre for Kidney Research, St Joseph's Healthcare Hamilton",
+    detail: 'Computer vision and augmented-reality work to improve surgical chronic kidney disease model accuracy.',
+  },
+  {
+    role: 'Researcher',
+    org: 'Laboratory for Membrane and Protein Dynamics, McMaster Physics and Astronomy',
+    detail: 'Quantitative analysis of gel electrophoresis on a smartphone and biophysics research foundations.',
+  },
+]
+
+const researchArchiveItems = [
+  'Evaluation of inter-observer variability for Ethos adaptive accelerated partial breast irradiation plans',
+  'Dosimetric comparison of 6X and 10X flattening-filter-free photon beams on a TrueBeam linac using Eclipse TPS',
+  'Modelling factors affecting lap-time simulations of Formula One cars using ordinary differential equations',
+  'Using deep learning and computer vision models to develop effective driving agents in open-world simulation',
+  'Modelling genomic linear-quadratic radiation doses using deep learning and machine-learning techniques',
+  '3D abdominal multi-organ segmentation using deep learning and computer vision',
+  'Machine-learning models using optical brain measurements to predict in vivo hemoglobin oxygenation',
+  'Quantitative gel electrophoresis analysis on a smartphone',
+  'Computer vision application to improve accuracy in surgical chronic kidney disease models',
+  "The connection between nutrition and Alzheimer's disease",
+]
+
+const presentationItems = [
+  ['2025', 'AAPM Blue Ribbon Poster, Washington DC: locally hosted LLMs for TG-263 target-name compliance'],
+  ['2025', 'SPS invited poster, Denver: Ethos 2.0 high-fidelity SRS validation'],
+  ['2024', 'COMP invited speaker, Regina: locally hosted LLMs in radiation oncology'],
+  ['2024', 'COMP oral contributor, Regina: Ethos 2.0 high-fidelity mode for multi-met SRS'],
+  ['2024', 'AAPM poster, Los Angeles: Ethos high-fidelity SRS comparative analysis'],
+  ['2024', 'AAPM poster, Los Angeles: auto-segmentation framework comparison'],
+  ['2023', 'CUPC best talk winner: optimizing dose delivery during fractionated radiotherapy'],
+  ['2023', 'AAPM interactive e-poster: deep-learning auto-contouring for abdominal normal tissues'],
+  ['2022', 'CUMPC and Physics Undergraduate Conference: abdominal multi-organ segmentation workflows'],
+  ['2021-2022', 'CAP oral presentations: gel electrophoresis smartphone analysis and AR kidney-model guidance'],
+]
+
+const performanceRoles = [
+  {
+    title: 'Arrow McLaren IndyCar',
+    meta: 'Data and strategy intern, Indianapolis',
+    detail: 'Deterministic simulation for race-session strategy prediction, telemetry monitoring, car-performance context, and race/performance/strategy engineering projects.',
+  },
+  {
+    title: 'MAC Formula SAE Electric',
+    meta: 'Software engineering, vehicle controls and dynamics',
+    detail: 'Vehicle-controls work and custom dashboard implementations for an electric Formula SAE program.',
+  },
+  {
+    title: 'Formula LGB 1300',
+    meta: 'Momentum Motorsports',
+    detail: 'Test and development driver program experience.',
+  },
+  {
+    title: 'VW Polo Cup',
+    meta: 'Madras International Circuit, MRF',
+    detail: 'Test-driver experience at Madras International Circuit.',
+  },
+]
+
+const recognitionItems = [
+  ['Blue Ribbon Poster', 'Highest-scoring AAPM 2025 abstract designation for LLMs in radiation oncology'],
+  ['Ethos Adaptive Radiotherapy Course', 'Two-and-a-half-day Varian Ethos clinical school credentialing program'],
+  ['Science Co-op Student of the Year', 'McMaster recognition connected to UAB radiation oncology co-op work'],
+  ['Co-op Employer of the Year (Emerging)', 'UAB mentors recognized for a strong co-op learning environment'],
+  ['Outstanding Poster Presentation', '2024 Society of Physics Students-AAPM undergraduate research competition'],
+  ['Featured Highlight - McMaster University', 'International visiting scholar and convocation profile coverage'],
+  ['Featured Highlight - UAB', 'UAB and Heersink School of Medicine coverage of AI and radiation oncology work'],
+  ['Best Talk, CUPC 2023', 'First prize for optimizing dose delivery during fractionated radiotherapy'],
+]
+
+const certificationItems = [
+  'Advanced Placement Scholar with Distinction',
+  'HOSA second place, national recognition',
+  'Top 25% in Mathematics',
+  'Certified Yoga Teacher',
+  'French Language Certification',
+  'Provincial Chess Champion',
+  'Medical Youth Summer Program',
+  'Computer Science Competency',
+  'Piano bronze, silver, and gold medals',
+  'Robotics Lead Mentor',
+  'GRAMEN Spelling Bee Semi-Finalist',
+  'CPR, First Aid, and AED certification',
+  'Go-karting provincial runner-up',
+  'Badminton provincial runner-up',
+  'Robotics provincial runner-up',
+  'FIRST Robotics Competition semi-finalist',
+]
+
+const archiveGroups = [
+  {
+    title: 'Clinical and Service',
+    items: [
+      'Clinical shadowing with radiation oncologists and medical physicists at UAB Radiation Oncology',
+      'Volunteer at Humber River Hospital across Medical Imaging, Surgical Inpatient, and Information Services',
+      'UAB Hindu YUVA: promote, practice, protect, and preserve Hindu values through activities and events',
+    ],
+  },
+  {
+    title: 'Robotics and STEM Outreach',
+    items: [
+      'Senior programmer and outreach member, FRC Team 4939',
+      'Lead mentor, Robotique Zone01',
+      "French program coordinator, Sparkin' STEM",
+    ],
+  },
+  {
+    title: 'Sport and Technical Hobbies',
+    items: [
+      'NAUI/SSI certified open-water scuba diver',
+      'Private pilot training at Brampton Flight Centre',
+      'Equestrian Canada and Ontario Equestrian member with English and Western experience',
+      'School ice hockey team member',
+    ],
+  },
+  {
+    title: 'Music',
+    items: [
+      'Royal Conservatory of Music certified pianist',
+      'Central Peel Regional Strings Program graduate with Western classical violin experience',
+      'Indian Carnatic violinist and vocalist with more than 10 years of performance experience',
+    ],
   },
 ]
 
@@ -474,6 +667,23 @@ function Education() {
   )
 }
 
+function Experience() {
+  return (
+    <section className="section" id="experience">
+      <SectionHeading title="Experience & Affiliations" />
+      <div className="experience-grid">
+        {experienceItems.map((item) => (
+          <article key={`${item.role}-${item.org}`}>
+            <span>{item.role}</span>
+            <h3>{item.org}</h3>
+            <p>{item.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function Research() {
   const [selectedTitle, setSelectedTitle] = useState(researchItems[0].title)
   const selected = researchItems.find((item) => item.title === selectedTitle) ?? researchItems[0]
@@ -518,12 +728,33 @@ function Research() {
           </div>
         </article>
       </div>
+      <div className="research-archive">
+        <article>
+          <h3>Research Archive</h3>
+          <ol>
+            {researchArchiveItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ol>
+        </article>
+        <article>
+          <h3>Presentations</h3>
+          <div className="timeline-list">
+            {presentationItems.map(([year, detail]) => (
+              <div key={`${year}-${detail}`}>
+                <span>{year}</span>
+                <p>{detail}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </div>
     </section>
   )
 }
 
 function Software() {
-  const categories = ['All', 'Clinical AI', 'Open source', 'Web systems', 'Research tools'] as const
+  const categories = ['All', 'Clinical AI', 'Open source', 'Web systems', 'Research tools', 'Robotics & Outreach'] as const
   const [category, setCategory] = useState<(typeof categories)[number]>('All')
   const visibleItems = category === 'All' ? softwareItems : softwareItems.filter((item) => item.category === category)
 
@@ -592,6 +823,41 @@ function Performance() {
           </ul>
         </div>
       </div>
+      <div className="role-grid">
+        {performanceRoles.map((item) => (
+          <article key={item.title}>
+            <span>{item.meta}</span>
+            <strong>{item.title}</strong>
+            <p>{item.detail}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Recognition() {
+  return (
+    <section className="section" id="recognition">
+      <SectionHeading title="Recognition" />
+      <div className="recognition-layout">
+        <div className="recognition-list">
+          {recognitionItems.map(([title, detail]) => (
+            <article key={title}>
+              <strong>{title}</strong>
+              <p>{detail}</p>
+            </article>
+          ))}
+        </div>
+        <aside className="certification-panel">
+          <h3>Awards & Certifications Archive</h3>
+          <ul>
+            {certificationItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </aside>
+      </div>
     </section>
   )
 }
@@ -624,6 +890,33 @@ function Proof() {
         ) : (
           <p className="empty-state">No proof links match that search.</p>
         )}
+      </div>
+    </section>
+  )
+}
+
+function Archive() {
+  return (
+    <section className="section" id="archive">
+      <SectionHeading
+        title="Activities Archive"
+        action={
+          <ExternalLink href="https://sites.google.com/view/udbhav-ram/home" className="text-link">
+            Old site <Icon name="arrow" />
+          </ExternalLink>
+        }
+      />
+      <div className="archive-grid">
+        {archiveGroups.map((group) => (
+          <article key={group.title}>
+            <h3>{group.title}</h3>
+            <ul>
+              {group.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
       </div>
     </section>
   )
@@ -680,10 +973,13 @@ function App() {
       <main>
         <Hero />
         <Education />
+        <Experience />
         <Research />
         <Software />
         <Performance />
+        <Recognition />
         <Proof />
+        <Archive />
         <Contact />
       </main>
       <footer className="site-footer">
