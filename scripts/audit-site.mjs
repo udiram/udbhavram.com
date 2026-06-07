@@ -60,6 +60,10 @@ async function checkUrl(url) {
     if ([403, 405, 429, 999].includes(response.status)) {
       response = await fetch(url, { method: 'GET', redirect: 'follow', signal: AbortSignal.timeout(12_000), headers })
     }
+    if (response.status >= 500) {
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      response = await fetch(url, { method: 'GET', redirect: 'follow', signal: AbortSignal.timeout(12_000), headers })
+    }
 
     const status = response.status
     const gated = [403, 429, 999].includes(status)
