@@ -311,6 +311,60 @@ dd {
   text-underline-offset: 4px;
 }
 
+.education-section {
+  padding-top: 48px;
+}
+
+.education-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.88fr) minmax(0, 1.12fr);
+  gap: 34px;
+  align-items: stretch;
+}
+
+.education-primary {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  border-top: 2px solid var(--accent);
+  background: var(--surface);
+  padding: 26px;
+}
+
+.education-primary span,
+.education-list span {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 780;
+}
+
+.education-primary h3 {
+  max-width: 640px;
+}
+
+.education-list {
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+}
+
+.education-list article {
+  display: grid;
+  gap: 8px;
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+
+.education-list strong {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.education-list p {
+  max-width: 760px;
+  font-size: 15px;
+}
+
 .research-layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
@@ -608,6 +662,7 @@ form .button {
   }
 
   .hero,
+  .education-layout,
   .research-detail,
   .performance-feature,
   .contact-section {
@@ -696,6 +751,10 @@ form .button {
   .research-list,
   form {
     grid-template-columns: 1fr;
+  }
+
+  .education-primary {
+    padding: 22px;
   }
 
   .section-heading {

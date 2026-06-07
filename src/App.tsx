@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
 
-type SectionId = 'home' | 'research' | 'software' | 'performance' | 'proof' | 'contact'
+type SectionId = 'home' | 'education' | 'research' | 'software' | 'performance' | 'proof' | 'contact'
 
 type ImageAsset = {
   src: string
@@ -134,6 +134,7 @@ const imageAssets = {
 
 const navItems: { id: SectionId; label: string }[] = [
   { id: 'home', label: 'Home' },
+  { id: 'education', label: 'Education' },
   { id: 'research', label: 'Research' },
   { id: 'software', label: 'Software' },
   { id: 'performance', label: 'Performance' },
@@ -312,10 +313,28 @@ const proofItems: ProofItem[] = [
 ]
 
 const profileFacts = [
-  ['Education', 'McMaster Medical & Biological Physics'],
-  ['Research home', 'UAB Radiation Oncology'],
+  ['PhD', 'Medical Physics, University of Wisconsin-Madison'],
+  ['Lab', "Ran Zhang's lab"],
+  ['Undergrad', 'McMaster Medical & Biological Physics'],
   ['Open source', 'MONAI and OpenHands'],
-  ['Focus', 'Clinical AI, imaging, performance systems'],
+]
+
+const educationItems = [
+  {
+    degree: 'PhD in Medical Physics',
+    institution: 'University of Wisconsin-Madison',
+    detail: "Started doctoral work in Ran Zhang's lab, focused on medical physics, imaging, and clinical AI systems.",
+  },
+  {
+    degree: 'BSc Honours Medical & Biological Physics',
+    institution: 'McMaster University',
+    detail: 'Built the foundation across medical physics, biophysics, computation, and radiation oncology research.',
+  },
+  {
+    degree: 'International visiting scholar',
+    institution: 'UAB Radiation Oncology',
+    detail: 'Worked on clinical AI, adaptive radiotherapy, treatment planning, and workflow automation with UAB collaborators.',
+  },
 ]
 
 function Icon({ name }: { name: 'arrow' | 'download' | 'mail' | 'search' }) {
@@ -398,9 +417,9 @@ function Hero() {
     <section className="hero section" id="home">
       <div className="hero-copy">
         <h1>Udbhav Ram</h1>
-        <p className="role-line">Clinical AI · Radiation Oncology · Software · Performance Engineering</p>
+        <p className="role-line">Medical Physics PhD · Clinical AI · Radiation Oncology · Software</p>
         <p className="hero-summary">
-          I build clinical AI systems, software, and performance tools where precision, workflow, and human judgment matter.
+          I am a Medical Physics PhD student at the University of Wisconsin-Madison in Ran Zhang's lab, building clinical AI systems and software where precision, workflow, and human judgment matter.
         </p>
         <div className="hero-actions">
           <a className="button primary" href={resumeHref} download>
@@ -420,6 +439,32 @@ function Hero() {
           </div>
         ))}
       </dl>
+    </section>
+  )
+}
+
+function Education() {
+  return (
+    <section className="education-section section" id="education">
+      <SectionHeading title="Education" />
+      <div className="education-layout">
+        <article className="education-primary">
+          <span>Current</span>
+          <h3>PhD student in Medical Physics at the University of Wisconsin-Madison.</h3>
+          <p>
+            I recently started doctoral work in Ran Zhang's lab, continuing my path across medical physics, imaging, clinical AI, and translational software systems.
+          </p>
+        </article>
+        <div className="education-list" aria-label="Education and training">
+          {educationItems.map((item) => (
+            <article key={`${item.degree}-${item.institution}`}>
+              <span>{item.institution}</span>
+              <strong>{item.degree}</strong>
+              <p>{item.detail}</p>
+            </article>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
@@ -629,6 +674,7 @@ function App() {
       <Header />
       <main>
         <Hero />
+        <Education />
         <Research />
         <Software />
         <Performance />
