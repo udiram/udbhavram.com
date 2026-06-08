@@ -42,6 +42,12 @@ type ProofItem = LinkItem & {
   sourceName: string
 }
 
+type SocialItem = {
+  label: string
+  href: string
+  icon: 'mail' | 'github' | 'scholar' | 'linkedin' | 'medium'
+}
+
 type ResumeEntry = {
   title: string
   organization: string
@@ -381,30 +387,14 @@ const proofItems: ProofItem[] = [
     href: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
     image: imageAssets.employerAwards,
   },
-  {
-    label: 'GitHub profile',
-    sourceName: 'GitHub',
-    meta: 'Open-source work',
-    href: 'https://github.com/udiram',
-  },
-  {
-    label: 'Google Scholar search',
-    sourceName: 'Google Scholar',
-    meta: 'Research publications',
-    href: 'https://scholar.google.com/scholar?q=%22Udbhav+Ram%22',
-  },
-  {
-    label: 'LinkedIn',
-    sourceName: 'LinkedIn',
-    meta: 'Professional profile',
-    href: 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine',
-  },
-  {
-    label: 'Medium',
-    sourceName: 'Medium',
-    meta: 'Writing archive',
-    href: 'https://medium.com/@udbhavram41',
-  },
+]
+
+const socialItems: SocialItem[] = [
+  { label: 'Email', href: 'mailto:ramu@mcmaster.ca', icon: 'mail' },
+  { label: 'LinkedIn', href: 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine', icon: 'linkedin' },
+  { label: 'GitHub', href: 'https://github.com/udiram', icon: 'github' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/scholar?q=%22Udbhav+Ram%22', icon: 'scholar' },
+  { label: 'Medium', href: 'https://medium.com/@udbhavram41', icon: 'medium' },
 ]
 
 const profileFacts = [
@@ -617,7 +607,7 @@ const archiveGroups = [
   },
 ]
 
-function Icon({ name }: { name: 'arrow' | 'download' | 'mail' | 'search' }) {
+function Icon({ name }: { name: 'arrow' | 'download' | SocialItem['icon'] | 'search' }) {
   const paths: Record<string, ReactNode> = {
     arrow: <path d="M5 10h10M11 6l4 4-4 4" />,
     download: (
@@ -639,12 +629,54 @@ function Icon({ name }: { name: 'arrow' | 'download' | 'mail' | 'search' }) {
         <path d="m11.5 11.5 4 4" />
       </>
     ),
+    github: (
+      <>
+        <path d="M7.2 16.2c-2 .6-2-1-2.8-1.3" />
+        <path d="M13.2 17v-2.2c0-.6-.2-1-.6-1.3 2-.2 4.1-1 4.1-4.5 0-1-.3-1.8-.9-2.4.1-.3.4-1.3-.1-2.4 0 0-.8-.3-2.5.9A8.4 8.4 0 0 0 8.8 5c-1.7-1.2-2.5-.9-2.5-.9-.5 1.1-.2 2.1-.1 2.4A3.4 3.4 0 0 0 5.3 9c0 3.5 2.1 4.3 4.1 4.5-.3.2-.5.7-.6 1.2V17" />
+      </>
+    ),
+    scholar: (
+      <>
+        <path d="m3.5 8 6.5-3.5L16.5 8 10 11.5 3.5 8z" />
+        <path d="M6 10v3.2c1.1.9 2.4 1.3 4 1.3s2.9-.4 4-1.3V10" />
+        <path d="M16.5 8v4" />
+      </>
+    ),
+    linkedin: (
+      <>
+        <path d="M5.2 8.2V15" />
+        <path d="M9 15v-4.1c0-1.6 1-2.6 2.4-2.6s2.4 1 2.4 2.8V15" />
+        <path d="M9 8.4V15" />
+        <circle cx="5.2" cy="5.3" r="1" />
+        <path d="M3.5 3.5h13v13h-13z" />
+      </>
+    ),
+    medium: (
+      <>
+        <circle cx="6.6" cy="10" r="4.1" />
+        <ellipse cx="12.5" cy="10" rx="2.2" ry="3.8" />
+        <path d="M16.1 6.6c.9 0 1.6 1.5 1.6 3.4s-.7 3.4-1.6 3.4-1.6-1.5-1.6-3.4.7-3.4 1.6-3.4z" />
+      </>
+    ),
   }
 
   return (
     <svg viewBox="0 0 20 20" aria-hidden="true">
       {paths[name]}
     </svg>
+  )
+}
+
+function SocialLinks() {
+  return (
+    <nav className="social-links" aria-label="Social links">
+      {socialItems.map((item) => (
+        <ExternalLink href={item.href} className="social-link" key={item.label}>
+          <Icon name={item.icon} />
+          <span>{item.label}</span>
+        </ExternalLink>
+      ))}
+    </nav>
   )
 }
 
@@ -794,14 +826,7 @@ function Research() {
 
   return (
     <section className="section" id="research">
-      <SectionHeading
-        title="Featured Research"
-        action={
-          <ExternalLink href="https://scholar.google.com/scholar?q=%22Udbhav+Ram%22" className="text-link">
-            View research <Icon name="arrow" />
-          </ExternalLink>
-        }
-      />
+      <SectionHeading title="Featured Research" />
       <div className="research-layout">
         <div className="research-list" aria-label="Research projects">
           {researchItems.map((item) => (
@@ -1062,11 +1087,6 @@ function Contact() {
       <div>
         <h2>Let’s Work Together</h2>
         <p>Reach out for research collaboration, clinical AI tooling, software projects, conference speaking, or performance-engineering crossover work.</p>
-        <div className="contact-links">
-          <a href="mailto:ramu@mcmaster.ca">ramu@mcmaster.ca</a>
-          <ExternalLink href="https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine">LinkedIn</ExternalLink>
-          <ExternalLink href="https://github.com/udiram">GitHub</ExternalLink>
-        </div>
       </div>
       <form onSubmit={submit}>
         <label>
@@ -1107,9 +1127,7 @@ function App() {
       </main>
       <footer className="site-footer">
         <span>© 2026 Udbhav Ram</span>
-        <a href={resumeHref} download>
-          Download CV
-        </a>
+        <SocialLinks />
       </footer>
     </div>
   )
