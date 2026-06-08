@@ -126,11 +126,11 @@ svg {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.72fr);
-  gap: 72px;
+  grid-template-columns: minmax(0, 0.95fr) minmax(340px, 0.62fr);
+  gap: 56px;
   align-items: center;
-  padding-top: 34px;
-  padding-bottom: 30px;
+  padding-top: 24px;
+  padding-bottom: 24px;
 }
 
 .hero-copy {
@@ -147,11 +147,11 @@ p {
 }
 
 h1 {
-  max-width: 720px;
-  font-size: clamp(62px, 8vw, 116px);
+  max-width: 620px;
+  font-size: clamp(54px, 6.2vw, 88px);
   font-weight: 860;
   letter-spacing: 0;
-  line-height: 0.92;
+  line-height: 0.94;
 }
 
 h2 {
@@ -183,7 +183,7 @@ li {
 
 .hero-summary {
   max-width: 620px;
-  font-size: 18px;
+  font-size: 17px;
 }
 
 .hero-actions,
@@ -243,6 +243,7 @@ li {
 
 .hero-image {
   aspect-ratio: 4 / 3;
+  max-height: 360px;
 }
 
 .fact-strip {
@@ -258,6 +259,32 @@ li {
   display: grid;
   gap: 8px;
   padding: 12px 24px 0 0;
+}
+
+.home-record {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+.home-record article {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 18px 24px 0 0;
+}
+
+.home-record h2 {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.home-record li {
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 dt,
@@ -628,28 +655,24 @@ ul {
   font-weight: 650;
 }
 
-.project-grid {
+.project-ledger {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  border-top: 1px solid var(--line-strong);
 }
 
 .project-card {
   display: grid;
-  grid-template-rows: auto auto 1fr auto;
-  gap: 16px;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 24px;
   min-width: 0;
-  border-top: 1px solid var(--line-strong);
-  background: var(--surface);
-  padding: 18px;
+  border-bottom: 1px solid var(--line);
+  padding: 22px 0;
 }
 
 .project-card-head {
-  display: flex;
-  min-height: 86px;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 14px;
+  display: grid;
+  align-content: start;
+  gap: 10px;
 }
 
 .project-card-head > div {
@@ -671,7 +694,7 @@ ul {
   flex: 0 0 auto;
   max-width: 88px;
   color: var(--muted);
-  text-align: right;
+  text-align: left;
 }
 
 .project-card strong {
@@ -688,8 +711,14 @@ ul {
 
 .project-card-body {
   display: grid;
-  gap: 16px;
+  gap: 14px;
   align-content: start;
+}
+
+.project-card-main {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
 }
 
 .project-card dl {
@@ -714,7 +743,7 @@ ul {
   display: flex;
   min-height: 44px;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
   border-top: 1px solid var(--line);
   padding-top: 12px;
@@ -762,7 +791,7 @@ ul {
 
 .role-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin-top: 28px;
   align-items: stretch;
@@ -770,12 +799,13 @@ ul {
 
 .role-grid article {
   display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 14px;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 14px 18px;
   min-width: 0;
 }
 
 .role-card-image {
+  grid-row: 1 / span 2;
   aspect-ratio: 16 / 10;
   width: 100%;
   border-color: var(--line);
@@ -794,6 +824,7 @@ ul {
 }
 
 .role-grid ul {
+  grid-column: 2;
   padding-left: 17px;
   align-content: start;
 }
@@ -1253,10 +1284,12 @@ form .button {
   .hero,
   .education-layout,
   .resume-list article,
+  .project-card,
   .research-detail,
   .research-archive,
   .performance-feature,
   .role-grid,
+  .role-grid article,
   .recognition-layout,
   .archive-group,
   .contact-section {
@@ -1341,6 +1374,7 @@ form .button {
   }
 
   .fact-strip,
+  .home-record,
   .research-list,
   form {
     grid-template-columns: 1fr;
@@ -1421,12 +1455,23 @@ form .button {
     gap: 22px;
   }
 
-  .project-grid {
-    grid-template-columns: 1fr;
+  .project-card {
+    gap: 12px;
+    padding: 18px 0;
   }
 
-  .project-card {
-    padding: 16px;
+  .project-card-foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .role-card-image,
+  .role-grid ul {
+    grid-column: 1;
+  }
+
+  .role-card-image {
+    grid-row: auto;
   }
 
   form .button {

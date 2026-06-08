@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
 
-type SectionId = 'home' | 'education' | 'experience' | 'research' | 'software' | 'performance' | 'recognition' | 'proof' | 'archive' | 'contact'
+type SectionId = 'home' | 'education' | 'experience' | 'research' | 'projects' | 'motorsports' | 'media' | 'awards' | 'activities' | 'contact'
 
 type ImageAsset = {
   src: string
@@ -258,16 +258,18 @@ const navItems: { id: SectionId; label: string }[] = [
   { id: 'education', label: 'Education' },
   { id: 'experience', label: 'Experience' },
   { id: 'research', label: 'Research' },
-  { id: 'software', label: 'Software' },
-  { id: 'performance', label: 'Performance' },
-  { id: 'recognition', label: 'Recognition' },
-  { id: 'proof', label: 'Proof' },
-  { id: 'archive', label: 'Archive' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'motorsports', label: 'Motorsports' },
+  { id: 'media', label: 'Media' },
+  { id: 'awards', label: 'Awards' },
+  { id: 'activities', label: 'Activities' },
   { id: 'contact', label: 'Contact' },
 ]
 
 const resumeHref = '/assets/Udbhav_Ram_resume.pdf'
 const oldSiteLinks = {
+  home: 'https://sites.google.com/view/udbhav-ram/home',
+  media: 'https://sites.google.com/view/udbhav-ram/media',
   awards: 'https://sites.google.com/view/udbhav-ram/awards-and-certifications',
   activities: 'https://sites.google.com/view/udbhav-ram/activities',
   projects: 'https://sites.google.com/view/udbhav-ram/projects',
@@ -384,7 +386,7 @@ const softwareItems: SoftwareItem[] = [
     role: 'Lead developer',
     category: 'Research tools',
     status: 'Archive',
-    responsibilities: ['Led embedded and robotics software work for an automated prosthetic limb prototype.'],
+    responsibilities: ['Led software and controls work for an automated prosthetic limb prototype.', 'Connected mechatronics, embedded control, and robotics prototyping into a public project archive.'],
     href: 'https://sites.google.com/view/prostheticlimbprototype/home',
     linkLabel: 'View archive',
   },
@@ -395,9 +397,20 @@ const softwareItems: SoftwareItem[] = [
     role: 'Founder',
     category: 'Web systems',
     status: 'Public',
-    responsibilities: ['Led full-stack web development and technical content for Synth-Med Biotechnology.'],
+    responsibilities: ['Led full-stack development and technical content for Synth-Med Biotechnology.', 'Maintained the public site and research-and-development positioning.'],
     href: 'https://synth-med.com/about/',
     linkLabel: 'Open site',
+  },
+  {
+    title: 'Full-stack application development',
+    purpose: 'Client-server applications and cloud-backed mathematical or deep-learning systems',
+    stack: 'Flask, Django, Android, iOS, web frontends, Azure, GCS, AWS',
+    role: 'Full-stack developer',
+    category: 'Web systems',
+    status: 'Archive',
+    responsibilities: ['Built and published several applications with emphasis on client and server development.', 'Worked on cloud-based mathematical and deep-learning backends in Flask and Django frameworks.', 'Built Android, iOS, and web-based frontends with CI/CD deployment pipelines using Azure, Google Cloud, and AWS.'],
+    href: oldSiteLinks.projects,
+    linkLabel: 'View old projects page',
   },
   {
     title: 'Autonomous car conversion',
@@ -413,11 +426,11 @@ const softwareItems: SoftwareItem[] = [
   {
     title: 'WAAW group infrastructure',
     purpose: 'DevOps infrastructure and backend systems for a team software environment',
-    stack: 'Backend systems, DevOps, deployment',
+    stack: 'Backend systems, DevOps, CI/CD deployment',
     role: 'Infrastructure lead',
     category: 'Web systems',
     status: 'Internal',
-    responsibilities: ['Led DevOps infrastructure and backend work for a team software environment.'],
+    responsibilities: ['Led DevOps infrastructure and backend work for a team software environment.', 'Owned practical deployment and server-side reliability work rather than only frontend presentation.'],
   },
   {
     title: 'Robotique Zone01 and FRC 4939',
@@ -551,6 +564,34 @@ const profileFacts = [
   ['Lab', "Ran Zhang's lab"],
   ['Undergrad', 'McMaster Medical & Biological Physics'],
   ['Open source', 'MONAI and OpenHands'],
+]
+
+const hashAliases: Record<string, SectionId> = {
+  archive: 'activities',
+  performance: 'motorsports',
+  proof: 'media',
+  recognition: 'awards',
+  software: 'projects',
+}
+
+const homeProfileBlocks = [
+  {
+    title: 'Currently Researching',
+    items: [
+      'LLM agent integration in clinical workflows at UAB',
+      'Ethos 2.0 treatment planning validation for single-isocentre stereotactic radiosurgery',
+      'Interobserver contour variability in Ethos adaptive APBI workflows',
+      'Multi-institution 6X versus 10XFFF SBRT commissioning on TrueBeam iTX',
+    ],
+  },
+  {
+    title: 'Strengths',
+    items: ['Software engineering', 'Deep learning, machine learning, and computer vision applications', 'Race and performance engineering'],
+  },
+  {
+    title: 'Goals',
+    items: ['Apply software advances toward clinical endpoints', 'Publish additional work in high-impact journals', "Finish private pilot's licence training"],
+  },
 ]
 
 const educationItems: EducationEntry[] = [
@@ -792,9 +833,10 @@ const certificationItems: CertificationItem[] = [
   { title: 'HOSA second place, national recognition', group: 'Healthcare and safety', period: 'Archive', detail: 'National HOSA placement listed in the older awards archive.', evidence: 'Early competitive healthcare-interest signal before hospital service and medical physics.', href: oldSiteLinks.awards },
   { title: 'Medical Youth Summer Program', group: 'Healthcare and safety', period: 'Archive', detail: 'Medical youth program participation recorded in the awards archive.', evidence: 'Early exposure to health-care pathways before radiation oncology research.', href: oldSiteLinks.awards },
   { title: 'CPR, First Aid, and AED certification', group: 'Healthcare and safety', period: 'Archive', detail: 'Safety and emergency-response certification.', evidence: 'Baseline practical training for patient-facing and community contexts.', href: oldSiteLinks.awards },
+  { title: 'The Mirai Project', group: 'Healthcare and safety', period: '2020', detail: 'Medical case-study competition finalist work listed in the awards archive.', evidence: 'Runner-up finalist recognition connected to health-care reasoning and case analysis.', href: oldSiteLinks.awards },
   { title: 'Certified Yoga Teacher', group: 'Teaching and leadership', period: 'Archive', detail: 'Registered yoga instructor; old site lists head yoga instructor at Anytime Fitness Brampton and instructor at McMaster University.', evidence: 'Sustained teaching, group leadership, and public-facing communication.', href: oldSiteLinks.activities },
   { title: 'Robotics Lead Mentor', group: 'Teaching and leadership', period: 'Archive', detail: 'Lead mentor role for robotics students through Robotique Zone01.', evidence: 'Hands-on technical mentorship and STEM education leadership.', href: oldSiteLinks.projects },
-  { title: 'Piano bronze, silver, and gold medals', group: 'Arts and performance', period: 'Archive', detail: 'Royal Conservatory-linked piano recognition from the awards archive.', evidence: 'Long-term disciplined performance training outside technical work.', href: oldSiteLinks.awards },
+  { title: 'Piano medal record', group: 'Arts and performance', period: 'Archive', detail: 'Royal Conservatory-linked record: 5-time piano bronze medalist, 3-time piano silver medalist, and 3-time piano gold medalist.', evidence: 'Long-term disciplined performance training outside technical work.', href: oldSiteLinks.awards },
   { title: 'GRAMEN Spelling Bee Semi-Finalist', group: 'Arts and performance', period: 'Archive', detail: 'Language and competition recognition from the awards archive.', evidence: 'Communication-oriented competitive background.', href: oldSiteLinks.awards },
   { title: 'Provincial Chess Champion', group: 'Competition and sport', period: 'Archive', detail: 'Chess recognition listed in the awards archive.', evidence: 'Strategic competition record that complements technical problem-solving.', href: oldSiteLinks.awards },
   { title: 'Go-karting provincial runner-up', group: 'Competition and sport', period: 'Archive', detail: 'Karting recognition connected to the motorsports archive.', evidence: 'Driver-development foundation behind later performance engineering and simulation work.', href: oldSiteLinks.motorsports },
@@ -835,6 +877,15 @@ const archiveGroups: ArchiveGroup[] = [
         outcome: 'Public-facing leadership experience outside the lab and clinic.',
         href: oldSiteLinks.activities,
       },
+      {
+        title: 'UAB Hindu YUVA',
+        role: 'Community volunteer',
+        period: '2024',
+        context: 'Community work during the UAB period focused on preserving and practicing Hindu values through activities and events.',
+        responsibilities: ['Supported cultural and community programming at UAB.', 'Balanced research placement responsibilities with service and community participation.'],
+        outcome: 'Preserved the community-service detail from the original Activities page.',
+        href: oldSiteLinks.activities,
+      },
     ],
   },
   {
@@ -858,6 +909,15 @@ const archiveGroups: ArchiveGroup[] = [
         responsibilities: ['Guided student robotics development and technical problem-solving.', 'Translated programming concepts into approachable mentor-led instruction.'],
         outcome: 'Sustained mentorship role connected to STEM access and robotics education.',
         href: oldSiteLinks.projects,
+      },
+      {
+        title: 'Automated prosthetic limb',
+        role: 'Robotics project lead',
+        period: 'Archive',
+        context: 'Original Projects page robotics entry for an automated prosthetic limb prototype.',
+        responsibilities: ['Led technical work across robotics, controls, and prototyping.', 'Documented the work through a public project archive.'],
+        outcome: 'Preserves the old site robotics project rather than hiding it inside a generic software card.',
+        href: 'https://sites.google.com/view/prostheticlimbprototype/home',
       },
       {
         title: "Sparkin' STEM",
@@ -1040,7 +1100,8 @@ function useHashScroll() {
         return true
       }
 
-      const targetId = decodeURIComponent(rawHash)
+      const decodedHash = decodeURIComponent(rawHash)
+      const targetId = hashAliases[decodedHash] ?? decodedHash
       const target = document.getElementById(targetId)
 
       if (!target) {
@@ -1151,6 +1212,18 @@ function Hero() {
           </div>
         ))}
       </dl>
+      <div className="home-record">
+        {homeProfileBlocks.map((block) => (
+          <article key={block.title}>
+            <h2>{block.title}</h2>
+            <ul>
+              {block.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
     </section>
   )
 }
@@ -1239,7 +1312,7 @@ function Research() {
 
   return (
     <section className="section" id="research">
-      <SectionHeading title="Featured Research" />
+      <SectionHeading title="Research" />
       <div className="research-layout">
         <div className="research-list" aria-label="Research projects">
           {researchItems.map((item) => (
@@ -1301,8 +1374,8 @@ function Software() {
   const visibleItems = category === 'All' ? softwareItems : softwareItems.filter((item) => item.category === category)
 
   return (
-    <section className="section" id="software">
-      <SectionHeading title="Selected Software Projects" />
+    <section className="section" id="projects">
+      <SectionHeading title="Software & Projects" />
       <div className="filter-row" aria-label="Software filters">
         {categories.map((item) => (
           <button className={category === item ? 'active' : ''} key={item} onClick={() => setCategory(item)} type="button">
@@ -1310,7 +1383,7 @@ function Software() {
           </button>
         ))}
       </div>
-      <div className="project-grid">
+      <div className="project-ledger">
         {visibleItems.map((item) => (
           <article className="project-card" key={item.title}>
             <div className="project-card-head">
@@ -1320,35 +1393,37 @@ function Software() {
               </div>
               <em>{item.period ?? item.status}</em>
             </div>
-            <p>{item.purpose}</p>
-            <div className="project-card-body">
-              {item.responsibilities ? (
-                <ul>
-                  {item.responsibilities.map((responsibility) => (
-                    <li key={responsibility}>{responsibility}</li>
-                  ))}
-                </ul>
-              ) : null}
-              <dl>
-                <div>
-                  <dt>Stack</dt>
-                  <dd>{item.stack}</dd>
-                </div>
-                <div>
-                  <dt>Role</dt>
-                  <dd>{item.role}</dd>
-                </div>
-              </dl>
-            </div>
-            <div className="project-card-foot">
-              <span>{item.outcome ?? item.status}</span>
-              {item.href ? (
-                <ExternalLink href={item.href} className="project-action">
-                  {item.linkLabel ?? 'Open project'} <Icon name="arrow" />
-                </ExternalLink>
-              ) : (
-                <span className="project-action muted">Internal project</span>
-              )}
+            <div className="project-card-main">
+              <p>{item.purpose}</p>
+              <div className="project-card-body">
+                {item.responsibilities ? (
+                  <ul>
+                    {item.responsibilities.map((responsibility) => (
+                      <li key={responsibility}>{responsibility}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                <dl>
+                  <div>
+                    <dt>Stack</dt>
+                    <dd>{item.stack}</dd>
+                  </div>
+                  <div>
+                    <dt>Role</dt>
+                    <dd>{item.role}</dd>
+                  </div>
+                </dl>
+              </div>
+              <div className="project-card-foot">
+                <span>{item.outcome ?? item.status}</span>
+                {item.href ? (
+                  <ExternalLink href={item.href} className="project-action">
+                    {item.linkLabel ?? 'Open project'} <Icon name="arrow" />
+                  </ExternalLink>
+                ) : (
+                  <span className="project-action muted">Internal project</span>
+                )}
+              </div>
             </div>
           </article>
         ))}
@@ -1359,12 +1434,12 @@ function Software() {
 
 function Performance() {
   return (
-    <section className="section" id="performance">
+    <section className="section" id="motorsports">
       <SectionHeading
-        title="Performance Engineering"
+        title="Motorsports"
         action={
-          <ExternalLink href="https://www.mclaren.com/racing/indycar/" className="text-link">
-            View performance work <Icon name="arrow" />
+          <ExternalLink href={oldSiteLinks.motorsports} className="text-link">
+            Old motorsports page <Icon name="arrow" />
           </ExternalLink>
         }
       />
@@ -1412,8 +1487,8 @@ function Recognition() {
   }, [])
 
   return (
-    <section className="section" id="recognition">
-      <SectionHeading title="Recognition" />
+    <section className="section" id="awards">
+      <SectionHeading title="Awards & Certifications" />
       <div className="recognition-layout">
         <div className="recognition-ledger">
           {recognitionItems.map((item) => (
@@ -1469,46 +1544,38 @@ function Recognition() {
 }
 
 function Proof() {
-  const [query, setQuery] = useState('')
-  const filteredProof = useMemo(() => {
-    const target = query.trim().toLowerCase()
-    if (!target) return proofItems
-    return proofItems.filter((item) => `${item.label} ${item.meta ?? ''} ${item.sourceName} ${item.category} ${item.date} ${item.summary} ${item.highlights.join(' ')}`.toLowerCase().includes(target))
-  }, [query])
-
   return (
-    <section className="section" id="proof">
-      <SectionHeading title="Proof & Press" />
-      <label className="search-box">
-        <Icon name="search" />
-        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search publications, news, awards, and profiles" />
-      </label>
-      <div className="proof-ledger" aria-live="polite">
-        {filteredProof.length ? (
-          filteredProof.map((item) => (
-            <ExternalLink href={item.href} className="proof-card" key={item.href}>
-              <div className="proof-media">
-                {item.image ? <ImageFrame image={item.image} /> : <div className="proof-placeholder">{item.sourceName.slice(0, 2)}</div>}
-              </div>
-              <div className="proof-copy">
-                <span>{item.date} · {item.sourceName}</span>
-                <strong>{item.label}</strong>
-                <em>{item.category}</em>
-                <p>{item.summary}</p>
-                <ul>
-                  {item.highlights.map((highlight) => (
-                    <li key={highlight}>{highlight}</li>
-                  ))}
-                </ul>
-                <b>
-                  Read source <Icon name="arrow" />
-                </b>
-              </div>
-            </ExternalLink>
-          ))
-        ) : (
-          <p className="empty-state">No proof links match that search.</p>
-        )}
+    <section className="section" id="media">
+      <SectionHeading
+        title="Media"
+        action={
+          <ExternalLink href={oldSiteLinks.media} className="text-link">
+            Old media page <Icon name="arrow" />
+          </ExternalLink>
+        }
+      />
+      <div className="proof-ledger">
+        {proofItems.map((item) => (
+          <ExternalLink href={item.href} className="proof-card" key={item.href}>
+            <div className="proof-media">
+              {item.image ? <ImageFrame image={item.image} /> : <div className="proof-placeholder">{item.sourceName.slice(0, 2)}</div>}
+            </div>
+            <div className="proof-copy">
+              <span>{item.date} · {item.sourceName}</span>
+              <strong>{item.label}</strong>
+              <em>{item.category}</em>
+              <p>{item.summary}</p>
+              <ul>
+                {item.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+              <b>
+                Read source <Icon name="arrow" />
+              </b>
+            </div>
+          </ExternalLink>
+        ))}
       </div>
     </section>
   )
@@ -1516,11 +1583,11 @@ function Proof() {
 
 function Archive() {
   return (
-    <section className="section" id="archive">
+    <section className="section" id="activities">
       <SectionHeading
-        title="Activities Archive"
+        title="Activities"
         action={
-          <ExternalLink href="https://sites.google.com/view/udbhav-ram/home" className="text-link">
+          <ExternalLink href={oldSiteLinks.activities} className="text-link">
             Old site <Icon name="arrow" />
           </ExternalLink>
         }
