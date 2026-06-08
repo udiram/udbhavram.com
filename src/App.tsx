@@ -78,6 +78,15 @@ type EducationEntry = {
   responsibilities: string[]
 }
 
+type PerformanceRole = {
+  title: string
+  meta: string
+  period: string
+  location?: string
+  image: ImageAsset
+  responsibilities: string[]
+}
+
 const imageAssets = {
   uabMentor: {
     src: '/assets/sourced/uab-agarwal-udi.jpg',
@@ -173,6 +182,21 @@ const imageAssets = {
     src: '/assets/sourced/screens/arrow-mclaren-page.png',
     alt: 'Arrow McLaren IndyCar official page screenshot',
     source: 'https://www.mclaren.com/racing/indycar/',
+  },
+  macFormulaSae: {
+    src: '/assets/sourced/motorsports/mac-formula-sae.png',
+    alt: 'McMaster Formula SAE Electric race car from the original portfolio motorsports page',
+    source: 'https://sites.google.com/view/udbhav-ram/motorsports',
+  },
+  formulaLgb: {
+    src: '/assets/sourced/motorsports/formula-lgb.jpg',
+    alt: 'Formula LGB 1300 driver development car from the original portfolio motorsports page',
+    source: 'https://sites.google.com/view/udbhav-ram/motorsports',
+  },
+  vwPoloCup: {
+    src: '/assets/sourced/motorsports/vw-polo-cup.jpg',
+    alt: 'VW Polo Cup test driver cockpit photo from the original portfolio motorsports page',
+    source: 'https://sites.google.com/view/udbhav-ram/motorsports',
   },
 } satisfies Record<string, ImageAsset>
 
@@ -527,12 +551,13 @@ const presentationItems = [
   ['2021-2022', 'CAP oral presentations: gel electrophoresis smartphone analysis and AR kidney-model guidance'],
 ]
 
-const performanceRoles = [
+const performanceRoles: PerformanceRole[] = [
   {
     title: 'Arrow McLaren IndyCar',
     meta: 'Data and strategy intern',
     period: 'Race-season internship',
     location: 'Indianapolis, IN',
+    image: imageAssets.arrowMcLarenRace,
     responsibilities: [
       'Implemented and developed deterministic simulation for strategy prediction during race sessions.',
       'Applied internal race-weekend tools to monitor telemetry and car performance.',
@@ -543,18 +568,21 @@ const performanceRoles = [
     title: 'MAC Formula SAE Electric',
     meta: 'Software engineering, vehicle controls and dynamics',
     period: 'McMaster Formula SAE',
+    image: imageAssets.macFormulaSae,
     responsibilities: ['Worked on vehicle-controls software.', 'Built custom dashboard implementations for the electric race-car program.'],
   },
   {
     title: 'Formula LGB 1300',
     meta: 'Momentum Motorsports',
     period: 'Driver development',
+    image: imageAssets.formulaLgb,
     responsibilities: ['Participated in a Formula LGB 1300 test and development driver program.'],
   },
   {
     title: 'VW Polo Cup',
     meta: 'Madras International Circuit, MRF',
     period: 'Test driver',
+    image: imageAssets.vwPoloCup,
     responsibilities: ['Completed VW Polo Cup test-driver experience at Madras International Circuit.'],
   },
 ]
@@ -750,9 +778,11 @@ function ExternalLink({ href, children, className = '' }: { href: string; childr
 }
 
 function ImageFrame({ image, className = '' }: { image: ImageAsset; className?: string }) {
+  const loading = className.includes('hero-image') || className.includes('role-card-image') ? 'eager' : 'lazy'
+
   return (
     <figure className={`image-frame ${className}`.trim()}>
-      <img src={image.src} alt={image.alt} loading={className.includes('hero-image') ? 'eager' : 'lazy'} />
+      <img src={image.src} alt={image.alt} loading={loading} />
     </figure>
   )
 }
@@ -1027,9 +1057,12 @@ function Performance() {
       <div className="role-grid">
         {performanceRoles.map((item) => (
           <article key={item.title}>
-            <span>{item.period}{item.location ? ` · ${item.location}` : ''}</span>
-            <strong>{item.title}</strong>
-            <em>{item.meta}</em>
+            <ImageFrame image={item.image} className="role-card-image" />
+            <div className="role-card-copy">
+              <span>{item.period}{item.location ? ` · ${item.location}` : ''}</span>
+              <strong>{item.title}</strong>
+              <em>{item.meta}</em>
+            </div>
             <ul>
               {item.responsibilities.map((responsibility) => (
                 <li key={responsibility}>{responsibility}</li>

@@ -623,18 +623,40 @@ ul {
 
 .role-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
   margin-top: 28px;
+  align-items: stretch;
 }
 
 .role-grid article {
   display: grid;
-  gap: 10px;
+  grid-template-rows: auto auto 1fr;
+  gap: 14px;
+  min-width: 0;
+}
+
+.role-card-image {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+  border-color: var(--line);
+  background: var(--table);
+}
+
+.role-card-image img {
+  object-position: center;
+}
+
+.role-card-copy {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-height: 118px;
 }
 
 .role-grid ul {
   padding-left: 17px;
+  align-content: start;
 }
 
 .role-grid strong,
