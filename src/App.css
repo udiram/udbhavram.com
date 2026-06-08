@@ -476,7 +476,6 @@ dd {
 
 .role-grid article,
 .recognition-card,
-.archive-grid article,
 .certification-panel {
   border-top: 1px solid var(--line-strong);
   background: var(--surface);
@@ -493,7 +492,6 @@ dd {
 }
 
 .resume-list h3,
-.archive-grid h3,
 .certification-panel h3,
 .research-archive h3 {
   font-size: 22px;
@@ -507,7 +505,6 @@ dd {
 .resume-list p,
 .role-grid p,
 .recognition-list p,
-.archive-grid li,
 .certification-panel li,
 .research-archive li,
 .timeline-list p {
@@ -881,37 +878,74 @@ ul {
   color: var(--ink);
 }
 
-.proof-grid {
+.proof-ledger {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
 
 .proof-card {
   display: grid;
-  gap: 9px;
-  align-content: start;
+  grid-template-columns: minmax(220px, 0.36fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: stretch;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--surface);
-  padding: 10px;
+  padding: 14px;
 }
 
-.proof-card .image-frame,
+.proof-media .image-frame,
 .proof-placeholder {
-  aspect-ratio: 1.35;
+  height: 100%;
+  min-height: 210px;
   border-color: var(--line);
 }
 
+.proof-copy {
+  display: grid;
+  gap: 9px;
+  align-content: start;
+  min-width: 0;
+}
+
 .proof-card strong {
-  min-height: 42px;
   color: var(--ink);
-  font-size: 15px;
-  line-height: 1.35;
+  font-size: 20px;
+  line-height: 1.24;
+}
+
+.proof-card:hover {
+  border-color: var(--accent);
 }
 
 .proof-card em {
+  color: var(--accent);
+  font-size: 13px;
   font-style: normal;
+  font-weight: 760;
+}
+
+.proof-card p,
+.archive-group-head p,
+.archive-entry p,
+.archive-entry li {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.proof-card ul {
+  margin-top: 2px;
+}
+
+.proof-card b,
+.archive-entry b {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 760;
 }
 
 .proof-placeholder {
@@ -936,15 +970,90 @@ ul {
   color: var(--muted);
 }
 
-.archive-grid {
+.archive-ledger {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 24px;
 }
 
-.archive-grid article {
+.archive-group {
   display: grid;
-  gap: 14px;
+  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+  gap: 28px;
+  border-top: 1px solid var(--line-strong);
+  padding-top: 22px;
+}
+
+.archive-group-head {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.archive-group-head h3 {
+  font-size: 24px;
+}
+
+.archive-entry-list {
+  display: grid;
+  gap: 12px;
+}
+
+.archive-entry {
+  display: grid;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.archive-entry:hover {
+  border-color: var(--accent);
+}
+
+.archive-entry:hover strong {
+  color: var(--accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.archive-entry-meta,
+.archive-entry-copy {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+}
+
+.archive-entry-meta span {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.archive-entry-meta em,
+.archive-entry small {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.archive-entry strong {
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.3;
+}
+
+.archive-entry small {
+  display: block;
+  border-top: 1px solid var(--line);
+  padding-top: 9px;
 }
 
 .contact-section {
@@ -1067,6 +1176,7 @@ form .button {
   .performance-feature,
   .role-grid,
   .recognition-layout,
+  .archive-group,
   .contact-section {
     grid-template-columns: 1fr;
   }
@@ -1081,9 +1191,8 @@ form .button {
   }
 
   .fact-strip,
-  .proof-grid,
   .recognition-list,
-  .archive-grid {
+  .archive-entry {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -1151,12 +1260,21 @@ form .button {
   }
 
   .fact-strip,
-  .proof-grid,
   .research-list,
   .recognition-list,
-  .archive-grid,
   form {
     grid-template-columns: 1fr;
+  }
+
+  .proof-card,
+  .archive-group,
+  .archive-entry {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-media .image-frame,
+  .proof-placeholder {
+    min-height: 180px;
   }
 
   .education-primary {
@@ -1202,7 +1320,7 @@ form .button {
   .resume-list article,
   .role-grid article,
   .recognition-card,
-  .archive-grid article,
+  .archive-entry,
   .certification-panel {
     padding: 16px;
   }

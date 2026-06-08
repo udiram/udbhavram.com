@@ -42,6 +42,26 @@ type SoftwareItem = {
 
 type ProofItem = LinkItem & {
   sourceName: string
+  date: string
+  category: string
+  summary: string
+  highlights: string[]
+}
+
+type ArchiveEntry = {
+  title: string
+  role: string
+  period: string
+  context: string
+  responsibilities: string[]
+  outcome?: string
+  href?: string
+}
+
+type ArchiveGroup = {
+  title: string
+  summary: string
+  entries: ArchiveEntry[]
 }
 
 type SocialItem = {
@@ -445,42 +465,66 @@ const proofItems: ProofItem[] = [
   {
     label: 'McMaster student and UAB mentor drive changes in medicine through AI',
     sourceName: 'UAB Medicine',
+    date: 'June 2024',
+    category: 'Clinical AI profile',
     meta: 'AI and radiation oncology profile',
+    summary: 'UAB profile on the McMaster-UAB collaboration with Carlos Cardenas, focused on artificial-intelligence tools for radiation treatment and planning.',
+    highlights: ['Worked with UAB collaborators since 2021, first remotely and then on campus in Birmingham.', 'Connected research software, clinical AI, and radiation oncology workflow problems.', 'Positioned the work as part of an international McMaster-UAB medical collaboration.'],
     href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
     image: imageAssets.uabMentor,
   },
   {
     label: 'McMaster-UAB international visiting scholar',
     sourceName: 'McMaster Science',
+    date: '2024',
+    category: 'Visiting scholar feature',
     meta: 'International visiting scholar profile',
+    summary: 'McMaster coverage of the UAB co-op and visiting-scholar role in radiation oncology, including deep-learning deployment and radiotherapy QA software.',
+    highlights: ['Worked on clinical deployment of deep-learning systems.', 'Developed software for radiotherapy quality assurance.', 'Built on earlier UAB Radiation Oncology research in radiomics and CT-image segmentation.'],
     href: 'https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/',
     image: imageAssets.mcmasterScholar,
   },
   {
     label: "Udbhav Ram's co-op supervisors flew in from Alabama to give him an award",
     sourceName: 'McMaster Daily News',
+    date: '2025',
+    category: 'Award profile',
     meta: 'Science Co-op Student of the Year',
+    summary: 'McMaster News profile on receiving Science Co-op Student of the Year recognition after the UAB Radiation Oncology placement.',
+    highlights: ['Supervisors from UAB traveled to McMaster to present the recognition in person.', 'Award connected directly to the UAB co-op and international visiting-scholar work.', 'Reinforced the scale of mentorship and trust built during the placement.'],
     href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
     image: imageAssets.coopAward,
   },
   {
     label: 'Carlos Cardenas receives McMaster Co-op Emerging Employer of the Year Award',
     sourceName: 'UAB',
+    date: 'June 2025',
+    category: 'Mentorship recognition',
     meta: 'Employer award coverage',
+    summary: 'UAB coverage of Carlos Cardenas receiving McMaster University Emerging Science Co-op Employer of the Year recognition after the co-op collaboration.',
+    highlights: ['Recognition came from a student nomination tied to a rich research and mentorship environment.', 'Article notes AI projects in radiation treatment and planning during the UAB co-op.', 'Frames the collaboration as a model for future McMaster-UAB student exchange.'],
     href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
     image: imageAssets.employerAward,
   },
   {
     label: 'Convocation countdown with Udbhav Ram',
     sourceName: 'McMaster Science',
+    date: 'May 2026',
+    category: 'Academic profile',
     meta: 'Academic path and next steps',
+    summary: 'Faculty of Science convocation profile covering the Medical Physics with Co-op path, mentorship, UAB experience, and next academic steps.',
+    highlights: ['Highlights Honours Medical Physics with Co-op at McMaster.', 'Connects the UAB experience to student representation and binational institutional relationships.', 'Captures the transition from undergraduate medical physics toward doctoral work.'],
     href: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
     image: imageAssets.convocation,
   },
   {
     label: 'Recognizing Excellence in Science 2024 Co-op Employer of the Year Awards',
     sourceName: 'McMaster Science',
+    date: 'April 2025',
+    category: 'Co-op ecosystem',
     meta: 'Co-op award ecosystem',
+    summary: 'Faculty of Science context for the co-op employer awards program that recognizes supervisors and employers who create meaningful work terms.',
+    highlights: ['Shows the broader McMaster Science co-op recognition structure.', 'Provides institutional context for the UAB employer and student award stories.', 'Links the work to experiential education, mentorship, and professional formation.'],
     href: 'https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/',
     image: imageAssets.employerAwards,
   },
@@ -719,39 +763,137 @@ const certificationItems: CertificationItem[] = [
   { title: 'FIRST Robotics Competition semi-finalist', href: 'https://www.thebluealliance.com/team/4939' },
 ]
 
-const archiveGroups = [
+const archiveGroups: ArchiveGroup[] = [
   {
     title: 'Clinical and Service',
-    items: [
-      '2024: Shadowed radiation oncologists and medical physicists at UAB Radiation Oncology.',
-      'Volunteer: Assisted physicians and teams at Humber River Hospital across Medical Imaging, Surgical Inpatient, and Information Services.',
-      'UAB Hindu YUVA: Helped promote, practice, protect, and preserve Hindu values through activities and events.',
-      'Registered Yoga Instructor: Head Yoga Instructor for Anytime Fitness Brampton and yoga instructor at McMaster University.',
+    summary: 'Older clinical exposure, hospital service, and community-facing work that shaped the patient-care side of the portfolio.',
+    entries: [
+      {
+        title: 'UAB Radiation Oncology shadowing',
+        role: 'Clinical observer',
+        period: '2024',
+        context: 'Radiation oncology and medical physics exposure during the UAB placement.',
+        responsibilities: ['Shadowed radiation oncologists and medical physicists.', 'Observed clinical workflow, treatment-planning context, and patient-care constraints that informed later AI/software work.'],
+        outcome: 'Helped ground research tooling in the realities of clinical radiation oncology.',
+        href: oldSiteLinks.activities,
+      },
+      {
+        title: 'Humber River Hospital',
+        role: 'Hospital volunteer',
+        period: 'Pre-undergraduate archive',
+        context: 'Volunteer support across Medical Imaging, Surgical Inpatient, and Information Services.',
+        responsibilities: ['Assisted physicians, staff, and hospital teams with department-level tasks.', 'Built early familiarity with clinical operations and patient-facing environments.'],
+        outcome: 'Early healthcare-service foundation before medical physics research roles.',
+        href: oldSiteLinks.activities,
+      },
+      {
+        title: 'Yoga instruction and community programming',
+        role: 'Registered yoga instructor',
+        period: 'Archive',
+        context: 'Head Yoga Instructor for Anytime Fitness Brampton and yoga instructor at McMaster University.',
+        responsibilities: ['Led group yoga instruction and wellness programming.', 'Supported community events through UAB Hindu YUVA.'],
+        outcome: 'Public-facing leadership experience outside the lab and clinic.',
+        href: oldSiteLinks.activities,
+      },
     ],
   },
   {
     title: 'Robotics and STEM Outreach',
-    items: [
-      'Senior programmer and outreach member for FRC Team 4939.',
-      'Lead mentor for Robotique Zone01 robotics students.',
-      "French program coordinator for Sparkin' STEM; led curriculum integration with a large French school board.",
+    summary: 'Robotics, bilingual STEM curriculum, and youth mentorship work that connect software to teaching and outreach.',
+    entries: [
+      {
+        title: 'FRC Team 4939',
+        role: 'Senior programmer and outreach member',
+        period: 'Archive',
+        context: 'FIRST Robotics Competition team work across software and outreach.',
+        responsibilities: ['Supported robot programming and technical team execution.', 'Participated in outreach work tied to robotics education.'],
+        outcome: 'Archived recognition includes robotics provincial runner-up and FRC semi-finalist context.',
+        href: 'https://www.thebluealliance.com/team/4939',
+      },
+      {
+        title: 'Robotique Zone01',
+        role: 'Lead mentor',
+        period: 'Archive',
+        context: 'Mentored students through robotics programming and project work.',
+        responsibilities: ['Guided student robotics development and technical problem-solving.', 'Translated programming concepts into approachable mentor-led instruction.'],
+        outcome: 'Sustained mentorship role connected to STEM access and robotics education.',
+        href: oldSiteLinks.projects,
+      },
+      {
+        title: "Sparkin' STEM",
+        role: 'French program coordinator',
+        period: 'Archive',
+        context: 'Bilingual STEM outreach and curriculum integration.',
+        responsibilities: ['Led integration of in-house STEM curriculum with the largest French school board in Canada.', 'Helped adapt STEM instruction for French-language learners and school-board delivery.'],
+        outcome: 'Expanded technical outreach beyond single-event programming into curriculum adoption.',
+        href: oldSiteLinks.projects,
+      },
     ],
   },
   {
     title: 'Sport and Technical Hobbies',
-    items: [
-      'NAUI/SSI certified open-water scuba diver',
-      'Private pilot training at Brampton Flight Centre; old-site target completion listed July 2022.',
-      'Equestrian Canada and Ontario Equestrian member with English and Western experience',
-      'School ice hockey team member, 2018-2020',
+    summary: 'High-discipline activities that sit outside research but still explain the broader operator profile.',
+    entries: [
+      {
+        title: 'Motorsport and driving development',
+        role: 'Driver and performance-engineering crossover',
+        period: 'Archive',
+        context: 'Karting, performance engineering, and driver-development experiences that later connected to Arrow McLaren and simulation work.',
+        responsibilities: ['Competed in go-karting with provincial runner-up recognition.', 'Completed driver-development and test-driver experiences documented in the performance section.'],
+        outcome: 'Bridge between technical simulation, vehicle dynamics, and lived driver feedback.',
+        href: oldSiteLinks.motorsports,
+      },
+      {
+        title: 'Flight, diving, and equestrian training',
+        role: 'Technical hobbyist',
+        period: 'Archive',
+        context: 'Private pilot training at Brampton Flight Centre, NAUI/SSI open-water scuba certification, and Equestrian Canada/Ontario Equestrian membership.',
+        responsibilities: ['Built procedural and safety-oriented skills through aviation and diving training.', 'Developed English and Western riding experience over multiple years.'],
+        outcome: 'Adds evidence of disciplined practice in risk-aware environments.',
+        href: oldSiteLinks.activities,
+      },
+      {
+        title: 'School athletics',
+        role: 'Team athlete',
+        period: '2018-2020',
+        context: 'School ice hockey team member with additional badminton recognition.',
+        responsibilities: ['Balanced team sport participation with academic and technical commitments.', 'Competed in provincial-level badminton context.'],
+        outcome: 'Archived athletics record across individual and team competition.',
+        href: oldSiteLinks.activities,
+      },
     ],
   },
   {
     title: 'Music',
-    items: [
-      'Royal Conservatory of Music certified pianist',
-      'Central Peel Regional Strings Program graduate with more than 7 years of Western classical violin experience',
-      'Indian Carnatic violinist and vocalist with more than 10 years of performance experience',
+    summary: 'Long-running performance training across Western classical and Indian Carnatic traditions.',
+    entries: [
+      {
+        title: 'Piano',
+        role: 'Royal Conservatory of Music certified pianist',
+        period: 'Archive',
+        context: 'Formal piano training with archived bronze, silver, and gold medal recognition.',
+        responsibilities: ['Completed Royal Conservatory-aligned piano training.', 'Maintained performance discipline alongside STEM and research commitments.'],
+        outcome: 'Structured musical training and certification record.',
+        href: oldSiteLinks.awards,
+      },
+      {
+        title: 'Western classical violin',
+        role: 'Strings program graduate',
+        period: '7+ years',
+        context: 'Central Peel Regional Strings Program graduate.',
+        responsibilities: ['Studied Western classical violin in a structured regional strings program.', 'Built ensemble and performance experience over more than seven years.'],
+        outcome: 'Long-term musicianship and collaborative performance foundation.',
+        href: oldSiteLinks.activities,
+      },
+      {
+        title: 'Indian Carnatic music',
+        role: 'Violinist and vocalist',
+        period: '10+ years',
+        context: 'Indian Carnatic violin and vocal performance training.',
+        responsibilities: ['Performed and trained as a Carnatic violinist.', 'Developed Carnatic vocal performance experience over more than ten years.'],
+        outcome: 'Cross-tradition musical depth beyond Western classical training.',
+        href: oldSiteLinks.activities,
+      },
     ],
   },
 ]
@@ -1193,7 +1335,7 @@ function Proof() {
   const filteredProof = useMemo(() => {
     const target = query.trim().toLowerCase()
     if (!target) return proofItems
-    return proofItems.filter((item) => `${item.label} ${item.meta ?? ''} ${item.sourceName}`.toLowerCase().includes(target))
+    return proofItems.filter((item) => `${item.label} ${item.meta ?? ''} ${item.sourceName} ${item.category} ${item.date} ${item.summary} ${item.highlights.join(' ')}`.toLowerCase().includes(target))
   }, [query])
 
   return (
@@ -1203,14 +1345,27 @@ function Proof() {
         <Icon name="search" />
         <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search publications, news, awards, and profiles" />
       </label>
-      <div className="proof-grid" aria-live="polite">
+      <div className="proof-ledger" aria-live="polite">
         {filteredProof.length ? (
           filteredProof.map((item) => (
             <ExternalLink href={item.href} className="proof-card" key={item.href}>
-              {item.image ? <ImageFrame image={item.image} /> : <div className="proof-placeholder">{item.sourceName.slice(0, 2)}</div>}
-              <span>{item.sourceName}</span>
-              <strong>{item.label}</strong>
-              <em>{item.meta}</em>
+              <div className="proof-media">
+                {item.image ? <ImageFrame image={item.image} /> : <div className="proof-placeholder">{item.sourceName.slice(0, 2)}</div>}
+              </div>
+              <div className="proof-copy">
+                <span>{item.date} · {item.sourceName}</span>
+                <strong>{item.label}</strong>
+                <em>{item.category}</em>
+                <p>{item.summary}</p>
+                <ul>
+                  {item.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+                <b>
+                  Read source <Icon name="arrow" />
+                </b>
+              </div>
             </ExternalLink>
           ))
         ) : (
@@ -1232,16 +1387,51 @@ function Archive() {
           </ExternalLink>
         }
       />
-      <div className="archive-grid">
+      <div className="archive-ledger">
         {archiveGroups.map((group) => (
-          <article key={group.title}>
-            <h3>{group.title}</h3>
-            <ul>
-              {group.items.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </article>
+          <section className="archive-group" key={group.title}>
+            <div className="archive-group-head">
+              <h3>{group.title}</h3>
+              <p>{group.summary}</p>
+            </div>
+            <div className="archive-entry-list">
+              {group.entries.map((entry) => {
+                const content = (
+                  <>
+                    <div className="archive-entry-meta">
+                      <span>{entry.period}</span>
+                      <em>{entry.role}</em>
+                    </div>
+                    <div className="archive-entry-copy">
+                      <strong>{entry.title}</strong>
+                      <p>{entry.context}</p>
+                      <ul>
+                        {entry.responsibilities.map((responsibility) => (
+                          <li key={responsibility}>{responsibility}</li>
+                        ))}
+                      </ul>
+                      {entry.outcome ? <small>{entry.outcome}</small> : null}
+                      {entry.href ? (
+                        <b>
+                          View context <Icon name="arrow" />
+                        </b>
+                      ) : null}
+                    </div>
+                  </>
+                )
+
+                return entry.href ? (
+                  <ExternalLink href={entry.href} className="archive-entry" key={entry.title}>
+                    {content}
+                  </ExternalLink>
+                ) : (
+                  <article className="archive-entry" key={entry.title}>
+                    {content}
+                  </article>
+                )
+              })}
+            </div>
+          </section>
         ))}
       </div>
     </section>
