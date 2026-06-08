@@ -484,8 +484,7 @@ dd {
 
 .resume-meta span,
 .role-grid span,
-.timeline-list span,
-.recognition-list span {
+.timeline-list span {
   color: var(--accent);
   font-size: 13px;
   font-weight: 780;
@@ -504,7 +503,6 @@ dd {
 
 .resume-list p,
 .role-grid p,
-.recognition-list p,
 .certification-panel li,
 .research-archive li,
 .timeline-list p {
@@ -801,7 +799,8 @@ ul {
 }
 
 .role-grid strong,
-.recognition-list strong {
+.recognition-ledger strong,
+.certification-entry strong {
   color: var(--ink);
   font-size: 17px;
   line-height: 1.35;
@@ -809,28 +808,72 @@ ul {
 
 .recognition-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.52fr);
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.58fr);
   gap: 32px;
+  align-items: start;
 }
 
-.recognition-list {
+.recognition-ledger {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 }
 
 .recognition-card {
   display: grid;
-  gap: 8px;
+  grid-template-columns: 128px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  color: inherit;
+  text-decoration: none;
 }
 
-.recognition-card em {
+.recognition-meta,
+.recognition-copy {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  min-width: 0;
+}
+
+.recognition-meta span {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 780;
+  line-height: 1.35;
+}
+
+.recognition-card em,
+.recognition-copy small,
+.certification-entry span,
+.certification-entry small {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.recognition-copy small {
+  color: var(--accent);
+  font-weight: 760;
+}
+
+.recognition-card p,
+.recognition-card li,
+.certification-panel p,
+.certification-entry p {
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.recognition-card b,
+.certification-entry b {
   display: inline-flex;
+  width: fit-content;
   align-items: center;
   gap: 6px;
   color: var(--accent);
   font-size: 13px;
-  font-style: normal;
   font-weight: 760;
 }
 
@@ -838,16 +881,55 @@ ul {
   border-color: var(--accent);
 }
 
-.certification-panel ul {
-  margin-top: 14px;
+.recognition-card:hover strong,
+.certification-entry:hover strong {
+  color: var(--accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
-.certification-panel a {
-  display: inline-flex;
-  align-items: baseline;
+.certification-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.certification-groups {
+  display: grid;
+  gap: 18px;
+}
+
+.certification-group {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.certification-group h4 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.certification-group > div {
+  display: grid;
+  gap: 10px;
+}
+
+.certification-entry {
+  display: grid;
   gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 12px;
   color: inherit;
   text-decoration: none;
+}
+
+.certification-entry:hover {
+  border-color: var(--accent);
 }
 
 .certification-panel svg {
@@ -1191,7 +1273,6 @@ form .button {
   }
 
   .fact-strip,
-  .recognition-list,
   .archive-entry {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1261,12 +1342,12 @@ form .button {
 
   .fact-strip,
   .research-list,
-  .recognition-list,
   form {
     grid-template-columns: 1fr;
   }
 
   .proof-card,
+  .recognition-card,
   .archive-group,
   .archive-entry {
     grid-template-columns: 1fr;

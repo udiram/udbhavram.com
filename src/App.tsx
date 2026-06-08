@@ -1,4 +1,4 @@
-import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useLayoutEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
 
 type SectionId = 'home' | 'education' | 'experience' | 'research' | 'software' | 'performance' | 'recognition' | 'proof' | 'archive' | 'contact'
@@ -75,10 +75,18 @@ type RecognitionItem = {
   title: string
   detail: string
   href: string
+  type: string
+  source: string
+  basis: string
+  highlights: string[]
 }
 
 type CertificationItem = {
   title: string
+  group: string
+  period: string
+  detail: string
+  evidence: string
   href: string
 }
 
@@ -699,68 +707,100 @@ const recognitionItems: RecognitionItem[] = [
     title: 'Blue Ribbon Poster',
     detail: 'Highest-scoring AAPM 2025 abstract designation for LLMs in radiation oncology',
     href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+    type: 'Research award',
+    source: 'AAPM Annual Meeting',
+    basis: 'Awarded to the highest-scoring abstract designation for work on locally hosted LLMs and TG-263 target-name compliance in radiation oncology.',
+    highlights: ['Recognizes scientific merit at a major medical physics meeting.', 'Directly tied to clinical AI, target nomenclature, and reviewer-controlled radiation oncology workflows.'],
   },
   {
     year: '2025',
     title: 'Ethos Adaptive Radiotherapy Course',
     detail: 'Two-and-a-half-day Varian Ethos clinical school credentialing program',
     href: 'https://www.uab.edu/medicine/radonc/education/ethos-adaptive-radiotherapy-course',
+    type: 'Clinical training',
+    source: 'UAB Radiation Oncology',
+    basis: 'Completed a focused clinical-school training program around Varian Ethos adaptive radiotherapy workflows.',
+    highlights: ['Adds formal adaptive-radiotherapy training to research and software work.', 'Relevant to treatment-planning, online adaptation, and clinical implementation context.'],
   },
   {
     year: '2025',
     title: 'Science Co-op Student of the Year',
     detail: 'McMaster recognition connected to UAB radiation oncology co-op work',
     href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+    type: 'Student award',
+    source: 'McMaster Faculty of Science',
+    basis: 'Recognized after the UAB Radiation Oncology co-op, with UAB supervisors traveling to McMaster to present the award.',
+    highlights: ['Signals unusually strong supervisor support and work-term impact.', 'Connected to international visiting-scholar work, clinical AI, and radiation oncology research.'],
   },
   {
     year: '2025',
     title: 'Co-op Employer of the Year (Emerging)',
     detail: 'UAB mentors recognized for a strong co-op learning environment',
     href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
+    type: 'Mentorship recognition',
+    source: 'McMaster / UAB',
+    basis: 'Recognition for Carlos Cardenas and the UAB mentorship environment following the McMaster-UAB co-op collaboration.',
+    highlights: ['Reflects the quality of the research environment and mentor relationship.', 'UAB coverage frames the collaboration as a model for future international student exchange.'],
   },
   {
     year: '2024',
     title: 'Outstanding Poster Presentation',
     detail: 'Society of Physics Students-AAPM undergraduate research competition',
     href: 'https://www.aapm.org/pubs/newsletter/archive/5001.pdf',
+    type: 'Poster award',
+    source: 'SPS / AAPM',
+    basis: 'Undergraduate poster recognition through the Society of Physics Students and AAPM competition context.',
+    highlights: ['Evidence of early medical physics research communication.', 'Adds external validation before the later AAPM Blue Ribbon Poster.'],
   },
   {
     year: '2024-2025',
     title: 'Featured Highlight - McMaster University',
     detail: 'International visiting scholar and convocation profile coverage',
     href: 'https://science.mcmaster.ca/international-visiting-scholar-at-the-university-of-alabama-at-birmingham-the-latest-of-many-achievements-for-mcmaster-science-undergrad/',
+    type: 'Institutional feature',
+    source: 'McMaster University',
+    basis: 'McMaster coverage of the UAB visiting-scholar role, student representation, and academic path through Medical Physics with Co-op.',
+    highlights: ['Shows institutional recognition beyond a single award moment.', 'Connects research, co-op, international collaboration, and undergraduate leadership arc.'],
   },
   {
     year: '2024-2025',
     title: 'Featured Highlight - UAB',
     detail: 'UAB and Heersink School of Medicine coverage of AI and radiation oncology work',
     href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+    type: 'Institutional feature',
+    source: 'UAB Heersink School of Medicine',
+    basis: 'UAB profile on the McMaster student and mentor collaboration around AI for radiation treatment and planning.',
+    highlights: ['External clinical institution coverage of research and collaboration.', 'Highlights work with Carlos Cardenas and the AI/radiation oncology research line.'],
   },
   {
     year: '2023',
     title: 'Best Talk, CUPC 2023',
     detail: 'First prize for optimizing dose delivery during fractionated radiotherapy',
     href: oldSiteLinks.research,
+    type: 'Presentation award',
+    source: 'Canadian Undergraduate Physics Conference',
+    basis: 'First-prize talk recognition for work on optimizing dose delivery during fractionated radiotherapy.',
+    highlights: ['Early public research communication award.', 'Directly connected to medical physics and radiotherapy optimization.'],
   },
 ]
 
 const certificationItems: CertificationItem[] = [
-  { title: 'Advanced Placement Scholar with Distinction', href: 'https://apstudents.collegeboard.org/awards-recognitions/ap-scholar-award' },
-  { title: 'HOSA second place, national recognition', href: oldSiteLinks.awards },
-  { title: 'Top 25% in Mathematics', href: oldSiteLinks.awards },
-  { title: 'Certified Yoga Teacher', href: oldSiteLinks.activities },
-  { title: 'French Language Certification', href: oldSiteLinks.awards },
-  { title: 'Provincial Chess Champion', href: oldSiteLinks.awards },
-  { title: 'Medical Youth Summer Program', href: oldSiteLinks.awards },
-  { title: 'Computer Science Competency', href: oldSiteLinks.awards },
-  { title: 'Piano bronze, silver, and gold medals', href: oldSiteLinks.awards },
-  { title: 'Robotics Lead Mentor', href: oldSiteLinks.projects },
-  { title: 'GRAMEN Spelling Bee Semi-Finalist', href: oldSiteLinks.awards },
-  { title: 'CPR, First Aid, and AED certification', href: oldSiteLinks.awards },
-  { title: 'Go-karting provincial runner-up', href: oldSiteLinks.motorsports },
-  { title: 'Badminton provincial runner-up', href: oldSiteLinks.activities },
-  { title: 'Robotics provincial runner-up', href: oldSiteLinks.projects },
-  { title: 'FIRST Robotics Competition semi-finalist', href: 'https://www.thebluealliance.com/team/4939' },
+  { title: 'Advanced Placement Scholar with Distinction', group: 'Academic credentials', period: 'High school archive', detail: 'College Board recognition for AP exam performance across multiple subjects.', evidence: 'Academic breadth and exam performance before university medical physics.', href: 'https://apstudents.collegeboard.org/awards-recognitions/ap-scholar-award' },
+  { title: 'Top 25% in Mathematics', group: 'Academic credentials', period: 'Archive', detail: 'Mathematics recognition from the earlier awards archive.', evidence: 'Quantitative preparation feeding later physics, modeling, and software work.', href: oldSiteLinks.awards },
+  { title: 'Computer Science Competency', group: 'Academic credentials', period: 'Archive', detail: 'Computer-science competency credential from the older awards archive.', evidence: 'Early software foundation before web systems, clinical AI, and open-source contributions.', href: oldSiteLinks.awards },
+  { title: 'French Language Certification', group: 'Academic credentials', period: 'Archive', detail: 'French-language certification from the awards archive.', evidence: "Supports bilingual outreach work such as Sparkin' STEM French curriculum coordination.", href: oldSiteLinks.awards },
+  { title: 'HOSA second place, national recognition', group: 'Healthcare and safety', period: 'Archive', detail: 'National HOSA placement listed in the older awards archive.', evidence: 'Early competitive healthcare-interest signal before hospital service and medical physics.', href: oldSiteLinks.awards },
+  { title: 'Medical Youth Summer Program', group: 'Healthcare and safety', period: 'Archive', detail: 'Medical youth program participation recorded in the awards archive.', evidence: 'Early exposure to health-care pathways before radiation oncology research.', href: oldSiteLinks.awards },
+  { title: 'CPR, First Aid, and AED certification', group: 'Healthcare and safety', period: 'Archive', detail: 'Safety and emergency-response certification.', evidence: 'Baseline practical training for patient-facing and community contexts.', href: oldSiteLinks.awards },
+  { title: 'Certified Yoga Teacher', group: 'Teaching and leadership', period: 'Archive', detail: 'Registered yoga instructor; old site lists head yoga instructor at Anytime Fitness Brampton and instructor at McMaster University.', evidence: 'Sustained teaching, group leadership, and public-facing communication.', href: oldSiteLinks.activities },
+  { title: 'Robotics Lead Mentor', group: 'Teaching and leadership', period: 'Archive', detail: 'Lead mentor role for robotics students through Robotique Zone01.', evidence: 'Hands-on technical mentorship and STEM education leadership.', href: oldSiteLinks.projects },
+  { title: 'Piano bronze, silver, and gold medals', group: 'Arts and performance', period: 'Archive', detail: 'Royal Conservatory-linked piano recognition from the awards archive.', evidence: 'Long-term disciplined performance training outside technical work.', href: oldSiteLinks.awards },
+  { title: 'GRAMEN Spelling Bee Semi-Finalist', group: 'Arts and performance', period: 'Archive', detail: 'Language and competition recognition from the awards archive.', evidence: 'Communication-oriented competitive background.', href: oldSiteLinks.awards },
+  { title: 'Provincial Chess Champion', group: 'Competition and sport', period: 'Archive', detail: 'Chess recognition listed in the awards archive.', evidence: 'Strategic competition record that complements technical problem-solving.', href: oldSiteLinks.awards },
+  { title: 'Go-karting provincial runner-up', group: 'Competition and sport', period: 'Archive', detail: 'Karting recognition connected to the motorsports archive.', evidence: 'Driver-development foundation behind later performance engineering and simulation work.', href: oldSiteLinks.motorsports },
+  { title: 'Badminton provincial runner-up', group: 'Competition and sport', period: 'Archive', detail: 'Provincial badminton recognition listed through the activities archive.', evidence: 'Athletic competition record outside academic and research work.', href: oldSiteLinks.activities },
+  { title: 'Robotics provincial runner-up', group: 'Competition and sport', period: 'Archive', detail: 'Robotics competition recognition from the projects archive.', evidence: 'Competitive robotics execution and team-based technical delivery.', href: oldSiteLinks.projects },
+  { title: 'FIRST Robotics Competition semi-finalist', group: 'Competition and sport', period: 'Archive', detail: 'FRC Team 4939 competition record.', evidence: 'External robotics competition record through The Blue Alliance.', href: 'https://www.thebluealliance.com/team/4939' },
 ]
 
 const archiveGroups: ArchiveGroup[] = [
@@ -989,6 +1029,73 @@ function ImageFrame({ image, className = '' }: { image: ImageAsset; className?: 
       <img src={image.src} alt={image.alt} loading={loading} />
     </figure>
   )
+}
+
+function useHashScroll() {
+  useLayoutEffect(() => {
+    const scrollToHash = () => {
+      const rawHash = window.location.hash.slice(1)
+
+      if (!rawHash) {
+        return true
+      }
+
+      const targetId = decodeURIComponent(rawHash)
+      const target = document.getElementById(targetId)
+
+      if (!target) {
+        return false
+      }
+
+      const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16
+      const html = document.documentElement
+      const previousScrollBehavior = html.style.scrollBehavior
+
+      html.style.scrollBehavior = 'auto'
+      window.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' })
+      html.style.scrollBehavior = previousScrollBehavior
+
+      return Math.abs(target.getBoundingClientRect().top - headerHeight - 16) < 4
+    }
+
+    const intervalIds = new Set<number>()
+
+    const scheduleScroll = () => {
+      window.requestAnimationFrame(scrollToHash)
+      window.setTimeout(scrollToHash, 250)
+      window.setTimeout(scrollToHash, 1000)
+      let attempts = 0
+      const intervalId = window.setInterval(() => {
+        attempts += 1
+
+        if (scrollToHash() || attempts >= 10) {
+          window.clearInterval(intervalId)
+          intervalIds.delete(intervalId)
+        }
+      }, 300)
+
+      intervalIds.add(intervalId)
+    }
+
+    const pendingImages = Array.from(document.images).filter((image) => !image.complete)
+
+    scheduleScroll()
+    window.addEventListener('hashchange', scheduleScroll)
+    pendingImages.forEach((image) => {
+      image.addEventListener('load', scrollToHash)
+      image.addEventListener('error', scrollToHash)
+    })
+
+    return () => {
+      window.removeEventListener('hashchange', scheduleScroll)
+      intervalIds.forEach((intervalId) => window.clearInterval(intervalId))
+      pendingImages.forEach((image) => {
+        image.removeEventListener('load', scrollToHash)
+        image.removeEventListener('error', scrollToHash)
+      })
+    }
+  }, [])
 }
 
 function SectionHeading({ title, action }: { title: string; action?: ReactNode }) {
@@ -1297,33 +1404,64 @@ function Performance() {
 }
 
 function Recognition() {
+  const certificationGroups = useMemo(() => {
+    return certificationItems.reduce<Record<string, CertificationItem[]>>((groups, item) => {
+      groups[item.group] = [...(groups[item.group] ?? []), item]
+      return groups
+    }, {})
+  }, [])
+
   return (
     <section className="section" id="recognition">
       <SectionHeading title="Recognition" />
       <div className="recognition-layout">
-        <div className="recognition-list">
+        <div className="recognition-ledger">
           {recognitionItems.map((item) => (
             <ExternalLink href={item.href} className="recognition-card" key={item.title}>
-              <span>{item.year}</span>
-              <strong>{item.title}</strong>
-              <p>{item.detail}</p>
-              <em>
-                View source <Icon name="arrow" />
-              </em>
+              <div className="recognition-meta">
+                <span>{item.year}</span>
+                <em>{item.type}</em>
+              </div>
+              <div className="recognition-copy">
+                <strong>{item.title}</strong>
+                <small>{item.source}</small>
+                <p>{item.detail}</p>
+                <p>{item.basis}</p>
+                <ul>
+                  {item.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+                <b>
+                  View source <Icon name="arrow" />
+                </b>
+              </div>
             </ExternalLink>
           ))}
         </div>
         <aside className="certification-panel">
           <h3>Awards & Certifications Archive</h3>
-          <ul>
-            {certificationItems.map((item) => (
-              <li key={item.title}>
-                <ExternalLink href={item.href}>
-                  {item.title} <Icon name="arrow" />
-                </ExternalLink>
-              </li>
+          <p>Older credentials grouped by what they signal: academic preparation, healthcare exposure, leadership, arts training, and competition.</p>
+          <div className="certification-groups">
+            {Object.entries(certificationGroups).map(([group, items]) => (
+              <section className="certification-group" key={group}>
+                <h4>{group}</h4>
+                <div>
+                  {items.map((item) => (
+                    <ExternalLink href={item.href} className="certification-entry" key={item.title}>
+                      <span>{item.period}</span>
+                      <strong>{item.title}</strong>
+                      <p>{item.detail}</p>
+                      <small>{item.evidence}</small>
+                      <b>
+                        View evidence <Icon name="arrow" />
+                      </b>
+                    </ExternalLink>
+                  ))}
+                </div>
+              </section>
             ))}
-          </ul>
+          </div>
         </aside>
       </div>
     </section>
@@ -1478,6 +1616,8 @@ function Contact() {
 }
 
 function App() {
+  useHashScroll()
+
   return (
     <div className="portfolio-site">
       <Header />
