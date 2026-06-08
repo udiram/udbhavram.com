@@ -78,6 +78,9 @@ type EducationEntry = {
   location: string
   detail: string
   responsibilities: string[]
+  division: string
+  visual: ImageAsset
+  logo?: ImageAsset
 }
 
 type PerformanceRole = {
@@ -170,9 +173,29 @@ const imageAssets = {
     alt: 'McMaster Physics and Astronomy official page screenshot',
     source: 'https://physics.mcmaster.ca/',
   },
+  mcmasterScienceLogo: {
+    src: '/assets/sourced/mcmaster-science.png',
+    alt: 'McMaster University Brighter World logo',
+    source: 'https://brand.mcmaster.ca/guidelines_introduction/logos-and-marks/logos-and-marks-cont-mcmaster-logo-minimal-size/',
+  },
+  uwMadisonLogo: {
+    src: '/assets/sourced/uw-madison-logo.png',
+    alt: 'University of Wisconsin-Madison official crest logo',
+    source: 'https://brand.wisc.edu/resource/uw-institutional-logos-for-web-digital-use/',
+  },
+  uwMedicalPhysics: {
+    src: '/assets/sourced/uw-medical-physics-graduates.jpg',
+    alt: 'UW-Madison Department of Medical Physics graduates',
+    source: 'https://medphysics.wisc.edu/',
+  },
   uabRadonc: {
     src: '/assets/sourced/screens/uab-radonc-page.png',
     alt: 'UAB Radiation Oncology official page screenshot',
+    source: 'https://www.uab.edu/medicine/radonc/',
+  },
+  uabRadoncTreatment: {
+    src: '/assets/sourced/uab-radonc-treatment-hero.png',
+    alt: 'UAB Radiation Oncology treatment planning visual',
     source: 'https://www.uab.edu/medicine/radonc/',
   },
   arrowMcLarenRace: {
@@ -486,6 +509,9 @@ const educationItems: EducationEntry[] = [
     location: 'Madison, WI',
     detail: "Started doctoral work in Ran Zhang's lab, focused on medical physics, imaging, and clinical AI systems.",
     responsibilities: ['Developing doctoral research direction across medical physics, imaging, and clinical AI.', 'Continuing translational software work for clinical and research workflows.'],
+    division: 'Department of Medical Physics · School of Medicine and Public Health',
+    visual: imageAssets.uwMedicalPhysics,
+    logo: imageAssets.uwMadisonLogo,
   },
   {
     degree: 'BSc Honours Medical & Biological Physics',
@@ -494,6 +520,9 @@ const educationItems: EducationEntry[] = [
     location: 'Hamilton, ON',
     detail: 'Built the foundation across medical physics, biophysics, computation, and radiation oncology research.',
     responsibilities: ['Coursework and research foundation across medical physics, biophysics, computer vision, and radiotherapy.', 'Completed co-op and visiting-scholar work connected to radiation oncology and AI.'],
+    division: 'Faculty of Science · Department of Physics & Astronomy',
+    visual: imageAssets.mcmasterPhysics,
+    logo: imageAssets.mcmasterScienceLogo,
   },
   {
     degree: 'International visiting scholar',
@@ -502,6 +531,8 @@ const educationItems: EducationEntry[] = [
     location: 'Birmingham, AL',
     detail: 'Worked on clinical AI, adaptive radiotherapy, treatment planning, and workflow automation with UAB collaborators.',
     responsibilities: ['Worked with UAB collaborators on artificial-intelligence tools for radiation treatment and planning.', 'Contributed to adaptive radiotherapy, treatment-planning validation, and clinical workflow automation projects.'],
+    division: 'Department of Radiation Oncology · Heersink School of Medicine',
+    visual: imageAssets.uabRadoncTreatment,
   },
 ]
 
@@ -881,6 +912,13 @@ function Education() {
       <SectionHeading title="Education" />
       <div className="education-layout">
         <article className="education-primary">
+          <div className="education-primary-media">
+            <img src={educationItems[0].visual.src} alt={educationItems[0].visual.alt} />
+            <div>
+              {educationItems[0].logo ? <img src={educationItems[0].logo.src} alt={educationItems[0].logo.alt} /> : null}
+              <strong>{educationItems[0].division}</strong>
+            </div>
+          </div>
           <span>{educationItems[0].period} · {educationItems[0].location}</span>
           <h3>PhD student in Medical Physics at the University of Wisconsin-Madison.</h3>
           <p>
@@ -895,15 +933,21 @@ function Education() {
         <div className="education-list" aria-label="Education and training">
           {educationItems.map((item) => (
             <article key={`${item.degree}-${item.institution}`}>
-              <span>{item.period} · {item.location}</span>
-              <strong>{item.degree}</strong>
-              <em>{item.institution}</em>
-              <p>{item.detail}</p>
-              <ul>
-                {item.responsibilities.map((responsibility) => (
-                  <li key={responsibility}>{responsibility}</li>
-                ))}
-              </ul>
+              <div className="education-mark">
+                <img src={(item.logo ?? item.visual).src} alt={(item.logo ?? item.visual).alt} />
+              </div>
+              <div>
+                <span>{item.period} · {item.location}</span>
+                <strong>{item.degree}</strong>
+                <em>{item.institution}</em>
+                <small>{item.division}</small>
+                <p>{item.detail}</p>
+                <ul>
+                  {item.responsibilities.map((responsibility) => (
+                    <li key={responsibility}>{responsibility}</li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))}
         </div>

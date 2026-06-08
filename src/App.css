@@ -327,6 +327,44 @@ dd {
   padding: 26px;
 }
 
+.education-primary-media {
+  position: relative;
+  overflow: hidden;
+  min-height: 214px;
+  background: var(--ink);
+}
+
+.education-primary-media > img {
+  width: 100%;
+  height: 100%;
+  min-height: 214px;
+  object-fit: cover;
+}
+
+.education-primary-media > div {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: grid;
+  width: min(330px, calc(100% - 32px));
+  gap: 10px;
+  background: rgba(247, 247, 244, 0.94);
+  padding: 14px;
+}
+
+.education-primary-media > div img {
+  width: min(250px, 100%);
+  height: 54px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.education-primary-media strong {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
 .education-primary span,
 .education-list span {
   color: var(--accent);
@@ -345,9 +383,40 @@ dd {
 
 .education-list article {
   display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
   gap: 8px;
+  align-items: start;
   border-bottom: 1px solid var(--line);
   padding: 18px 0;
+}
+
+.education-mark {
+  display: grid;
+  width: 112px;
+  aspect-ratio: 1.2;
+  align-items: center;
+  justify-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.education-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.education-list article:nth-child(3) .education-mark img {
+  object-fit: cover;
+  padding: 0;
+}
+
+.education-list article > div:last-child {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
 }
 
 .education-list strong {
@@ -357,12 +426,18 @@ dd {
 }
 
 .education-list em,
+.education-list small,
 .role-grid em {
   color: var(--muted);
   font-size: 13px;
   font-style: normal;
   font-weight: 650;
   line-height: 1.4;
+}
+
+.education-list small {
+  color: var(--accent);
+  font-weight: 760;
 }
 
 .education-list p {
@@ -1086,6 +1161,42 @@ form .button {
 
   .education-primary {
     padding: 22px;
+  }
+
+  .education-primary-media {
+    display: grid;
+    min-height: 190px;
+  }
+
+  .education-primary-media > img {
+    height: 190px;
+    min-height: 190px;
+  }
+
+  .education-primary-media > div {
+    position: static;
+    width: 100%;
+    background: var(--surface);
+  }
+
+  .education-primary h3 {
+    max-width: 250px;
+    font-size: 22px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+  }
+
+  .education-list strong {
+    font-size: 17px;
+  }
+
+  .education-list article {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .education-mark {
+    width: 120px;
   }
 
   .resume-list article,
