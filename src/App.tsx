@@ -32,10 +32,12 @@ type SoftwareItem = {
   stack: string
   role: string
   category: 'Clinical AI' | 'Open source' | 'Web systems' | 'Research tools' | 'Robotics & Outreach'
+  status: 'Public' | 'Open source' | 'Archive' | 'Internal'
   period?: string
   responsibilities?: string[]
   outcome?: string
   href?: string
+  linkLabel?: string
 }
 
 type ProofItem = LinkItem & {
@@ -271,10 +273,12 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Python, MONAI, PyTorch',
     role: 'Contributor',
     category: 'Open source',
+    status: 'Open source',
     period: 'Open source',
     responsibilities: ['Contributed documentation and tutorial improvements for medical imaging deep-learning users.'],
     outcome: 'Merged contribution to Project MONAI tutorials.',
     href: 'https://github.com/Project-MONAI/tutorials/pull/1129',
+    linkLabel: 'View pull request',
   },
   {
     title: 'OpenHands engineering contribution',
@@ -282,10 +286,12 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Python, FastAPI, React',
     role: 'Contributor',
     category: 'Open source',
+    status: 'Open source',
     period: 'Open source',
     responsibilities: ['Worked in an agent software stack spanning Python backend surfaces and React/FastAPI application code.'],
     outcome: 'Merged contribution to OpenHands.',
     href: 'https://github.com/All-Hands-AI/OpenHands/pull/731',
+    linkLabel: 'View pull request',
   },
   {
     title: 'TG-263 local LLM tool',
@@ -293,10 +299,12 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Local LLM, clinical UI, radiation oncology',
     role: 'Developer',
     category: 'Clinical AI',
+    status: 'Public',
     period: '2025',
     responsibilities: ['Designed local LLM review flows for target-name compliance.', 'Built around reviewer-controlled checks for clinical workflow use.'],
     outcome: 'AAPM 2025 Blue Ribbon Poster.',
     href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+    linkLabel: 'View abstract',
   },
   {
     title: 'Clinical UI automation benchmark',
@@ -304,6 +312,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Python, Playwright, VLM evaluation',
     role: 'Researcher',
     category: 'Research tools',
+    status: 'Internal',
     responsibilities: ['Created objective tests for vision-language agents operating around clinical interface tasks.'],
     outcome: 'Internal research tooling for clinical AI evaluation.',
   },
@@ -313,7 +322,9 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Flask, SQLAlchemy, Railway',
     role: 'Developer',
     category: 'Web systems',
+    status: 'Internal',
     responsibilities: ['Built a search and schedule workflow for navigating dense conference content.', 'Deployed the app with a Flask and SQLAlchemy backend on Railway.'],
+    outcome: 'Prototype available on request.',
   },
   {
     title: 'Automated prosthetic limb prototype',
@@ -321,8 +332,10 @@ const softwareItems: SoftwareItem[] = [
     stack: 'C++, Python, ROS',
     role: 'Lead developer',
     category: 'Research tools',
+    status: 'Archive',
     responsibilities: ['Led embedded and robotics software work for an automated prosthetic limb prototype.'],
     href: 'https://sites.google.com/view/prostheticlimbprototype/home',
+    linkLabel: 'View archive',
   },
   {
     title: 'Synth-Med Biotechnology',
@@ -330,8 +343,10 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Next.js, TypeScript',
     role: 'Founder',
     category: 'Web systems',
+    status: 'Public',
     responsibilities: ['Led full-stack web development and technical content for Synth-Med Biotechnology.'],
     href: 'https://synth-med.com/about/',
+    linkLabel: 'Open site',
   },
   {
     title: 'Autonomous car conversion',
@@ -339,7 +354,10 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Openpilot, vehicle integration, driver assistance',
     role: 'Builder',
     category: 'Research tools',
+    status: 'Archive',
     responsibilities: ['Implemented a Level 2 driver-assistance system using comma.ai and openpilot implementations.'],
+    href: oldSiteLinks.projects,
+    linkLabel: 'View archive',
   },
   {
     title: 'WAAW group infrastructure',
@@ -347,6 +365,7 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Backend systems, DevOps, deployment',
     role: 'Infrastructure lead',
     category: 'Web systems',
+    status: 'Internal',
     responsibilities: ['Led DevOps infrastructure and backend work for a team software environment.'],
   },
   {
@@ -355,7 +374,10 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Robotics, controls, outreach',
     role: 'Lead mentor and senior programmer',
     category: 'Robotics & Outreach',
+    status: 'Archive',
     responsibilities: ['Mentored robotics students through Robotique Zone01.', 'Served as senior programmer and outreach member for FRC Team 4939.'],
+    href: oldSiteLinks.projects,
+    linkLabel: 'View archive',
   },
   {
     title: "Sparkin' STEM French curriculum",
@@ -363,7 +385,10 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Curriculum design, STEM outreach, bilingual programming',
     role: 'French program coordinator',
     category: 'Robotics & Outreach',
+    status: 'Archive',
     responsibilities: ['Led integration of in-house STEM curriculum with the largest French school board in Canada.'],
+    href: oldSiteLinks.projects,
+    linkLabel: 'View archive',
   },
   {
     title: 'SPARK recycling sorter',
@@ -371,9 +396,12 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Computer vision, machine learning, prototyping',
     role: 'Hackathon builder',
     category: 'Research tools',
+    status: 'Archive',
     period: '2019',
     responsibilities: ['Built a computer vision and machine-learning powered recycling sorter.'],
     outcome: 'SPARK Hackathon runner-up.',
+    href: oldSiteLinks.projects,
+    linkLabel: 'View archive',
   },
   {
     title: 'The Mirai Project',
@@ -381,9 +409,12 @@ const softwareItems: SoftwareItem[] = [
     stack: 'Clinical reasoning, case analysis',
     role: 'Runner-up finalist',
     category: 'Clinical AI',
+    status: 'Archive',
     period: '2020',
     responsibilities: ['Developed medical case-study analysis for a finalist competition workflow.'],
     outcome: 'Runner-up finalist.',
+    href: oldSiteLinks.projects,
+    linkLabel: 'View archive',
   },
 ]
 
@@ -986,22 +1017,18 @@ function Software() {
           </button>
         ))}
       </div>
-      <div className="project-table">
-        <div className="project-row project-head">
-          <span>Project</span>
-          <span>Purpose</span>
-          <span>Stack</span>
-          <span>Role</span>
-          <span>Link</span>
-        </div>
+      <div className="project-grid">
         {visibleItems.map((item) => (
-          <div className="project-row" key={item.title}>
-            <strong>
-              {item.title}
-              {item.period ? <em>{item.period}</em> : null}
-            </strong>
-            <span data-label="Purpose">
-              {item.purpose}
+          <article className="project-card" key={item.title}>
+            <div className="project-card-head">
+              <div>
+                <span>{item.category}</span>
+                <strong>{item.title}</strong>
+              </div>
+              <em>{item.period ?? item.status}</em>
+            </div>
+            <p>{item.purpose}</p>
+            <div className="project-card-body">
               {item.responsibilities ? (
                 <ul>
                   {item.responsibilities.map((responsibility) => (
@@ -1009,20 +1036,28 @@ function Software() {
                   ))}
                 </ul>
               ) : null}
-              {item.outcome ? <em>{item.outcome}</em> : null}
-            </span>
-            <span data-label="Stack">{item.stack}</span>
-            <span data-label="Role">{item.role}</span>
-            <span data-label="Link">
+              <dl>
+                <div>
+                  <dt>Stack</dt>
+                  <dd>{item.stack}</dd>
+                </div>
+                <div>
+                  <dt>Role</dt>
+                  <dd>{item.role}</dd>
+                </div>
+              </dl>
+            </div>
+            <div className="project-card-foot">
+              <span>{item.outcome ?? item.status}</span>
               {item.href ? (
-                <ExternalLink href={item.href} className="table-link">
-                  Open <Icon name="arrow" />
+                <ExternalLink href={item.href} className="project-action">
+                  {item.linkLabel ?? 'Open project'} <Icon name="arrow" />
                 </ExternalLink>
               ) : (
-                'Request access'
+                <span className="project-action muted">Internal project</span>
               )}
-            </span>
-          </div>
+            </div>
+          </article>
         ))}
       </div>
     </section>

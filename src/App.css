@@ -79,7 +79,6 @@ svg {
 .site-header a,
 .button,
 .text-link,
-.table-link,
 .proof-card,
 .recognition-card,
 .social-link,
@@ -263,7 +262,6 @@ li {
 
 dt,
 .item-meta,
-.project-head,
 .proof-card span,
 .proof-card em {
   color: var(--muted);
@@ -271,7 +269,6 @@ dt,
 }
 
 dt,
-.project-head,
 .proof-card span {
   font-weight: 760;
 }
@@ -291,8 +288,7 @@ dd {
   margin-bottom: 28px;
 }
 
-.text-link,
-.table-link {
+.text-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -302,7 +298,6 @@ dd {
 }
 
 .text-link:hover,
-.table-link:hover,
 .proof-card:hover strong,
 .recognition-card:hover strong,
 .certification-panel a:hover,
@@ -362,8 +357,7 @@ dd {
 }
 
 .education-list em,
-.role-grid em,
-.project-row em {
+.role-grid em {
   color: var(--muted);
   font-size: 13px;
   font-style: normal;
@@ -564,50 +558,125 @@ ul {
   font-weight: 650;
 }
 
-.project-table {
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 16px;
+  min-width: 0;
   border-top: 1px solid var(--line-strong);
-  overflow-x: auto;
+  background: var(--surface);
+  padding: 18px;
 }
 
-.project-row {
+.project-card-head {
+  display: flex;
+  min-height: 86px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.project-card-head > div {
   display: grid;
-  grid-template-columns: minmax(170px, 1fr) minmax(280px, 1.4fr) minmax(190px, 1fr) minmax(120px, 0.6fr) minmax(120px, 0.6fr);
-  gap: 18px;
-  min-width: 980px;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  padding: 15px 0;
+  gap: 8px;
+  min-width: 0;
 }
 
-.project-row strong,
-.project-row span {
-  font-size: 14px;
-  line-height: 1.45;
+.project-card-head span,
+.project-card-head em {
+  color: var(--accent);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 780;
+  line-height: 1.35;
 }
 
-.project-row strong {
-  display: grid;
-  gap: 4px;
-  color: var(--ink);
-}
-
-.project-row span {
+.project-card-head em {
+  flex: 0 0 auto;
+  max-width: 88px;
   color: var(--muted);
+  text-align: right;
 }
 
-.project-row span ul {
-  margin-top: 8px;
-  padding-left: 16px;
+.project-card strong {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.24;
 }
 
-.project-row span em {
-  display: block;
-  margin-top: 8px;
+.project-card p,
+.project-card li,
+.project-card dd {
+  font-size: 14px;
+}
+
+.project-card-body {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.project-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.project-card dl div {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.project-card dt {
   color: var(--accent);
 }
 
-.project-head span {
-  color: var(--ink);
+.project-card-foot {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+}
+
+.project-card-foot > span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.project-action {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 760;
+  text-decoration: none;
+}
+
+.project-action:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.project-action.muted {
+  color: var(--soft);
+  cursor: default;
 }
 
 .performance-feature {
@@ -1042,40 +1111,12 @@ form .button {
     gap: 22px;
   }
 
-  .project-table {
-    display: grid;
-    gap: 12px;
-    overflow-x: visible;
-  }
-
-  .project-head {
-    display: none;
-  }
-
-  .project-row {
+  .project-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
-    min-width: 0;
-    align-items: start;
-    border-top: 1px solid var(--line-strong);
-    background: var(--surface);
+  }
+
+  .project-card {
     padding: 16px;
-  }
-
-  .project-row span {
-    display: grid;
-    gap: 4px;
-  }
-
-  .project-row span::before {
-    content: attr(data-label);
-    color: var(--accent);
-    font-size: 12px;
-    font-weight: 780;
-  }
-
-  .project-row span ul {
-    margin-top: 4px;
   }
 
   form .button {
