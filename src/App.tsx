@@ -48,6 +48,18 @@ type SocialItem = {
   icon: 'mail' | 'github' | 'scholar' | 'linkedin' | 'medium'
 }
 
+type RecognitionItem = {
+  year: string
+  title: string
+  detail: string
+  href: string
+}
+
+type CertificationItem = {
+  title: string
+  href: string
+}
+
 type ResumeEntry = {
   title: string
   organization: string
@@ -178,6 +190,13 @@ const navItems: { id: SectionId; label: string }[] = [
 ]
 
 const resumeHref = '/assets/Udbhav_Ram_resume.pdf'
+const oldSiteLinks = {
+  awards: 'https://sites.google.com/view/udbhav-ram/awards-and-certifications',
+  activities: 'https://sites.google.com/view/udbhav-ram/activities',
+  projects: 'https://sites.google.com/view/udbhav-ram/projects',
+  motorsports: 'https://sites.google.com/view/udbhav-ram/motorsports',
+  research: 'https://sites.google.com/view/udbhav-ram/research',
+}
 
 const researchItems: ResearchItem[] = [
   {
@@ -540,34 +559,74 @@ const performanceRoles = [
   },
 ]
 
-const recognitionItems = [
-  ['2025', 'Blue Ribbon Poster', 'Highest-scoring AAPM 2025 abstract designation for LLMs in radiation oncology'],
-  ['2025', 'Ethos Adaptive Radiotherapy Course', 'Two-and-a-half-day Varian Ethos clinical school credentialing program'],
-  ['2025', 'Science Co-op Student of the Year', 'McMaster recognition connected to UAB radiation oncology co-op work'],
-  ['2025', 'Co-op Employer of the Year (Emerging)', 'UAB mentors recognized for a strong co-op learning environment'],
-  ['2024', 'Outstanding Poster Presentation', 'Society of Physics Students-AAPM undergraduate research competition'],
-  ['2024-2025', 'Featured Highlight - McMaster University', 'International visiting scholar and convocation profile coverage'],
-  ['2024-2025', 'Featured Highlight - UAB', 'UAB and Heersink School of Medicine coverage of AI and radiation oncology work'],
-  ['2023', 'Best Talk, CUPC 2023', 'First prize for optimizing dose delivery during fractionated radiotherapy'],
+const recognitionItems: RecognitionItem[] = [
+  {
+    year: '2025',
+    title: 'Blue Ribbon Poster',
+    detail: 'Highest-scoring AAPM 2025 abstract designation for LLMs in radiation oncology',
+    href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
+  },
+  {
+    year: '2025',
+    title: 'Ethos Adaptive Radiotherapy Course',
+    detail: 'Two-and-a-half-day Varian Ethos clinical school credentialing program',
+    href: 'https://www.uab.edu/medicine/radonc/education/ethos-adaptive-radiotherapy-course',
+  },
+  {
+    year: '2025',
+    title: 'Science Co-op Student of the Year',
+    detail: 'McMaster recognition connected to UAB radiation oncology co-op work',
+    href: 'https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/',
+  },
+  {
+    year: '2025',
+    title: 'Co-op Employer of the Year (Emerging)',
+    detail: 'UAB mentors recognized for a strong co-op learning environment',
+    href: 'https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award',
+  },
+  {
+    year: '2024',
+    title: 'Outstanding Poster Presentation',
+    detail: 'Society of Physics Students-AAPM undergraduate research competition',
+    href: 'https://www.aapm.org/pubs/newsletter/archive/5001.pdf',
+  },
+  {
+    year: '2024-2025',
+    title: 'Featured Highlight - McMaster University',
+    detail: 'International visiting scholar and convocation profile coverage',
+    href: 'https://science.mcmaster.ca/international-visiting-scholar-at-the-university-of-alabama-at-birmingham-the-latest-of-many-achievements-for-mcmaster-science-undergrad/',
+  },
+  {
+    year: '2024-2025',
+    title: 'Featured Highlight - UAB',
+    detail: 'UAB and Heersink School of Medicine coverage of AI and radiation oncology work',
+    href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+  },
+  {
+    year: '2023',
+    title: 'Best Talk, CUPC 2023',
+    detail: 'First prize for optimizing dose delivery during fractionated radiotherapy',
+    href: oldSiteLinks.research,
+  },
 ]
 
-const certificationItems = [
-  'Advanced Placement Scholar with Distinction',
-  'HOSA second place, national recognition',
-  'Top 25% in Mathematics',
-  'Certified Yoga Teacher',
-  'French Language Certification',
-  'Provincial Chess Champion',
-  'Medical Youth Summer Program',
-  'Computer Science Competency',
-  'Piano bronze, silver, and gold medals',
-  'Robotics Lead Mentor',
-  'GRAMEN Spelling Bee Semi-Finalist',
-  'CPR, First Aid, and AED certification',
-  'Go-karting provincial runner-up',
-  'Badminton provincial runner-up',
-  'Robotics provincial runner-up',
-  'FIRST Robotics Competition semi-finalist',
+const certificationItems: CertificationItem[] = [
+  { title: 'Advanced Placement Scholar with Distinction', href: 'https://apstudents.collegeboard.org/awards-recognitions/ap-scholar-award' },
+  { title: 'HOSA second place, national recognition', href: oldSiteLinks.awards },
+  { title: 'Top 25% in Mathematics', href: oldSiteLinks.awards },
+  { title: 'Certified Yoga Teacher', href: oldSiteLinks.activities },
+  { title: 'French Language Certification', href: oldSiteLinks.awards },
+  { title: 'Provincial Chess Champion', href: oldSiteLinks.awards },
+  { title: 'Medical Youth Summer Program', href: oldSiteLinks.awards },
+  { title: 'Computer Science Competency', href: oldSiteLinks.awards },
+  { title: 'Piano bronze, silver, and gold medals', href: oldSiteLinks.awards },
+  { title: 'Robotics Lead Mentor', href: oldSiteLinks.projects },
+  { title: 'GRAMEN Spelling Bee Semi-Finalist', href: oldSiteLinks.awards },
+  { title: 'CPR, First Aid, and AED certification', href: oldSiteLinks.awards },
+  { title: 'Go-karting provincial runner-up', href: oldSiteLinks.motorsports },
+  { title: 'Badminton provincial runner-up', href: oldSiteLinks.activities },
+  { title: 'Robotics provincial runner-up', href: oldSiteLinks.projects },
+  { title: 'FIRST Robotics Competition semi-finalist', href: 'https://www.thebluealliance.com/team/4939' },
 ]
 
 const archiveGroups = [
@@ -989,19 +1048,26 @@ function Recognition() {
       <SectionHeading title="Recognition" />
       <div className="recognition-layout">
         <div className="recognition-list">
-          {recognitionItems.map(([year, title, detail]) => (
-            <article key={title}>
-              <span>{year}</span>
-              <strong>{title}</strong>
-              <p>{detail}</p>
-            </article>
+          {recognitionItems.map((item) => (
+            <ExternalLink href={item.href} className="recognition-card" key={item.title}>
+              <span>{item.year}</span>
+              <strong>{item.title}</strong>
+              <p>{item.detail}</p>
+              <em>
+                View source <Icon name="arrow" />
+              </em>
+            </ExternalLink>
           ))}
         </div>
         <aside className="certification-panel">
           <h3>Awards & Certifications Archive</h3>
           <ul>
             {certificationItems.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item.title}>
+                <ExternalLink href={item.href}>
+                  {item.title} <Icon name="arrow" />
+                </ExternalLink>
+              </li>
             ))}
           </ul>
         </aside>

@@ -81,6 +81,7 @@ svg {
 .text-link,
 .table-link,
 .proof-card,
+.recognition-card,
 .social-link,
 .site-footer a {
   color: inherit;
@@ -303,6 +304,8 @@ dd {
 .text-link:hover,
 .table-link:hover,
 .proof-card:hover strong,
+.recognition-card:hover strong,
+.certification-panel a:hover,
 .site-footer a:hover {
   color: var(--accent-hover);
   text-decoration: underline;
@@ -403,7 +406,7 @@ dd {
 }
 
 .role-grid article,
-.recognition-list article,
+.recognition-card,
 .archive-grid article,
 .certification-panel {
   border-top: 1px solid var(--line-strong);
@@ -653,13 +656,41 @@ ul {
   gap: 16px;
 }
 
-.recognition-list article {
+.recognition-card {
   display: grid;
   gap: 8px;
 }
 
+.recognition-card em {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 760;
+}
+
+.recognition-card:hover {
+  border-color: var(--accent);
+}
+
 .certification-panel ul {
   margin-top: 14px;
+}
+
+.certification-panel a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.certification-panel svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
 }
 
 .search-box {
@@ -968,7 +999,7 @@ form .button {
 
   .resume-list article,
   .role-grid article,
-  .recognition-list article,
+  .recognition-card,
   .archive-grid article,
   .certification-panel {
     padding: 16px;
