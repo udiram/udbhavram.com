@@ -16,13 +16,23 @@ type LinkItem = {
 
 type IconName = 'arrow' | 'download' | 'mail' | 'github' | 'scholar' | 'linkedin' | 'medium'
 
+type EducationRow = {
+  logo?: ImageAsset
+  mark?: string
+  markDetail?: string
+  title: string
+  place: string
+  detail: string
+  meta: string
+}
+
 const resumeHref = '/assets/Udbhav_Ram_resume.pdf'
 
 const imageAssets = {
   hero: {
-    src: '/assets/sourced/mcmaster-uab-scholar-original.jpg',
-    alt: 'Udbhav Ram in the McMaster international visiting scholar profile',
-    source: 'https://science.mcmaster.ca/international-visiting-scholar-at-the-university-of-alabama-at-birmingham-the-latest-of-many-achievements-for-mcmaster-science-undergrad/',
+    src: '/assets/sourced/mcmaster-convocation.jpg',
+    alt: 'Udbhav Ram in the McMaster Science convocation profile portrait',
+    source: 'https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/',
   },
   mentor: {
     src: '/assets/sourced/uab-agarwal-udi.jpg',
@@ -58,6 +68,16 @@ const imageAssets = {
     src: '/assets/sourced/uab-radonc-treatment-hero.png',
     alt: 'UAB Radiation Oncology treatment planning visual',
     source: 'https://www.uab.edu/medicine/radonc/',
+  },
+  uabEmployerAward: {
+    src: '/assets/sourced/uab-employer-award-1.jpg',
+    alt: 'Udbhav Ram with UAB Radiation Oncology collaborators after employer award recognition',
+    source: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
+  },
+  uabPresentation: {
+    src: '/assets/sourced/uab-udi-presentation.jpg',
+    alt: 'Udbhav Ram presenting clinical AI research at UAB Radiation Oncology',
+    source: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor',
   },
   aapm2025: {
     src: '/assets/sourced/screens/aapm-2025-tg263-page.png',
@@ -137,7 +157,7 @@ const focusAreas = [
   },
 ]
 
-const educationRows = [
+const educationRows: EducationRow[] = [
   {
     logo: imageAssets.uwMadisonLogo,
     title: 'PhD in Medical Physics',
@@ -153,7 +173,8 @@ const educationRows = [
     meta: 'Completed 2025 · Hamilton, ON',
   },
   {
-    logo: imageAssets.uabRadonc,
+    mark: 'UAB',
+    markDetail: 'Rad Onc',
     title: 'International visiting scholar',
     place: 'UAB Radiation Oncology',
     detail: 'Clinical AI, adaptive radiotherapy, treatment planning, and workflow automation with UAB collaborators.',
@@ -295,7 +316,7 @@ const archiveItems = [
     text: "Automated prosthetic limb prototype, FRC/Robotique Zone01 mentorship, and Sparkin' STEM French curriculum coordination.",
   },
   {
-    image: imageAssets.uwMedicalPhysics,
+    image: imageAssets.uabPresentation,
     title: 'Clinical service & teaching',
     text: 'Hospital volunteering, radiation oncology shadowing, yoga instruction, community programming, and long-term music training.',
   },
@@ -495,9 +516,17 @@ function Hero() {
       </div>
       <div className="hero-media">
         <ImageFrame image={imageAssets.hero} className="hero-image" />
-        <div className="hero-caption">
-          <strong>Current direction</strong>
-          <span>UW-Madison Medical Physics · Ran Zhang's lab · clinical AI and imaging software</span>
+        <div className="hero-evidence-grid" aria-label="External profile evidence">
+          <ExternalLink href="https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/" className="evidence-tile">
+            <ImageFrame image={imageAssets.coopAward} />
+            <span>McMaster Daily News</span>
+            <strong>Science Co-op Student of the Year</strong>
+          </ExternalLink>
+          <ExternalLink href="https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor" className="evidence-tile">
+            <ImageFrame image={imageAssets.mentor} />
+            <span>UAB Medicine</span>
+            <strong>Clinical AI profile with UAB collaborators</strong>
+          </ExternalLink>
         </div>
       </div>
       <div className="hero-proof" aria-label="Profile highlights">
@@ -539,7 +568,14 @@ function Profile() {
             {educationRows.map((item) => (
               <article key={item.title}>
                 <div className="logo-box">
-                  <img src={item.logo.src} alt={item.logo.alt} />
+                  {item.logo ? (
+                    <img src={item.logo.src} alt={item.logo.alt} />
+                  ) : (
+                    <span className="logo-wordmark" aria-label={`${item.place} mark`}>
+                      {item.mark}
+                      <small>{item.markDetail}</small>
+                    </span>
+                  )}
                 </div>
                 <div>
                   <span>{item.meta}</span>
@@ -602,7 +638,7 @@ function Research() {
             <h3>{selected.title}</h3>
             <p>{selected.text}</p>
             <ExternalLink href={selected.href} className="button secondary">
-              Open source <Icon name="arrow" />
+              Open publication <Icon name="arrow" />
             </ExternalLink>
           </div>
         </article>
