@@ -16,7 +16,9 @@ const contentTypes = {
   '.pdf': 'application/pdf',
   '.png': 'image/png',
   '.svg': 'image/svg+xml',
+  '.txt': 'text/plain; charset=utf-8',
   '.webp': 'image/webp',
+  '.xml': 'application/xml; charset=utf-8',
 }
 
 function resolveRequestPath(url = '/') {
@@ -30,8 +32,10 @@ function resolveRequestPath(url = '/') {
 
 createServer((request, response) => {
   const filePath = resolveRequestPath(request.url)
+  const fileName = filePath.split('/').at(-1)
+  const isMutableDocument = fileName === 'index.html' || fileName === 'robots.txt' || fileName === 'sitemap.xml'
   response.setHeader('Content-Type', contentTypes[extname(filePath)] || 'application/octet-stream')
-  response.setHeader('Cache-Control', filePath.endsWith('index.html') ? 'no-cache' : 'public, max-age=31536000, immutable')
+  response.setHeader('Cache-Control', isMutableDocument ? 'no-cache' : 'public, max-age=31536000, immutable')
   createReadStream(filePath).pipe(response)
 }).listen(port, host, () => {
   console.log(`udbhavram.com listening on ${host}:${port}`)
