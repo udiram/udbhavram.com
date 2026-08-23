@@ -1,53 +1,9 @@
 :root {
-  font-family:
-    "Avenir Next", Avenir, system-ui, sans-serif;
-  color: oklch(0.19 0.025 250);
-  background: oklch(0.975 0.006 245);
-  color-scheme: light;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color-scheme: light dark;
 }
 
-:root[data-theme="dark"] {
-  color: oklch(0.9 0.018 240);
-  background: oklch(0.105 0.025 252);
-  color-scheme: dark;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 92px;
-}
-
-body {
-  min-width: 320px;
-  margin: 0;
-  background: oklch(0.975 0.006 245);
-}
-
-:root[data-theme="dark"] body {
-  background: oklch(0.105 0.025 252);
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-::selection {
-  background: oklch(0.55 0.18 24 / 0.22);
-}
-
-@media (max-width: 720px) {
-  html {
-    scroll-padding-top: 80px;
-  }
+html,
+body,
+#root {
+  min-height: 100%;
 }
