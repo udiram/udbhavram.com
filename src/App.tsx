@@ -11,6 +11,7 @@ import {
 } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
+import { archiveCollections, archiveEntryCount, googleArchivePageLinks, type ArchiveEntry } from './archiveContent'
 
 type SectionId = 'home' | 'work' | 'research' | 'trajectory' | 'archive' | 'contact'
 type Theme = 'light' | 'dark'
@@ -70,11 +71,6 @@ type ProofCard = {
   title: string
   text: string
   href: string
-}
-
-type RangeGroup = {
-  title: string
-  items: string[]
 }
 
 const themeStorageKey = 'udbhav-theme'
@@ -368,41 +364,6 @@ const proofCards: ProofCard[] = [
   },
 ]
 
-const rangeGroups: RangeGroup[] = [
-  {
-    title: 'Leadership and service',
-    items: [
-      'International visiting-scholar and student-ambassador roles connected to the McMaster-UAB relationship.',
-      'Teaching-assistant and mentorship work in physics, plus co-op support for younger students.',
-      'Hospital volunteering across medical imaging, surgical inpatient, and information services.',
-    ],
-  },
-  {
-    title: 'Earlier technical roles',
-    items: [
-      'McMaster documents research work with the W Booth School and MAC Formula Electric, plus a clinical research fellowship at St. Joseph\'s Healthcare Hamilton.',
-      'The same institutional profile records deep-learning work at Western University, full-stack engineering at Synth-Med Biotechnology, and a DevOps lead role at WaaW Global.',
-      'A 2023 McLaren Racing data-and-strategy internship adds a performance-engineering thread to that technical range.',
-    ],
-  },
-  {
-    title: 'Open source and side systems',
-    items: [
-      'Merged OpenHands documentation contribution on Docker and macOS setup issues.',
-      'Merged Project MONAI tutorials contribution and public imaging repositories on GitHub.',
-      'Public projects span glioblastoma analysis, Formula 1 lap-time simulation, PDF redaction, a prosthetic prototype, and an openpilot driver-assistance conversion.',
-    ],
-  },
-  {
-    title: 'Training outside the core research lane',
-    items: [
-      'The public archive lists PADI Advanced Open Water training and motorsports driving experience.',
-      'It also records yoga-teacher training, French-language certification, and music study in violin and piano.',
-      'These details sit here as personal range, separate from the research and professional record.',
-    ],
-  },
-]
-
 const sourceMapLinks: LinkItem[] = [
   { label: 'UW student profile', href: 'https://medphysics.wisc.edu/graduate-program/meet-our-students/' },
   { label: 'UAB collaboration profile', href: 'https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor' },
@@ -418,8 +379,7 @@ const sourceMapLinks: LinkItem[] = [
   { label: 'Project MONAI contribution', href: 'https://github.com/Project-MONAI/tutorials/pull/1129' },
   { label: 'OpenHands contribution', href: 'https://github.com/OpenHands/OpenHands/pull/731' },
   { label: 'LinkedIn profile', href: 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine' },
-  { label: 'Research archive', href: 'https://sites.google.com/view/udbhav-ram/research' },
-  { label: 'Motorsports archive', href: 'https://sites.google.com/view/udbhav-ram/motorsports' },
+  ...googleArchivePageLinks,
 ]
 
 const hashAliases: Record<string, SectionId> = {
@@ -431,6 +391,12 @@ const hashAliases: Record<string, SectionId> = {
   talks: 'research',
   projects: 'work',
   sources: 'archive',
+  history: 'archive',
+  motorsports: 'archive',
+  activities: 'archive',
+  awards: 'archive',
+  media: 'archive',
+  'google-site-archive': 'archive',
 }
 
 function Icon({ name }: { name: IconName }) {
@@ -811,19 +777,131 @@ function Path() {
   )
 }
 
+function ArchiveEntryCard({ item }: { item: ArchiveEntry }) {
+  const content = (
+    <>
+      {item.meta ? <span>{item.meta}</span> : null}
+      <strong>{item.title}</strong>
+      {item.detail ? <p>{item.detail}</p> : null}
+      {item.note ? <small>{item.note}</small> : null}
+      {item.href ? (
+        <b>
+          Open reference <Icon name="arrow" />
+        </b>
+      ) : null}
+    </>
+  )
+
+  if (item.href) {
+    return (
+      <ExternalLink className="archive-entry has-link" href={item.href}>
+        {content}
+      </ExternalLink>
+    )
+  }
+
+  return <article className="archive-entry">{content}</article>
+}
+
+function GoogleSiteArchive() {
+  const revealChapter = (chapterId: string) => {
+    const chapter = document.getElementById(chapterId)
+    if (!(chapter instanceof HTMLDetailsElement)) return
+
+    chapter.open = true
+
+    const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0
+    const targetTop = chapter.getBoundingClientRect().top + window.scrollY - headerHeight - 18
+    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' })
+  }
+
+  return (
+    <section aria-labelledby="google-archive-title" className="google-archive" id="google-site-archive">
+      <div className="google-archive-intro">
+        <div>
+          <span>Google Sites import</span>
+          <h3 id="google-archive-title">The full earlier portfolio, reorganized.</h3>
+          <p>The substantive content and public references from all seven pages now live here as a structured archive. Current, independently documented work stays in the main scan path above; older self-authored material is preserved below with historical wording and caveats where time has moved on.</p>
+        </div>
+        <div className="archive-count" aria-label={`${archiveEntryCount} archive entries across ${archiveCollections.length} chapters`}>
+          <strong>{archiveEntryCount}</strong>
+          <span>entries</span>
+          <small>{archiveCollections.length} chapters</small>
+        </div>
+      </div>
+
+      <div className="archive-chapter-index" aria-label="Archive chapter index">
+        {archiveCollections.map((collection) => {
+          const entryCount = collection.buckets.reduce((total, bucket) => total + bucket.items.length, 0)
+
+          return (
+            <button className="archive-index-button" key={collection.id} onClick={() => revealChapter(collection.id)} type="button">
+              <span>{collection.index}</span>
+              <strong>{collection.title}</strong>
+              <small>{entryCount}</small>
+            </button>
+          )
+        })}
+      </div>
+
+      <div className="archive-chapters">
+        {archiveCollections.map((collection) => {
+          const entryCount = collection.buckets.reduce((total, bucket) => total + bucket.items.length, 0)
+
+          return (
+            <details className="archive-chapter" id={collection.id} key={collection.id}>
+              <summary>
+                <span>{collection.index}</span>
+                <div>
+                  <strong>{collection.title}</strong>
+                  <p>{collection.summary}</p>
+                </div>
+                <b>{entryCount} entries</b>
+              </summary>
+              <div className="archive-chapter-body">
+                <div className="archive-source-row">
+                  <p>Imported from the corresponding public page and edited for tense, clarity, and accurate ownership of awards.</p>
+                  <ExternalLink className="text-link" href={collection.source}>
+                    Open original page <Icon name="arrow" />
+                  </ExternalLink>
+                </div>
+                {collection.buckets.map((bucket) => (
+                  <section className="archive-bucket" key={bucket.title}>
+                    <h4>{bucket.title}</h4>
+                    <div className="archive-entry-grid">
+                      {bucket.items.map((item) => (
+                        <ArchiveEntryCard item={item} key={`${item.title}-${item.meta ?? ''}`} />
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </details>
+          )
+        })}
+      </div>
+
+      <div className="archive-reading-note">
+        <strong>How to read this archive</strong>
+        <p>“Listed in the archive” means the item appeared on the older Google Site. It does not silently turn an old goal, expired certification, mentor award, or undated competition result into a current claim.</p>
+      </div>
+    </section>
+  )
+}
+
 function Proof() {
   return (
     <section className="section proof-section" id="archive">
       <SectionIntro
         title="Public Proof"
-        text="Institutional profiles, publications, conference records, and public code behind the headline claims, grouped for quick verification."
+        text="Institutional profiles, publications, conference records, and public code behind the headline claims, followed by the complete earlier Google Sites archive for deeper exploration."
       />
       <div className="proof-hero">
         <ImageFrame image={imageAssets.coopAward} />
         <div>
           <span>Documented visibility</span>
           <h3>Institutional pages, papers, conference records, and public code.</h3>
-          <p>Start with the official profiles and peer-reviewed work below. The expanded background and full source map stay collapsed until you want the longer record.</p>
+          <p>Start with the official profiles and peer-reviewed work below. The full older portfolio then opens in seven compact chapters, so none of the breadth gets lost and none of it competes with the current story.</p>
         </div>
       </div>
       <div className="proof-grid" id="sources">
@@ -838,21 +916,7 @@ function Proof() {
           </ExternalLink>
         ))}
       </div>
-      <details className="archive-drawer content-drawer">
-        <summary>Expanded background <span>leadership, open source, and training outside the main narrative</span></summary>
-        <div className="range-grid">
-          {rangeGroups.map((group) => (
-            <article key={group.title}>
-              <strong>{group.title}</strong>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </details>
+      <GoogleSiteArchive />
       <details className="archive-drawer content-drawer">
         <summary>Source map <span>{sourceMapLinks.length} public links behind this pass</span></summary>
         <nav className="source-links" aria-label="Source map">

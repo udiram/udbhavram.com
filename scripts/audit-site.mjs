@@ -2,18 +2,18 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 
 const root = process.cwd()
-const appPath = path.join(root, 'src/App.tsx')
-const appSource = await fs.readFile(appPath, 'utf8')
+const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/archiveContent.ts')]
+const contentSource = (await Promise.all(contentPaths.map((filePath) => fs.readFile(filePath, 'utf8')))).join('\n')
 
 const localAssets = [
-  ...new Set([...appSource.matchAll(/['"](?<asset>\/assets\/[^'"]+)['"]/g)].map((match) => match.groups.asset)),
+  ...new Set([...contentSource.matchAll(/['"](?<asset>\/assets\/[^'"]+)['"]/g)].map((match) => match.groups.asset)),
 ].sort()
 
 const externalUrls = [
-  ...new Set([...appSource.matchAll(/https?:\/\/[^'"\s)]+/g)].map((match) => match[0])),
+  ...new Set([...contentSource.matchAll(/https?:\/\/[^'"\s)]+/g)].map((match) => match[0])),
 ].sort()
 
-const imageAssetBlocks = [...appSource.matchAll(/(?<key>\w+):\s*{\s*src:\s*'(?<src>\/assets\/[^']+)',\s*alt:\s*'(?<alt>[^']*)'[\s\S]*?source:\s*'(?<source>https?:\/\/[^']+)'/g)]
+const imageAssetBlocks = [...contentSource.matchAll(/(?<key>\w+):\s*{\s*src:\s*'(?<src>\/assets\/[^']+)',\s*alt:\s*'(?<alt>[^']*)'[\s\S]*?source:\s*'(?<source>https?:\/\/[^']+)'/g)]
   .map((match) => match.groups)
 
 async function imageSize(filePath) {

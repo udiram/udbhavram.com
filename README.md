@@ -44,4 +44,4 @@ Do not delete existing email-related DNS records if you later add mailbox hostin
 
 ## Content sources
 
-The first pass uses content from the previous Google Site and the UAB Heersink School of Medicine profile. Replace or tighten project/publication copy as the site becomes the canonical version.
+The main narrative prioritizes current institutional profiles, peer-reviewed papers, conference records, and public code. The earlier Google Site is imported as a structured historical archive in `src/archiveContent.ts`; time-bound goals and self-authored older claims stay labelled as archive material rather than current facts.

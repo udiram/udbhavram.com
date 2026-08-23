@@ -446,7 +446,8 @@ em {
 .research-summary h3,
 .path-summary h3,
 .proof-card strong,
-.range-grid strong,
+.archive-entry strong,
+.archive-chapter summary strong,
 .timeline-ledger strong {
   color: var(--ink-strong);
 }
@@ -850,28 +851,291 @@ em {
   margin-top: 30px;
 }
 
-.range-grid {
+.google-archive {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0;
+  gap: clamp(30px, 4vw, 48px);
+  margin-top: clamp(64px, 8vw, 96px);
+  padding-top: clamp(42px, 6vw, 68px);
+  border-top: 1px solid var(--line-strong);
 }
 
-.range-grid article {
+.google-archive-intro {
   display: grid;
-  gap: 14px;
-  padding: 22px;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: end;
+}
+
+.google-archive-intro > div:first-child {
+  display: grid;
+  gap: 12px;
+}
+
+.google-archive-intro > div:first-child > span,
+.archive-entry > span,
+.archive-chapter summary > span,
+.archive-chapter-index span {
+  color: var(--signal);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.google-archive-intro h3 {
+  max-width: 22ch;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1;
+}
+
+.google-archive-intro p {
+  max-width: 75ch;
+}
+
+.archive-count {
+  display: grid;
+  min-height: 150px;
+  align-content: center;
+  border: 1px solid var(--line-strong);
+  padding: 16px;
+  background: var(--panel);
+}
+
+.archive-count strong {
+  color: var(--ink-strong);
+  font-family: var(--font-display);
+  font-size: 4rem;
+  line-height: 0.8;
+}
+
+.archive-count span {
+  color: var(--signal);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.archive-count small {
+  margin-top: 8px;
+  color: var(--soft);
+}
+
+.archive-chapter-index {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.archive-index-button {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px 12px;
+  border: 0;
   border-right: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  transition:
+    background 180ms var(--ease-out),
+    color 180ms var(--ease-out);
 }
 
-.range-grid article:nth-child(2n) {
+.archive-index-button:last-child {
   border-right: 0;
 }
 
-.range-grid ul {
+.archive-index-button:hover,
+.archive-index-button:focus-visible {
+  background: var(--accent-soft);
+}
+
+.archive-index-button:hover strong,
+.archive-index-button:focus-visible strong {
+  color: var(--accent);
+}
+
+.archive-chapter-index strong {
+  color: var(--ink-strong);
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.archive-chapter-index small {
+  color: var(--soft);
+  font-size: 11px;
+}
+
+.archive-chapters {
+  border-top: 1px solid var(--line-strong);
+}
+
+.archive-chapter {
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.archive-chapter summary {
   display: grid;
-  gap: 12px;
-  padding-left: 18px;
+  grid-template-columns: 50px minmax(0, 1fr) auto 24px;
+  gap: 18px;
+  align-items: center;
+  padding: 24px 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+.archive-chapter summary::-webkit-details-marker {
+  display: none;
+}
+
+.archive-chapter summary > div {
+  display: grid;
+  gap: 5px;
+}
+
+.archive-chapter summary strong {
+  font-size: 17px;
+}
+
+.archive-chapter summary p {
+  max-width: 86ch;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.archive-chapter summary b {
+  color: var(--soft);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.archive-chapter summary::after {
+  content: '+';
+  color: var(--ink-strong);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1;
+  text-align: right;
+}
+
+.archive-chapter[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.archive-chapter[open] summary::after {
+  content: '-';
+}
+
+.archive-chapter-body {
+  display: grid;
+  gap: 34px;
+  padding: 24px 0 38px 68px;
+}
+
+.archive-source-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.archive-source-row p {
+  max-width: 68ch;
+  font-size: 14px;
+}
+
+.archive-bucket {
+  display: grid;
+  gap: 14px;
+}
+
+.archive-bucket h4 {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+.archive-entry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.archive-entry {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 18px 20px 18px 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.archive-entry:nth-child(2n) {
+  padding-right: 0;
+  padding-left: 20px;
+  border-right: 0;
+}
+
+.archive-entry strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.archive-entry p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.archive-entry small {
+  border-left: 2px solid var(--signal);
+  padding-left: 9px;
+  color: var(--soft);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.archive-entry b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 3px;
+  color: var(--ink-strong);
+  font-size: 11px;
+}
+
+.archive-entry.has-link {
+  transition:
+    color 180ms var(--ease-out),
+    background 180ms var(--ease-out);
+}
+
+.archive-entry.has-link:hover {
+  background: var(--accent-soft);
+}
+
+.archive-entry.has-link:hover strong,
+.archive-entry.has-link:hover b {
+  color: var(--accent);
+}
+
+.archive-reading-note {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.28fr) minmax(0, 1fr);
+  gap: 28px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  padding: 20px 0;
+}
+
+.archive-reading-note strong {
+  color: var(--ink-strong);
+  font-size: 13px;
+}
+
+.archive-reading-note p {
+  max-width: 80ch;
+  font-size: 13px;
 }
 
 .contact-section {
@@ -1016,13 +1280,20 @@ form .button {
   }
 
   .publication-ledger,
-  .proof-grid,
-  .range-grid {
+  .proof-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .range-grid article:nth-child(2n) {
+  .archive-chapter-index {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .archive-index-button:nth-child(4n) {
     border-right: 0;
+  }
+
+  .archive-index-button:nth-child(n + 5) {
+    border-top: 1px solid var(--line);
   }
 }
 
@@ -1112,7 +1383,6 @@ form .button {
   .hero-snapshot,
   .publication-ledger,
   .proof-grid,
-  .range-grid,
   form {
     grid-template-columns: 1fr;
   }
@@ -1149,8 +1419,7 @@ form .button {
   }
 
   .publication-item,
-  .proof-card,
-  .range-grid article {
+  .proof-card {
     border-right: 0;
     padding: 20px 0;
   }
@@ -1173,6 +1442,86 @@ form .button {
   .social-link {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .google-archive-intro {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-count {
+    grid-template-columns: auto minmax(0, 1fr);
+    min-height: 0;
+    gap: 4px 10px;
+    align-items: end;
+  }
+
+  .archive-count strong {
+    font-size: 3.2rem;
+  }
+
+  .archive-count small {
+    grid-column: 1 / -1;
+    margin-top: 2px;
+  }
+
+  .archive-chapter-index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .archive-index-button,
+  .archive-index-button:nth-child(n + 5) {
+    border-top: 1px solid var(--line);
+  }
+
+  .archive-index-button:nth-child(-n + 2) {
+    border-top: 0;
+  }
+
+  .archive-index-button:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .archive-chapter summary {
+    grid-template-columns: 34px minmax(0, 1fr) 22px;
+    gap: 10px;
+    padding: 20px 0;
+  }
+
+  .archive-chapter summary b {
+    display: none;
+  }
+
+  .archive-chapter summary p {
+    font-size: 13px;
+  }
+
+  .archive-chapter-body {
+    padding: 18px 0 30px;
+  }
+
+  .archive-source-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .archive-entry-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archive-entry,
+  .archive-entry:nth-child(2n) {
+    padding: 16px 0;
+    border-right: 0;
+  }
+
+  .archive-entry.has-link:hover {
+    background: transparent;
+  }
+
+  .archive-reading-note {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   form .button {
