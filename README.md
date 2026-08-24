@@ -44,4 +44,4 @@ Do not delete existing email-related DNS records if you later add mailbox hostin
 
 ## Content sources
 
-The main narrative prioritizes current institutional profiles, peer-reviewed papers, conference records, and public code. The earlier Google Site is imported as a structured historical archive in `src/archiveContent.ts`; time-bound goals and self-authored older claims stay labelled as archive material rather than current facts.
+The site maintains information parity with the earlier public portfolio while distributing that material into the research, engineering, path, life, recognition, and media experiences in `src/portfolioContent.ts`. Time-bound goals and self-authored older claims remain labelled in context rather than being promoted into current facts.

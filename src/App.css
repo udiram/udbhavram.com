@@ -134,7 +134,7 @@ h2 {
 }
 
 h1 {
-  max-width: 11ch;
+  max-width: 14ch;
   font-size: clamp(3.7rem, 8vw, 5.9rem);
   line-height: 0.86;
   letter-spacing: -0.02em;
@@ -385,7 +385,7 @@ em {
 .proof-card span,
 .proof-hero span,
 .timeline-ledger > article > span,
-.archive-drawer summary span,
+.reference-drawer summary span,
 .institution-chip strong {
   color: var(--signal);
   font-size: 12px;
@@ -446,17 +446,20 @@ em {
 .research-summary h3,
 .path-summary h3,
 .proof-card strong,
-.archive-entry strong,
-.archive-chapter summary strong,
+.record-item strong,
 .timeline-ledger strong {
   color: var(--ink-strong);
 }
 
 .hero-snapshot {
-  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   border-top: 1px solid var(--line-strong);
+}
+
+.profile-strip {
+  padding-top: 0;
+  padding-bottom: clamp(28px, 4vw, 46px);
 }
 
 .hero-snapshot > div {
@@ -668,13 +671,267 @@ em {
   gap: clamp(36px, 6vw, 84px);
 }
 
-.research-columns {
-  margin-top: clamp(42px, 6vw, 68px);
-}
-
 .ledger-panel {
   display: grid;
   gap: 18px;
+}
+
+.research-talks {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 86px);
+  align-items: start;
+  margin-top: clamp(42px, 6vw, 68px);
+}
+
+.research-talks-intro {
+  display: grid;
+  gap: 12px;
+  position: sticky;
+  top: 104px;
+}
+
+.content-explorer {
+  display: grid;
+  gap: 24px;
+  margin-top: clamp(42px, 6vw, 72px);
+  padding-top: clamp(30px, 4vw, 42px);
+  border-top: 1px solid var(--line-strong);
+}
+
+.explorer-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: end;
+}
+
+.explorer-header > div:first-child {
+  display: grid;
+  gap: 10px;
+  max-width: 74ch;
+}
+
+.explorer-count {
+  display: grid;
+  align-content: center;
+  min-width: 132px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+}
+
+.explorer-meta {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.explorer-count strong {
+  color: var(--ink-strong);
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 0.84;
+}
+
+.explorer-count span {
+  color: var(--signal);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.explorer-shell {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 56px);
+  align-items: start;
+}
+
+.explorer-tabs {
+  display: grid;
+  border-top: 1px solid var(--line-strong);
+}
+
+.explorer-tabs button {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 16px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  transition:
+    color 180ms var(--ease-out),
+    background 180ms var(--ease-out);
+}
+
+.explorer-tabs button strong {
+  color: var(--ink-strong);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.explorer-tabs button span {
+  color: var(--soft);
+  font-size: 12px;
+}
+
+.explorer-tabs button.is-active,
+.explorer-tabs button:hover,
+.explorer-tabs button:focus-visible {
+  background: var(--accent-soft);
+}
+
+.explorer-tabs button.is-active strong,
+.explorer-tabs button:hover strong,
+.explorer-tabs button:focus-visible strong {
+  color: var(--accent);
+}
+
+.explorer-panels {
+  min-width: 0;
+}
+
+.explorer-panel {
+  display: grid;
+  gap: 14px;
+}
+
+.explorer-panel h4 {
+  color: var(--ink-strong);
+  font-size: 15px;
+}
+
+.record-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.record-item {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 18px 20px 18px 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.record-grid > *:nth-child(2n) {
+  padding-right: 0;
+  padding-left: 20px;
+  border-right: 0;
+}
+
+.record-item strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.record-item p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.record-item small {
+  border-left: 2px solid var(--signal);
+  padding-left: 9px;
+  color: var(--soft);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.record-item b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 3px;
+  color: var(--ink-strong);
+  font-size: 11px;
+}
+
+.record-item.has-link {
+  transition:
+    color 180ms var(--ease-out),
+    background 180ms var(--ease-out);
+}
+
+.record-item.has-link:hover {
+  background: var(--accent-soft);
+}
+
+.record-item.has-link:hover strong,
+.record-item.has-link:hover b {
+  color: var(--accent);
+}
+
+.context-note {
+  max-width: 76ch;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 13px;
+}
+
+.feature-heading {
+  display: grid;
+  gap: 10px;
+  max-width: 72ch;
+}
+
+.motorsports-feature,
+.media-feature {
+  display: grid;
+  gap: 22px;
+  margin-top: clamp(42px, 6vw, 68px);
+}
+
+.motorsports-grid,
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.motorsport-card,
+.media-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.motorsport-card .image-frame,
+.media-card .image-frame {
+  aspect-ratio: 1.7;
+  border-bottom: 1px solid var(--line);
+}
+
+.motorsport-card > div,
+.media-card > div {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px 18px;
+}
+
+.media-card {
+  text-decoration: none;
+  transition:
+    background 180ms var(--ease-out),
+    border-color 180ms var(--ease-out);
+}
+
+.media-card:hover {
+  border-color: var(--line-strong);
+  background: var(--accent-soft);
+}
+
+.media-card:hover strong,
+.media-card:hover b {
+  color: var(--accent);
 }
 
 .timeline-ledger {
@@ -826,13 +1083,15 @@ em {
   background: var(--accent-soft);
 }
 
-.archive-drawer {
+.archive-drawer,
+.reference-drawer {
   margin-top: clamp(38px, 5vw, 56px);
   border-top: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
 }
 
-.archive-drawer summary {
+.archive-drawer summary,
+.reference-drawer summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -843,7 +1102,8 @@ em {
   cursor: pointer;
 }
 
-.archive-drawer[open] summary {
+.archive-drawer[open] summary,
+.reference-drawer[open] summary {
   border-bottom: 1px solid var(--line);
 }
 
@@ -1138,6 +1398,340 @@ em {
   font-size: 13px;
 }
 
+.reference-drawer {
+  margin-top: clamp(42px, 6vw, 72px);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.reference-drawer summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 0;
+  color: var(--ink-strong);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.reference-drawer[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.content-explorer {
+  display: grid;
+  gap: clamp(26px, 4vw, 42px);
+  margin-top: clamp(68px, 8vw, 108px);
+  padding-top: clamp(42px, 6vw, 70px);
+  border-top: 1px solid var(--line-strong);
+}
+
+.explorer-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 116px;
+  gap: clamp(26px, 5vw, 68px);
+  align-items: end;
+}
+
+.explorer-header > div:first-child {
+  display: grid;
+  gap: 12px;
+}
+
+.explorer-header h3,
+.feature-heading h3 {
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 0.96;
+  letter-spacing: -0.012em;
+  text-transform: uppercase;
+}
+
+.explorer-header p,
+.feature-heading p {
+  max-width: 68ch;
+}
+
+.explorer-count {
+  display: grid;
+  min-height: 116px;
+  align-content: center;
+  border-left: 4px solid var(--accent);
+  padding: 12px 16px;
+  background: var(--panel);
+}
+
+.explorer-count strong {
+  color: var(--ink-strong);
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  line-height: 0.9;
+}
+
+.explorer-count span {
+  color: var(--signal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.explorer-shell {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.28fr) minmax(0, 1fr);
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  background:
+    radial-gradient(circle at 88% 12%, var(--accent-soft), transparent 32%),
+    var(--panel);
+}
+
+.explorer-tabs {
+  display: grid;
+  align-content: start;
+  border-right: 1px solid var(--line-strong);
+}
+
+.explorer-tabs button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  min-height: 64px;
+  align-items: center;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  padding: 12px 16px;
+  text-align: left;
+  transition:
+    background 180ms var(--ease-out),
+    color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.explorer-tabs button:hover,
+.explorer-tabs button.is-active {
+  background: var(--accent-soft);
+  color: var(--ink-strong);
+}
+
+.explorer-tabs button:active {
+  transform: translateY(1px);
+}
+
+.explorer-tabs button strong {
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.explorer-tabs button span {
+  color: var(--signal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.explorer-panels {
+  min-width: 0;
+  padding: clamp(22px, 4vw, 40px);
+}
+
+.explorer-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.explorer-panel[hidden] {
+  display: none;
+}
+
+.explorer-panel h4 {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 15px;
+}
+
+.record-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+}
+
+.record-item {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  padding: 18px 20px 18px 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.record-grid > .record-item:nth-child(2n) {
+  padding-right: 0;
+  padding-left: 20px;
+  border-right: 0;
+}
+
+.record-item > span,
+.media-card > div > span,
+.motorsport-card > div > span {
+  color: var(--signal);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.record-item strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.record-item p {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.record-item small {
+  border-left: 2px solid var(--signal);
+  padding-left: 9px;
+  color: var(--soft);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.record-item b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-top: 3px;
+  color: var(--ink-strong);
+  font-size: 11px;
+}
+
+.record-item.has-link {
+  transition:
+    background 180ms var(--ease-out),
+    color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.record-item.has-link:hover {
+  background: var(--accent-soft);
+  transform: translateY(-1px);
+}
+
+.record-item.has-link:hover strong,
+.record-item.has-link:hover b {
+  color: var(--accent);
+}
+
+.context-note {
+  max-width: 86ch;
+  border-left: 3px solid var(--signal);
+  padding-left: 14px;
+  color: var(--soft);
+  font-size: 12px;
+}
+
+.motorsports-feature,
+.media-feature {
+  display: grid;
+  gap: clamp(28px, 5vw, 48px);
+  margin-top: clamp(72px, 9vw, 118px);
+  padding-top: clamp(42px, 6vw, 70px);
+  border-top: 1px solid var(--line-strong);
+}
+
+.feature-heading {
+  display: grid;
+  gap: 12px;
+}
+
+.motorsports-grid,
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 24px);
+}
+
+.motorsport-card,
+.media-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  padding: 0;
+  background: var(--panel);
+  transition:
+    border-color 180ms var(--ease-out),
+    transform 220ms var(--ease-out);
+}
+
+.motorsport-card:nth-child(1),
+.motorsport-card:nth-child(4),
+.media-card:nth-child(1),
+.media-card:nth-child(4),
+.media-card:nth-child(5) {
+  grid-column: span 7;
+}
+
+.motorsport-card:nth-child(2),
+.motorsport-card:nth-child(3),
+.media-card:nth-child(2),
+.media-card:nth-child(3),
+.media-card:nth-child(6) {
+  grid-column: span 5;
+}
+
+.motorsport-card .image-frame,
+.media-card .image-frame {
+  aspect-ratio: 1.72;
+}
+
+.motorsport-card:nth-child(2) .image-frame,
+.motorsport-card:nth-child(3) .image-frame,
+.media-card:nth-child(2) .image-frame,
+.media-card:nth-child(3) .image-frame,
+.media-card:nth-child(6) .image-frame {
+  aspect-ratio: 1.28;
+}
+
+.motorsport-card .image-frame img,
+.media-card .image-frame img {
+  transition: transform 260ms var(--ease-out), filter 260ms var(--ease-out);
+}
+
+.motorsport-card:hover,
+.media-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.motorsport-card:hover .image-frame img,
+.media-card:hover .image-frame img {
+  filter: saturate(1.04) contrast(1.03);
+  transform: scale(1.015);
+}
+
+.motorsport-card > div,
+.media-card > div {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+}
+
+.media-card {
+  color: inherit;
+  text-decoration: none;
+}
+
+.life-section {
+  background:
+    radial-gradient(circle at 82% 20%, var(--accent-soft), transparent 28%),
+    var(--bg);
+}
+
 .contact-section {
   display: grid;
   grid-template-columns: minmax(0, 0.62fr) minmax(360px, 0.78fr);
@@ -1255,8 +1849,13 @@ form .button {
   .two-column,
   .path-layout,
   .proof-hero,
+  .research-talks,
   .contact-section {
     grid-template-columns: 1fr;
+  }
+
+  .research-talks-intro {
+    position: static;
   }
 
   .hero {
@@ -1282,6 +1881,10 @@ form .button {
   .publication-ledger,
   .proof-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .explorer-shell {
+    grid-template-columns: minmax(180px, 0.26fr) minmax(0, 1fr);
   }
 
   .archive-chapter-index {
@@ -1339,6 +1942,11 @@ form .button {
   .section {
     scroll-margin-top: 80px;
     padding: 58px 18px;
+  }
+
+  .profile-strip {
+    padding-top: 0;
+    padding-bottom: 32px;
   }
 
   h1 {
@@ -1402,10 +2010,78 @@ form .button {
     align-items: start;
   }
 
-  .archive-drawer summary {
+  .archive-drawer summary,
+  .reference-drawer summary {
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
+  }
+
+  .explorer-header,
+  .explorer-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .explorer-meta {
+    justify-items: start;
+  }
+
+  .explorer-count {
+    grid-template-columns: auto 1fr;
+    min-height: 0;
+    gap: 8px;
+    align-items: end;
+  }
+
+  .explorer-count strong {
+    font-size: 2.8rem;
+  }
+
+  .explorer-tabs {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(180px, 72%);
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-strong);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+  }
+
+  .explorer-tabs button {
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+    scroll-snap-align: start;
+  }
+
+  .explorer-panels {
+    padding: 18px;
+  }
+
+  .record-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .record-grid > .record-item,
+  .record-grid > .record-item:nth-child(2n) {
+    padding: 16px 0;
+    border-right: 0;
+  }
+
+  .motorsports-grid,
+  .media-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .motorsport-card:nth-child(n),
+  .media-card:nth-child(n) {
+    grid-column: auto;
+  }
+
+  .motorsport-card .image-frame,
+  .motorsport-card:nth-child(n) .image-frame,
+  .media-card .image-frame,
+  .media-card:nth-child(n) .image-frame {
+    aspect-ratio: 1.55;
   }
 
   .story-card,

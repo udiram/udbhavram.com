@@ -11,9 +11,9 @@ import {
 } from '@phosphor-icons/react'
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
-import { archiveCollections, archiveEntryCount, googleArchivePageLinks, type ArchiveEntry } from './archiveContent'
+import { originalSiteLinks, portfolioCollections, portfolioItemCount, type PortfolioCollection, type RecordItem } from './portfolioContent'
 
-type SectionId = 'home' | 'work' | 'research' | 'trajectory' | 'archive' | 'contact'
+type SectionId = 'home' | 'work' | 'research' | 'trajectory' | 'life' | 'recognition' | 'contact'
 type Theme = 'light' | 'dark'
 
 type ImageAsset = {
@@ -129,13 +129,51 @@ const imageAssets = {
     alt: 'AAPM poster describing a locally hosted language-model pipeline for TG-263 naming quality assurance',
     source: 'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20105/AAPM2025_BRP_LLM.pdf',
   },
+  arrowMcLaren: {
+    src: '/assets/optimized/arrow-mclaren.webp',
+    alt: 'Arrow McLaren IndyCar race car on track',
+    source: 'https://www.arrowmclaren.com/',
+  },
+  formulaLgb: {
+    src: '/assets/sourced/motorsports/formula-lgb.jpg',
+    alt: 'Formula LGB 1300 race car during a test and development program',
+  },
+  macFormulaSae: {
+    src: '/assets/sourced/motorsports/mac-formula-sae.png',
+    alt: 'McMaster Formula SAE Electric car and team',
+  },
+  vwPoloCup: {
+    src: '/assets/sourced/motorsports/vw-polo-cup.jpg',
+    alt: 'Volkswagen Polo Cup race car at Madras International Circuit',
+  },
+  visitingScholar: {
+    src: '/assets/sourced/mcmaster-uab-scholar.png',
+    alt: 'Udbhav Ram during his international visiting scholar term at UAB',
+  },
+  convocation: {
+    src: '/assets/sourced/mcmaster-convocation.jpg',
+    alt: 'Udbhav Ram at McMaster University convocation',
+  },
+  uabMentor: {
+    src: '/assets/sourced/uab-ai-mentor.jpg',
+    alt: 'Udbhav Ram with his UAB clinical AI mentor',
+  },
+  uabEmployerAward: {
+    src: '/assets/sourced/uab-employer-award-1.jpg',
+    alt: 'UAB mentor receiving McMaster co-op employer recognition',
+  },
+  employerAwards: {
+    src: '/assets/sourced/mcmaster-employer-awards-hero.jpg',
+    alt: 'McMaster Science co-op employer award recipients',
+  },
 } satisfies Record<string, ImageAsset>
 
 const navItems: { id: SectionId; label: string }[] = [
   { id: 'work', label: 'Work' },
   { id: 'research', label: 'Research' },
   { id: 'trajectory', label: 'Path' },
-  { id: 'archive', label: 'Proof' },
+  { id: 'life', label: 'Life' },
+  { id: 'recognition', label: 'Recognition' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -146,10 +184,7 @@ const socialItems: (LinkItem & { icon: IconName })[] = [
   { label: 'Publications', href: 'https://pubmed.ncbi.nlm.nih.gov/?term=Udbhav+S+Ram', icon: 'article' },
 ]
 
-const heroParagraphs = [
-  'I am a Medical Physics PhD student at the University of Wisconsin-Madison, working where radiation oncology, imaging, and software engineering overlap.',
-  'My recent work spans clinician-reviewed AI, adaptive radiotherapy, and imaging workflows developed across UW-Madison, UAB Radiation Oncology, and McMaster.',
-]
+const heroSummary = 'I build clinician-reviewed AI and imaging systems for radiation oncology, grounded in research across UW-Madison, UAB, and McMaster.'
 
 const heroSnapshots: SnapshotItem[] = [
   {
@@ -379,24 +414,42 @@ const sourceMapLinks: LinkItem[] = [
   { label: 'Project MONAI contribution', href: 'https://github.com/Project-MONAI/tutorials/pull/1129' },
   { label: 'OpenHands contribution', href: 'https://github.com/OpenHands/OpenHands/pull/731' },
   { label: 'LinkedIn profile', href: 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine' },
-  ...googleArchivePageLinks,
+  ...originalSiteLinks,
 ]
 
-const hashAliases: Record<string, SectionId> = {
+const hashAliases: Record<string, string> = {
   about: 'trajectory',
   path: 'trajectory',
-  proof: 'archive',
-  recognition: 'archive',
+  proof: 'recognition',
+  archive: 'recognition',
   publications: 'research',
   talks: 'research',
   projects: 'work',
-  sources: 'archive',
-  history: 'archive',
-  motorsports: 'archive',
-  activities: 'archive',
-  awards: 'archive',
-  media: 'archive',
-  'google-site-archive': 'archive',
+  sources: 'recognition',
+  history: 'profile-foundations',
+  motorsports: 'motorsports',
+  activities: 'life',
+  awards: 'recognition',
+  media: 'media',
+  'google-site-archive': 'recognition',
+}
+
+function collectionById(id: string) {
+  const collection = portfolioCollections.find((item) => item.id === id)
+  if (!collection) throw new Error(`Missing portfolio collection: ${id}`)
+  return collection
+}
+
+const profileCollection = collectionById('profile-foundations')
+const researchCollection = collectionById('research-record')
+const engineeringCollection = collectionById('engineering-projects')
+const motorsportsCollection = collectionById('motorsports')
+const activitiesCollection = collectionById('activities-service')
+const recognitionCollection = collectionById('recognition')
+const mediaCollection = collectionById('media')
+
+function collectionItemCount(collection: PortfolioCollection) {
+  return collection.groups.reduce((total, group) => total + group.items.length, 0)
 }
 
 function Icon({ name }: { name: IconName }) {
@@ -583,11 +636,7 @@ function Hero() {
     <section className="hero section" id="home">
       <div className="hero-copy">
         <h1>Clinical AI, built for real review.</h1>
-        {heroParagraphs.map((paragraph) => (
-          <p className="hero-summary" key={paragraph}>
-            {paragraph}
-          </p>
-        ))}
+        <p className="hero-summary">{heroSummary}</p>
         <div className="hero-actions">
           <a className="button primary" href="#work">
             Explore work <Icon name="arrow" />
@@ -604,7 +653,14 @@ function Hero() {
           <p>Medical Physics PhD student at UW-Madison, advised by Dr. Ran Zhang.</p>
         </div>
       </div>
-      <dl className="hero-snapshot" aria-label="Quick profile">
+    </section>
+  )
+}
+
+function ProfileStrip() {
+  return (
+    <section className="profile-strip section" aria-label="Quick profile">
+      <dl className="hero-snapshot">
         {heroSnapshots.map((item) => (
           <div key={item.label}>
             <dt>{item.label}</dt>
@@ -660,6 +716,12 @@ function Work() {
           </article>
         ))}
       </div>
+      <ContentExplorer
+        className="engineering-explorer"
+        collection={engineeringCollection}
+        intro="The engineering practice extends beyond the three clinical case studies, from robotics and full-stack systems to autonomous driving, biotechnology, and STEM outreach."
+        title="Engineering beyond the selected work"
+      />
     </section>
   )
 }
@@ -696,38 +758,34 @@ function Research() {
           </ExternalLink>
         ))}
       </div>
-      <div className="two-column research-columns">
-        <div className="ledger-panel">
+      <div className="research-talks">
+        <div className="research-talks-intro">
           <h3>Selected talks and posters</h3>
-          <div className="timeline-ledger" id="talks">
-            {talkTimeline.map((item) => (
-              <article key={item.href ?? `${item.date}-${item.event}`}>
-                <span>{item.date}</span>
-                <div>
-                  <strong>{item.event}</strong>
-                  <p>{item.detail}</p>
-                  {item.href ? (
-                    <ExternalLink className="inline-link" href={item.href}>
-                      View reference <Icon name="arrow" />
-                    </ExternalLink>
-                  ) : null}
-                </div>
-              </article>
-            ))}
-          </div>
+          <p>Conference work ranges from early imaging and dose-delivery studies to current clinical AI and adaptive-radiotherapy projects.</p>
         </div>
-        <div className="ledger-panel">
-          <h3>Research archives</h3>
-          <div className="source-stack">
-            <p>The older Google Sites archive still matters here because it preserves the fuller public list of talks, posters, and side projects that do not all belong on the main landing page.</p>
-            <nav className="source-links" aria-label="Research archive links">
-              <ExternalLink href="https://sites.google.com/view/udbhav-ram/research">Research archive <Icon name="arrow" /></ExternalLink>
-              <ExternalLink href="https://www.aapm.org/pubs/newsletter/archive/5001.pdf">AAPM newsletter <Icon name="arrow" /></ExternalLink>
-              <ExternalLink href="https://uwaterloo.ca/physics-astronomy/news/our-department-hosts-cupc-first-time-1989">CUPC award reference <Icon name="arrow" /></ExternalLink>
-            </nav>
-          </div>
+        <div className="timeline-ledger" id="talks">
+          {talkTimeline.map((item) => (
+            <article key={item.href ?? `${item.date}-${item.event}`}>
+              <span>{item.date}</span>
+              <div>
+                <strong>{item.event}</strong>
+                <p>{item.detail}</p>
+                {item.href ? (
+                  <ExternalLink className="inline-link" href={item.href}>
+                    View reference <Icon name="arrow" />
+                  </ExternalLink>
+                ) : null}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
+      <ContentExplorer
+        className="research-explorer"
+        collection={researchCollection}
+        intro="Browse the complete research record by affiliation, project, presentation, or open-source contribution."
+        title="The broader research record"
+      />
     </section>
   )
 }
@@ -773,11 +831,18 @@ function Path() {
           ))}
         </div>
       </div>
+      <ContentExplorer
+        className="profile-explorer"
+        collection={profileCollection}
+        intro="Earlier roles, working strengths, active research themes, and goals provide context for the current doctoral chapter without being mistaken for current credentials."
+        title="What built the current practice"
+      />
+      <Motorsports />
     </section>
   )
 }
 
-function ArchiveEntryCard({ item }: { item: ArchiveEntry }) {
+function RecordItemCard({ item }: { item: RecordItem }) {
   const content = (
     <>
       {item.meta ? <span>{item.meta}</span> : null}
@@ -794,114 +859,173 @@ function ArchiveEntryCard({ item }: { item: ArchiveEntry }) {
 
   if (item.href) {
     return (
-      <ExternalLink className="archive-entry has-link" href={item.href}>
+      <ExternalLink className="record-item has-link" href={item.href}>
         {content}
       </ExternalLink>
     )
   }
 
-  return <article className="archive-entry">{content}</article>
+  return <article className="record-item">{content}</article>
 }
 
-function GoogleSiteArchive() {
-  const revealChapter = (chapterId: string) => {
-    const chapter = document.getElementById(chapterId)
-    if (!(chapter instanceof HTMLDetailsElement)) return
-
-    chapter.open = true
-
-    const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0
-    const targetTop = chapter.getBoundingClientRect().top + window.scrollY - headerHeight - 18
-    window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' })
-  }
+function ContentExplorer({
+  collection,
+  title,
+  intro,
+  className = '',
+}: {
+  collection: PortfolioCollection
+  title: string
+  intro: string
+  className?: string
+}) {
+  const [activeGroup, setActiveGroup] = useState(0)
+  const itemCount = collectionItemCount(collection)
+  const needsHistoricalContext = collection.id === 'profile-foundations' || collection.id === 'recognition'
 
   return (
-    <section aria-labelledby="google-archive-title" className="google-archive" id="google-site-archive">
-      <div className="google-archive-intro">
+    <section aria-labelledby={`${collection.id}-title`} className={`content-explorer ${className}`.trim()} id={collection.id}>
+      <header className="explorer-header">
         <div>
-          <span>Google Sites import</span>
-          <h3 id="google-archive-title">The full earlier portfolio, reorganized.</h3>
-          <p>The substantive content and public references from all seven pages now live here as a structured archive. Current, independently documented work stays in the main scan path above; older self-authored material is preserved below with historical wording and caveats where time has moved on.</p>
+          <h3 id={`${collection.id}-title`}>{title}</h3>
+          <p>{intro}</p>
         </div>
-        <div className="archive-count" aria-label={`${archiveEntryCount} archive entries across ${archiveCollections.length} chapters`}>
-          <strong>{archiveEntryCount}</strong>
-          <span>entries</span>
-          <small>{archiveCollections.length} chapters</small>
+        <div className="explorer-count" aria-label={`${itemCount} items in this section`}>
+          <strong>{itemCount}</strong>
+          <span>items</span>
         </div>
-      </div>
+      </header>
 
-      <div className="archive-chapter-index" aria-label="Archive chapter index">
-        {archiveCollections.map((collection) => {
-          const entryCount = collection.buckets.reduce((total, bucket) => total + bucket.items.length, 0)
+      <div className="explorer-shell">
+        {collection.groups.length > 1 ? (
+          <div aria-label={`${title} categories`} className="explorer-tabs">
+            {collection.groups.map((group, index) => (
+              <button
+                aria-controls={`${collection.id}-panel-${index}`}
+                aria-expanded={activeGroup === index}
+                className={activeGroup === index ? 'is-active' : undefined}
+                id={`${collection.id}-tab-${index}`}
+                key={group.title}
+                onClick={() => setActiveGroup(index)}
+                type="button"
+              >
+                <strong>{group.title}</strong>
+                <span>{group.items.length}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
 
-          return (
-            <button className="archive-index-button" key={collection.id} onClick={() => revealChapter(collection.id)} type="button">
-              <span>{collection.index}</span>
-              <strong>{collection.title}</strong>
-              <small>{entryCount}</small>
-            </button>
-          )
-        })}
-      </div>
-
-      <div className="archive-chapters">
-        {archiveCollections.map((collection) => {
-          const entryCount = collection.buckets.reduce((total, bucket) => total + bucket.items.length, 0)
-
-          return (
-            <details className="archive-chapter" id={collection.id} key={collection.id}>
-              <summary>
-                <span>{collection.index}</span>
-                <div>
-                  <strong>{collection.title}</strong>
-                  <p>{collection.summary}</p>
-                </div>
-                <b>{entryCount} entries</b>
-              </summary>
-              <div className="archive-chapter-body">
-                <div className="archive-source-row">
-                  <p>Imported from the corresponding public page and edited for tense, clarity, and accurate ownership of awards.</p>
-                  <ExternalLink className="text-link" href={collection.source}>
-                    Open original page <Icon name="arrow" />
-                  </ExternalLink>
-                </div>
-                {collection.buckets.map((bucket) => (
-                  <section className="archive-bucket" key={bucket.title}>
-                    <h4>{bucket.title}</h4>
-                    <div className="archive-entry-grid">
-                      {bucket.items.map((item) => (
-                        <ArchiveEntryCard item={item} key={`${item.title}-${item.meta ?? ''}`} />
-                      ))}
-                    </div>
-                  </section>
+        <div className="explorer-panels">
+          {collection.groups.map((group, index) => (
+            <section
+              aria-labelledby={collection.groups.length > 1 ? `${collection.id}-tab-${index}` : undefined}
+              className="explorer-panel"
+              hidden={activeGroup !== index}
+              id={`${collection.id}-panel-${index}`}
+              key={group.title}
+            >
+              <h4>{group.title}</h4>
+              <div className="record-grid">
+                {group.items.map((item) => (
+                  <RecordItemCard item={item} key={`${item.title}-${item.meta ?? ''}`} />
                 ))}
               </div>
-            </details>
-          )
-        })}
+            </section>
+          ))}
+        </div>
       </div>
 
-      <div className="archive-reading-note">
-        <strong>How to read this archive</strong>
-        <p>“Listed in the archive” means the item appeared on the older Google Site. It does not silently turn an old goal, expired certification, mentor award, or undated competition result into a current claim.</p>
+      {needsHistoricalContext ? (
+        <p className="context-note">Time-bound goals, credentials, and recognition are retained with their original context. A historical listing is not presented as a current credential, and mentor or employer awards remain attributed to their recipients.</p>
+      ) : null}
+    </section>
+  )
+}
+
+function Motorsports() {
+  const items = motorsportsCollection.groups.flatMap((group) => group.items)
+  const images = [imageAssets.arrowMcLaren, imageAssets.macFormulaSae, imageAssets.formulaLgb, imageAssets.vwPoloCup]
+
+  return (
+    <section aria-labelledby="motorsports-title" className="motorsports-feature" id="motorsports">
+      <div className="feature-heading">
+        <h3 id="motorsports-title">Performance engineering under pressure</h3>
+        <p>{motorsportsCollection.summary}</p>
+      </div>
+      <div className="motorsports-grid">
+        {items.map((item, index) => (
+          <article className="motorsport-card record-item" key={item.title}>
+            <ImageFrame image={images[index]} />
+            <div>
+              {item.meta ? <span>{item.meta}</span> : null}
+              <strong>{item.title}</strong>
+              {item.detail ? <p>{item.detail}</p> : null}
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   )
 }
 
-function Proof() {
+function Life() {
   return (
-    <section className="section proof-section" id="archive">
+    <section className="section life-section" id="life">
       <SectionIntro
-        title="Public Proof"
-        text="Institutional profiles, publications, conference records, and public code behind the headline claims, followed by the complete earlier Google Sites archive for deeper exploration."
+        title="Life beyond the lab"
+        text="Clinical exposure and service sit alongside teaching, robotics, sport, flight training, and a long musical practice. Together they explain the range without reducing it to a list of hobbies."
+      />
+      <ContentExplorer
+        className="life-explorer"
+        collection={activitiesCollection}
+        intro="Move between service, instruction and sport, and music. Every item from the earlier public record is retained with time-sensitive claims labelled carefully."
+        title="Service, sport, and music"
+      />
+    </section>
+  )
+}
+
+function MediaGrid() {
+  const items = mediaCollection.groups.flatMap((group) => group.items)
+  const images = [imageAssets.visitingScholar, imageAssets.coopAward, imageAssets.convocation, imageAssets.uabMentor, imageAssets.uabEmployerAward, imageAssets.employerAwards]
+
+  return (
+    <section aria-labelledby="media-title" className="media-feature" id="media">
+      <div className="feature-heading">
+        <h3 id="media-title">Profiles and institutional coverage</h3>
+        <p>{mediaCollection.summary}</p>
+      </div>
+      <div className="media-grid">
+        {items.map((item, index) => (
+          <ExternalLink className="media-card record-item" href={item.href ?? mediaCollection.source} key={item.title}>
+            <ImageFrame image={images[index]} />
+            <div>
+              {item.meta ? <span>{item.meta}</span> : null}
+              <strong>{item.title}</strong>
+              {item.detail ? <p>{item.detail}</p> : null}
+              <b>Read profile <Icon name="arrow" /></b>
+            </div>
+          </ExternalLink>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Recognition() {
+  return (
+    <section className="section proof-section" id="recognition">
+      <SectionIntro
+        title="Recognition and media"
+        text="Awards, certifications, institutional profiles, publications, conference records, and public code are presented together with clear ownership and direct references."
       />
       <div className="proof-hero">
         <ImageFrame image={imageAssets.coopAward} />
         <div>
-          <span>Documented visibility</span>
-          <h3>Institutional pages, papers, conference records, and public code.</h3>
-          <p>Start with the official profiles and peer-reviewed work below. The full older portfolio then opens in seven compact chapters, so none of the breadth gets lost and none of it competes with the current story.</p>
+          <span>Documented recognition</span>
+          <h3>The record is broad, but the ownership is precise.</h3>
+          <p>Personal honors, training, mentor recognition, media profiles, and public research evidence stay distinct so a reader can understand what each item actually represents.</p>
         </div>
       </div>
       <div className="proof-grid" id="sources">
@@ -916,10 +1040,16 @@ function Proof() {
           </ExternalLink>
         ))}
       </div>
-      <GoogleSiteArchive />
-      <details className="archive-drawer content-drawer">
-        <summary>Source map <span>{sourceMapLinks.length} public links behind this pass</span></summary>
-        <nav className="source-links" aria-label="Source map">
+      <ContentExplorer
+        className="recognition-explorer"
+        collection={recognitionCollection}
+        intro="Browse research and institutional recognition, earlier academic and service credentials, and arts, mentoring, and competition results."
+        title="The complete recognition record"
+      />
+      <MediaGrid />
+      <details className="reference-drawer content-drawer">
+        <summary>Reference map <span>{sourceMapLinks.length} public links used across the site</span></summary>
+        <nav className="source-links" aria-label="Reference map">
           {sourceMapLinks.map((item) => (
             <ExternalLink href={item.href} key={item.href}>
               {item.label} <Icon name="arrow" />
@@ -1002,12 +1132,14 @@ function App() {
     <div className="portfolio-site" data-theme={theme}>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <Header activeSection={activeSection} onToggleTheme={() => setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'))} theme={theme} />
-      <main id="main-content" tabIndex={-1}>
+      <main data-portfolio-items={portfolioItemCount} id="main-content" tabIndex={-1}>
         <Hero />
+        <ProfileStrip />
         <Work />
         <Research />
         <Path />
-        <Proof />
+        <Life />
+        <Recognition />
         <Contact />
       </main>
       <footer className="site-footer">

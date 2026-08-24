@@ -1,4 +1,4 @@
-export type ArchiveEntry = {
+export type RecordItem = {
   title: string
   detail?: string
   meta?: string
@@ -6,30 +6,28 @@ export type ArchiveEntry = {
   note?: string
 }
 
-export type ArchiveBucket = {
+export type RecordGroup = {
   title: string
-  items: ArchiveEntry[]
+  items: RecordItem[]
 }
 
-export type ArchiveCollection = {
+export type PortfolioCollection = {
   id: string
-  index: string
   title: string
   summary: string
   source: string
-  buckets: ArchiveBucket[]
+  groups: RecordGroup[]
 }
 
 const googleSiteRoot = 'https://sites.google.com/view/udbhav-ram/'
 
-export const archiveCollections: ArchiveCollection[] = [
+export const portfolioCollections: PortfolioCollection[] = [
   {
-    id: 'earlier-profile',
-    index: '01',
-    title: 'Earlier profile snapshot',
-    summary: 'The original homepage as a time-stamped undergraduate-era introduction, not a substitute for the current UW-Madison profile above.',
+    id: 'profile-foundations',
+    title: 'Profile and foundations',
+    summary: 'The earlier experiences, strengths, and goals that explain how the current medical-physics and engineering practice took shape.',
     source: googleSiteRoot,
-    buckets: [
+    groups: [
       {
         title: 'How the earlier site introduced me',
         items: [
@@ -39,7 +37,7 @@ export const archiveCollections: ArchiveCollection[] = [
           },
           {
             title: 'International visiting scholar - University of Alabama at Birmingham',
-            detail: 'The archived homepage paired this role with an undergraduate research focus in medical physics and radiation oncology.',
+            detail: 'The earlier homepage paired this role with an undergraduate research focus in medical physics and radiation oncology.',
           },
           {
             title: 'Undergraduate-era biography',
@@ -67,7 +65,7 @@ export const archiveCollections: ArchiveCollection[] = [
           { title: 'Advanced Placement Scholar with Honors' },
           {
             title: 'Eight years of computational and clinical research experience',
-            note: 'Self-described duration on the archived homepage; kept as archive wording rather than a current headline claim.',
+            note: 'Self-described duration on the earlier homepage; retained as historical wording rather than a current headline claim.',
           },
         ],
       },
@@ -82,14 +80,13 @@ export const archiveCollections: ArchiveCollection[] = [
     ],
   },
   {
-    id: 'research-archive',
-    index: '02',
-    title: 'Full research archive',
-    summary: 'Every affiliation, project, presentation, and open-source contribution listed on the earlier Research page, with outdated link states called out.',
+    id: 'research-record',
+    title: 'Complete research record',
+    summary: 'Affiliations, projects, presentations, and open-source contributions across clinical medical physics, imaging, computational work, and earlier biophysics.',
     source: `${googleSiteRoot}research`,
-    buckets: [
+    groups: [
       {
-        title: 'Affiliations listed in the archive',
+        title: 'Research affiliations',
         items: [
           { title: 'International Visiting Scholar', meta: 'UAB Department of Radiation Oncology' },
           { title: 'Researcher', meta: 'Hamilton Health Sciences - Juravinski Cancer Centre' },
@@ -105,7 +102,7 @@ export const archiveCollections: ArchiveCollection[] = [
             title: 'Ethos adaptive partial-breast irradiation contour variability',
             detail: 'Evaluation of interobserver variability for accelerated partial-breast irradiation contours in the Ethos adaptive workflow.',
             href: 'https://amportal.astro.org/udbhav-ram-bs-135368427',
-            note: 'The archive described this as submitted to IJROBP; the current public record lists related ASTRO 2026 work.',
+            note: 'The earlier page described this as submitted to IJROBP; the current public record lists related ASTRO 2026 work.',
           },
           {
             title: '6X-FFF versus 10X-FFF on TrueBeam',
@@ -153,7 +150,7 @@ export const archiveCollections: ArchiveCollection[] = [
         ],
       },
       {
-        title: 'Presentations preserved by the archive',
+        title: 'Presentations and posters',
         items: [
           {
             title: 'Quantitative gel-electrophoresis analysis',
@@ -229,12 +226,11 @@ export const archiveCollections: ArchiveCollection[] = [
     ],
   },
   {
-    id: 'engineering-archive',
-    index: '03',
-    title: 'Engineering and project archive',
+    id: 'engineering-projects',
+    title: 'Engineering and projects',
     summary: 'Robotics, product engineering, hackathons, autonomous driving, outreach, and earlier biotechnology work from the Projects page.',
     source: `${googleSiteRoot}projects`,
-    buckets: [
+    groups: [
       {
         title: 'Robotics and software systems',
         items: [
@@ -272,19 +268,18 @@ export const archiveCollections: ArchiveCollection[] = [
         title: 'Project channels',
         items: [
           { title: 'Public GitHub', detail: 'Code and repositories referenced by the original Projects page.', href: 'https://github.com/udiram' },
-          { title: 'YouTube archive', detail: 'Earlier talks, demos, and project videos.', href: 'https://www.youtube.com/channel/UCTn6NYNbV55T4zs9v1nHOwA' },
-          { title: 'Medium archive', detail: 'Earlier public technical writing.', href: 'https://medium.com/@udbhavram41' },
+          { title: 'YouTube channel', detail: 'Earlier talks, demos, and project videos.', href: 'https://www.youtube.com/channel/UCTn6NYNbV55T4zs9v1nHOwA' },
+          { title: 'Medium writing', detail: 'Earlier public technical writing.', href: 'https://medium.com/@udbhavram41' },
         ],
       },
     ],
   },
   {
-    id: 'motorsports-archive',
-    index: '04',
-    title: 'Motorsports archive',
-    summary: 'The performance-engineering and driving thread, kept distinct from the clinical-research record but available in full.',
+    id: 'motorsports',
+    title: 'Motorsports',
+    summary: 'Race strategy, vehicle controls, and test-driving experience that shaped an engineering approach grounded in timing, telemetry, and decisions under pressure.',
     source: `${googleSiteRoot}motorsports`,
-    buckets: [
+    groups: [
       {
         title: 'Race engineering and vehicle programs',
         items: [
@@ -310,12 +305,11 @@ export const archiveCollections: ArchiveCollection[] = [
     ],
   },
   {
-    id: 'activities-archive',
-    index: '05',
-    title: 'Activities and service archive',
+    id: 'activities-service',
+    title: 'Activities and service',
     summary: 'Clinical exposure, volunteering, teaching, sport, music, and community work from the earlier Activities page.',
     source: `${googleSiteRoot}activities`,
-    buckets: [
+    groups: [
       {
         title: 'Clinical, research, software, and service',
         items: [
@@ -325,7 +319,7 @@ export const archiveCollections: ArchiveCollection[] = [
             title: 'Earlier software-engineering roles',
             detail: "Biomedical researcher at St. Joseph's Healthcare Hamilton; independent deep-learning researcher with UAB Radiation Oncology; DevOps infrastructure and backend lead for WaaW Group; lead full-stack developer at Synth-Med Biotechnologies.",
           },
-          { title: 'Research activity', detail: 'The archive grouped research-fellow work across UAB, Western University, and McMaster.' },
+          { title: 'Research activity', detail: 'Earlier public material grouped research-fellow work across UAB, Western University, and McMaster.' },
           {
             title: 'Humber River Hospital volunteer',
             detail: 'Volunteer experience across medical imaging, surgical inpatient, and information-services departments.',
@@ -337,14 +331,14 @@ export const archiveCollections: ArchiveCollection[] = [
       {
         title: 'Training, sport, and instruction',
         items: [
-          { title: 'Open-water scuba diving', detail: 'The archive lists NAUI/SSI open-water certification.' },
+          { title: 'Open-water scuba diving', detail: 'NAUI/SSI open-water certification listed on the earlier site.' },
           { title: 'Registered yoga instructor', detail: 'Head yoga instructor at Anytime Fitness Brampton and yoga instructor at McMaster University.' },
           {
             title: 'Flight school',
             detail: 'Training at Brampton Flight Centre.',
             note: 'The old page listed a July 2022 private-pilot-license target; it is preserved as a historical goal, not a confirmed completion.',
           },
-          { title: 'Equestrian sport', detail: 'Membership in Equestrian Canada and Ontario Equestrian; more than five years of English and Western riding experience listed in the archive.' },
+          { title: 'Equestrian sport', detail: 'Membership in Equestrian Canada and Ontario Equestrian; more than five years of English and Western riding experience listed on the earlier site.' },
           { title: 'Ice hockey', detail: 'School team member from 2018 to 2020.' },
         ],
       },
@@ -352,20 +346,19 @@ export const archiveCollections: ArchiveCollection[] = [
         title: 'Music',
         items: [
           { title: 'Western classical violin', detail: 'More than seven years of experience and completion of the Central Peel Regional Strings Program.' },
-          { title: 'Piano', detail: 'Royal Conservatory of Music pianist certification listed in the archive.' },
-          { title: 'Indian classical violin', detail: 'More than ten years of Carnatic violin experience listed in the archive.' },
-          { title: 'Indian classical vocal music', detail: 'More than ten years of Carnatic vocal performance experience listed in the archive.' },
+          { title: 'Piano', detail: 'Royal Conservatory of Music pianist certification listed on the earlier site.' },
+          { title: 'Indian classical violin', detail: 'More than ten years of Carnatic violin experience listed on the earlier site.' },
+          { title: 'Indian classical vocal music', detail: 'More than ten years of Carnatic vocal performance experience listed on the earlier site.' },
         ],
       },
     ],
   },
   {
-    id: 'recognition-archive',
-    index: '06',
-    title: 'Awards and certifications archive',
-    summary: 'The complete recognition list from the earlier site, separated into externally documented highlights and self-archived earlier awards.',
+    id: 'recognition',
+    title: 'Awards and certifications',
+    summary: 'Research recognition, academic and service credentials, arts, mentoring, and competition results, with external documentation and ownership made explicit.',
     source: `${googleSiteRoot}awards-and-certifications`,
-    buckets: [
+    groups: [
       {
         title: 'Research and institutional recognition',
         items: [
@@ -376,7 +369,7 @@ export const archiveCollections: ArchiveCollection[] = [
           },
           {
             title: 'Ethos Adaptive Radiotherapy Course',
-            detail: 'The archive describes a two-and-a-half-day Varian Ethos Clinical School training program for adaptive-radiotherapy workflows.',
+            detail: 'A two-and-a-half-day Varian Ethos Clinical School training program for adaptive-radiotherapy workflows.',
           },
           {
             title: 'McMaster Emerging Science Co-op Employer of the Year',
@@ -438,12 +431,11 @@ export const archiveCollections: ArchiveCollection[] = [
     ],
   },
   {
-    id: 'media-archive',
-    index: '07',
-    title: 'Media archive',
-    summary: 'The full institutional press list from the older Media page, with recognition belonging to mentors labelled accurately.',
+    id: 'media',
+    title: 'Media and institutional profiles',
+    summary: 'Institutional coverage of research, collaboration, mentoring, and co-op work, with recognition belonging to mentors labelled accurately.',
     source: `${googleSiteRoot}media`,
-    buckets: [
+    groups: [
       {
         title: 'Institutional profiles and features',
         items: [
@@ -470,7 +462,7 @@ export const archiveCollections: ArchiveCollection[] = [
         ],
       },
       {
-        title: 'Mentorship and employer recognition in the archive',
+        title: 'Mentorship and employer recognition',
         items: [
           {
             title: 'Cardenas receives McMaster Co-op Emerging Employer of the Year Award',
@@ -490,17 +482,17 @@ export const archiveCollections: ArchiveCollection[] = [
   },
 ]
 
-export const archiveEntryCount = archiveCollections.reduce(
-  (collectionTotal, collection) => collectionTotal + collection.buckets.reduce((bucketTotal, bucket) => bucketTotal + bucket.items.length, 0),
+export const portfolioItemCount = portfolioCollections.reduce(
+  (collectionTotal, collection) => collectionTotal + collection.groups.reduce((groupTotal, group) => groupTotal + group.items.length, 0),
   0,
 )
 
-export const googleArchivePageLinks = [
-  { label: 'Google Sites home', href: googleSiteRoot },
-  { label: 'Media page', href: `${googleSiteRoot}media` },
-  { label: 'Research page', href: `${googleSiteRoot}research` },
-  { label: 'Motorsports page', href: `${googleSiteRoot}motorsports` },
-  { label: 'Projects page', href: `${googleSiteRoot}projects` },
-  { label: 'Activities page', href: `${googleSiteRoot}activities` },
-  { label: 'Awards page', href: `${googleSiteRoot}awards-and-certifications` },
+export const originalSiteLinks = [
+  { label: 'Earlier profile page', href: googleSiteRoot },
+  { label: 'Media references', href: `${googleSiteRoot}media` },
+  { label: 'Research references', href: `${googleSiteRoot}research` },
+  { label: 'Motorsports references', href: `${googleSiteRoot}motorsports` },
+  { label: 'Project references', href: `${googleSiteRoot}projects` },
+  { label: 'Activities references', href: `${googleSiteRoot}activities` },
+  { label: 'Awards references', href: `${googleSiteRoot}awards-and-certifications` },
 ]

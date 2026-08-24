@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 
 const root = process.cwd()
-const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/archiveContent.ts')]
+const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/portfolioContent.ts')]
 const contentSource = (await Promise.all(contentPaths.map((filePath) => fs.readFile(filePath, 'utf8')))).join('\n')
 
 const localAssets = [
