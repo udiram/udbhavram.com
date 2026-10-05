@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { classifyFetchError, classifyHttpResult } from './audit-url-result.mjs'
 
 const root = process.cwd()
 const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/portfolioContent.ts')]
@@ -65,13 +66,9 @@ async function checkUrl(url) {
       response = await fetch(url, { method: 'GET', redirect: 'follow', signal: AbortSignal.timeout(12_000), headers })
     }
 
-    const status = response.status
-    const gated = [403, 429, 999].includes(status)
-    const browserSensitive = status >= 500 && /aapm\.confex\.com/.test(url)
-    return { url, status, ok: (status >= 200 && status < 400) || gated || browserSensitive, gated, browserSensitive }
+    return classifyHttpResult(url, response.status)
   } catch (error) {
-    const browserSensitive = /aapm\.confex\.com/.test(url)
-    return { url, ok: browserSensitive, browserSensitive, error: error instanceof Error ? error.message : String(error) }
+    return classifyFetchError(url, error)
   }
 }
 
@@ -104,16 +101,20 @@ const linkResults = await Promise.all(externalUrls.map((url) => checkUrl(url)))
 
 const missingAssets = assetResults.filter((result) => !result.ok)
 const missingMetadata = metadataResults.filter((result) => !result.ok)
-const badLinks = linkResults.filter((result) => !result.ok)
+const verifiedLinks = linkResults.filter((result) => result.outcome === 'verified')
+const unverifiedLinks = linkResults.filter((result) => result.outcome === 'unverified')
+const badLinks = linkResults.filter((result) => result.outcome === 'failed')
 
 console.log(`Local assets checked: ${assetResults.length}`)
 console.log(`Image metadata blocks checked: ${metadataResults.length}`)
 console.log(`External URLs checked: ${linkResults.length}`)
+console.log(`External URLs verified: ${verifiedLinks.length}`)
+console.log(`External URLs unverified: ${unverifiedLinks.length}`)
+console.log(`External URLs failed: ${badLinks.length}`)
 
-const gatedLinks = linkResults.filter((result) => result.gated || result.browserSensitive)
-if (gatedLinks.length) {
-  console.log('\nReachable only through browser/gated responses:')
-  gatedLinks.forEach((result) => console.log(`- ${result.status ?? 'browser-only'} ${result.url}`))
+if (unverifiedLinks.length) {
+  console.log('\nUnverified external links (manual or browser check required):')
+  unverifiedLinks.forEach((result) => console.log(`- ${result.status ?? 'ERR'} ${result.url} — ${result.reason}${result.error ? `: ${result.error}` : ''}`))
 }
 
 if (missingAssets.length || missingMetadata.length || badLinks.length) {
@@ -132,4 +133,8 @@ if (missingAssets.length || missingMetadata.length || badLinks.length) {
   process.exit(1)
 }
 
-console.log('\nAudit passed.')
+if (unverifiedLinks.length) {
+  console.log(`\nAudit completed with ${unverifiedLinks.length} unresolved external link check${unverifiedLinks.length === 1 ? '' : 's'}.`)
+} else {
+  console.log('\nAudit passed with all external links verified.')
+}

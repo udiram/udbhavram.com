@@ -51,6 +51,7 @@ async function resolveRequestFile(request, distRoot) {
   try {
     const candidateStat = await stat(candidate)
     if (candidateStat.isFile()) return { filePath: candidate, status: 200 }
+    return { status: 404 }
   } catch (error) {
     if (error?.code !== 'ENOENT' && error?.code !== 'ENOTDIR') throw error
   }

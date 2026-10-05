@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createAppServer } from '../server.mjs'
@@ -8,6 +8,7 @@ const testRoot = await mkdtemp(join(tmpdir(), 'udbhavram-server-'))
 await writeFile(join(testRoot, 'index.html'), '<!doctype html><title>Portfolio</title><main>Portfolio shell</main>')
 await writeFile(join(testRoot, 'robots.txt'), 'User-agent: *\nAllow: /\n')
 await writeFile(join(testRoot, 'app.js'), 'console.log("portfolio")')
+await mkdir(join(testRoot, 'assets'))
 
 const server = createAppServer({ distRoot: testRoot })
 await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
@@ -32,8 +33,15 @@ try {
   assert.equal(missingAsset.status, 404)
   assert.equal(await missingAsset.text(), 'Not found')
 
-  const directory = await request('/assets', { headers: { accept: '*/*' } })
-  assert.equal(directory.status, 404)
+  for (const pathname of ['/assets', '/assets/']) {
+    const directory = await request(pathname, { headers: { accept: 'text/html' } })
+    assert.equal(directory.status, 404)
+    assert.equal(await directory.text(), 'Not found')
+
+    const headDirectory = await request(pathname, { method: 'HEAD', headers: { accept: 'text/html' } })
+    assert.equal(headDirectory.status, 404)
+    assert.equal(await headDirectory.text(), '')
+  }
 
   const malformed = await request('/%E0%A4%A')
   assert.equal(malformed.status, 400)
