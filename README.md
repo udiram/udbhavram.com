@@ -45,3 +45,5 @@ Do not delete existing email-related DNS records if you later add mailbox hostin
 ## Content sources
 
 The site maintains information parity with the earlier public portfolio while distributing that material into the research, engineering, path, life, recognition, and media experiences in `src/portfolioContent.ts`. Time-bound goals and self-authored older claims remain labelled in context rather than being promoted into current facts.
+
+The dated verification ledger for current identity, publications, conference work, and active public repositories is in [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).

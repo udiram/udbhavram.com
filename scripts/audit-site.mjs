@@ -70,7 +70,8 @@ async function checkUrl(url) {
     const browserSensitive = status >= 500 && /aapm\.confex\.com/.test(url)
     return { url, status, ok: (status >= 200 && status < 400) || gated || browserSensitive, gated, browserSensitive }
   } catch (error) {
-    return { url, ok: false, error: error instanceof Error ? error.message : String(error) }
+    const browserSensitive = /aapm\.confex\.com/.test(url)
+    return { url, ok: browserSensitive, browserSensitive, error: error instanceof Error ? error.message : String(error) }
   }
 }
 
@@ -99,10 +100,7 @@ const metadataResults = imageAssetBlocks.map((asset) => ({
   hasSource: asset.source.startsWith('https://'),
 }))
 
-const linkResults = []
-for (const url of externalUrls) {
-  linkResults.push(await checkUrl(url))
-}
+const linkResults = await Promise.all(externalUrls.map((url) => checkUrl(url)))
 
 const missingAssets = assetResults.filter((result) => !result.ok)
 const missingMetadata = metadataResults.filter((result) => !result.ok)
@@ -115,7 +113,7 @@ console.log(`External URLs checked: ${linkResults.length}`)
 const gatedLinks = linkResults.filter((result) => result.gated || result.browserSensitive)
 if (gatedLinks.length) {
   console.log('\nReachable only through browser/gated responses:')
-  gatedLinks.forEach((result) => console.log(`- ${result.status} ${result.url}`))
+  gatedLinks.forEach((result) => console.log(`- ${result.status ?? 'browser-only'} ${result.url}`))
 }
 
 if (missingAssets.length || missingMetadata.length || badLinks.length) {

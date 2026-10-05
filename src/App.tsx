@@ -1,15 +1,20 @@
 import {
+  ArrowDown,
   ArrowUpRight,
   Article,
+  Code,
+  Cube,
   EnvelopeSimple,
   GithubLogo,
   List,
   LinkedinLogo,
   Moon,
+  Pulse,
+  ShieldCheck,
   Sun,
   X,
 } from '@phosphor-icons/react'
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react'
 import './App.css'
 import { originalSiteLinks, portfolioCollections, portfolioItemCount, type PortfolioCollection, type RecordItem } from './portfolioContent'
 
@@ -27,7 +32,7 @@ type LinkItem = {
   href: string
 }
 
-type IconName = 'arrow' | 'mail' | 'github' | 'article' | 'linkedin' | 'moon' | 'sun' | 'menu' | 'close'
+type IconName = 'arrow' | 'down' | 'mail' | 'github' | 'article' | 'linkedin' | 'moon' | 'sun' | 'menu' | 'close' | 'code' | 'cube' | 'pulse' | 'shield'
 
 type SnapshotItem = {
   label: string
@@ -42,6 +47,16 @@ type WorkStory = {
   image: ImageAsset
   evidence: { value: string; label: string }[]
   links: LinkItem[]
+}
+
+type CurrentBuild = {
+  name: string
+  type: string
+  status: string
+  description: string
+  boundary: string
+  href: string
+  icon: IconName
 }
 
 type PublicationItem = {
@@ -74,6 +89,7 @@ type ProofCard = {
 }
 
 const themeStorageKey = 'udbhav-theme'
+const currentYear = new Date().getFullYear()
 
 function getInitialTheme(): Theme {
   if (typeof window === 'undefined') return 'dark'
@@ -172,8 +188,8 @@ const navItems: { id: SectionId; label: string }[] = [
   { id: 'work', label: 'Work' },
   { id: 'research', label: 'Research' },
   { id: 'trajectory', label: 'Path' },
-  { id: 'life', label: 'Life' },
-  { id: 'recognition', label: 'Recognition' },
+  { id: 'life', label: 'Beyond' },
+  { id: 'recognition', label: 'Record' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -184,28 +200,28 @@ const socialItems: (LinkItem & { icon: IconName })[] = [
   { label: 'Publications', href: 'https://pubmed.ncbi.nlm.nih.gov/?term=Udbhav+S+Ram', icon: 'article' },
 ]
 
-const heroSummary = 'I build clinician-reviewed AI and imaging systems for radiation oncology, grounded in research across UW-Madison, UAB, and McMaster.'
+const heroSummary = 'I build medical AI and imaging systems that stay accountable to physics, clinical review, and the people who use them.'
 
 const heroSnapshots: SnapshotItem[] = [
   {
-    label: 'Current',
-    title: 'UW-Madison Medical Physics PhD',
-    detail: '2026 PhD student working with Dr. Ran Zhang.',
+    label: 'Now',
+    title: 'Medical Physics PhD · UW–Madison',
+    detail: '2026 doctoral student advised by Dr. Ran Zhang.',
   },
   {
     label: 'Clinical AI',
-    title: 'UAB Radiation Oncology collaboration',
-    detail: 'Remote collaboration since 2021, with an on-site visiting-scholar term in 2024.',
+    title: 'Clinical AI · UAB Radiation Oncology',
+    detail: 'A collaboration active since 2021, including an on-site visiting-scholar term.',
   },
   {
     label: 'Public record',
-    title: 'Two first-author clinical AI and planning papers',
-    detail: 'Published in JACMP and Intelligent Oncology in 2025, with additional collaborative work.',
+    title: 'Two first-author papers',
+    detail: 'Planning and segmentation studies published in JACMP and Intelligent Oncology.',
   },
   {
     label: 'Recognition',
-    title: 'AAPM and McMaster honors',
-    detail: 'AAPM undergraduate best poster, AAPM Blue Ribbon poster, and McMaster Science Co-op Student of the Year.',
+    title: 'Research recognized in two settings',
+    detail: 'AAPM poster honors and McMaster Science Co-op Student of the Year.',
   },
 ]
 
@@ -257,6 +273,45 @@ const selectedWork: WorkStory[] = [
   },
 ]
 
+const currentBuilds: CurrentBuild[] = [
+  {
+    name: 'RadKev',
+    type: 'Radiology decision research',
+    status: 'Public · active October 2026',
+    description: 'A radiology-specialized decision model designed to return calibrated probabilities across a constrained answer set in one forward pass.',
+    boundary: 'Research system with a pre-registered evaluation; it is not a diagnostic device.',
+    href: 'https://github.com/udiram/RadKev',
+    icon: 'pulse',
+  },
+  {
+    name: 'MedPhysBench',
+    type: 'Evaluation infrastructure',
+    status: 'Public · active 2026',
+    description: 'A safety-aware benchmark for evaluating AI and agent systems on medical-physics tasks with explicit evidence and review boundaries.',
+    boundary: 'Research-only benchmark; scores do not establish clinical readiness.',
+    href: 'https://github.com/udiram/MedPhysBench',
+    icon: 'shield',
+  },
+  {
+    name: 'VoxelWeave Designer',
+    type: 'Imaging-to-fabrication workflow',
+    status: 'Public · active 2026',
+    description: 'A macOS workspace for accountable DICOM-to-Prusa XL phantom fabrication, material mapping, and scan-back evidence.',
+    boundary: 'Research-use tooling; output still requires printer, material, and scan validation.',
+    href: 'https://github.com/udiram/VoxelWeave-Designer',
+    icon: 'cube',
+  },
+  {
+    name: 'Glioblastoma analysis',
+    type: 'Imaging research code',
+    status: 'Public · updated October 2026',
+    description: 'An active public repository exploring deep-learning methods for imaging characteristics of glioblastoma.',
+    boundary: 'Exploratory code; the repository does not claim validated clinical performance.',
+    href: 'https://github.com/udiram/Glioblastoma_analysis',
+    icon: 'code',
+  },
+]
+
 const publications: PublicationItem[] = [
   {
     year: '2025',
@@ -292,7 +347,7 @@ const talkTimeline: TalkItem[] = [
   {
     date: 'ASTRO 2026',
     event: 'ASTRO 2026, Boston',
-    detail: 'Upcoming poster on contouring uncertainty in CBCT-guided online adaptive partial breast irradiation.',
+    detail: 'Poster presented on contouring uncertainty in CBCT-guided online adaptive partial-breast irradiation.',
     href: 'https://amportal.astro.org/udbhav-ram-bs-135368427',
   },
   {
@@ -336,9 +391,9 @@ const pathTimeline: TimelineItem[] = [
   },
   {
     date: '2021-2026',
-    title: 'Undergraduate training with unusually visible outcomes',
+    title: 'Honours Medical Physics with Co-op',
     org: 'McMaster University',
-    text: "McMaster's public record shows a medical-physics undergraduate path, an institutional ambassador role tied to the UAB relationship, and the 2026 Science Co-op Student of the Year award.",
+    text: "McMaster's 2026 convocation profile documents the undergraduate medical-physics path, institutional advocacy, and the cross-border UAB relationship. The university also named me a 2026 Science Co-op Student of the Year.",
   },
   {
     date: '2023',
@@ -411,6 +466,10 @@ const sourceMapLinks: LinkItem[] = [
   { label: 'ASTRO 2026 speaker page', href: 'https://amportal.astro.org/udbhav-ram-bs-135368427' },
   { label: 'PubMed publication search', href: 'https://pubmed.ncbi.nlm.nih.gov/?term=Udbhav+S+Ram' },
   { label: 'GitHub profile', href: 'https://github.com/udiram' },
+  { label: 'RadKev repository', href: 'https://github.com/udiram/RadKev' },
+  { label: 'MedPhysBench repository', href: 'https://github.com/udiram/MedPhysBench' },
+  { label: 'VoxelWeave Designer repository', href: 'https://github.com/udiram/VoxelWeave-Designer' },
+  { label: 'Glioblastoma analysis repository', href: 'https://github.com/udiram/Glioblastoma_analysis' },
   { label: 'Project MONAI contribution', href: 'https://github.com/Project-MONAI/tutorials/pull/1129' },
   { label: 'OpenHands contribution', href: 'https://github.com/OpenHands/OpenHands/pull/731' },
   { label: 'LinkedIn profile', href: 'https://ca.linkedin.com/in/udbhav-ram-engineering-and-medicine' },
@@ -455,6 +514,7 @@ function collectionItemCount(collection: PortfolioCollection) {
 function Icon({ name }: { name: IconName }) {
   const icons = {
     arrow: ArrowUpRight,
+    down: ArrowDown,
     mail: EnvelopeSimple,
     github: GithubLogo,
     article: Article,
@@ -463,6 +523,10 @@ function Icon({ name }: { name: IconName }) {
     close: X,
     moon: Moon,
     sun: Sun,
+    code: Code,
+    cube: Cube,
+    pulse: Pulse,
+    shield: ShieldCheck,
   }
   const Component = icons[name]
 
@@ -502,7 +566,10 @@ function useHashScroll() {
 
       const headerHeight = document.querySelector('.site-header')?.getBoundingClientRect().height ?? 0
       const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight - 18
+      const previousScrollBehavior = document.documentElement.style.scrollBehavior
+      document.documentElement.style.scrollBehavior = 'auto'
       window.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' })
+      document.documentElement.style.scrollBehavior = previousScrollBehavior
 
       return Math.abs(target.getBoundingClientRect().top - headerHeight - 18) < 8
     }
@@ -635,11 +702,15 @@ function Hero() {
   return (
     <section className="hero section" id="home">
       <div className="hero-copy">
-        <h1>Clinical AI, built for real review.</h1>
+        <p className="hero-kicker"><span aria-hidden="true" /> Medical physics · clinical AI · software</p>
+        <h1>
+          <span>Physics for AI</span>
+          <span className="hero-title-accent">that meets the clinic.</span>
+        </h1>
         <p className="hero-summary">{heroSummary}</p>
         <div className="hero-actions">
           <a className="button primary" href="#work">
-            Explore work <Icon name="arrow" />
+            Selected work <Icon name="down" />
           </a>
           <a className="button secondary" href="#research">
             Research record <Icon name="arrow" />
@@ -648,11 +719,18 @@ function Hero() {
       </div>
       <div className="hero-media">
         <ImageFrame image={imageAssets.heroPortrait} className="hero-image" />
+        <div className="hero-figure-index" aria-hidden="true">01 / 04</div>
         <div className="hero-note" aria-label="Current position">
-          <strong>Current base</strong>
-          <p>Medical Physics PhD student at UW-Madison, advised by Dr. Ran Zhang.</p>
+          <span className="status-dot" aria-hidden="true" />
+          <div>
+            <strong>Currently in Madison</strong>
+            <p>Medical Physics PhD · advised by Dr. Ran Zhang</p>
+          </div>
         </div>
       </div>
+      <a className="hero-scroll" href="#work">
+        Scroll to the work <Icon name="down" />
+      </a>
     </section>
   )
 }
@@ -679,8 +757,8 @@ function Work() {
   return (
     <section className="section work-section" id="work">
       <SectionIntro
-        title="Selected Work"
-        text="Three projects show the through-line: local AI with an explicit review boundary, planning studies tied to dosimetric evidence, and segmentation evaluated by both metrics and physicians."
+        title="Selected work"
+        text="Three clinical studies show the through-line: local AI with an explicit review boundary, planning tied to dosimetric evidence, and segmentation evaluated by both metrics and physicians."
         action={
           <ExternalLink href="https://github.com/udiram" className="text-link">
             GitHub <Icon name="arrow" />
@@ -692,6 +770,7 @@ function Work() {
           <article className={`story-card ${index % 2 === 1 ? 'is-reversed' : ''}`} key={story.title}>
             <div className="story-media">
               <ImageFrame image={story.image} />
+              <span className="story-index" aria-hidden="true">0{index + 1}</span>
             </div>
             <div className="story-copy">
               <span>{story.strap}</span>
@@ -716,6 +795,7 @@ function Work() {
           </article>
         ))}
       </div>
+      <CurrentBuilds />
       <ContentExplorer
         className="engineering-explorer"
         collection={engineeringCollection}
@@ -726,11 +806,42 @@ function Work() {
   )
 }
 
+function CurrentBuilds() {
+  return (
+    <section aria-labelledby="current-builds-title" className="current-builds">
+      <header className="feature-heading builds-heading">
+        <div>
+          <span>Open workbench · verified 05 Oct 2026</span>
+          <h3 id="current-builds-title">What is moving now</h3>
+        </div>
+        <p>Public repositories show the current direction. Each description states the practical boundary because active research should not read like a finished clinical product.</p>
+      </header>
+      <div className="build-ledger">
+        {currentBuilds.map((build, index) => (
+          <ExternalLink className={`build-entry ${index === 0 ? 'is-featured' : ''}`} href={build.href} key={build.name}>
+            <div className="build-entry-icon"><Icon name={build.icon} /></div>
+            <div className="build-entry-main">
+              <span>{build.type}</span>
+              <h4>{build.name}</h4>
+              <p>{build.description}</p>
+            </div>
+            <div className="build-entry-meta">
+              <strong>{build.status}</strong>
+              <small>{build.boundary}</small>
+              <b>Open repository <Icon name="arrow" /></b>
+            </div>
+          </ExternalLink>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function Research() {
   return (
     <section className="section research-section" id="research">
       <SectionIntro
-        title="Research Record"
+        title="Research record"
         text="The published and presented work is concentrated in radiation oncology AI, image segmentation, adaptive radiotherapy, and workflow validation rather than generic AI-for-health claims."
         action={
           <ExternalLink href="https://pubmed.ncbi.nlm.nih.gov/?term=Udbhav+S+Ram" className="text-link">
@@ -794,7 +905,7 @@ function Path() {
   return (
     <section className="section path-section" id="trajectory">
       <SectionIntro
-        title="Path"
+        title="The path here"
         text="The route crosses medical physics, radiation oncology, open-source imaging, and motorsports data. The common thread is software that stays legible under real review, timing, and workflow constraints."
       />
       <div className="path-layout">
@@ -973,7 +1084,7 @@ function Life() {
   return (
     <section className="section life-section" id="life">
       <SectionIntro
-        title="Life beyond the lab"
+        title="Beyond the lab"
         text="Clinical exposure and service sit alongside teaching, robotics, sport, flight training, and a long musical practice. Together they explain the range without reducing it to a list of hobbies."
       />
       <ContentExplorer
@@ -1017,7 +1128,7 @@ function Recognition() {
   return (
     <section className="section proof-section" id="recognition">
       <SectionIntro
-        title="Recognition and media"
+        title="The public record"
         text="Awards, certifications, institutional profiles, publications, conference records, and public code are presented together with clear ownership and direct references."
       />
       <div className="proof-hero">
@@ -1079,8 +1190,9 @@ function Contact() {
   return (
     <section className="contact-section section" id="contact">
       <div>
-        <h2>Contact</h2>
-        <p>If you are reaching out about research collaboration, clinical AI tooling, medical-physics work, or software systems that need to hold up under real constraints, this is the fastest place to start.</p>
+        <span className="contact-kicker">Have a difficult problem?</span>
+        <h2>Let’s make it legible.</h2>
+        <p>I’m glad to hear about research collaborations, medical-physics work, clinical AI tooling, or software systems that have to hold up under real constraints.</p>
         <nav className="social-links" aria-label="Contact links">
           {socialItems.map((item) => (
             <ExternalLink className="social-link" href={item.href} key={item.label}>
@@ -1106,7 +1218,7 @@ function Contact() {
         <button className="button primary" type="submit">
           Open email draft <Icon name="mail" />
         </button>
-        <p className="form-note">This opens your default mail app. You can also email <a href="mailto:ramu@mcmaster.ca">ramu@mcmaster.ca</a> directly.</p>
+        <p className="form-note">This opens your default mail app. The address shown is the public correspondence address used in my research record.</p>
       </form>
     </section>
   )
@@ -1115,7 +1227,6 @@ function Contact() {
 function App() {
   useHashScroll()
   const activeSection = useActiveSection()
-  const footerYear = useMemo(() => new Date().getFullYear(), [])
   const [theme, setTheme] = useState<Theme>(getInitialTheme)
 
   useEffect(() => {
@@ -1125,7 +1236,7 @@ function App() {
     } catch {
       // Theme persistence is optional when storage is unavailable.
     }
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#090b10' : '#f7f7f5')
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#11120f' : '#f2efe7')
   }, [theme])
 
   return (
@@ -1143,8 +1254,8 @@ function App() {
         <Contact />
       </main>
       <footer className="site-footer">
-        <span>Copyright {footerYear} Udbhav Ram</span>
-        <span>Medical physics, radiation oncology AI, and software systems</span>
+        <span>© {currentYear} Udbhav Ram</span>
+        <a href="#home">Medical physics · clinical AI · accountable software <Icon name="arrow" /></a>
       </footer>
     </div>
   )
