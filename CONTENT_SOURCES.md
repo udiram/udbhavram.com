@@ -28,4 +28,10 @@ Active repositories are presented as research or engineering work with explicit 
 
 ## Historical record
 
-The earlier Google Site remains the source for the 110-item historical record integrated throughout the portfolio. Time-bound goals, former affiliations, earlier self-descriptions, credentials, and mentor or employer recognition stay labelled so they cannot be mistaken for current facts or personal awards.
+The earlier Google Site remains the source for the 108-entry historical record preserved in the searchable collection. Time-bound goals, former affiliations, earlier self-descriptions, credentials, and mentor or employer recognition stay labelled so they cannot be mistaken for current facts or personal awards.
+
+## Expanded editorial edition
+
+The October 2026 expanded edition adds seven source-linked research case studies, full citations in `src/bibliography.json`, eight authentic personal photographs indexed in `src/personalPhotos.json`, and a public-facing CV in `public/downloads/`. Research summaries distinguish published articles, conference presentations, findings, and limitations. The public CV excludes private contact details.
+
+Production integration uses the verified expanded source revision `eb84d30d3c420e0a3fd10c75c554275340fddae9`, with production-specific routing, indexing, and server regression checks.

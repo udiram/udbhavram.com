@@ -62,7 +62,6 @@ export const portfolioCollections: PortfolioCollection[] = [
           { title: 'Deep learning, machine learning, and computer vision' },
           { title: 'Race and performance engineering' },
           { title: 'Certified yoga instructor' },
-          { title: 'Advanced Placement Scholar with Honors' },
           {
             title: 'Eight years of computational and clinical research experience',
             note: 'Self-described duration on the earlier homepage; retained as historical wording rather than a current headline claim.',
@@ -402,7 +401,6 @@ export const portfolioCollections: PortfolioCollection[] = [
       {
         title: 'Academic, service, and training credentials listed earlier',
         items: [
-          { title: 'Advanced Placement Scholar with Distinction' },
           { title: 'HOSA - second place nationally' },
           { title: 'Top 25% in Mathematics' },
           { title: 'Certified yoga teacher' },

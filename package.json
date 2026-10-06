@@ -8,13 +8,14 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && node scripts/build-pages.mjs",
     "audit:site": "node scripts/audit-site.mjs",
     "test:audit": "node scripts/test-audit-site.mjs",
     "test:server": "node scripts/test-server.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node server.mjs"
+    "start": "node server.mjs",
+    "test:pages": "node scripts/test-pages.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

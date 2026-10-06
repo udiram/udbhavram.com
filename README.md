@@ -1,49 +1,43 @@
 # UdbhavRam.com
 
-Personal website for `udbhavram.com`, built as a static React/Vite site and configured for Railway.
+Personal website for [udbhavram.com](https://udbhavram.com), built with React, TypeScript, and Vite and deployed through the existing GitHub → Railway project.
 
-## Local development
+## Development and verification
+
+Use Node.js 22.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-## Production build
-
 ```bash
 npm run build
+npm run lint
+npm run test:audit
+npm run test:server
+npm run test:pages
 npm run start
 ```
 
-Railway uses `railway.toml`:
+`test:pages` checks the built production output; run the build first. `npm run audit:site` additionally checks public outbound links and reports unavailable or bot-blocked sources for manual review.
 
-- Build: `npm ci && npm run build`
-- Start: `npm run start`
-- Health check: `/`
+## Pages and content
 
-## Deploy on Railway
+The site contains 21 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, a searchable collection, seven research case studies, and seven collection chapters preserving 108 historical entries.
 
-1. Push this repo to GitHub.
-2. In Railway, create a new project from the GitHub repo.
-3. Railway should detect the `railway.toml` config and deploy the Vite build.
-4. Confirm the Railway-provided domain loads.
-5. Add `udbhavram.com` and `www.udbhavram.com` as custom domains in Railway.
-6. Copy the DNS records Railway gives you into Spaceship DNS.
-7. Wait for DNS and certificate provisioning, then verify both domains.
+- `src/routeMeta.json`: route titles and descriptions
+- `src/expandedContent.ts`: research stories and career timeline
+- `src/bibliography.json`: full publication citations
+- `src/portfolioContent.ts`: historical collection, with dated claims kept in context
+- `src/personalPhotos.json`: authentic personal photographs and captions
+- `public/downloads/`: public-facing October 2026 CV
+- [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md): source ledger
 
-## Spaceship DNS notes
+`npm run build` writes per-route HTML, production canonical URLs, robots.txt, sitemap.xml, and a custom 404 document. The Node server serves those route documents directly, so links work on a fresh visit and useful content is available before JavaScript loads. Collection search and topic choices persist in the URL; the selected theme persists locally.
 
-Use the exact records Railway shows after adding the custom domain. Usually:
+## Production deployment
 
-- `www` is a `CNAME` pointing to the Railway target.
-- The apex/root domain `udbhavram.com` may need an `ALIAS`, `ANAME`, or CNAME-flattened record if Spaceship supports it. If Spaceship only offers normal `CNAME` for subdomains, point `www` first and use Railway/Spaceship forwarding or move DNS to a provider with apex flattening.
-- Railway may also provide a `TXT` record for verification. Add it exactly as shown.
+The existing Railway service `udbhavram-com` tracks `main` in `udiram/udbhavram.com`. Authorized pushes to that branch trigger its deployment. Railway uses the existing `railway.toml` build command, starts `npm run start`, and checks `/` for health. Verify the deployed commit and direct routes after release.
 
-Do not delete existing email-related DNS records if you later add mailbox hosting.
-
-## Content sources
-
-The site maintains information parity with the earlier public portfolio while distributing that material into the research, engineering, path, life, recognition, and media experiences in `src/portfolioContent.ts`. Time-bound goals and self-authored older claims remain labelled in context rather than being promoted into current facts.
-
-The dated verification ledger for current identity, publications, conference work, and active public repositories is in [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md).
+The current domains, provider, analytics, and DNS configuration are retained. No new project or DNS changes are needed for normal updates.

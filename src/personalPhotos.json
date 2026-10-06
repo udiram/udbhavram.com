@@ -1,0 +1,50 @@
+{
+  "motorsports-00": {
+    "src": "/assets/personal/motorsports-00.webp",
+    "alt": "Udbhav Ram in Arrow McLaren team clothing and a headset",
+    "source": "https://sites.google.com/view/udbhav-ram/motorsports",
+    "caption": "Arrow McLaren internship"
+  },
+  "activities-07": {
+    "src": "/assets/personal/activities-07.webp",
+    "alt": "Udbhav demonstrating a seated yoga pose",
+    "source": "https://sites.google.com/view/udbhav-ram/activities",
+    "caption": "Yoga instruction"
+  },
+  "activities-10": {
+    "src": "/assets/personal/activities-10.webp",
+    "alt": "A rider and horse in an outdoor arena",
+    "source": "https://sites.google.com/view/udbhav-ram/activities",
+    "caption": "English and Western riding"
+  },
+  "activities-12": {
+    "src": "/assets/personal/activities-12.webp",
+    "alt": "Violin practice in a music classroom",
+    "source": "https://sites.google.com/view/udbhav-ram/activities",
+    "caption": "Western classical violin"
+  },
+  "activities-14": {
+    "src": "/assets/personal/activities-14.webp",
+    "alt": "Seated Carnatic violin performance",
+    "source": "https://sites.google.com/view/udbhav-ram/activities",
+    "caption": "Carnatic violin"
+  },
+  "activities-15": {
+    "src": "/assets/personal/activities-15.webp",
+    "alt": "Vocal performance with a microphone",
+    "source": "https://sites.google.com/view/udbhav-ram/activities",
+    "caption": "Carnatic vocal music"
+  },
+  "projects-00": {
+    "src": "/assets/personal/projects-00.webp",
+    "alt": "An early hand-prosthesis prototype with visible wiring and actuators",
+    "source": "https://sites.google.com/view/udbhav-ram/projects",
+    "caption": "Automated prosthetic-hand prototype"
+  },
+  "projects-02": {
+    "src": "/assets/personal/projects-02.webp",
+    "alt": "A handmade recycling-sorter prototype",
+    "source": "https://sites.google.com/view/udbhav-ram/projects",
+    "caption": "Computer-vision recycling sorter"
+  }
+}

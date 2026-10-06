@@ -29,6 +29,29 @@ try {
   assert.equal(navigation.status, 200)
   assert.match(await navigation.text(), /Portfolio shell/)
 
+  await mkdir(join(testRoot, 'research', 'study'), { recursive: true })
+  await writeFile(join(testRoot, 'research', 'index.html'), '<title>Research index</title>')
+  await writeFile(join(testRoot, 'research', 'study', 'index.html'), '<title>Study detail</title>')
+  for (const route of ['/research', '/research/']) {
+    const page = await request(route)
+    assert.equal(page.status, 200)
+    assert.match(await page.text(), /Research index/)
+  }
+  for (const route of ['/research/study', '/research/study/']) {
+    const page = await request(route)
+    assert.equal(page.status, 200)
+    assert.match(await page.text(), /Study detail/)
+    assert.equal(page.headers.get('cache-control'), 'no-cache')
+  }
+  await writeFile(join(testRoot, '404.html'), '<title>Page not found</title>')
+  const unknownPage = await request('/unknown-page', { headers: { accept: 'text/html' } })
+  assert.equal(unknownPage.status, 404)
+  assert.match(await unknownPage.text(), /Page not found/)
+  assert.equal(unknownPage.headers.get('cache-control'), 'no-cache')
+  const unknownHead = await request('/unknown-page', { method: 'HEAD', headers: { accept: 'text/html' } })
+  assert.equal(unknownHead.status, 404)
+  assert.equal(await unknownHead.text(), '')
+
   const missingAsset = await request('/assets/missing.js', { headers: { accept: '*/*' } })
   assert.equal(missingAsset.status, 404)
   assert.equal(await missingAsset.text(), 'Not found')

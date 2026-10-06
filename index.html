@@ -8,12 +8,12 @@
       name="description"
       content="Udbhav Ram is a UW-Madison Medical Physics PhD student researching clinician-reviewed AI, radiation oncology, adaptive radiotherapy, and medical imaging."
     />
-    <meta name="theme-color" content="#f2efe7" />
+    <meta name="theme-color" content="#f7f5ef" />
     <link rel="canonical" href="https://udbhavram.com/" />
     <meta property="og:title" content="Udbhav Ram | Medical Physics, Clinical AI & Software" />
     <meta
       property="og:description"
-      content="Medical AI and imaging systems accountable to physics, clinical review, and the people who use them."
+      content="Meet Udi: medical physics researcher, builder, and lifelong learner exploring AI, imaging, and cancer care."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://udbhavram.com/" />
@@ -26,7 +26,7 @@
     <meta name="twitter:title" content="Udbhav Ram | Medical Physics, Clinical AI & Software" />
     <meta
       name="twitter:description"
-      content="Medical AI and imaging systems accountable to physics, clinical review, and the people who use them."
+      content="Meet Udi: medical physics researcher, builder, and lifelong learner exploring AI, imaging, and cancer care."
     />
     <meta name="twitter:image" content="https://udbhavram.com/assets/sourced/mcmaster-employer-awards-hero.jpg" />
     <script type="application/ld+json">
@@ -34,6 +34,7 @@
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Udbhav Ram",
+        "alternateName": "Udi",
         "url": "https://udbhavram.com/",
         "image": "https://udbhavram.com/assets/optimized/hero-portrait.webp",
         "jobTitle": "Medical Physics PhD Student",
@@ -64,14 +65,18 @@
         ]
       }
     </script>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FFT2JS2514"></script>
+    <!-- Load existing analytics only on the production domain, never in local previews. -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-FFT2JS2514');
+      if (location.hostname === 'udbhavram.com' || location.hostname === 'www.udbhavram.com') {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-FFT2JS2514');
+        const analytics = document.createElement('script');
+        analytics.async = true;
+        analytics.src = 'https://www.googletagmanager.com/gtag/js?id=G-FFT2JS2514';
+        document.head.appendChild(analytics);
+      }
     </script>
     <title>Udbhav Ram | Medical Physics, Clinical AI &amp; Software</title>
   </head>

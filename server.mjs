@@ -51,13 +51,29 @@ async function resolveRequestFile(request, distRoot) {
   try {
     const candidateStat = await stat(candidate)
     if (candidateStat.isFile()) return { filePath: candidate, status: 200 }
+    if (candidateStat.isDirectory()) {
+      try {
+        const indexPath = resolve(candidate, 'index.html')
+        if ((await stat(indexPath)).isFile()) return { filePath: indexPath, status: 200 }
+      } catch (error) {
+        if (error?.code !== 'ENOENT' && error?.code !== 'ENOTDIR') throw error
+      }
+    }
     return { status: 404 }
   } catch (error) {
     if (error?.code !== 'ENOENT' && error?.code !== 'ENOTDIR') throw error
   }
 
   const isNavigation = acceptsHtml(request) && extname(pathname) === ''
-  if (isNavigation) return { filePath: resolve(distRoot, 'index.html'), status: 200 }
+  if (isNavigation) {
+    const notFoundPath = resolve(distRoot, '404.html')
+    try {
+      if ((await stat(notFoundPath)).isFile()) return { filePath: notFoundPath, status: 404 }
+    } catch (error) {
+      if (error?.code !== 'ENOENT') throw error
+    }
+    return { filePath: resolve(distRoot, 'index.html'), status: 200 }
+  }
 
   return { status: 404 }
 }
@@ -95,7 +111,7 @@ export function createAppServer({ distRoot = defaultDistRoot } = {}) {
 
     const filePath = resolvedRequest.filePath
     const fileName = filePath.split(sep).at(-1)
-    const isMutableDocument = fileName === 'index.html' || fileName === 'robots.txt' || fileName === 'sitemap.xml'
+    const isMutableDocument = extname(filePath) === '.html' || fileName === 'robots.txt' || fileName === 'sitemap.xml'
     response.statusCode = resolvedRequest.status
     response.setHeader('Content-Type', contentTypes[extname(filePath).toLowerCase()] || 'application/octet-stream')
     response.setHeader('Cache-Control', isMutableDocument ? 'no-cache' : 'public, max-age=31536000, immutable')

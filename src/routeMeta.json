@@ -1,0 +1,86 @@
+{
+  "/": {
+    "title": "Udbhav Ram | Medical Physics, Clinical AI & Software",
+    "description": "Meet Udi: UW–Madison Medical Physics PhD student, researcher, software builder, and motorsport enthusiast."
+  },
+  "/about": {
+    "title": "Biography & CV | Udbhav Ram",
+    "description": "Udbhav Ram’s education, research experience, mentorship, recognition, and downloadable public CV, updated October 2026."
+  },
+  "/research": {
+    "title": "Research | Udbhav Ram",
+    "description": "Detailed medical-physics research case studies, including ASTRO 2026 adaptive breast radiotherapy, segmentation, SRS planning, and clinical AI."
+  },
+  "/publications": {
+    "title": "Publications & Presentations | Udbhav Ram",
+    "description": "Journal articles with full citations, research posters, and conference presentations, updated through ASTRO 2026."
+  },
+  "/software": {
+    "title": "Software & Engineering | Udbhav Ram",
+    "description": "RadKev, MedPhysBench, VoxelWeave Designer, and hands-on engineering, robotics, and open-source work."
+  },
+  "/beyond": {
+    "title": "Beyond the Lab | Udbhav Ram",
+    "description": "Motorsport engineering, music, riding, yoga, scuba, mentorship, and authentic photographs from Udbhav’s personal portfolio."
+  },
+  "/collection": {
+    "title": "The Collection | Udbhav Ram",
+    "description": "Search 108 entries spanning research, engineering, motorsport, activities, recognition, and media from the earlier portfolio."
+  },
+  "/research/adaptive-breast-radiotherapy": {
+    "title": "Contouring Uncertainty at ASTRO 2026 | Udbhav Ram",
+    "description": "Contouring Uncertainty at ASTRO 2026: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/clinical-language-models": {
+    "title": "Clinical Language Models & TG-263 | Udbhav Ram",
+    "description": "Clinical Language Models & TG-263: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/radiosurgery-planning": {
+    "title": "Ethos Radiosurgery Planning | Udbhav Ram",
+    "description": "Ethos Radiosurgery Planning: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/organ-segmentation": {
+    "title": "Abdominal Organ Segmentation | Udbhav Ram",
+    "description": "Abdominal Organ Segmentation: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/brain-metastases-follow-up": {
+    "title": "Brain-Metastasis Follow-up MRI | Udbhav Ram",
+    "description": "Brain-Metastasis Follow-up MRI: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/lung-beam-energy": {
+    "title": "Lung SBRT Beam-Energy Tradeoffs | Udbhav Ram",
+    "description": "Lung SBRT Beam-Energy Tradeoffs: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/amyloid-membranes": {
+    "title": "Amyloid Aggregation & Model Membranes | Udbhav Ram",
+    "description": "Amyloid Aggregation & Model Membranes: research question, methods, findings, limitations, and original sources."
+  },
+  "/collection/profile-foundations": {
+    "title": "Profile & Foundations | Udbhav Ram",
+    "description": "Profile & Foundations from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/collection/research-record": {
+    "title": "Complete Research Record | Udbhav Ram",
+    "description": "Complete Research Record from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/collection/engineering-projects": {
+    "title": "Engineering & Projects | Udbhav Ram",
+    "description": "Engineering & Projects from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/collection/motorsports": {
+    "title": "Motorsports | Udbhav Ram",
+    "description": "Motorsports from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/collection/activities-service": {
+    "title": "Activities & Service | Udbhav Ram",
+    "description": "Activities & Service from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/collection/recognition": {
+    "title": "Awards & Certifications | Udbhav Ram",
+    "description": "Awards & Certifications from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/collection/media": {
+    "title": "Media & Institutional Profiles | Udbhav Ram",
+    "description": "Media & Institutional Profiles from Udbhav Ram’s historical portfolio, with original context and source links."
+  }
+}

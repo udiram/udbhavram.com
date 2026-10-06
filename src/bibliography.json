@@ -1,0 +1,102 @@
+[
+  {
+    "id": "amos-2025",
+    "title": "Assessing quantitative performance and expert review of multiple deep learning-based frameworks for computed tomography-based abdominal organ auto-segmentation",
+    "authors": [
+      "Udbhav S. Ram",
+      "Joel A. Pogue",
+      "Michael Soike",
+      "Neil T. Pfister",
+      "Rojymon Jacob",
+      "Carlos E. Cardenas"
+    ],
+    "journal": "Intelligent Oncology",
+    "volume": "1",
+    "issue": "2",
+    "pages": "160–171",
+    "online_date": "2025-03-19",
+    "issue_date": "2025-04",
+    "doi": "10.1016/j.intonc.2025.03.003",
+    "role": "First author",
+    "status": "Published",
+    "url": "https://www.sciencedirect.com/science/article/pii/S2950261625000238",
+    "index_url": "https://pubmed.ncbi.nlm.nih.gov/41020282/"
+  },
+  {
+    "id": "ethos-2025",
+    "title": "Dosimetric evaluation of Ethos 2.0 high-fidelity mode for single-isocenter SRS",
+    "authors": [
+      "Udbhav S. Ram",
+      "Richard A. Popple",
+      "John B. Fiveash",
+      "Katherine A. Heinzman",
+      "Yogesh Kumar",
+      "Natalie N. Viscariello",
+      "Courtney B. Stanley",
+      "Dennis N. Stanley",
+      "Carlos E. Cardenas",
+      "Joel A. Pogue"
+    ],
+    "journal": "Journal of Applied Clinical Medical Physics",
+    "volume": "26",
+    "issue": "12",
+    "article_number": "e70370",
+    "online_date": "2025-11-21",
+    "issue_date": "2025-12",
+    "doi": "10.1002/acm2.70370",
+    "role": "First author",
+    "status": "Published",
+    "url": "https://aapm.onlinelibrary.wiley.com/doi/10.1002/acm2.70370"
+  },
+  {
+    "id": "brain-followup",
+    "title": "AI-based framework to fuse pre-RT brain metastases contours with follow-up MRI to improve post-RT assessment",
+    "authors": [
+      "Yogesh Kumar",
+      "Kayla L. Steed",
+      "Ho-Hsin Chang",
+      "Udbhav Ram",
+      "Gaurav N. Rathi",
+      "Katherine A. Heinzman",
+      "Ritish Nedunoori",
+      "Farnaz Rahim Li",
+      "Richard A. Popple",
+      "Rex Cardan",
+      "Christopher D. Willey",
+      "Drexell H. Boggs",
+      "John B. Fiveash",
+      "Carlos E. Cardenas"
+    ],
+    "journal": "Neuro-Oncology Practice",
+    "volume": "13",
+    "issue": "3",
+    "pages": "497–505",
+    "online_date": "2025-12-17",
+    "issue_date": "2026-06",
+    "doi": "10.1093/nop/npaf126",
+    "role": "Co-author",
+    "status": "Published",
+    "url": "https://academic.oup.com/nop/article/13/3/497/8382617"
+  },
+  {
+    "id": "biophysics-2020",
+    "title": "The Effects of Resveratrol, Caffeine, β-Carotene, and Epigallocatechin Gallate (EGCG) on Amyloid-β25–35 Aggregation in Synthetic Brain Membranes",
+    "authors": [
+      "Isabella P. Gastaldo",
+      "Sebastian Himbert",
+      "Udbhav Ram",
+      "Maikel C. Rheinstädter"
+    ],
+    "journal": "Molecular Nutrition & Food Research",
+    "volume": "64",
+    "issue": "22",
+    "article_number": "e2000632",
+    "online_date": "2020-09-27",
+    "issue_date": "2020",
+    "doi": "10.1002/mnfr.202000632",
+    "role": "Co-author",
+    "status": "Published",
+    "url": "https://doi.org/10.1002/mnfr.202000632",
+    "source": "https://onlinelibrary.wiley.com/toc/16134133/2020/64/22"
+  }
+]
