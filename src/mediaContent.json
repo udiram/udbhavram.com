@@ -1,0 +1,454 @@
+{
+  "verified_at": "2026-10-06",
+  "articles": [
+    {
+      "id": "mcmaster-coop-2026",
+      "title": "Udbhav Ram’s co-op supervisors flew in from Alabama to give him an award",
+      "publisher": "McMaster News",
+      "published_date": "2026-03-31",
+      "url": "https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/",
+      "kind": "institutional-feature",
+      "udi_role": "Featured subject and award recipient",
+      "summary": "McMaster profiles the Science Co-op Student of the Year recognition, the surprise visit by Joel Pogue and Carlos Cardenas, and Udi’s work mentoring students through applications and international placements.",
+      "related_pages": [
+        "/about#recognition-about",
+        "/about#mentorship",
+        "/research/adaptive-breast-radiotherapy",
+        "/research/radiosurgery-planning"
+      ],
+      "story_group": "coop-award-2026",
+      "author": "Danielle Gallant",
+      "date_note": "Published March 31, 2026. The Ontario co-op award mentioned in the story was a nomination."
+    },
+    {
+      "id": "mcmaster-coop-original-2026",
+      "title": "A moment worth flying for – Udbhav Ram’s extraordinary co-op experience",
+      "publisher": "McMaster Science Careers & Experience Centre",
+      "published_date": "2026-03-18",
+      "url": "https://careers.science.mcmaster.ca/a-moment-worth-flying-for-udbhav-rams-extraordinary-co-op-experience/",
+      "kind": "original-edition",
+      "udi_role": "Featured subject and award recipient",
+      "summary": "The earlier, fuller Faculty of Science account of Udi’s co-op award and peer mentorship. Group with the March 31 McMaster News adaptation.",
+      "related_pages": [
+        "/about#recognition-about",
+        "/about#mentorship"
+      ],
+      "story_group": "coop-award-2026",
+      "author": "Danielle Gallant"
+    },
+    {
+      "id": "mcmaster-convocation-2026",
+      "title": "Convocation countdown with…Udbhav Ram",
+      "publisher": "McMaster Faculty of Science",
+      "published_date": "2026-05-20",
+      "url": "https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/",
+      "kind": "q-and-a",
+      "udi_role": "Interview subject",
+      "summary": "A graduation Q&A about early mentorship from Ben Davis-Purcell, health physics, and representing undergraduates at the UAB–McMaster partnership meeting.",
+      "related_pages": [
+        "/about#biography",
+        "/about#mentorship",
+        "/beyond"
+      ],
+      "story_group": "convocation-2026",
+      "author": null
+    },
+    {
+      "id": "mcmaster-profile-2024",
+      "title": "Undergrad adds ‘international visiting scholar in radiation oncology’ to jam-packed résumé",
+      "publisher": "McMaster News",
+      "published_date": "2024-07-31",
+      "url": "https://news.mcmaster.ca/udbhav-ram-mcmaster-uab-international-visiting-scholar/",
+      "kind": "institutional-feature",
+      "udi_role": "Featured subject",
+      "summary": "A profile connecting Udi’s UAB research with earlier experiences in race engineering, biomedical research, software development and science-policy outreach.",
+      "related_pages": [
+        "/about#timeline",
+        "/beyond#race-engineering",
+        "/research",
+        "/software"
+      ],
+      "story_group": "visiting-scholar-2024",
+      "author": "Jay Robb"
+    },
+    {
+      "id": "mcmaster-profile-original-2024",
+      "title": "International visiting scholar at the University of Alabama at Birmingham the latest of many achievements for McMaster Science undergrad",
+      "publisher": "McMaster Faculty of Science",
+      "published_date": "2024-07-30",
+      "url": "https://science.mcmaster.ca/international-visiting-scholar-at-the-university-of-alabama-at-birmingham-the-latest-of-many-achievements-for-mcmaster-science-undergrad/",
+      "kind": "original-edition",
+      "udi_role": "Featured subject",
+      "summary": "The original Faculty of Science profile, adapted by McMaster News the next day. Retain as an additional edition within the same story card.",
+      "related_pages": [
+        "/about#timeline",
+        "/beyond#race-engineering"
+      ],
+      "story_group": "visiting-scholar-2024",
+      "author": "Jay Robb"
+    },
+    {
+      "id": "uab-ai-profile-2024",
+      "title": "International student from McMaster University and mentor drive changes in medicine through AI",
+      "publisher": "UAB Heersink School of Medicine",
+      "published_date": "2024-06-28",
+      "url": "https://www.uab.edu/medicine/news/latest-news/mcmaster-student-and-mentor",
+      "kind": "institutional-feature",
+      "udi_role": "Featured researcher and undergraduate ambassador",
+      "summary": "UAB explores Udi’s collaboration with Carlos Cardenas on segmentation, planning-system evaluation and AI quality assurance, alongside his undergraduate ambassador role.",
+      "related_pages": [
+        "/research/organ-segmentation",
+        "/research/radiosurgery-planning",
+        "/research/clinical-language-models",
+        "/about#mentorship"
+      ],
+      "story_group": "uab-ai-profile-2024",
+      "author": "Mary Ashley Canevaro",
+      "date_note": "The UAB article is dated June 28, 2024; the collaboration showcase video was uploaded that September."
+    },
+    {
+      "id": "uab-employer-2025",
+      "title": "Cardenas receives McMaster Co-op Emerging Employer of the Year Award",
+      "publisher": "UAB Heersink School of Medicine",
+      "published_date": "2025-06-09",
+      "url": "https://www.uab.edu/medicine/news/latest-news/cardenas-receives-mcmaster-co-op-emerging-employer-of-the-year-award",
+      "kind": "mentor-recognition",
+      "udi_role": "Nominator and quoted co-op student; Carlos Cardenas is the award recipient",
+      "summary": "The mentor-award feature follows the development of Udi’s co-op placement, research collaboration and return to Birmingham for a second placement in 2025.",
+      "related_pages": [
+        "/about#mentorship",
+        "/about#timeline"
+      ],
+      "story_group": "employer-recognition-2025",
+      "author": "Jay Dial"
+    },
+    {
+      "id": "mcmaster-employer-2025",
+      "title": "Recognizing Excellence in Science: 2024 Co-op Employer of the Year Awards",
+      "publisher": "McMaster Science Careers & Experience Centre",
+      "published_date": "2025-04-03",
+      "url": "https://careers.science.mcmaster.ca/recognizing-excellence-in-science-2024-co-op-employer-of-the-year-awards/",
+      "kind": "mentor-recognition",
+      "udi_role": "Nominator and quoted student in a multi-recipient roundup",
+      "summary": "McMaster’s award roundup describes Udi’s nomination of Carlos Cardenas, including clinical shadowing, research mentorship and support for the UAB–McMaster ambassador role.",
+      "related_pages": [
+        "/about#mentorship",
+        "/collection/recognition"
+      ],
+      "story_group": "employer-recognition-2025",
+      "author": null,
+      "date_note": "Coverage of the 2024 work-term award cycle, published in 2025."
+    },
+    {
+      "id": "aapm-newsletter-2025",
+      "title": "EDIC Sessions at the 2024 AAPM Annual Meeting",
+      "publisher": "AAPM Newsletter, Volume 50, No. 1",
+      "published_date": "2025-01",
+      "date_label": "January/February 2025",
+      "url": "https://www.aapm.org/pubs/newsletter/archive/5001.pdf#page=29",
+      "kind": "award-mention",
+      "udi_role": "Named Best Poster Presentation winner",
+      "summary": "Heather Whitney’s report names Udi as the undergraduate Best Poster Presentation winner for his Ethos 2.0 high-fidelity stereotactic-radiotherapy project.",
+      "related_pages": [
+        "/about#recognition-about",
+        "/research/radiosurgery-planning",
+        "/publications#presentations"
+      ],
+      "story_group": "aapm-award-2024",
+      "author": "Heather Whitney",
+      "date_note": "A January/February 2025 report of the 2024 competition award."
+    }
+  ],
+  "videos": [
+    {
+      "id": "video-GNboj6JfDeI",
+      "video_id": "GNboj6JfDeI",
+      "title": "run 1 madras international circuit",
+      "url": "https://www.youtube.com/watch?v=GNboj6JfDeI",
+      "duration": "14:00",
+      "summary": "First onboard run from Udi’s Formula LGB 1300 driving with Momentum Motorsports at Madras International Circuit in May 2023.",
+      "related_pages": [
+        "/beyond#race-engineering",
+        "/collection/motorsports"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/GNboj6JfDeI",
+      "upload_date": "2026-09-30",
+      "topic": "Motorsport",
+      "event_date": "2023-05"
+    },
+    {
+      "id": "video-lhw91PF5ggw",
+      "video_id": "lhw91PF5ggw",
+      "title": "run 2 madras international circuit",
+      "url": "https://www.youtube.com/watch?v=lhw91PF5ggw",
+      "duration": "13:29",
+      "summary": "Second run from the same May 2023 Formula LGB 1300 driving session at Madras International Circuit.",
+      "related_pages": [
+        "/beyond#race-engineering",
+        "/collection/motorsports"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/lhw91PF5ggw",
+      "upload_date": "2026-09-30",
+      "topic": "Motorsport",
+      "event_date": "2023-05"
+    },
+    {
+      "id": "video-lOEmL3lNr4E",
+      "video_id": "lOEmL3lNr4E",
+      "title": "run 3 madras international circuit",
+      "url": "https://www.youtube.com/watch?v=lOEmL3lNr4E",
+      "duration": "8:03",
+      "summary": "Third run from the same May 2023 Formula LGB 1300 driving session at Madras International Circuit.",
+      "related_pages": [
+        "/beyond#race-engineering",
+        "/collection/motorsports"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/lOEmL3lNr4E",
+      "upload_date": "2026-09-30",
+      "topic": "Motorsport",
+      "event_date": "2023-05"
+    },
+    {
+      "id": "video-swX13Ep20vU",
+      "video_id": "swX13Ep20vU",
+      "title": "Back to the future, looking back at an undergraduate research experience with UAB radiation oncology",
+      "url": "https://www.youtube.com/watch?v=swX13Ep20vU",
+      "duration": "19:26",
+      "summary": "A retrospective presentation about Udi’s undergraduate research experience with UAB Radiation Oncology.",
+      "related_pages": [
+        "/about#timeline",
+        "/about#mentorship",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/swX13Ep20vU",
+      "upload_date": "2025-12-19",
+      "topic": "Exchange & mentorship"
+    },
+    {
+      "id": "video-NMcoTPjPJ1g",
+      "video_id": "NMcoTPjPJ1g",
+      "title": "Udbhav Ram SPScon 2025 Invited Poster",
+      "url": "https://www.youtube.com/watch?v=NMcoTPjPJ1g",
+      "duration": "5:04",
+      "summary": "A recorded overview of the invited SPSCon poster on Ethos 2.0 high-fidelity radiosurgery planning.",
+      "related_pages": [
+        "/research/radiosurgery-planning",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/NMcoTPjPJ1g",
+      "upload_date": "2025-10-07",
+      "topic": "Research"
+    },
+    {
+      "id": "video-ITW86kDzaNQ",
+      "video_id": "ITW86kDzaNQ",
+      "title": "LLM based target name adherence in radiation oncology",
+      "url": "https://www.youtube.com/watch?v=ITW86kDzaNQ",
+      "duration": "3:49",
+      "summary": "A short research presentation on language-model-assisted target-name adherence in radiation oncology.",
+      "related_pages": [
+        "/research/clinical-language-models",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/ITW86kDzaNQ",
+      "upload_date": "2025-09-09",
+      "topic": "Research"
+    },
+    {
+      "id": "video-jlnFADrlgfM",
+      "video_id": "jlnFADrlgfM",
+      "title": "Dosimetric Comparison of 6X/10X flattening filter free beams at the Juravinski Cancer Centre",
+      "url": "https://www.youtube.com/watch?v=jlnFADrlgfM",
+      "duration": "9:14",
+      "summary": "The final thesis presentation comparing 6X and 10X flattening-filter-free beams at Juravinski Cancer Centre.",
+      "related_pages": [
+        "/research/lung-beam-energy",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/jlnFADrlgfM",
+      "upload_date": "2025-04-17",
+      "topic": "Research",
+      "event_date": "2025-04-16"
+    },
+    {
+      "id": "video-JfKKX6gta-M",
+      "video_id": "JfKKX6gta-M",
+      "title": "McMaster and UAB Collaboration Showcase - Udbhav Ram",
+      "url": "https://www.youtube.com/watch?v=JfKKX6gta-M",
+      "duration": "2:50",
+      "summary": "A short collaboration showcase about Udi’s visiting-scholar experience, AI research and student exchange between UAB and McMaster.",
+      "related_pages": [
+        "/about#mentorship",
+        "/research",
+        "/about#timeline"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/JfKKX6gta-M",
+      "upload_date": "2024-09-11",
+      "topic": "Exchange & mentorship"
+    },
+    {
+      "id": "video-7JgRKwVRkEo",
+      "video_id": "7JgRKwVRkEo",
+      "title": "Optimizing dose delivery during fractionated radiotherapy",
+      "url": "https://www.youtube.com/watch?v=7JgRKwVRkEo",
+      "duration": "12:43",
+      "summary": "A recorded presentation on optimizing dose delivery during fractionated radiotherapy, associated with CUPC 2023.",
+      "related_pages": [
+        "/research",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/7JgRKwVRkEo",
+      "upload_date": "2023-10-29",
+      "topic": "Research",
+      "event_date": "2023-10-28"
+    },
+    {
+      "id": "video-8IKr1QauMGc",
+      "video_id": "8IKr1QauMGc",
+      "title": "Using Deep Learning models to auto-contour abdominal organs in CT scans",
+      "url": "https://www.youtube.com/watch?v=8IKr1QauMGc",
+      "duration": "14:46",
+      "summary": "A talk on deep-learning contouring of abdominal organs, associated with the 2023 Physics Undergraduate Conference.",
+      "related_pages": [
+        "/research/organ-segmentation",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/8IKr1QauMGc",
+      "upload_date": "2023-03-24",
+      "topic": "Research"
+    },
+    {
+      "id": "video-iubpGRBjZN0",
+      "video_id": "iubpGRBjZN0",
+      "title": "Abdominal organs auto-segmentation to reduce patient-wait times in radiation oncology treatments",
+      "url": "https://www.youtube.com/watch?v=iubpGRBjZN0",
+      "duration": "12:24",
+      "summary": "A CUPC 2022 presentation about automated abdominal-organ segmentation in radiation oncology.",
+      "related_pages": [
+        "/research/organ-segmentation",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/iubpGRBjZN0",
+      "upload_date": "2022-10-30",
+      "topic": "Research",
+      "event_date": "2022-10-29"
+    },
+    {
+      "id": "video-A7_TRUWW6EI",
+      "video_id": "A7_TRUWW6EI",
+      "title": "CUMPC 2022 Presentation",
+      "url": "https://www.youtube.com/watch?v=A7_TRUWW6EI",
+      "duration": "4:18",
+      "summary": "A short Canadian Undergraduate Medical Physics Conference presentation on deep-learning abdominal multi-organ segmentation.",
+      "related_pages": [
+        "/research/organ-segmentation",
+        "/publications#presentations"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/A7_TRUWW6EI",
+      "upload_date": "2022-08-24",
+      "topic": "Research",
+      "event_date": "2022-08-25"
+    },
+    {
+      "id": "video-I0ESYlp85Rk",
+      "video_id": "I0ESYlp85Rk",
+      "title": "An Augmented Reality setup to improve accuracy in the 5/6 nephrectomy surgical model",
+      "url": "https://www.youtube.com/watch?v=I0ESYlp85Rk",
+      "duration": "11:12",
+      "summary": "A Canadian Association of Physicists presentation on an augmented-reality setup for a kidney-research surgical model.",
+      "related_pages": [
+        "/collection/research-record",
+        "/collection/engineering-projects"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/I0ESYlp85Rk",
+      "upload_date": "2022-06-15",
+      "topic": "Research",
+      "event_date": "2022-06-07"
+    },
+    {
+      "id": "video-xW7umxU6NSM",
+      "video_id": "xW7umxU6NSM",
+      "title": "Quantitative analysis of Gel electrophoresis images using cloud based, machine learning analysis",
+      "url": "https://www.youtube.com/watch?v=xW7umxU6NSM",
+      "duration": "10:13",
+      "summary": "A CAP undergraduate presentation on cloud-based machine-learning analysis of gel-electrophoresis images.",
+      "related_pages": [
+        "/collection/research-record",
+        "/collection/engineering-projects"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/xW7umxU6NSM",
+      "upload_date": "2022-06-08",
+      "topic": "Research",
+      "event_date": "2021-06-09"
+    },
+    {
+      "id": "video-LMef6Hn0WqU",
+      "video_id": "LMef6Hn0WqU",
+      "title": "Arduino labs",
+      "url": "https://www.youtube.com/watch?v=LMef6Hn0WqU",
+      "duration": "6:39",
+      "summary": "An early hands-on electronics video with Arduino project ideas.",
+      "related_pages": [
+        "/software",
+        "/collection/engineering-projects"
+      ],
+      "embed_url": "https://www.youtube-nocookie.com/embed/LMef6Hn0WqU",
+      "upload_date": "2022-01-12",
+      "topic": "Building"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "mh-high-scholar",
+      "title": "MHIGH Trainee Scholar and McMaster ambassador",
+      "publisher": "UAB Mary Heersink Institute for Global Health",
+      "url": "https://www.uab.edu/medicine/globalhealth/our-work/scholars",
+      "summary": "The official Trainee Scholars listing details student outreach, information sessions, institutional liaison work and coordination for the McMaster Spring Symposium and UAB–McMaster Summer Program.",
+      "related_pages": [
+        "/about#mentorship",
+        "/beyond",
+        "/collection/activities-service"
+      ]
+    },
+    {
+      "id": "uw-student",
+      "title": "UW–Madison Medical Physics student profile",
+      "publisher": "University of Wisconsin–Madison",
+      "url": "https://medphysics.wisc.edu/graduate-program/meet-our-students/",
+      "summary": "Official student listing for the current doctoral programme and advisor.",
+      "related_pages": [
+        "/about#biography"
+      ]
+    },
+    {
+      "id": "astro-profile",
+      "title": "Udbhav Ram, BS",
+      "publisher": "ASTRO 2026",
+      "url": "https://amportal.astro.org/udbhav-ram-bs-135368427",
+      "summary": "Conference biography describing the UW–Madison PhD and research in imaging, vision-language models, treatment planning and image guidance.",
+      "related_pages": [
+        "/about#biography",
+        "/research/adaptive-breast-radiotherapy"
+      ]
+    },
+    {
+      "id": "employer-listing",
+      "title": "2024 Winners",
+      "publisher": "McMaster Science Careers & Experience Centre",
+      "url": "https://careers.science.mcmaster.ca/employers/co-op-employer-of-the-year-award/2024-2-2/",
+      "summary": "Official winner listing for the employer award received by Carlos Cardenas following Udi’s nomination.",
+      "related_pages": [
+        "/about#mentorship"
+      ]
+    }
+  ],
+  "writing": [
+    {
+      "id": "medium-nephrectomy-2022",
+      "title": "How computers are saving mice (and maybe humans)",
+      "publisher": "Medium",
+      "published_date": "2022-09-25",
+      "url": "https://medium.com/@udbhavram41/how-computers-are-saving-mice-and-maybe-humans-7a8561ec6a85"
+    }
+  ]
+}

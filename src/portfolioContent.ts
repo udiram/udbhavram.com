@@ -281,7 +281,7 @@ export const portfolioCollections: PortfolioCollection[] = [
       {
         title: 'Training, sport, and instruction',
         items: [
-          { title: 'Open-water scuba diving', detail: 'NAUI/SSI open-water certification listed on the earlier site.' },
+          { title: 'Scuba diving qualifications', detail: 'PADI Advanced Open Water Diver and Enriched Air Diver (Nitrox), confirmed May 2025. Earlier SSI Open Water Diver qualification issued June 3, 2023, through SaltyBoneDivers in Chennai.' },
           { title: 'Registered yoga instructor', detail: 'Head yoga instructor at Anytime Fitness Brampton and yoga instructor at McMaster University.' },
           {
             title: 'Flight school',

@@ -82,5 +82,9 @@
   "/collection/media": {
     "title": "Media & Institutional Profiles | Udbhav Ram",
     "description": "Media & Institutional Profiles from Udbhav Ram’s historical portfolio, with original context and source links."
+  },
+  "/media": {
+    "title": "Media, Interviews & Videos | Udbhav Ram",
+    "description": "Profiles, interviews, research presentations and onboard motorsport videos from Udi’s work and life, with original sources and context."
   }
 }

@@ -43,3 +43,14 @@ Production integration uses the verified expanded source revision `eb84d30d3c420
 The AIIMS research seminar remains scheduled, with delivery not independently verified. The SCEC aggregate records four completed talks reported by the speaker without inventing their individual titles or dates. The HCKR invitation, recorded thesis talk, and approximate-year partnership remarks retain their evidence/date qualifications. Unresolved candidate talks are excluded pending confirmation.
 
 The public CV uses the same 27 record IDs and all four verified journal articles. Two secondary CAP program PDF links returning404 were omitted while retaining each event and its other program or recording links. Official source hosts may restrict automated access; these restrictions do not establish that an event is absent.
+
+
+## October 6 media and personal-profile expansion
+
+The public URLs, publisher names, dates, original/adapted relationships, video titles/durations and contextual links are recorded in `src/mediaContent.json`. Nine article editions or mentions are grouped into six stories; they are not nine independent interviews. Cardenas received the employer award; Udi nominated him. The January/February 2025 AAPM newsletter reports the 2024 competition. The four institutional listings include an undergraduate-era MHIGH Trainee Scholar role, not a faculty appointment.
+
+The three additional local motorsport photographs (`motorsports-01.webp` through `motorsports-03.webp`) come from Udi’s [existing public portfolio](https://sites.google.com/view/udbhav-ram/motorsports). Existing institutional photography is reused; no newly scraped publisher imagery was added. Video posters use local images or text, with a user-initiated YouTube privacy-enhanced embed.
+
+Conference tools: [AAPM 2026 Explorer retrospective](https://x.com/UdbhavRam/status/2080675842980557111) and [OncoScout2026 launch](https://x.com/UdbhavRam/status/2103868337612857350). Both are independent personal projects, not organizer-operated or endorsed tools. [Personal automation notes](https://x.com/UdbhavRam/status/2071427843754463536) support the small everyday-building example; no actual telemetry or private trip information is published.
+
+The owner verified PADI Advanced Open Water Diver and Enriched Air Diver (Nitrox), confirmed May 2025, and the earlier SSI Open Water Diver qualification issued June 3, 2023. These are consistent across biography, interests, collection, and public CV. Private issuing correspondence and credential identifiers are excluded from the repository.

@@ -29,6 +29,7 @@ const nav = [
   { id: 'work', label: 'Research', href: '/research' },
   { id: 'projects', label: 'Software', href: '/software' },
   { id: 'life', label: 'Beyond the lab', href: '/beyond' },
+  { id: 'media', label: 'Media', href: '/media' },
   { id: 'collection', label: 'Collection', href: '/collection' },
 ]
 const aliases: Record<string, string> = {
@@ -497,7 +498,7 @@ function Life() {
           <span className="meta">Outside</span>
           <h3>On the move</h3>
           <p>
-            Horseback riding and open-water scuba diving offer different ways to
+            Horseback riding and scuba diving offer different ways to
             explore. I’ve also spent time with hockey and yoga.
           </p>
         </article>

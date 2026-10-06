@@ -87,18 +87,18 @@ export const imageAssets = {
     source: 'https://www.arrowmclaren.com/',
   },
   formulaLgb: {
-    src: '/assets/sourced/motorsports/formula-lgb.jpg',
+    src: '/assets/personal/motorsports-02.webp',
     alt: 'Formula LGB 1300 race car during a test and development program',
     source: 'https://sites.google.com/view/udbhav-ram/motorsports',
   },
   macFormulaSae: {
-    src: '/assets/sourced/motorsports/mac-formula-sae.png',
-    alt: 'McMaster Formula SAE Electric car and team',
+    src: '/assets/personal/motorsports-01.webp',
+    alt: 'McMaster Formula SAE Electric car',
     source: 'https://sites.google.com/view/udbhav-ram/motorsports',
   },
   vwPoloCup: {
-    src: '/assets/sourced/motorsports/vw-polo-cup.jpg',
-    alt: 'Volkswagen Polo Cup race car at Madras International Circuit',
+    src: '/assets/personal/motorsports-03.webp',
+    alt: 'Udi wearing a racing helmet inside a Volkswagen Polo Cup car',
     source: 'https://sites.google.com/view/udbhav-ram/motorsports',
   },
   visitingScholar: {

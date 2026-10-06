@@ -25,7 +25,7 @@ npm run start
 
 ## Pages and content
 
-The site contains 21 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, a searchable collection, seven research case studies, and seven collection chapters with 96 historical non-presentation records and 27 reconciled presentation/outreach records.
+The site contains 22 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, media, a searchable collection, seven research case studies, and seven collection chapters with 96 historical non-presentation records and 27 reconciled presentation/outreach records.
 
 - `src/routeMeta.json`: route titles and descriptions
 - `src/expandedContent.ts`: research stories and career timeline
@@ -54,3 +54,10 @@ CV authoring files are maintained outside the public checkout. After regeneratin
 After building, run `npx playwright install chromium` once, then `npm run test:permalinks`. To use an installed Chrome browser, run `PLAYWRIGHT_CHANNEL=chrome npm run test:permalinks`. The test starts its own production server; set `TEST_ORIGIN=https://udbhavram.com` to verify a deployed release instead.
 
 The test checks every presentation permalink on desktop and mobile: repeated clicks, copied URLs in fresh tabs, reload, focus/highlight, collection links, filtered and paginated search, Back/Forward, legacy anchors, and targets inside closed disclosures. Permalinks point to the public record; source, PDF, and recording links remain separate.
+
+
+## Media collection
+
+`src/mediaContent.json` contains nine verified article editions/mentions in six story groups, fifteen public YouTube videos, one essay link, and four institutional listings. `/media` adds two public building-note threads. Original/adapted article editions share a group. Video upload dates and event dates are independent; the May 2023 onboard runs were uploaded September 30, 2026. Metadata and descriptions were checked, not full transcripts. Medium full text was unavailable, and the currently unavailable Scholar link is omitted.
+
+The dedicated page is linked throughout the site; `/collection/media` and its old record anchors remain available. Videos use consent controls: no YouTube frame or thumbnail request is made before the user loads a video. An external watch link remains available independently. `npm run test:media` checks filters, empty/reset states, consent/unload, link destinations, legacy compatibility, contextual fragments, navigation and theme, and responsive overflow at 1440, 820, and 390 pixels. Set `EVIDENCE_DIR` for screenshots or `TEST_ORIGIN` to test production.
