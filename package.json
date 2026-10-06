@@ -16,7 +16,8 @@
     "preview": "vite preview",
     "start": "node server.mjs",
     "test:pages": "node scripts/test-pages.mjs",
-    "test:presentations": "node scripts/test-presentations.mjs"
+    "test:presentations": "node scripts/test-presentations.mjs",
+    "test:permalinks": "node scripts/test-permalinks.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
@@ -33,6 +34,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "playwright": "1.62.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12"

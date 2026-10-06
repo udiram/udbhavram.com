@@ -16,7 +16,7 @@ export default function PresentationRecord({ presentation: p, compact = false }:
       <div className="presentation-links">
         {p.sources.map(source => <a className="source-link" key={source.url} href={source.url}>{source.label}</a>)}
         {p.studyPath && <a className="source-link" href={p.studyPath}>Study details</a>}
-        <a className="source-link" href={`/publications#${p.id}`} aria-label={`Link to ${p.title}`}>Link to this presentation</a>
+        <a className="source-link" href={`/publications#${p.id}`} aria-label={`Permalink to ${p.title}`} title="Open the permanent link to this record on this page">Permalink to this record</a>
       </div>
     </article>
   )

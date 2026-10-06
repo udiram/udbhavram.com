@@ -1,3 +1,4 @@
+import { useHashNavigation } from './useHashNavigation'
 import { homePresentations } from './presentationData'
 import {
   ArrowUpRight,
@@ -113,38 +114,6 @@ function Photo({
   )
 }
 
-function useHashNavigation() {
-  useEffect(() => {
-    const go = () => {
-      let hash: string
-      try {
-        hash = decodeURIComponent(window.location.hash.slice(1))
-      } catch {
-        return
-      }
-      if (!hash) return
-      const target = document.getElementById(aliases[hash] ?? hash)
-      if (!target) {
-        const collection = aliases[hash] ?? hash
-        if (window.location.pathname === '/' && ['profile-foundations','research-record','engineering-projects','motorsports','activities-service','recognition','media'].includes(collection)) window.location.replace(`/collection/${collection}`)
-        return
-      }
-      let parent = target.parentElement
-      while (parent) {
-        if (parent instanceof HTMLDetailsElement) parent.open = true
-        parent = parent.parentElement
-      }
-      if (target instanceof HTMLDetailsElement) target.open = true
-      requestAnimationFrame(() => {
-        target.scrollIntoView({ block: 'start', behavior: 'instant' })
-        target.focus({ preventScroll: true })
-      })
-    }
-    go()
-    window.addEventListener('hashchange', go)
-    return () => window.removeEventListener('hashchange', go)
-  }, [])
-}
 
 function Header({
   dark,
@@ -632,7 +601,7 @@ export default function App() {
       return false
     }
   })
-  useHashNavigation()
+  useHashNavigation(aliases)
   useEffect(() => {
     const meta = routeMeta[path as keyof typeof routeMeta]
     document.title = meta?.title ?? 'Page not found | Udbhav Ram'

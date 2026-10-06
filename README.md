@@ -48,3 +48,9 @@ The current domains, provider, analytics, and DNS configuration are retained. No
 `src/presentations.json` is the canonical event inventory. It feeds the homepage selection, publications page, research collection, search, and public CV. The 27 records comprise 26 discrete event/remarks records (including one scheduled seminar with delivery unverified) and one SCEC outreach aggregate. They must not be described as 27 delivered talks or an exhaustive lifetime record. Presenter, coauthor, digital-only, approximate-date and source-status distinctions must remain visible. Awards belong to their event, and repeated studies at different conferences retain separate IDs.
 
 CV authoring files are maintained outside the public checkout. After regenerating the public PDF from the inventory and bibliography, update `public/downloads/public-cv-manifest.json`. The regression check verifies source hashes, PDF hash, and each event permalink to catch stale or incomplete CV updates. Download URLs include the PDF content hash to avoid stale browser caches.
+
+## Presentation permalink regression
+
+After building, run `npx playwright install chromium` once, then `npm run test:permalinks`. To use an installed Chrome browser, run `PLAYWRIGHT_CHANNEL=chrome npm run test:permalinks`. The test starts its own production server; set `TEST_ORIGIN=https://udbhavram.com` to verify a deployed release instead.
+
+The test checks every presentation permalink on desktop and mobile: repeated clicks, copied URLs in fresh tabs, reload, focus/highlight, collection links, filtered and paginated search, Back/Forward, legacy anchors, and targets inside closed disclosures. Permalinks point to the public record; source, PDF, and recording links remain separate.
