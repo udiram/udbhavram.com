@@ -1,0 +1,727 @@
+{
+  "updatedAt": "2026-10-06",
+  "scope": "Reconciled conference presentations, invited and institutional talks, and recorded thesis work. Held uncertain candidates are excluded pending confirmation.",
+  "events": [
+    {
+      "id": "astro-2026-3104",
+      "title": "Characterizing Contouring Uncertainty across Clinical Specialties in CBCT-Guided Online Adaptive Partial Breast Irradiation",
+      "date": "2026-09-29",
+      "datePrecision": null,
+      "event": "ASTRO 68th Annual Meeting",
+      "location": "Boston, Massachusetts, USA",
+      "type": "poster",
+      "role": "first author and listed presenter",
+      "presenter": "Udbhav Ram, BS",
+      "status": "Presented",
+      "programCode": "3104",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://amportal.astro.org/sessions/pqa-05-22824/characterizing-contouring-uncertainty-across-clinical-specialties-in-cbct-guided-online-adapt-112788"
+        },
+        {
+          "url": "https://poster.astro.org/astro/2026/2026-astros-68th-annual-meeting/4212408"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Characterizing Contouring Uncertainty Across Clinical Specialties in CBCT-Guided Online Adaptive Partial Breast Irradiation"
+      ]
+    },
+    {
+      "id": "astro-2026-3044",
+      "title": "Retrospective Weekly Photon Re-Optimization on QA Scans to Assess Convergence toward Proton Dosimetry during Treatment",
+      "date": "2026-09-29",
+      "datePrecision": null,
+      "event": "ASTRO 68th Annual Meeting",
+      "location": "Boston, Massachusetts, USA",
+      "type": "poster",
+      "role": "Third author; coauthor, not named presenter",
+      "presenter": "Yogesh Kumar, PhD",
+      "status": "Conference program record",
+      "programCode": "3044",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://amportal.astro.org/sessions/pqa-05-22824/retrospective-weekly-photon-re-optimization-on-qa-scans-to-assess-convergence-toward-proton-d-112705"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "aapm-2026-27281",
+      "title": "Inter-Observer Variability of Clinical Target Volume Delineation In Cone Beam CT-Guided Online Adaptive Accelerated Partial Breast Irradiation",
+      "date": "2026-07-19/2026-07-22",
+      "datePrecision": "Meeting dates; digital-only poster with no dedicated physical session",
+      "event": "2026 Joint AAPM | COMP Annual Meeting & Exhibition",
+      "location": "Online, within Joint AAPM | COMP 2026 (Vancouver meeting)",
+      "type": "digital-only poster",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Published digital poster",
+      "programCode": "PO-DPV-T-14",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/meetingapp.cgi/Paper/27281"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Interobserver Variability in Clinical Target Volume Delineation for Online Adaptive Accelerated Partial Breast Irradiation",
+        "Inter-observer variability of clinical target volume delineation in cone beam CT-guided online adaptive accelerated partial breast irradiation"
+      ]
+    },
+    {
+      "id": "aapm-2026-27365",
+      "title": "Watch Once, Work Forever: One-Shot Computer-Use Agents for Clinical UI Automation",
+      "date": "2026-07-19",
+      "datePrecision": "exact program viewing/discussion date",
+      "event": "2026 Joint AAPM | COMP Annual Meeting & Exhibition",
+      "location": "Vancouver, British Columbia, Canada",
+      "type": "poster discussion",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Conference program record",
+      "programCode": "SU-315-GPD-T-614",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/meetingapp.cgi/Paper/27365"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27365/CUA_AAPM2026.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "aapm-2026-27196",
+      "title": "Predicting Adaptive Radiotherapy Session Duration Using Reference Plan Calculation Metrics",
+      "date": "2026-07-19",
+      "datePrecision": "exact program viewing/discussion date",
+      "event": "2026 Joint AAPM | COMP Annual Meeting & Exhibition",
+      "location": "Vancouver, British Columbia, Canada",
+      "type": "poster discussion",
+      "role": "coauthor",
+      "presenter": "Dennis N. Stanley, PhD",
+      "status": "Conference program record",
+      "programCode": "SU-315-GPD-T-501",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/meetingapp.cgi/Paper/27196"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27196/AAPM_UAB_Posters%201.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "aapm-2026-26858",
+      "title": "When APIs Don’t Exist: Visual-Language–Driven Automation of Streamed Medical Software",
+      "date": "2026-07-19",
+      "datePrecision": "exact program viewing/discussion date",
+      "event": "2026 Joint AAPM | COMP Annual Meeting & Exhibition",
+      "location": "Vancouver, British Columbia, Canada",
+      "type": "poster discussion",
+      "role": "coauthor",
+      "presenter": "Rex A. Cardan, PhD",
+      "status": "Conference program record",
+      "programCode": "SU-315-GPD-T-16",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/meetingapp.cgi/Paper/26858"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper26858/When_APIs_Don%27t_Exist.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "aiims-2026-researchers-perspective",
+      "title": "The State of AI in Radiation Oncology and Medical Physics in North America: A Researcher’s Perspective",
+      "date": "2026-05-14",
+      "datePrecision": null,
+      "event": "AIIMS New Delhi",
+      "location": "New Delhi, India; attendance format unconfirmed",
+      "type": "Research seminar",
+      "role": "Scheduled speaker",
+      "presenter": "Udbhav Ram",
+      "status": "Scheduled talk; delivery not independently verified",
+      "programCode": null,
+      "awards": [],
+      "sources": [],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "spscon-2025-poster21-ethos",
+      "title": "Evaluation of Ethos 2.0 High-Fidelity Mode for Multi-Met, Single-Isocenter Stereotactic Radiotherapy: A Semi-Automated Comparative Analysis",
+      "date": "2025-10-31",
+      "datePrecision": null,
+      "event": "2025 Physics and Astronomy Congress",
+      "location": "Denver, Colorado, USA",
+      "type": "Invited poster presentation",
+      "role": "Invited poster presenter",
+      "presenter": "Udbhav Ram, University of Alabama at Birmingham",
+      "status": "Presented",
+      "programCode": {
+        "poster": "21",
+        "pdfPageOneBased": 80,
+        "pdfPageZeroBased": 79
+      },
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aip.brightspotcdn.com/bb/f3/d09cd385409d8697f41f9f153b0d/2025-spscon-abstract-book-v3-coauthors.pdf#page=80"
+        },
+        {
+          "url": "https://students.aip.org/congress/congress-posters-and-art"
+        },
+        {
+          "url": "https://students.aip.org/congress/agenda"
+        },
+        {
+          "url": "https://students.aip.org/congress/attend"
+        },
+        {
+          "url": "https://students.aip.org/congress"
+        },
+        {
+          "url": "https://students.aip.org/congress/agenda/workshops"
+        },
+        {
+          "url": "https://sites.google.com/view/udbhav-ram/research"
+        },
+        {
+          "url": "https://news.mcmaster.ca/udbhav-rams-co-op-supervisors-flew-in-from-alabama-to-give-him-an-award/"
+        }
+      ],
+      "artifactTitle": "Dosimetric Evaluation of Ethos 2.0 High-Fidelity Mode for Single-Isocenter SRS",
+      "titleVariants": [
+        "Dosimetric Evaluation of Ethos 2.0 High-Fidelity Mode for Single-Isocenter SRS",
+        "Evaluation of Ethos 2.0 High-Fidelity Mode for Multi-Met, single-isocenter stereotactic radiotherapy: A semi-automated comparative analysis",
+        "Evaluating second generation ETHOS automated treatment planning software on stereotactic radiosurgery cases"
+      ]
+    },
+    {
+      "id": "aapm-2025-20068",
+      "title": "Dosimetric Comparison of 6X and 10X Flattening Filter-Free Photon Beams on a Truebeam Linac Using the Eclipse TPS",
+      "date": "2025-07-27/2025-07-30",
+      "datePrecision": "Meeting date range; digital poster, no physical session",
+      "event": "AAPM 67th Annual Meeting & Exhibition",
+      "location": "Online, within AAPM 2025 (Washington, DC meeting)",
+      "type": "digital-only poster",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Presented",
+      "programCode": "PO-GPV-T-244",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20068"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Dosimetric Comparison of 6X and 10X Flattening Filter-Free Photon Beams on a TrueBeam Linac Using the Eclipse TPS"
+      ]
+    },
+    {
+      "id": "aapm-2025-20105",
+      "title": "Improving TG-263 Target Name Compliance Using Locally-Hosted Large Language Models",
+      "date": "2025-07-27",
+      "datePrecision": "exact program viewing/discussion date",
+      "event": "AAPM 67th Annual Meeting & Exhibition",
+      "location": "Washington, DC, USA",
+      "type": "Blue Ribbon Poster",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Presented",
+      "programCode": "SU-330-BRP-12",
+      "awards": [
+        "Blue Ribbon Poster, AAPM 2025"
+      ],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20105/AAPM2025_BRP_LLM.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Improving TG-263 target name compliance using locally-hosted Large Language Models"
+      ]
+    },
+    {
+      "id": "rss-2025-ethos",
+      "title": "Evaluation of High-Fidelity Mode for Semi-Automated Multi-Met, Single-Isocenter Stereotactic Radiosurgery Planning Using the Ethos 2.0 Planning System",
+      "date": "2025-03-20",
+      "datePrecision": null,
+      "event": "2025 Radiosurgery Society Scientific Meeting",
+      "location": "Tucson, Arizona, United States",
+      "type": "Poster presentation",
+      "role": "First author; coauthored presentation",
+      "presenter": "Carlos E. Cardenas, PhD",
+      "status": "Conference program record",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://rss2025.eventscribe.net/fsPopup.asp?PosterID=723274&mode=posterInfo"
+        },
+        {
+          "url": "https://therss.org/events/2025-rss-scientific-meeting"
+        },
+        {
+          "url": "https://therss.org/education/documents/download/3693"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "mcmaster-thesis-2025-beam-comparison",
+      "title": "Dosimetric Comparison of 6MV and 10MV Flattening Filter-Free Photon Beams",
+      "date": "2025",
+      "datePrecision": "Year confirmed; exact delivery day unknown",
+      "event": "Undergraduate thesis talk",
+      "location": "McMaster University / Juravinski Cancer Centre; exact venue unspecified",
+      "type": "Thesis research talk",
+      "role": "Presenter",
+      "presenter": "Udbhav Ram",
+      "status": "Recorded thesis presentation",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://youtu.be/jlnFADrlgfM"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Dosimetric Comparison of 6MV and 10MV Flattening Filter-Free Photon Beams",
+        "Dosimetric Comparison of 6X/10X flattening filter free beams at the Juravinski Cancer Centre"
+      ]
+    },
+    {
+      "id": "mcmaster-uab-2024-12-13-partnership",
+      "title": "McMaster UAB Partnership Summary",
+      "date": "2024-12-13",
+      "datePrecision": null,
+      "event": "McMaster/UAB student exchange planning meeting",
+      "location": "Location and attendance format unconfirmed",
+      "type": "Institutional/ambassador presentation",
+      "role": "Presenter and student exchange advocate",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [],
+      "sources": [],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "aapm-2024-12166",
+      "title": "Evaluation of Ethos 2.0 High-Fidelity Mode for Multi-Met, Single-Isocenter Stereotactic Radiotherapy: A Semi-Automated Comparative Analysis",
+      "date": "2024-07-23",
+      "datePrecision": "exact program viewing/discussion date",
+      "event": "AAPM 66th Annual Meeting & Exhibition",
+      "location": "Los Angeles, California, USA",
+      "type": "poster discussion",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Presented",
+      "programCode": "TU300-GPD(B)-LOUNGE-149",
+      "awards": [
+        "Outstanding Poster Presentation, 2024 Society of Physics Students–AAPM undergraduate research competition"
+      ],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/12166"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2024am/mediafile/Handout/Paper12166/printing_pdf_AAPM2024_SRS.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Evaluating second generation ETHOS automated treatment planning software on stereotactic radiosurgery cases"
+      ]
+    },
+    {
+      "id": "aapm-2024-10372",
+      "title": "Head-to-Head Comparison of State-of-the-Art Automl Segmentation Frameworks Using Publicly Available Data",
+      "date": "2024-07-23",
+      "datePrecision": "exact program viewing/discussion date",
+      "event": "AAPM 66th Annual Meeting & Exhibition",
+      "location": "Los Angeles, California, USA",
+      "type": "poster discussion",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Presented",
+      "programCode": "TU300-GPD(B)-LOUNGE-559",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/10372"
+        },
+        {
+          "url": "https://aapm.confex.com/aapm/2024am/mediafile/Handout/Paper10372/printing_pdf_AAPM2024_AMOS.pdf"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Head-to-Head Comparison of State-of-the-Art AutoML Segmentation Frameworks Using Publicly Available Data",
+        "Head-to-head comparison of state-of-the-art AutoML segmentation frameworks using publicly available data"
+      ]
+    },
+    {
+      "id": "comp-2024-workshop-tg263",
+      "title": "Improving TG-263 target name compliance using locally-hosted large language models",
+      "date": "2024-06-05",
+      "datePrecision": null,
+      "event": "COMP Annual Scientific Meeting",
+      "location": "Regina, Saskatchewan, Canada",
+      "type": "Rapid oral presentation",
+      "role": "Accepted rapid-presentation participant and presenter",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": {},
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://sites.google.com/view/udbhav-ram/research"
+        },
+        {
+          "url": "https://comp-ocpm.ca/asm-site/program_1/scripting-workshop"
+        },
+        {
+          "url": "https://docs.google.com/spreadsheets/d/1ltuRa68gbckTNFuvfUTRhRShSWfslVpXj8wDclbOXAw/edit"
+        },
+        {
+          "url": "https://comp-ocpm.ca/past-and-future-asm"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "comp-2024-s3-ethos",
+      "title": "Evaluation of Ethos 2.0 High-Fidelity Mode for Multi-Met, single-isocenter stereotactic radiotherapy: A semi-automated comparative analysis",
+      "date": "2024-06-05",
+      "datePrecision": null,
+      "event": "70th COMP Annual Scientific Meeting",
+      "location": "Regina, Saskatchewan, Canada",
+      "type": "Oral presentation in Science Spoken Succinctly (S3) research communication competition",
+      "role": "S3 competition presenter",
+      "presenter": "Udbhav Ram",
+      "status": "Conference program record",
+      "programCode": {
+        "session": "87"
+      },
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://comp-ocpm.ca/asm-site/program_1/2024-asm-at-a-glance/?session=87"
+        },
+        {
+          "url": "https://comp-ocpm.ca/asm-site/program_1/2024-asm-at-a-glance"
+        },
+        {
+          "url": "https://comp-ocpm.ca/asm-site/"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "uab-mcmaster-mou-remarks",
+      "title": "Student remarks at the UAB–McMaster partnership signing",
+      "date": "2024 (approximate)",
+      "datePrecision": "Year inferred from institutional retrospective; exact date unresolved",
+      "event": "Inaugural UAB–McMaster memorandum of understanding signing meeting",
+      "location": "Birmingham, Alabama, United States",
+      "type": "Invited institutional student remarks / impromptu speech",
+      "role": "Student representative and speaker",
+      "presenter": "Udbhav Ram",
+      "status": "Retrospective institutional account",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://science.mcmaster.ca/convocation-countdown-with-udbhav-ram/"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "cupc-2023-dose-delivery",
+      "title": "Optimizing dose delivery during fractionated radiotherapy",
+      "date": "2023-10-28",
+      "datePrecision": null,
+      "event": "Canadian Undergraduate Physics Conference 2023",
+      "location": "Waterloo, Ontario, Canada",
+      "type": "Contributed undergraduate oral presentation; first-place oral award",
+      "role": "Named presenter and first-place oral award recipient",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [
+        "First place, oral presentations, CUPC 2023"
+      ],
+      "sources": [
+        {
+          "url": "https://cupc.cap.ca/about-2/previous-cupc-conferences/cupc-2023/speakers-events/student-presentations/student-oral-presentations/"
+        },
+        {
+          "url": "https://docs.google.com/spreadsheets/d/19yH4StLn4sKUGKXr4vGiHRG_RyHzA0jHYAZBlquHYcM/edit?usp=sharing"
+        },
+        {
+          "url": "https://cupc.cap.ca/about-2/previous-cupc-conferences/cupc-2023/speakers-events/student-presentations/"
+        },
+        {
+          "url": "https://uwaterloo.ca/physics-astronomy/news/our-department-hosts-cupc-first-time-1989"
+        },
+        {
+          "url": "https://cupc.cap.ca/about/cupc/previous-cupc-conferences/cupc-2023/about/"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=7JgRKwVRkEo&t=34s&ab_channel=UdbhavRam"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "aapm-2023-5933",
+      "title": "Assessing Efficacy of Deep Learning-Based Auto-Contouring for Abdominal Normal Tissues",
+      "date": "2023-07-23/2023-07-26",
+      "datePrecision": "Viewing period for one ePoster",
+      "event": "AAPM 65th Annual Meeting & Exhibition",
+      "location": "Houston, Texas, USA",
+      "type": "ePoster viewing",
+      "role": "presenting author",
+      "presenter": "Udbhav S. Ram",
+      "status": "Presented",
+      "programCode": "PO-GePV-D-39",
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://aapm.confex.com/aapm/2023am/meetingapp.cgi/Paper/5933"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Assessing efficacy of deep learning-based auto-contouring for abdominal normal tissues",
+        "Assessing Efficacy of Multiple, State Of The Art, Deep Learning Models in Abdominal Organ Auto-Segmentation"
+      ]
+    },
+    {
+      "id": "phunc-2023-abdominal-segmentation",
+      "title": "Using Deep Learning models to auto-contour abdominal organs in CT scans",
+      "date": "2023-03-23",
+      "datePrecision": null,
+      "event": "Physics Undergraduate Conference (PhUnC)",
+      "location": "Western University, London, Ontario",
+      "type": "Oral presentation",
+      "role": "Presenter",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [
+        "Second place overall talk, PhUnC 2023 (speaker-reported)"
+      ],
+      "sources": [
+        {
+          "url": "https://sites.google.com/view/udbhav-ram/research"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=8IKr1QauMGc"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Abdominal organs auto-segmentation to reduce patient-wait times in radiation oncology treatment starts",
+        "Using Deep Learning models to auto-contour abdominal organs in CT scans",
+        "Abdominal Multi-Organ Segmentation using Deep learning to enable enhanced workflows for LMIC"
+      ]
+    },
+    {
+      "id": "cupc-2022-abdominal-segmentation",
+      "title": "Abdominal Organs Auto-Segmentation to Reduce Patient-Wait Times in Radiation Oncology Treatment Starts",
+      "date": "2022-10-29",
+      "datePrecision": null,
+      "event": "Canadian Undergraduate Physics Conference (CUPC 2022)",
+      "location": "Delta Hotels Guelph Conference Centre, Group Dining Room, Guelph, Ontario",
+      "type": "Oral presentation, Biomedical Physics session",
+      "role": "Presenting first author",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [
+        "Third place in Biomedical Physics oral presentation judging, CUPC 2022"
+      ],
+      "sources": [
+        {
+          "url": "https://cupc.cap.ca/about/cupc/previous-cupc-conferences/cupc-2022/cupc-2022-delegate-information/oral-presentations-of-undergraduate-research/oral-presentations-saturday-october-29-0900-1100/"
+        },
+        {
+          "url": "https://cupc.cap.ca/wp-content/uploads/2022/10/Final-Presentation-Abstracts-CUPC-2022-1.pdf#page=24"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=iubpGRBjZN0&feature=youtu.be"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Abdominal organs auto-segmentation to reduce patient-wait times in radiation oncology treatments",
+        "Abdominal organs auto-segmentation to reduce patient-wait times in radiation oncology treatment starts"
+      ]
+    },
+    {
+      "id": "cumpc-2022-abdominal-segmentation",
+      "title": "Abdominal Multi-Organ Segmentation using Deep learning to enable enhanced workflows for LMIC",
+      "date": "2022-08-25",
+      "datePrecision": null,
+      "event": "Canadian Undergraduate Medical Physics Conference",
+      "location": "Virtual",
+      "type": "Oral presentation",
+      "role": "Presenter",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://www.cumpc.ca/static/files/CUMPC_Program.pdf"
+        },
+        {
+          "url": "https://onlineacademiccommunity.uvic.ca/undergradphast/2022/07/21/canadian-undergraduate-medical-physics-conference/"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=A7_TRUWW6EI"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Abdominal Multi Organ Segmentation using Deep learning",
+        "Abdominal Multi Organ Segmentation using Deep learning"
+      ]
+    },
+    {
+      "id": "cap-2022-kidney-ar",
+      "title": "An augmented-reality setup to improve accuracy in surgical chronic kidney mice model",
+      "date": "2022-06-07",
+      "datePrecision": null,
+      "event": "2022 CAP Congress",
+      "location": "McMaster University, MDCL 1110, Hamilton, Ontario",
+      "type": "Oral undergraduate competition presentation",
+      "role": "Presenting author",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://indico.global/event/438/contributions/8666/"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=I0ESYlp85Rk"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "An augmented-reality setup to improve accuracy in surgical chronic kidney disease models",
+        "An Augmented Reality setup to improve accuracy in the 5/6 nephrectomy surgical model"
+      ]
+    },
+    {
+      "id": "hckr-2022-nephrectomy-invited",
+      "title": "Using Artificial Intelligence and Computer vision to empower better clinical outcomes in the ⅚ nephrectomy surgical model",
+      "date": "2022-03",
+      "datePrecision": null,
+      "event": "Hamilton Centre for Kidney Research",
+      "location": "Hamilton Centre for Kidney Research",
+      "type": "Invited research talk",
+      "role": "Invited speaker",
+      "presenter": "Udbhav Ram",
+      "status": "Listed in authored CV",
+      "programCode": null,
+      "awards": [],
+      "sources": [],
+      "artifactTitle": null,
+      "titleVariants": []
+    },
+    {
+      "id": "cap-2021-gel-electrophoresis",
+      "title": "The quantitative analysis of gel electrophoresis data using a cloud-based smartphone application",
+      "date": "2021-06-09",
+      "datePrecision": null,
+      "event": "2021 CAP Virtual Congress",
+      "location": "Virtual (Underline Conference System)",
+      "type": "Oral undergraduate competition presentation",
+      "role": "Presenting author",
+      "presenter": "Udbhav Ram",
+      "status": "Presented",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://indico.global/event/437/contributions/8285/"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=xW7umxU6NSM"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [
+        "Quantitative analysis of gel electrophoresis images",
+        "Quantitative analysis of Gel electrophoresis images using cloud based, machine learning analysis"
+      ]
+    },
+    {
+      "id": "mcmaster-scec-outreach-through-march-2026",
+      "recordType": "outreach_aggregate",
+      "title": "McMaster SCEC co-op experience presentations",
+      "completedTalkCount": 4,
+      "date": "By March 2026",
+      "datePrecision": "Completion cutoff, not one event date",
+      "event": "McMaster Science Careers and Experience Centre",
+      "location": "McMaster University",
+      "type": "Co-op experience and student outreach talks",
+      "role": "Speaker and peer mentor",
+      "presenter": "Udbhav Ram",
+      "status": "Four completed talks reported by the speaker",
+      "programCode": null,
+      "awards": [],
+      "sources": [
+        {
+          "url": "https://careers.science.mcmaster.ca/a-moment-worth-flying-for-udbhav-rams-extraordinary-co-op-experience/"
+        }
+      ],
+      "artifactTitle": null,
+      "titleVariants": [],
+      "countingNote": "Four completed outreach talks are reported as one aggregate. Individual dates and titles are not fully resolved."
+    }
+  ],
+  "recordCount": 27,
+  "countingNote": "26 discrete event/remarks records, including one scheduled AIIMS talk with delivery unverified, plus one aggregate outreach record covering four SCEC talks. Do not describe this as 27 delivered presentations."
+}

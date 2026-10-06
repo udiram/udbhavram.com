@@ -3,7 +3,7 @@ import path from 'node:path'
 import { classifyFetchError, classifyHttpResult } from './audit-url-result.mjs'
 
 const root = process.cwd()
-const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/portfolioContent.ts'), path.join(root, 'src/siteContent.ts'), path.join(root, 'src/expandedContent.ts'), path.join(root, 'src/DetailPages.tsx'), path.join(root, 'src/personalPhotos.json'), path.join(root, 'src/bibliography.json')]
+const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/portfolioContent.ts'), path.join(root, 'src/siteContent.ts'), path.join(root, 'src/expandedContent.ts'), path.join(root, 'src/DetailPages.tsx'), path.join(root, 'src/personalPhotos.json'), path.join(root, 'src/bibliography.json'), path.join(root, 'src/presentations.json')]
 const contentSource = (await Promise.all(contentPaths.map((filePath) => fs.readFile(filePath, 'utf8')))).join('\n')
 
 const localAssets = [

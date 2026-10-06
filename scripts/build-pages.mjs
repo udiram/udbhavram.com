@@ -45,7 +45,7 @@ function pageFor(route, meta) {
     )
 }
 const renderer = await createServer({
-  server: { middlewareMode: true },
+  server: { middlewareMode: true, hmr: false },
   appType: 'custom',
 })
 try {

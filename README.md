@@ -17,6 +17,7 @@ npm run lint
 npm run test:audit
 npm run test:server
 npm run test:pages
+npm run test:presentations
 npm run start
 ```
 
@@ -24,7 +25,7 @@ npm run start
 
 ## Pages and content
 
-The site contains 21 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, a searchable collection, seven research case studies, and seven collection chapters preserving 108 historical entries.
+The site contains 21 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, a searchable collection, seven research case studies, and seven collection chapters with 96 historical non-presentation records and 27 reconciled presentation/outreach records.
 
 - `src/routeMeta.json`: route titles and descriptions
 - `src/expandedContent.ts`: research stories and career timeline
@@ -41,3 +42,9 @@ The site contains 21 prerendered routes: the homepage, biography and public CV, 
 The existing Railway service `udbhavram-com` tracks `main` in `udiram/udbhavram.com`. Authorized pushes to that branch trigger its deployment. Railway uses the existing `railway.toml` build command, starts `npm run start`, and checks `/` for health. Verify the deployed commit and direct routes after release.
 
 The current domains, provider, analytics, and DNS configuration are retained. No new project or DNS changes are needed for normal updates.
+
+## Presentation inventory
+
+`src/presentations.json` is the canonical event inventory. It feeds the homepage selection, publications page, research collection, search, and public CV. The 27 records comprise 26 discrete event/remarks records (including one scheduled seminar with delivery unverified) and one SCEC outreach aggregate. They must not be described as 27 delivered talks or an exhaustive lifetime record. Presenter, coauthor, digital-only, approximate-date and source-status distinctions must remain visible. Awards belong to their event, and repeated studies at different conferences retain separate IDs.
+
+CV authoring files are maintained outside the public checkout. After regenerating the public PDF from the inventory and bibliography, update `public/downloads/public-cv-manifest.json`. The regression check verifies source hashes, PDF hash, and each event permalink to catch stale or incomplete CV updates. Download URLs include the PDF content hash to avoid stale browser caches.

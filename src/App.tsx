@@ -1,3 +1,4 @@
+import { homePresentations } from './presentationData'
 import {
   ArrowUpRight,
   ArrowDown,
@@ -12,7 +13,6 @@ import {
   imageAssets,
   selectedWork,
   publications,
-  talkTimeline,
   currentBuilds,
   socialItems,
   type ImageAsset,
@@ -415,7 +415,7 @@ function Research() {
           tabIndex={-1}
         >
           <summary>
-            <span>Publications & talks</span>
+            <span>Journal articles</span>
             <Plus />
           </summary>
           <div className="disclosure-body">
@@ -435,23 +435,24 @@ function Research() {
                 </article>
               ))}
             </div>
-            <div id="talks" tabIndex={-1}>
+
+          </div>
+        </details>
+        <section className="home-presentations">            <div id="talks" tabIndex={-1}>
               <h3>Talks & posters</h3>
-              {talkTimeline.map((item) => (
-                <article className="publication" key={item.detail}>
+              {homePresentations.map((item) => (
+                <article className="publication" key={item.id}>
                   <span className="meta">{item.date}</span>
-                  <h4>{item.event}</h4>
-                  <p>{item.detail}</p>
-                  {item.href && (
-                    <ExternalLink href={item.href} className="text-link">
+                  <h4>{item.title}</h4>
+                  <p>{item.venue} · {item.format}</p><p>{item.role} · Presenter: {item.presenter}</p><p className="small-note">{item.status}</p>
+                  {(
+                    <ExternalLink href={`/publications#${item.id}`} className="text-link">
                       View presentation record <ArrowUpRight />
                     </ExternalLink>
                   )}
                 </article>
               ))}
-            </div>
-          </div>
-        </details>
+            </div><a className="text-link" href="/publications#presentations">Explore the reconciled presentation record</a></section>
         <div className="research-full-link"><a className="button" href="/research">Explore all research</a><a className="text-link" href="/publications">Full publications & presentations</a></div>
         <div className="workbench" id="projects">
           <div className="section-heading">

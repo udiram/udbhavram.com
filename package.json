@@ -15,7 +15,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server.mjs",
-    "test:pages": "node scripts/test-pages.mjs"
+    "test:pages": "node scripts/test-pages.mjs",
+    "test:presentations": "node scripts/test-presentations.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

@@ -28,10 +28,18 @@ Active repositories are presented as research or engineering work with explicit 
 
 ## Historical record
 
-The earlier Google Site remains the source for the 108-entry historical record preserved in the searchable collection. Time-bound goals, former affiliations, earlier self-descriptions, credentials, and mentor or employer recognition stay labelled so they cannot be mistaken for current facts or personal awards.
+The earlier Google Site remains the source for the historical record preserved in the searchable collection. Time-bound goals, former affiliations, earlier self-descriptions, credentials, and mentor or employer recognition stay labelled so they cannot be mistaken for current facts or personal awards.
 
 ## Expanded editorial edition
 
 The October 2026 expanded edition adds seven source-linked research case studies, full citations in `src/bibliography.json`, eight authentic personal photographs indexed in `src/personalPhotos.json`, and a public-facing CV in `public/downloads/`. Research summaries distinguish published articles, conference presentations, findings, and limitations. The public CV excludes private contact details.
 
 Production integration uses the verified expanded source revision `eb84d30d3c420e0a3fd10c75c554275340fddae9`, with production-specific routing, indexing, and server regression checks.
+
+## Presentation reconciliation — October 6, 2026
+
+`src/presentations.json` holds 26 discrete event/remarks records and one aggregate outreach account, with stable IDs and source URLs. It supersedes separate selected and historical talk arrays. Nine AAPM contributions and two ASTRO contributions are distinguished from institutional, thesis, and outreach work. Coauthored work names the listed presenter. Meeting date ranges for digital posters are not individual physical sessions.
+
+The AIIMS research seminar remains scheduled, with delivery not independently verified. The SCEC aggregate records four completed talks reported by the speaker without inventing their individual titles or dates. The HCKR invitation, recorded thesis talk, and approximate-year partnership remarks retain their evidence/date qualifications. Unresolved candidate talks are excluded pending confirmation.
+
+The public CV uses the same 27 record IDs and all four verified journal articles. Two secondary CAP program PDF links returning404 were omitted while retaining each event and its other program or recording links. Official source hosts may restrict automated access; these restrictions do not establish that an event is absent.

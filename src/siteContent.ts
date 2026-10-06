@@ -24,7 +24,6 @@ type PublicationItem = {
   note: string
   href: string
 }
-type TalkItem = { date: string; event: string; detail: string; href?: string }
 type CurrentBuild = {
   name: string
   type: string
@@ -223,43 +222,6 @@ export const publications: PublicationItem[] = [
     venue: 'Molecular Nutrition & Food Research',
     note: 'Earlier biophysics publication from McMaster work.',
     href: 'https://pubmed.ncbi.nlm.nih.gov/32981185/',
-  },
-]
-
-export const talkTimeline: TalkItem[] = [
-  {
-    date: 'September 29, 2026',
-    event: 'ASTRO 2026, Boston',
-    detail:
-      'Poster presented on contouring uncertainty in CBCT-guided online adaptive partial-breast irradiation.',
-    href: 'https://amportal.astro.org/udbhav-ram-bs-135368427',
-  },
-  {
-    date: 'July 2025',
-    event: 'AAPM Annual Meeting',
-    detail: 'Blue Ribbon poster for the TG-263 locally hosted LLM work.',
-    href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
-  },
-  {
-    date: 'July 2025',
-    event: 'AAPM Annual Meeting',
-    detail:
-      'First-author poster comparing 6X-FFF and 10X-FFF for lung SBRT across dosimetry and delivery efficiency.',
-    href: 'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf',
-  },
-  {
-    date: '2024',
-    event: 'AAPM / SPS undergraduate research competition',
-    detail:
-      'Best poster presentation for the Ethos 2.0 high-fidelity SRS work.',
-    href: 'https://www.aapm.org/pubs/newsletter/archive/5001.pdf',
-  },
-  {
-    date: 'October 2023',
-    event: 'Canadian Undergraduate Physics Conference',
-    detail:
-      'First-place oral presentation for work on optimizing dose delivery during fractionated radiotherapy.',
-    href: 'https://uwaterloo.ca/physics-astronomy/news/our-department-hosts-cupc-first-time-1989',
   },
 ]
 

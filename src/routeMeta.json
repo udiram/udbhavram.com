@@ -13,7 +13,7 @@
   },
   "/publications": {
     "title": "Publications & Presentations | Udbhav Ram",
-    "description": "Journal articles with full citations, research posters, and conference presentations, updated through ASTRO 2026."
+    "description": "Journal articles and a reconciled record of conference contributions, invited talks, institutional remarks, and outreach, with presenter roles and source links."
   },
   "/software": {
     "title": "Software & Engineering | Udbhav Ram",
@@ -25,7 +25,7 @@
   },
   "/collection": {
     "title": "The Collection | Udbhav Ram",
-    "description": "Search 108 entries spanning research, engineering, motorsport, activities, recognition, and media from the earlier portfolio."
+    "description": "Search research, presentations, engineering, motorsport, activities, recognition, and media from Udbhav Ram’s portfolio."
   },
   "/research/adaptive-breast-radiotherapy": {
     "title": "Contouring Uncertainty at ASTRO 2026 | Udbhav Ram",
@@ -60,8 +60,8 @@
     "description": "Profile & Foundations from Udbhav Ram’s historical portfolio, with original context and source links."
   },
   "/collection/research-record": {
-    "title": "Complete Research Record | Udbhav Ram",
-    "description": "Complete Research Record from Udbhav Ram’s historical portfolio, with original context and source links."
+    "title": "Research Record | Udbhav Ram",
+    "description": "Research projects, affiliations, and source-linked presentations from Udbhav Ram’s portfolio."
   },
   "/collection/engineering-projects": {
     "title": "Engineering & Projects | Udbhav Ram",

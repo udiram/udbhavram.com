@@ -1,3 +1,4 @@
+import cvManifest from '../public/downloads/public-cv-manifest.json'
 import { imageAssets, type ImageAsset } from './siteContent'
 
 export type Study = {
@@ -7,7 +8,7 @@ export type Study = {
   sections: { heading: string; paragraphs: string[] }[];
   sources: { label: string; href: string }[];
 }
-export const cvPath = '/downloads/Udbhav_Ram_Public_CV_October_2026.pdf'
+export const cvPath = `/downloads/Udbhav_Ram_Public_CV_October_2026.pdf?v=${cvManifest.pdfSha256.slice(0, 12)}`
 export const studies: Study[] = [
   {
     slug: 'adaptive-breast-radiotherapy', title: 'The human side of adaptive radiotherapy.',

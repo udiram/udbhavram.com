@@ -1,5 +1,9 @@
+import { presentations } from './presentationData'
+
 export type RecordItem = {
   title: string
+  id?: string
+  presentationId?: string
   detail?: string
   meta?: string
   href?: string
@@ -80,7 +84,7 @@ export const portfolioCollections: PortfolioCollection[] = [
   },
   {
     id: 'research-record',
-    title: 'Complete research record',
+    title: 'Research record',
     summary: 'Affiliations, projects, presentations, and open-source contributions across clinical medical physics, imaging, computational work, and earlier biophysics.',
     source: `${googleSiteRoot}research`,
     groups: [
@@ -150,60 +154,7 @@ export const portfolioCollections: PortfolioCollection[] = [
       },
       {
         title: 'Presentations and posters',
-        items: [
-          {
-            title: 'Quantitative gel-electrophoresis analysis',
-            meta: 'Canadian Association of Physicists - virtual, 2021',
-            href: 'https://www.youtube.com/watch?v=xW7umxU6NSM',
-          },
-          {
-            title: 'Augmented reality for the 5/6 nephrectomy surgical model',
-            meta: 'Canadian Association of Physicists - Hamilton, 2022',
-            href: 'https://www.youtube.com/watch?v=I0ESYlp85Rk',
-          },
-          {
-            title: 'Abdominal multi-organ segmentation for lower-resource workflows',
-            meta: 'Canadian Undergraduate Medical Physics Conference - Guelph, 2022',
-            href: 'https://www.youtube.com/watch?v=A7_TRUWW6EI',
-          },
-          {
-            title: 'Abdominal multi-organ segmentation for lower-resource workflows',
-            meta: 'Physics Undergraduate Conference - London, 2023',
-            href: 'https://www.youtube.com/watch?v=8IKr1QauMGc',
-          },
-          {
-            title: 'Deep-learning auto-contouring for abdominal normal tissues',
-            meta: 'AAPM - Houston, 2023 interactive e-poster',
-            note: 'The original AAPM virtual-poster URL no longer resolves.',
-          },
-          {
-            title: 'Optimizing dose delivery during fractionated radiotherapy',
-            meta: 'Canadian Undergraduate Physics Conference - Waterloo, 2023; overall best talk',
-            href: 'https://www.youtube.com/watch?v=7JgRKwVRkEo',
-          },
-          { title: 'Ethos 2.0 high-fidelity multi-met SRS', meta: 'COMP Annual Scientific Meeting - Regina, 2024; oral contributor' },
-          { title: 'Locally hosted LLMs for TG-263 compliance', meta: 'COMP Annual Scientific Meeting - Regina, 2024; invited speaker' },
-          {
-            title: 'Ethos 2.0 high-fidelity multi-met SRS',
-            meta: 'AAPM - Los Angeles, 2024 poster',
-            href: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/12166',
-          },
-          {
-            title: 'Head-to-head AutoML segmentation comparison',
-            meta: 'AAPM - Los Angeles, 2024 poster',
-            href: 'https://aapm.confex.com/aapm/2024am/meetingapp.cgi/Paper/10372',
-          },
-          {
-            title: 'Locally hosted LLMs for TG-263 compliance',
-            meta: 'AAPM - Washington, DC, 2025; Blue Ribbon poster',
-            href: 'https://aapm.confex.com/aapm/2025am/meetingapp.cgi/Paper/20105',
-          },
-          {
-            title: 'Ethos 2.0 high-fidelity multi-met SRS',
-            meta: 'Society of Physics Students - Denver, 2025 invited poster',
-            note: 'The original conference-poster URL no longer resolves.',
-          },
-        ],
+        items: presentations.map(p => ({ id:p.id, presentationId:p.id, title:p.title, meta:`${p.date} · ${p.venue} · ${p.format}`, detail:`${p.role} · Presenter: ${p.presenter}. ${p.status}`, note:[p.award,p.note,...p.variants].filter(Boolean).join(' · '), href:`/publications#${p.id}` })),
       },
       {
         title: 'Open-source contributions named there',
