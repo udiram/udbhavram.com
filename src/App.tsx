@@ -20,6 +20,7 @@ import {
 } from './siteContent'
 import { portfolioItemCount } from './portfolioContent'
 import DetailPages, { LatestWork, ExploreMore, PageFooter } from './DetailPages'
+import FirstVisitGuide from './FirstVisitGuide'
 import routeMeta from './routeMeta.json'
 import './App.css'
 import './Details.css'
@@ -410,7 +411,7 @@ function Research() {
         </details>
         <section className="home-presentations">            <div id="talks" tabIndex={-1}>
               <h3>Talks & posters</h3>
-              {homePresentations.map((item) => (
+              {homePresentations.slice(0, 2).map((item) => (
                 <article className="publication" key={item.id}>
                   <span className="meta">{item.date}</span>
                   <h4>{item.title}</h4>
@@ -630,7 +631,7 @@ export default function App() {
         tabIndex={-1}
         data-portfolio-items={portfolioItemCount}
       >
-        {isHome ? <><Hero /><LatestWork /><About /><Research /><Life /><ExploreMore /><Contact /></> : <><DetailPages path={path} /><PageFooter /></>}
+        {isHome ? <><Hero /><LatestWork /><FirstVisitGuide /><About /><Research /><Life /><ExploreMore /><Contact /></> : <><DetailPages path={path} /><PageFooter /></>}
       </main>
     </>
   )

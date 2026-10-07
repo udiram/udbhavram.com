@@ -17,6 +17,25 @@ try {
   for (const width of [1440, 820, 390]) {
     const context = await browser.newContext({ viewport: { width, height: 1000 } })
     const page = await context.newPage()
+    await page.addInitScript(() => {
+      class FakePlayer {
+        constructor(element, options) {
+          this.time = 0; this.state = 5; this.options = options
+          const frame = document.createElement('iframe'); frame.title = 'Mock YouTube player'; element.append(frame)
+          window.__ytFake = {
+            play: () => { this.state = 1; this.options.events.onStateChange({data:1,target:this}) },
+            pause: () => { this.state = 2; this.options.events.onStateChange({data:2,target:this}) },
+            advance: value => { if(this.state===1) this.time += value },
+            time: () => this.time,
+          }
+          setTimeout(() => options.events.onReady({target:this}), 300)
+        }
+        destroy() { this.destroyed = true }
+        getCurrentTime() { return this.time }
+        seekTo(value) { this.time = value; this.state = 2; this.options.events.onStateChange({data:2,target:this}) }
+      }
+      window.YT = {Player: FakePlayer}
+    })
     page.on('pageerror', e => errors.push(e.message))
     const thirdParty = []
     page.on('request', request => { if (/youtube|ytimg|googlevideo/.test(request.url())) thirdParty.push(request.url()) })
@@ -26,6 +45,10 @@ try {
     assert.equal(await page.locator('[data-media-video]').count(), 15)
     assert.equal(await page.locator('iframe').count(), 0)
     assert.deepEqual(thirdParty, [], 'No YouTube/thumbnail requests before consent')
+    assert.equal(await page.locator('.video-load img[src^="/assets/media/video-thumbnails/"]').count(), 15)
+    assert.equal(await page.locator('#lap-companion').count(), 1)
+    assert.match(await page.locator('#lap-companion').innerText(), /Static redraw/)
+    assert.match(await page.locator('#lap-companion').innerText(), /No GPS, speed, throttle, brake, or lap-time telemetry is claimed/)
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `No overflow at ${width}`)
     const nav = page.locator('nav[aria-label="Main navigation"]')
     if(width===390){
@@ -60,6 +83,26 @@ try {
     await page.getByRole('button', {name:'Close video',exact:true}).click()
     assert.equal(await page.locator('iframe').count(), 0)
     await page.getByLabel('Find a video').fill('')
+    // The annotated lap view has its own explicit consent boundary and seek controls.
+    await page.locator('.lap-timeline button').nth(1).click()
+    assert.match(await page.locator('.lap-now').innerText(), /Observed at 0:00/i)
+    assert.match(await page.locator('.lap-now').innerText(), /2:32 is queued/)
+    assert.equal(await page.locator('#lap-companion iframe').count(), 1)
+    await page.waitForTimeout(650)
+    assert.match(await page.locator('.lap-now').innerText(), /Observed at 2:32 · paused/i)
+    assert.match(await page.locator('.lap-now').innerText(), /Leaving the garage/)
+    await page.evaluate(() => window.__ytFake.play())
+    await page.evaluate(() => window.__ytFake.advance(63))
+    await page.waitForTimeout(350)
+    assert.match(await page.locator('.lap-now').innerText(), /Observed at 3:35 · playing/i)
+    assert.match(await page.locator('.lap-now').innerText(), /Open track/)
+    await page.evaluate(() => window.__ytFake.pause())
+    const pausedTime = await page.evaluate(() => window.__ytFake.time())
+    await page.waitForTimeout(400)
+    assert.equal(await page.evaluate(() => window.__ytFake.time()), pausedTime)
+    assert.match(await page.locator('.lap-now').innerText(), /paused/i)
+    await page.locator('#lap-companion').getByRole('button', {name:'Close video'}).click()
+    assert.equal(await page.locator('#lap-companion iframe').count(), 0)
     if (process.env.EVIDENCE_DIR) {
       await fs.mkdir(process.env.EVIDENCE_DIR, {recursive:true})
       await page.evaluate(() => scrollTo(0,0))
@@ -81,6 +124,32 @@ try {
     }
     console.log(`PASS ${width}px: 9 editions, 15 videos, filters/search/reset, consent/no prefetch, close/fallback, legacy route, deep links, reciprocal links, overflow, screenshots.`)
     await context.close()
+  }
+  // A stalled API script must time out, clear its cached promise, and succeed on retry.
+  {
+    const context = await browser.newContext({ viewport: { width: 900, height: 900 } })
+    const page = await context.newPage()
+    await page.addInitScript(() => { window.__YT_API_TIMEOUT_MS = 75 })
+    let attempts = 0
+    await page.route('https://www.youtube.com/iframe_api', async route => {
+      attempts += 1
+      if (attempts === 1) return route.fulfill({ contentType: 'application/javascript', body: '/* callback intentionally omitted */' })
+      return route.fulfill({ contentType: 'application/javascript', body: `
+        window.YT={Player:class{constructor(element,options){this.time=0;this.options=options;const frame=document.createElement('iframe');frame.title='Recovered YouTube player';element.append(frame);setTimeout(()=>options.events.onReady({target:this}),0)}destroy(){}getCurrentTime(){return this.time}seekTo(value){this.time=value;this.options.events.onStateChange({data:2,target:this})}}};
+        window.onYouTubeIframeAPIReady();
+      ` })
+    })
+    await page.goto(`${base}/media#lap-companion`)
+    await page.locator('.lap-timeline button').nth(1).click()
+    await page.getByRole('button', { name: 'Try loading again' }).waitFor()
+    assert.match(await page.locator('.lap-error').innerText(), /could not load/i)
+    assert.equal(await page.locator('script[data-lap-companion-api]').count(), 0, 'Failed API script is removed')
+    await page.getByRole('button', { name: 'Try loading again' }).click()
+    await page.waitForFunction(() => document.querySelector('.lap-now')?.textContent?.includes('Observed at 2:32 · paused'))
+    assert.equal(attempts, 2, 'Retry requests a fresh API script')
+    assert.equal(await page.locator('#lap-companion iframe').count(), 1)
+    await context.close()
+    console.log('PASS YouTube API timeout clears the cached failure and retry reaches ready state.')
   }
   // Validate every related media URL and fragment against actual prerendered documents.
   const links = new Set([...data.articles,...data.videos,...data.profiles].flatMap(x=>x.related_pages))

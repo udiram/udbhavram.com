@@ -1121,3 +1121,10 @@ details[open] > summary > svg {
   max-height: calc(100dvh - 73px);
   overflow-y: auto;
 }
+
+/* A compact first-visit route that keeps the long-form home page optional. */
+.first-visit{padding-block:82px;display:grid;grid-template-columns:.75fr 1.25fr;gap:72px;border-bottom:1px solid var(--line)}
+.first-visit-heading h2{font-size:clamp(38px,4.3vw,58px);margin-block:16px 22px}.first-visit-heading p{max-width:40ch}.first-visit-stops{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.first-visit-stops li{border-bottom:1px solid var(--line)}.first-visit-stops a{display:grid;grid-template-columns:65px 1fr 24px;align-items:center;gap:18px;padding:20px 5px;text-decoration:none}.first-visit-stops a>span{font:19px var(--serif);color:var(--rust)}.first-visit-stops strong{display:block;font:25px/1.25 var(--serif)}.first-visit-stops small{display:block;color:var(--muted);line-height:1.5;margin-top:5px}.first-visit-stops a:hover strong{color:var(--green)}
+.first-visit-search{grid-column:1/-1;background:var(--tint);padding:24px 28px}.first-visit-search>label{display:block;font-size:14px;margin-bottom:13px}.first-visit-search>div{display:flex;align-items:center;gap:13px}.first-visit-search input{flex:1;min-width:0;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:14px}.first-visit-search button{border:1px solid var(--green);background:var(--green);color:var(--paper);padding:14px 20px;white-space:nowrap}
+@media(max-width:760px){.first-visit{grid-template-columns:1fr;gap:34px;padding-block:56px}.first-visit-search{grid-column:auto;padding:22px}.first-visit-search>div{align-items:stretch;flex-wrap:wrap}.first-visit-search svg{margin-top:14px}.first-visit-search input{width:calc(100% - 38px);flex:auto}.first-visit-search button{width:100%}}
