@@ -5,6 +5,7 @@ import { chromium } from 'playwright'
 import { createAppServer } from '../server.mjs'
 
 const data = JSON.parse(await fs.readFile('src/mediaContent.json', 'utf8'))
+const lapEvidence = JSON.parse(await fs.readFile('scripts/lap-validation-evidence.json', 'utf8'))
 let server
 let base = process.env.TEST_ORIGIN
 if (!base) {
@@ -14,7 +15,7 @@ if (!base) {
 const browser = await chromium.launch({ headless: true, channel: process.env.PLAYWRIGHT_CHANNEL || 'chrome' })
 const errors = []
 try {
-  for (const width of [1440, 820, 390]) {
+  for (const width of [1440, 1280, 1024, 820, 390]) {
     const context = await browser.newContext({ viewport: { width, height: 1000 } })
     const page = await context.newPage()
     await page.addInitScript(() => {
@@ -25,7 +26,11 @@ try {
           window.__ytFake = {
             play: () => { this.state = 1; this.options.events.onStateChange({data:1,target:this}) },
             pause: () => { this.state = 2; this.options.events.onStateChange({data:2,target:this}) },
+            buffer: () => { this.state = 3; this.options.events.onStateChange({data:3,target:this}) },
+            setRate: value => { this.rate = value },
+            advanceWall: value => { if(this.state===1) this.time += value * (this.rate || 1) },
             advance: value => { if(this.state===1) this.time += value },
+            seek: value => this.seekTo(value),
             time: () => this.time,
           }
           setTimeout(() => options.events.onReady({target:this}), 300)
@@ -47,8 +52,16 @@ try {
     assert.deepEqual(thirdParty, [], 'No YouTube/thumbnail requests before consent')
     assert.equal(await page.locator('.video-load img[src^="/assets/media/video-thumbnails/"]').count(), 15)
     assert.equal(await page.locator('#lap-companion').count(), 1)
-    assert.match(await page.locator('#lap-companion').innerText(), /Static redraw/)
-    assert.match(await page.locator('#lap-companion').innerText(), /No GPS, speed, throttle, brake, or lap-time telemetry is claimed/)
+    assert.match(await page.locator('#lap-companion').innerText(), /Approximate track position/i)
+    assert.match(await page.locator('#lap-companion').innerText(), /speed, steering angle, RPM, throttle, or brake channels/i)
+    assert.match(await page.locator('.telemetry-panel').innerText(), /qualitative inference[\s\S]*not a wheel measurement or calibrated probability/i)
+    assert.doesNotMatch(await page.locator('.telemetry-panel').innerText(), /confidence is \d+%/i)
+    assert.equal(await page.locator('.registration-grid figure').count(), 7)
+    assert.match(await page.locator('.registration-evidence').innerText(), /seven visible anchors/i)
+    const corneringLines = page.locator('.telemetry-chart .steering-line')
+    assert.ok(await corneringLines.count() >= 2, 'cornering chart spans the supported driving intervals around the excursion gap')
+    const corneringPoints = await corneringLines.evaluateAll(lines => lines.reduce((total, line) => total + (line.getAttribute('points')?.trim().split(/\s+/).length || 0), 0))
+    assert.ok(corneringPoints > 300, `cornering chart is dense (${corneringPoints} plotted samples)`)
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, `No overflow at ${width}`)
     const nav = page.locator('nav[aria-label="Main navigation"]')
     if(width===390){
@@ -84,18 +97,93 @@ try {
     assert.equal(await page.locator('iframe').count(), 0)
     await page.getByLabel('Find a video').fill('')
     // The annotated lap view has its own explicit consent boundary and seek controls.
-    await page.locator('.lap-timeline button').nth(1).click()
+    await page.locator('.lap-timeline button').nth(2).click()
     assert.match(await page.locator('.lap-now').innerText(), /Observed at 0:00/i)
-    assert.match(await page.locator('.lap-now').innerText(), /2:32 is queued/)
+    assert.match(await page.locator('.lap-now').innerText(), /5:25 is queued/)
     assert.equal(await page.locator('#lap-companion iframe').count(), 1)
     await page.waitForTimeout(650)
-    assert.match(await page.locator('.lap-now').innerText(), /Observed at 2:32 · paused/i)
-    assert.match(await page.locator('.lap-now').innerText(), /Leaving the garage/)
+    assert.match(await page.locator('.lap-now').innerText(), /Observed at 5:25 · paused/i)
+    assert.match(await page.locator('.lap-now').innerText(), /Lap 1 · 2:20/)
+    assert.equal(await page.locator('.track-marker').getAttribute('data-lap'), '1')
+    const layout = await page.evaluate(() => {
+      const grid = document.querySelector('.lap-grid')
+      const video = document.querySelector('.lap-video')
+      const panel = document.querySelector('.lap-map-panel')
+      const readout = document.querySelector('.lap-readout')
+      const box = element => { const rect = element?.getBoundingClientRect(); return rect ? {x: rect.x, y: rect.y, width: rect.width, height: rect.height} : null }
+      return {
+        grid: box(grid), video: box(video), panel: box(panel),
+        panelOverflow: panel ? panel.scrollWidth - panel.clientWidth : 999,
+        readoutOverflow: readout ? readout.scrollWidth - readout.clientWidth : 999,
+      }
+    })
+    assert.ok(layout.panel.width >= 320, `${width}px: map panel remains useful (${layout.panel.width.toFixed(1)}px)`)
+    assert.ok(layout.panelOverflow <= 1, `${width}px: map panel has no horizontal overflow`)
+    assert.ok(layout.readoutOverflow <= 1, `${width}px: lap readout has no horizontal overflow`)
+    if (width > 1100) {
+      assert.ok(layout.video.width < layout.grid.width * .75, `${width}px: real-player column cannot starve the map`)
+      assert.ok(layout.panel.x > layout.video.x, `${width}px: player and map remain side by side`)
+    } else {
+      assert.ok(layout.panel.y > layout.video.y + layout.video.height - 1, `${width}px: player and map stack cleanly`)
+    }
+    if (process.env.EVIDENCE_DIR) await page.locator('.lap-grid').screenshot({path:`${process.env.EVIDENCE_DIR}/lap-loaded-${width}.png`})
     await page.evaluate(() => window.__ytFake.play())
-    await page.evaluate(() => window.__ytFake.advance(63))
+    await page.evaluate(() => window.__ytFake.setRate(2))
+    await page.evaluate(() => window.__ytFake.advanceWall(10))
     await page.waitForTimeout(350)
-    assert.match(await page.locator('.lap-now').innerText(), /Observed at 3:35 · playing/i)
-    assert.match(await page.locator('.lap-now').innerText(), /Open track/)
+    assert.match(await page.locator('.lap-now').innerText(), /Observed at 5:45 · playing/i)
+    assert.ok(Number(await page.locator('.track-marker').getAttribute('data-progress')) > .15)
+    await page.evaluate(() => window.__ytFake.buffer())
+    const bufferedTime = await page.evaluate(() => window.__ytFake.time())
+    await page.evaluate(() => window.__ytFake.advanceWall(10))
+    await page.waitForTimeout(300)
+    assert.equal(await page.evaluate(() => window.__ytFake.time()), bufferedTime, 'Buffering does not invent elapsed time')
+    await page.evaluate(() => window.__ytFake.seek(677))
+    await page.waitForTimeout(100)
+    assert.match(await page.locator('.lap-now').innerText(), /Off-circuit excursion/i)
+    assert.equal(await page.locator('.track-marker').count(), 0)
+    assert.equal(await page.locator('.position-unavailable').count(), 1)
+    await page.evaluate(() => window.__ytFake.seek(839))
+    await page.waitForTimeout(100)
+    assert.equal(await page.locator('.track-marker').count(), 0, 'Partial lap does not advance beyond its last registered landmark')
+    assert.match(await page.locator('.lap-now').innerText(), /unresolved/i)
+    if (width === 1440) {
+      await page.locator('.heldout-evidence summary').click()
+      assert.match(await page.locator('.heldout-evidence').innerText(), /16 unused frames · 100% semantic agreement/i)
+      assert.equal(await page.locator('.heldout-evidence figure').count(), lapEvidence.outOfSampleCases.length)
+      for (const testCase of lapEvidence.calibrationCases) {
+        await page.evaluate(time => window.__ytFake.seek(time), testCase.time)
+        await page.waitForTimeout(30)
+        if (testCase.expectedCornering === null) {
+          assert.equal(await page.locator('.track-marker').count(), 0, `${testCase.time}s has no invented position`)
+          continue
+        }
+        const result = await page.evaluate(() => {
+          const marker = document.querySelector('.track-marker')
+          const path = document.querySelector('.track-measure')
+          const progress = Number(marker?.getAttribute('data-progress'))
+          const length = path.getTotalLength()
+          const point = fraction => path.getPointAtLength(Math.max(0, Math.min(length, fraction * length)))
+          const before = point(progress - 8 / length), center = point(progress), after = point(progress + 8 / length)
+          const cross = (center.x - before.x) * (after.y - center.y) - (center.y - before.y) * (after.x - center.x)
+          return { progress, cross }
+        })
+        assert.ok(result.progress >= testCase.expectedProgress[0] && result.progress <= testCase.expectedProgress[1], `${testCase.time}s map range`)
+        if (testCase.expectedCornering === 'left') assert.ok(result.cross < -5, `${testCase.time}s visible left maps to left-bending geometry (${result.cross})`)
+        if (testCase.expectedCornering === 'right') assert.ok(result.cross > 5, `${testCase.time}s visible right maps to right-bending geometry (${result.cross})`)
+        if (testCase.expectedCornering === 'straight') assert.ok(Math.abs(result.cross) < 8, `${testCase.time}s visible straight maps to straight geometry (${result.cross})`)
+      }
+      for (const testCase of lapEvidence.occlusionCases) {
+        await page.evaluate(time => window.__ytFake.seek(time), testCase.time)
+        await page.waitForTimeout(30)
+        assert.match(await page.locator('.wheel-observation').innerText(), /not sampled/i, `${testCase.time}s occlusion is suppressed`)
+      }
+      for (const testCase of lapEvidence.outOfSampleCases) {
+        await page.evaluate(time => window.__ytFake.seek(time), testCase.time)
+        await page.waitForTimeout(30)
+        assert.match(await page.locator('.telemetry-values').innerText(), new RegExp(`Cornering ${testCase.expectedCornering}`, 'i'), `${testCase.time}s out-of-sample cornering`)
+      }
+    }
     await page.evaluate(() => window.__ytFake.pause())
     const pausedTime = await page.evaluate(() => window.__ytFake.time())
     await page.waitForTimeout(400)
@@ -140,12 +228,12 @@ try {
       ` })
     })
     await page.goto(`${base}/media#lap-companion`)
-    await page.locator('.lap-timeline button').nth(1).click()
+    await page.locator('.lap-timeline button').nth(2).click()
     await page.getByRole('button', { name: 'Try loading again' }).waitFor()
     assert.match(await page.locator('.lap-error').innerText(), /could not load/i)
     assert.equal(await page.locator('script[data-lap-companion-api]').count(), 0, 'Failed API script is removed')
     await page.getByRole('button', { name: 'Try loading again' }).click()
-    await page.waitForFunction(() => document.querySelector('.lap-now')?.textContent?.includes('Observed at 2:32 · paused'))
+    await page.waitForFunction(() => document.querySelector('.lap-now')?.textContent?.includes('Observed at 5:25 · paused'))
     assert.equal(attempts, 2, 'Retry requests a fresh API script')
     assert.equal(await page.locator('#lap-companion iframe').count(), 1)
     await context.close()

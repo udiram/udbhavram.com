@@ -1,0 +1,45 @@
+{
+  "source": "Manual review of 720p frames, separated by role",
+  "crossings": [158.5, 325.5, 465.5, 595.5, 745.5],
+  "crossingToleranceSeconds": 1,
+  "completeLapDurations": [140, 130, 150],
+  "calibrationCases": [
+    { "time": 278, "expectedLap": 0, "expectedProgress": [0.72, 0.74], "expectedCornering": "left", "expectedWheel": "left", "evidence": "/assets/media/lap-calibration/left-278.webp" },
+    { "time": 382, "expectedLap": 1, "expectedProgress": [0.44, 0.45], "expectedCornering": "left", "expectedWheel": "left", "evidence": "/assets/media/lap-calibration/left-382.webp" },
+    { "time": 471.5, "expectedLap": 2, "expectedProgress": [0.075, 0.085], "expectedCornering": "right", "expectedWheel": "right", "evidence": "/assets/media/lap-calibration/right-471-5.webp" },
+    { "time": 488, "expectedLap": 2, "expectedProgress": [0.17, 0.18], "expectedCornering": "left", "expectedWheel": "left", "evidence": "/assets/media/lap-calibration/left-488.webp" },
+    { "time": 500, "expectedLap": 2, "expectedProgress": [0.33, 0.34], "expectedCornering": "straight", "expectedWheel": "centered", "evidence": "/assets/media/lap-calibration/straight-500.webp" },
+    { "time": 526, "expectedLap": 2, "expectedProgress": [0.50, 0.51], "expectedCornering": "right", "expectedWheel": "right", "evidence": "/assets/media/lap-calibration/right-526.webp" },
+    { "time": 550, "expectedLap": 2, "expectedProgress": [0.70, 0.72], "expectedCornering": "left", "expectedWheel": null, "evidence": "/assets/media/lap-calibration/left-550.webp" },
+    { "time": 570, "expectedLap": 2, "expectedProgress": [0.79, 0.81], "expectedCornering": "right", "expectedWheel": "right", "evidence": "/assets/media/lap-calibration/right-570.webp" },
+    { "time": 576, "expectedLap": 2, "expectedProgress": [0.82, 0.84], "expectedCornering": "left", "expectedWheel": "left", "evidence": "/assets/media/lap-calibration/left-576.webp" },
+    { "time": 630, "expectedLap": 3, "expectedProgress": [0.34, 0.35], "expectedCornering": "straight", "expectedWheel": "centered", "evidence": "/assets/media/lap-calibration/straight-630.webp" },
+    { "time": 684, "expectedLap": 3, "expectedProgress": null, "expectedCornering": null, "expectedWheel": null, "evidence": "/assets/media/lap-calibration/excursion-684.webp" },
+    { "time": 760, "expectedLap": 4, "expectedProgress": [0.12, 0.13], "expectedCornering": "right", "expectedWheel": "right", "evidence": "/assets/media/lap-calibration/right-760.webp" }
+  ],
+  "outOfSampleCases": [
+    { "time": 178.5, "expectedCornering": "right", "evidence": "/assets/media/lap-validation/right-178-5.webp" },
+    { "time": 193, "expectedCornering": "left", "evidence": "/assets/media/lap-validation/left-193.webp" },
+    { "time": 202.5, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-202-5.webp" },
+    { "time": 261, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-261.webp" },
+    { "time": 283.5, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-283-5.webp" },
+    { "time": 336, "expectedCornering": "right", "evidence": "/assets/media/lap-validation/right-336.webp" },
+    { "time": 350, "expectedCornering": "left", "evidence": "/assets/media/lap-validation/left-350.webp" },
+    { "time": 361.5, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-361-5.webp" },
+    { "time": 404, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-404.webp" },
+    { "time": 605.5, "expectedCornering": "right", "evidence": "/assets/media/lap-validation/right-605-5.webp" },
+    { "time": 618, "expectedCornering": "left", "evidence": "/assets/media/lap-validation/left-618.webp" },
+    { "time": 708.5, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-708-5.webp" },
+    { "time": 756, "expectedCornering": "right", "evidence": "/assets/media/lap-validation/right-756.webp" },
+    { "time": 770.5, "expectedCornering": "left", "evidence": "/assets/media/lap-validation/left-770-5.webp" },
+    { "time": 781.5, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-781-5.webp" },
+    { "time": 819, "expectedCornering": "straight", "evidence": "/assets/media/lap-validation/straight-819.webp" }
+  ],
+  "occlusionCases": [
+    { "time": 498, "expectedWheel": null, "reason": "helmet partially covers the wheel", "evidence": "/assets/media/lap-calibration/obscured-498.webp" },
+    { "time": 551, "expectedWheel": null, "reason": "helmet covers the wheel center", "evidence": "/assets/media/lap-calibration/obscured-551.webp" }
+  ],
+  "steeringCalibrationSummary": { "usableWindows": 20, "obscuredExclusions": 2 },
+  "garageCase": { "time": 25, "expectedProgress": null, "signalsAvailable": false },
+  "partialLap": { "lastAnchor": 836.08, "expectedProgressAfterLastAnchor": null }
+}
