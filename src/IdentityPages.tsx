@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { ArrowLeft, MagnifyingGlass } from '@phosphor-icons/react'
 import { awardRecords, experienceRecords, projectRecords, type AwardRecord, type ExperienceRecord, type ProjectRecord } from './identityContent'
 import SaveButton from './SaveButton'
+import { IdentityMark, IdentityMarkRail } from './identityMarks'
 
 function samePageHashActivation(event: MouseEvent) {
   if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return null
@@ -32,14 +33,14 @@ function Sources({ sources }: { sources: { label: string; href: string }[] }) {
 function ExperienceRow({ record }: { record: ExperienceRecord }) {
   return <article className="identity-row" id={record.id} tabIndex={-1}>
     <div className="identity-date"><strong>{record.period}</strong><span>{record.status}</span></div>
-    <div><span className="meta">{record.category}{record.location ? ` · ${record.location}` : ''}</span><h2>{record.role}</h2><h3>{record.institution}</h3><p>{record.summary}</p><ul>{record.work.map(item => <li key={item}>{item}</li>)}</ul>{record.note && <p className="record-note">Evidence note: {record.note}</p>}<Sources sources={record.sources} /><div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`experience:${record.id}`} compact /></div></div>
+    <div><span className="meta">{record.category}{record.location ? ` · ${record.location}` : ''}</span><div className="identity-record-heading"><IdentityMark label={record.institution} /><div><h2>{record.role}</h2><h3>{record.institution}</h3></div></div><p>{record.summary}</p><ul>{record.work.map(item => <li key={item}>{item}</li>)}</ul>{record.note && <p className="record-note">Evidence note: {record.note}</p>}<Sources sources={record.sources} /><div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`experience:${record.id}`} compact /></div></div>
   </article>
 }
 
 function ProjectRow({ project }: { project: ProjectRecord }) {
   const saveId = project.id.startsWith('software-') ? `software:${project.id.slice('software-'.length)}` : `project:${project.id}`
   return <article className="project-record" id={`project-${project.id}`} tabIndex={-1}>
-    <span className="meta">{project.category} · {project.period}</span><h3>{project.title}</h3><p className="project-institution">{project.institution}</p><p>{project.summary}</p><p className="project-outcome"><strong>What came of it:</strong> {project.outcome}</p><Sources sources={project.sources} /><SaveButton id={saveId} compact />
+    <span className="meta">{project.category} · {project.period}</span><div className="project-record-heading"><IdentityMark label={project.institution} compact /><div><h3>{project.title}</h3><p className="project-institution">{project.institution}</p></div></div><p>{project.summary}</p><p className="project-outcome"><strong>What came of it:</strong> {project.outcome}</p><Sources sources={project.sources} /><SaveButton id={saveId} compact />
   </article>
 }
 
@@ -77,7 +78,7 @@ export function ExperiencePage() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('hashchange', revealCurrentHash); document.removeEventListener('click', activateLink, true) }
   }, [])
   return <>
-    <Intro eyebrow="Experience & affiliations" title={<>Where the work<br /><em>took shape.</em></>}><p>Education, research, engineering, and service—organized by institution, role, dates, work, and source. Current appointments are separated from completed and historical records.</p><div className="intro-actions"><a className="button" href="#timeline">Browse the timeline</a><a className="text-link" href="#project-index">See every project</a></div></Intro>
+    <Intro eyebrow="Experience & affiliations" title={<>Where the work<br /><em>took shape.</em></>}><p>Education, research, engineering, and service—organized by institution, role, dates, work, and source. Current appointments are separated from completed and historical records.</p><IdentityMarkRail /><div className="intro-actions"><a className="button" href="#timeline">Browse the timeline</a><a className="text-link" href="#project-index">See every project</a></div></Intro>
     <nav className="section-nav wrap" aria-label="On this page"><span>On this page</span><a href="#timeline">Institutions & roles</a><a href="#project-index">Project index</a><a href="/awards">Awards</a></nav>
     <Filters label="experience" query={query} setQuery={setQuery} category={category} setCategory={setCategory} categories={categories} count={filtered.length} />
     <section className="wrap identity-timeline" id="timeline" aria-label="Institution and role timeline">{filtered.map(record => <ExperienceRow record={record} key={record.id} />)}{filtered.length === 0 && <div className="identity-empty"><h2>No experience records match.</h2><button type="button" onClick={() => { setQuery(''); setCategory('All') }}>Reset experience filters</button></div>}</section>
@@ -86,6 +87,13 @@ export function ExperiencePage() {
 }
 
 const awardYearRank = (record: AwardRecord) => record.year === 'Historical record' ? 0 : Number.parseInt(record.year, 10) || 0
+const awardCategoryLabel: Record<AwardRecord['category'], string> = {
+  'Personal honor': 'Honor',
+  'Training & certification': 'Training',
+  'Competition': 'Competition',
+  'Arts': 'Arts',
+  'Feature & context': 'Feature',
+}
 
 export function AwardsPage() {
   const [query, setQuery] = useState('')
@@ -116,8 +124,8 @@ export function AwardsPage() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener('hashchange', revealCurrentHash); document.removeEventListener('click', activateLink, true) }
   }, [])
   return <>
-    <Intro eyebrow="Awards, training & recognition" title={<>Recognition,<br /><em>training & milestones.</em></>}><p>A source-linked record of research honors, academic milestones, certifications, competitions, arts, and institutional features across the years.</p><div className="intro-actions"><a className="button" href="#award-ledger">Browse the record</a><a className="text-link" href="/experience">Experience & affiliations</a></div></Intro>
+    <Intro eyebrow="Awards, training & recognition" title={<>Recognition,<br /><em>training & milestones.</em></>}><p>A source-linked record of research honors, academic milestones, certifications, competitions, arts, and institutional features across the years.</p><IdentityMarkRail labels={['McMaster University', 'American Association of Physicists in Medicine', 'University of Alabama at Birmingham']} eyebrow="Selected issuers" /><div className="intro-actions"><a className="button" href="#award-ledger">Browse the record</a><a className="text-link" href="/experience">Experience & affiliations</a></div></Intro>
     <Filters label="awards" query={query} setQuery={setQuery} category={category} setCategory={setCategory} categories={categories} count={filtered.length} />
-    <section className="wrap award-ledger" id="award-ledger" aria-label="Awards and recognition ledger">{filtered.map(record => <article className="award-row" id={record.id} tabIndex={-1} key={record.id}><div className="award-year">{record.year}</div><div><span className="meta">{record.category} · {record.evidence}</span><h2>{record.title}</h2>{record.issuer && <p className="award-issuer">{record.issuer}</p>}<p>{record.detail}</p>{record.ownership === 'Mentor or collaborator' && <div className="ownership-label">Recipient: Carlos Cardenas</div>}{record.note && <p className="record-note">{record.note}</p>}<Sources sources={record.sources} /><div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`award:${record.id}`} compact /></div></div></article>)}{filtered.length === 0 && <div className="identity-empty"><h2>No recognition records match.</h2><button type="button" onClick={() => { setQuery(''); setCategory('All') }}>Reset award filters</button></div>}</section>
+    <section className="wrap award-ledger" id="award-ledger" aria-label="Awards and recognition ledger">{filtered.map(record => <article className="award-row" id={record.id} tabIndex={-1} key={record.id}><div className="award-year">{record.year}</div><div><span className="meta">{record.category} · {record.evidence}</span><div className="identity-record-heading">{record.issuer ? <IdentityMark label={record.issuer} /> : <span className="identity-mark is-category" aria-hidden="true">{awardCategoryLabel[record.category]}</span>}<div><h2>{record.title}</h2>{record.issuer && <p className="award-issuer">{record.issuer}</p>}</div></div><p>{record.detail}</p>{record.ownership === 'Mentor or collaborator' && <div className="ownership-label">Recipient: Carlos Cardenas</div>}{record.note && <p className="record-note">{record.note}</p>}<Sources sources={record.sources} /><div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`award:${record.id}`} compact /></div></div></article>)}{filtered.length === 0 && <div className="identity-empty"><h2>No recognition records match.</h2><button type="button" onClick={() => { setQuery(''); setCategory('All') }}>Reset award filters</button></div>}</section>
   </>
 }

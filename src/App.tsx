@@ -26,6 +26,7 @@ import FirstVisitGuide from './FirstVisitGuide'
 import routeMeta from './routeMeta.json'
 import { ReadingListProvider, useReadingList } from './ReadingListContext'
 import { awardRecords } from './identityContent'
+import { IdentityMark, IdentityMarkRail } from './identityMarks'
 import './App.css'
 import './Details.css'
 
@@ -309,6 +310,7 @@ function About() {
           </p>
         </div>
       </div>
+      <IdentityMarkRail eyebrow="A research path across institutions" />
       <div className="about-story">
         <Photo
           asset={imageAssets.coopAward}
@@ -549,7 +551,7 @@ function Life() {
 const featuredAwards = ['coop-student-year', 'aapm-blue-ribbon', 'sps-poster'].map(id => awardRecords.find(record => record.id === id)!)
 
 function AwardsHighlight() {
-  return <section className="home-awards section"><div className="wrap"><div className="section-heading"><h2>Milestones<br /><em>along the way.</em></h2><div><p>Selected recognition from research and co-op work, with the full source-linked record kept in one place.</p><a className="text-link" href="/awards">Explore awards, training & recognition</a></div></div><div className="home-award-list">{featuredAwards.map(record => <a href={`/awards#${record.id}`} key={record.id}><span className="meta">{record.year} · {record.issuer}</span><h3>{record.title}</h3><p>{record.detail}</p><strong>View the record →</strong></a>)}</div></div></section>
+  return <section className="home-awards section"><div className="wrap"><div className="section-heading"><h2>Milestones<br /><em>along the way.</em></h2><div><p>Selected recognition from research and co-op work, with the full source-linked record kept in one place.</p><a className="text-link" href="/awards">Explore awards, training & recognition</a></div></div><div className="home-award-list">{featuredAwards.map(record => <a href={`/awards#${record.id}`} key={record.id}><span className="meta">{record.year} · {record.issuer}</span><div className="home-award-heading"><IdentityMark label={record.issuer || record.title} compact /><h3>{record.title}</h3></div><p>{record.detail}</p><strong>View the record →</strong></a>)}</div></div></section>
 }
 
 function Contact() {

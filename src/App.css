@@ -597,9 +597,16 @@ details[open] > summary > svg {
   text-decoration: none;
 }
 .home-award-list h3 {
-  margin: 16px 0 18px;
+  margin: 0;
   font-size: 30px;
   line-height: 1.18;
+}
+.home-award-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: center;
+  margin: 16px 0 18px;
 }
 .home-award-list p {
   font-size: 15px;

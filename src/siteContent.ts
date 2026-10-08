@@ -122,6 +122,14 @@ export const imageAssets = {
     src: '/assets/sourced/mcmaster-employer-awards-hero.jpg',
     alt: 'McMaster Science co-op employer award recipients',
   },
+  beyondScuba: {
+    src: '/assets/personal/beyond-scuba-2025.webp',
+    alt: 'Three scuba divers suspended in open water beneath rising bubbles',
+  },
+  beyondEquestrian: {
+    src: '/assets/personal/beyond-equestrian-2025.webp',
+    alt: 'Udbhav Ram riding a palomino horse on a wooded trail',
+  },
 } satisfies Record<string, ImageAsset>
 
 export const selectedWork: WorkStory[] = [

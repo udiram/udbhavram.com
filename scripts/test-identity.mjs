@@ -73,6 +73,36 @@ async function expectFocusedVisible(page, id) {
   }, id)
 }
 
+async function expectMarkImagesContained(page, selector) {
+  const plates = page.locator(selector)
+  const count = await plates.count()
+  assert.ok(count > 0, `${selector} finds logo plates`)
+  const keys = await plates.evaluateAll(elements => elements.map((element, index) => element.getAttribute('data-mark-id') || `plate-${index}`))
+  const indexes = keys.map((key, index) => ({ key, index })).filter((entry, index, entries) => entries.findIndex(other => other.key === entry.key) === index).map(entry => entry.index)
+  for (const index of indexes) {
+    const plate = plates.nth(index)
+    await plate.scrollIntoViewIfNeeded()
+    const image = plate.locator('img')
+    await image.waitFor()
+    await image.evaluate(element => element.complete && element.naturalWidth > 0 ? true : new Promise(resolve => element.addEventListener('load', () => resolve(true), { once: true })))
+    const bounds = await plate.evaluate(element => {
+      const image = element.querySelector('img')
+      if (!image) return null
+      const plateRect = element.getBoundingClientRect()
+      const imageRect = image.getBoundingClientRect()
+      const style = getComputedStyle(element)
+      const left = plateRect.left + Number.parseFloat(style.borderLeftWidth) + Number.parseFloat(style.paddingLeft)
+      const right = plateRect.right - Number.parseFloat(style.borderRightWidth) - Number.parseFloat(style.paddingRight)
+      const top = plateRect.top + Number.parseFloat(style.borderTopWidth) + Number.parseFloat(style.paddingTop)
+      const bottom = plateRect.bottom - Number.parseFloat(style.borderBottomWidth) - Number.parseFloat(style.paddingBottom)
+      return { left, right, top, bottom, imageLeft: imageRect.left, imageRight: imageRect.right, imageTop: imageRect.top, imageBottom: imageRect.bottom, naturalWidth: image.naturalWidth }
+    })
+    assert.ok(bounds?.naturalWidth > 0, `${selector} image ${index} loaded`)
+    const epsilon = 0.75
+    assert.ok(bounds.imageLeft >= bounds.left - epsilon && bounds.imageRight <= bounds.right + epsilon && bounds.imageTop >= bounds.top - epsilon && bounds.imageBottom <= bounds.bottom + epsilon, `${selector} image ${index} stays inside the padded content box`)
+  }
+}
+
 try {
   for (const width of [1440, 1280, 820, 390]) {
     const page = await browser.newPage({ viewport: { width, height: 900 } })
@@ -81,13 +111,21 @@ try {
 
     await page.goto(base)
     assert.equal(await page.locator('.home-award-list > a').count(), 3)
+    assert.equal(await page.locator('.home-award-heading .identity-mark').count(), 3)
     assert.match(await page.locator('.home-awards').innerText(), /Milestones[\s\S]*along the way/i)
+    assert.equal(await page.locator('#trajectory .identity-mark-rail a').count(), 6)
+    await expectMarkImagesContained(page, '#trajectory .identity-mark-rail a')
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
 
     await page.goto(`${base}/experience#western-lawson`)
     assert.match(await page.locator('h1').innerText(), /Where the work\s+took shape/i)
     assert.equal(await page.locator('.identity-row').count(), experienceRecords.length)
     assert.equal(await page.locator('.project-record').count(), projectRecords.length)
+    assert.equal(await page.locator('.identity-row .identity-mark').count(), experienceRecords.length)
+    assert.equal(await page.locator('.project-record .identity-mark').count(), projectRecords.length)
+    assert.ok(await page.locator('.identity-row .identity-mark[data-mark-type="official"]').count() > 0)
+    assert.ok(await page.locator('.identity-row .identity-mark[data-mark-type="typographic"]').count() > 0)
+    assert.equal(await page.locator('#arrow-mclaren .identity-mark[data-mark-id="mclaren-racing"][data-mark-type="official"]').count(), 1)
     assert.equal(await page.locator('header a[href="/experience"]').count(), 1)
     await expectFocusedVisible(page, 'western-lawson')
     await page.getByLabel('Search experience').fill('Western')
@@ -119,6 +157,7 @@ try {
     await expectFocusedVisible(page, 'project-monai-contribution')
     assert.equal(await page.getByLabel('Search projects').inputValue(), '')
     assert.equal(await page.locator('[aria-label="projects categories"]').getByRole('button', { name: 'All', exact: true }).getAttribute('aria-pressed'), 'true')
+    await expectMarkImagesContained(page, '.identity-row .identity-mark[data-mark-type="official"]')
 
     if (width === 1440) {
       await page.getByLabel('Search projects').fill('RadKev')
@@ -135,9 +174,16 @@ try {
 
     await page.goto(`${base}/awards#ap-scholar`)
     assert.equal(await page.locator('.award-row').count(), awardRecords.length)
+    assert.equal(await page.locator('.award-row .identity-mark').count(), awardRecords.length)
     assert.match(await page.locator('#ap-scholar').innerText(), /AP Scholar with Distinction/)
     assert.match(await page.locator('#employer-year').innerText(), /Recipient: Carlos Cardenas/)
     assert.equal(await page.locator('.identity-evidence-note').count(), 0)
+    assert.equal(await page.locator('#ap-scholar .identity-mark[data-mark-id="college-board"][data-mark-type="named"]').count(), 1)
+    assert.equal(await page.locator('#padi-advanced-open-water .identity-mark[data-mark-id="padi"][data-mark-type="named"]').count(), 1)
+    assert.equal(await page.locator('#ssi-open-water .identity-mark[data-mark-id="ssi"][data-mark-type="official"]').count(), 1)
+    assert.equal(await page.locator('#frc-semifinalist .identity-mark[data-mark-id="first"][data-mark-type="official"]').count(), 1)
+    assert.equal(await page.locator('#hosa .identity-mark[data-mark-id="hosa"][data-mark-type="official"]').count(), 1)
+    assert.equal(await page.locator('#sps-poster .identity-mark[data-mark-id="sps"][data-mark-type="official"]').count(), 1)
     await expectFocusedVisible(page, 'ap-scholar')
     await page.getByLabel('Search awards').fill('Blue Ribbon')
     await page.getByRole('button', { name: 'Training & certification', exact: true }).click()
@@ -149,13 +195,20 @@ try {
     assert.equal(await page.locator('.award-row').count(), awardRecords.length)
     await page.goto(`${base}/awards#employer-year`)
     await expectFocusedVisible(page, 'employer-year')
+    await expectMarkImagesContained(page, '.award-row .identity-mark[data-mark-type="official"]')
     if (process.env.EVIDENCE_DIR) await page.screenshot({ path: `${process.env.EVIDENCE_DIR}/awards-ownership-${width}-light.png` })
 
     await page.goto(`${base}/beyond`)
-    const scuba = page.locator('#scuba img[src="/assets/personal/activities-scuba.webp"]')
+    const scuba = page.locator('#scuba img[src="/assets/personal/beyond-scuba-2025.webp"]')
     assert.equal(await scuba.count(), 1)
-    assert.deepEqual(await scuba.evaluate(image => ({ naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight })), { naturalWidth: 225, naturalHeight: 124 })
-    assert.equal(await page.locator('#equestrian img[src="/assets/personal/activities-10.webp"]').count(), 1)
+    assert.deepEqual(await scuba.evaluate(image => ({ naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight })), { naturalWidth: 1128, naturalHeight: 2000 })
+    const equestrian = page.locator('#equestrian img[src="/assets/personal/beyond-equestrian-2025.webp"]')
+    assert.equal(await equestrian.count(), 1)
+    assert.deepEqual(await equestrian.evaluate(image => ({ naturalWidth: image.naturalWidth, naturalHeight: image.naturalHeight })), { naturalWidth: 1200, naturalHeight: 1600 })
+    assert.match(await page.locator('#scuba figcaption').innerText(), /Personal archive, May 2025/)
+    assert.match(await page.locator('#equestrian figcaption').innerText(), /Personal archive, August 2025/)
+    assert.equal(await page.locator('#scuba .credential-marks .identity-mark[data-mark-id="padi"][data-mark-type="named"]').count(), 1)
+    assert.equal(await page.locator('#scuba .credential-marks .identity-mark[data-mark-id="ssi"][data-mark-type="official"]').count(), 1)
     assert.match(await page.locator('#equestrian').innerText(), /American Cowboy Academy/)
     assert.doesNotMatch(await page.locator('.signature-pursuits').innerText(), /professional rodeo/i)
     for (const asset of rejectedAssets) assert.equal((await page.request.get(`${base}${asset}`)).status(), 404)

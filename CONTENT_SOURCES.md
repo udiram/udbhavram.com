@@ -85,7 +85,9 @@ The awards ledger contains every item in the earlier Awards page, restores the f
 
 The equestrian narrative uses site-owner-supplied context: English and Western riding; about two years helping at an Alabama lesson barn focused on Western riding and barrel racing; and American Cowboy Academy horsemanship and horse-care training. This context is not used to claim professional rodeo experience.
 
-The retained scuba image is the 225 x 124 source image from the Scuba section of the earlier public Activities page and is intentionally shown at native size. The retained equestrian image is a local WebP of the Equestrian-section image. The Yoga, Western classical violin, Carnatic violin, Carnatic vocal, and Motorsport images likewise retain their original section-level attribution in `src/personalPhotos.json`. No new scuba or equestrian video met the reviewed public-source and identity threshold; the existing verified Formula LGB onboard recording remains the motorsport video.
+The October 2026 Beyond-page refresh uses two metadata-free WebP derivatives from the site owner’s authenticated Apple Photos library: an August 3, 2025 trail-riding photograph that Photos explicitly associated with Udbhav, and a May 10, 2025 open-water diving image whose caption intentionally does not identify a particular diver. Selection used activity, date, and library context—not face matching. Originals remain outside the repository; derivative details are recorded in `public/assets/personal/PROVENANCE.md`. The Yoga, Western classical violin, Carnatic violin, Carnatic vocal, and Motorsport images retain their original section-level attribution in `src/personalPhotos.json`.
+
+Official institutional and issuer marks shown on the home, experience, and awards surfaces are preserved at their supplied proportions and colours on a neutral field. Exact official source URLs and access date are recorded in `public/assets/brands/PROVENANCE.md`; records without an approved local mark use a typographic fallback rather than a fabricated logo.
 
 ## October 8 discovery registry and reading list
 
