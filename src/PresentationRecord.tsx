@@ -1,4 +1,5 @@
 import type { Presentation } from './presentationTypes'
+import SaveButton from './SaveButton'
 
 export default function PresentationRecord({ presentation: p, compact = false }: { presentation: Presentation; compact?: boolean }) {
   return (
@@ -17,6 +18,7 @@ export default function PresentationRecord({ presentation: p, compact = false }:
         {p.sources.map(source => <a className="source-link" key={source.url} href={source.url}>{source.label}</a>)}
         {p.studyPath && <a className="source-link" href={p.studyPath}>Study details</a>}
         <a className="source-link" href={`/publications#${p.id}`} aria-label={`Permalink to ${p.title}`} title="Open the permanent link to this record on this page">Permalink to this record</a>
+        <SaveButton id={`presentation:${p.id}`} compact />
       </div>
     </article>
   )

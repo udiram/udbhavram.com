@@ -20,7 +20,8 @@
     "test:permalinks": "node scripts/test-permalinks.mjs",
     "test:media": "node scripts/test-media.mjs",
     "test:lap": "node scripts/test-lap-analysis.mjs",
-    "test:experience": "node scripts/test-experience.mjs"
+    "test:experience": "node scripts/test-experience.mjs",
+    "test:discovery": "node scripts/test-discovery.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

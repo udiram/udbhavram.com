@@ -18,6 +18,7 @@ npm run test:audit
 npm run test:server
 npm run test:pages
 npm run test:presentations
+npm run test:discovery
 npm run start
 ```
 
@@ -25,17 +26,22 @@ npm run start
 
 ## Pages and content
 
-The site contains 22 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, media, a searchable collection, seven research case studies, and seven collection chapters with 96 historical non-presentation records and 27 reconciled presentation/outreach records.
+The site contains 23 prerendered routes: the homepage, biography and public CV, research, publications, software, life beyond the lab, media, a searchable collection, a browser-local reading list, seven research case studies, and seven collection chapters with 96 historical non-presentation records and 27 reconciled presentation/outreach records.
 
 - `src/routeMeta.json`: route titles and descriptions
 - `src/expandedContent.ts`: research stories and career timeline
 - `src/bibliography.json`: full publication citations
 - `src/portfolioContent.ts`: historical collection, with dated claims kept in context
+- `src/contentRegistry.ts`: typed, source-derived discovery registry shared by global search, related evidence, and reading lists
 - `src/personalPhotos.json`: authentic personal photographs and captions
 - `public/downloads/`: public-facing October 2026 CV
 - [`CONTENT_SOURCES.md`](CONTENT_SOURCES.md): source ledger
 
 `npm run build` writes per-route HTML, production canonical URLs, robots.txt, sitemap.xml, and a custom 404 document. The Node server serves those route documents directly, so links work on a fresh visit and useful content is available before JavaScript loads. Collection search and topic choices persist in the URL; the selected theme persists locally.
+
+Global search opens from the header or <kbd>⌘/Ctrl</kbd>+<kbd>K</kbd>. Its dialog and ranking code are loaded only on demand. Results cover current studies, nine software products, papers, presentations, grouped media stories, videos, profiles, writing, and non-duplicate historical collection records. Study pages use explicit registry-ID relationships rather than positional recommendations.
+
+The reading list stores at most 24 registry IDs in versioned local storage and stays useful in memory when storage is blocked or full. Share URLs contain IDs only. A shared list is isolated from the browser’s own list until the visitor explicitly merges it; malformed, duplicate, oversized, and unknown IDs are bounded and reported. `npm run test:discovery` checks registry/link contracts, ranking, lazy loading, focus and mobile-menu behavior, save/remove/clear/reload, cross-tab sync, storage failures, shared-list isolation/merge, clipboard fallback, and fresh-context navigation. Set `DISCOVERY_SCREENSHOTS_DIR` to write responsive QA captures.
 
 ## Production deployment
 

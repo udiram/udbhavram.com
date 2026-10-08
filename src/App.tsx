@@ -8,8 +8,10 @@ import {
   Moon,
   Sun,
   Plus,
+  MagnifyingGlass,
+  BookmarkSimple,
 } from '@phosphor-icons/react'
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   imageAssets,
   selectedWork,
@@ -22,8 +24,11 @@ import { portfolioItemCount } from './portfolioContent'
 import DetailPages, { LatestWork, ExploreMore, PageFooter } from './DetailPages'
 import FirstVisitGuide from './FirstVisitGuide'
 import routeMeta from './routeMeta.json'
+import { ReadingListProvider, useReadingList } from './ReadingListContext'
 import './App.css'
 import './Details.css'
+
+const SearchDialog = lazy(() => import('./SearchDialog'))
 
 const nav = [
   { id: 'trajectory', label: 'About', href: '/about' },
@@ -125,9 +130,13 @@ function Header({
   setDark: (dark: boolean) => void
 }) {
   const [open, setOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const searchButton = useRef<HTMLButtonElement>(null)
+  const { ids: readingListIds } = useReadingList()
   const toggle = useRef<HTMLButtonElement>(null)
   const header = useRef<HTMLElement>(null)
   const [active, setActive] = useState('')
+  const closeSearch = useCallback(() => setSearchOpen(false), [])
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && open) {
@@ -146,6 +155,16 @@ function Header({
       window.removeEventListener('pointerdown', closeOutside)
     }
   }, [open])
+  useEffect(() => {
+    const onShortcut = (event: KeyboardEvent) => {
+      if (event.key.toLowerCase() !== 'k' || (!event.metaKey && !event.ctrlKey)) return
+      event.preventDefault()
+      setOpen(false)
+      setSearchOpen(true)
+    }
+    window.addEventListener('keydown', onShortcut)
+    return () => window.removeEventListener('keydown', onShortcut)
+  }, [])
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -190,6 +209,8 @@ function Header({
           ))}
         </nav>
         <div className="header-actions">
+          <button className="search-trigger" type="button" ref={searchButton} aria-label="Search site" aria-haspopup="dialog" onClick={() => { setOpen(false); setSearchOpen(true) }}><MagnifyingGlass /><span>Search</span><kbd>⌘K</kbd></button>
+          <a className="reading-list-link" href="/reading-list" aria-label={`Reading list with ${readingListIds.length} saved ${readingListIds.length === 1 ? 'item' : 'items'}`}><BookmarkSimple /><span className="reading-list-label">List</span>{readingListIds.length > 0 && <b>{readingListIds.length}</b>}</a>
           <button
             className="icon-button theme-toggle"
             type="button"
@@ -210,6 +231,7 @@ function Header({
           </button>
         </div>
       </div>
+      {searchOpen && <Suspense fallback={<div className="search-loading" role="status">Opening search…</div>}><SearchDialog onClose={closeSearch} returnFocus={searchButton} /></Suspense>}
     </header>
   )
 }
@@ -593,7 +615,7 @@ function Contact() {
   )
 }
 
-export default function App() {
+function AppContent() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
   const isHome = path === '/'
   const [dark, setDark] = useState(() => {
@@ -635,4 +657,8 @@ export default function App() {
       </main>
     </>
   )
+}
+
+export default function App() {
+  return <ReadingListProvider><AppContent /></ReadingListProvider>
 }

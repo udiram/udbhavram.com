@@ -27,6 +27,10 @@
     "title": "The Collection | Udbhav Ram",
     "description": "Search research, presentations, engineering, motorsport, activities, recognition, and media from Udbhav Ram’s portfolio."
   },
+  "/reading-list": {
+    "title": "Reading List | Udbhav Ram",
+    "description": "Save and share a browser-local reading list of Udbhav Ram’s research, software, publications, talks, and stories."
+  },
   "/research/adaptive-breast-radiotherapy": {
     "title": "Contouring Uncertainty at ASTRO 2026 | Udbhav Ram",
     "description": "Contouring Uncertainty at ASTRO 2026: research question, methods, findings, limitations, and original sources."
