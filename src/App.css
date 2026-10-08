@@ -360,6 +360,24 @@ figcaption {
   border-top: 1px solid var(--line);
   gap: 40px;
 }
+.path-line a {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: start;
+  text-decoration: none;
+}
+.path-line .identity-mark {
+  grid-row: 1 / 4;
+}
+.path-line a > span,
+.path-line a > strong,
+.path-line a > p {
+  grid-column: 2;
+}
+.path-line a:hover strong {
+  color: var(--rust);
+}
 .path-line span,
 .meta {
   display: block;
@@ -561,9 +579,32 @@ details[open] > summary > svg {
 }
 .life-notes {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 44px;
+  grid-template-columns: 1.08fr 1fr 0.72fr;
+  gap: 38px;
   margin-top: 56px;
+  align-items: start;
+}
+.life-note-image {
+  display: block;
+  text-decoration: none;
+  margin-bottom: 24px;
+}
+.life-note-photo img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+.life-note-photo:first-child img {
+  object-position: center 58%;
+}
+.life-note-photo:nth-child(2) img {
+  object-position: center 42%;
+}
+.life-note-image:hover img {
+  filter: saturate(1.05) contrast(1.02);
+}
+.life-note-text {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
 }
 .life-notes h3 {
   font-size: 29px;
@@ -1063,6 +1104,12 @@ details[open] > summary > svg {
   .life-notes article {
     padding-top: 24px;
     border-top: 1px solid var(--line);
+  }
+  .life-note-photo img {
+    aspect-ratio: auto;
+  }
+  .life-note-image {
+    margin-bottom: 18px;
   }
   .life-notes h3 {
     font-size: 28px;

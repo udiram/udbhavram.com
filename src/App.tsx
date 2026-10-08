@@ -26,7 +26,7 @@ import FirstVisitGuide from './FirstVisitGuide'
 import routeMeta from './routeMeta.json'
 import { ReadingListProvider, useReadingList } from './ReadingListContext'
 import { awardRecords } from './identityContent'
-import { IdentityMark, IdentityMarkRail } from './identityMarks'
+import { IdentityMark } from './identityMarks'
 import './App.css'
 import './Details.css'
 
@@ -310,7 +310,6 @@ function About() {
           </p>
         </div>
       </div>
-      <IdentityMarkRail eyebrow="A research path across institutions" />
       <div className="about-story">
         <Photo
           asset={imageAssets.coopAward}
@@ -341,19 +340,28 @@ function About() {
       </div>
       <ol className="path-line">
         <li>
-          <span>2021–2026</span>
-          <strong>McMaster University</strong>
-          <p>Honours Medical Physics with Co-op</p>
+          <a href="/experience#mcmaster-medical-physics">
+            <IdentityMark label="McMaster University" compact contextual />
+            <span>2021–2026</span>
+            <strong>McMaster University</strong>
+            <p>Honours Medical Physics with Co-op</p>
+          </a>
         </li>
         <li>
-          <span>Research since 2021</span>
-          <strong>UAB Radiation Oncology</strong>
-          <p>Research with Dr. Carlos Cardenas; visiting scholar in 2024</p>
+          <a href="/experience#uab-research-collaborator">
+            <IdentityMark label="UAB Radiation Oncology" compact contextual />
+            <span>Research since 2021</span>
+            <strong>UAB Radiation Oncology</strong>
+            <p>Research with Dr. Carlos Cardenas; visiting scholar in 2024</p>
+          </a>
         </li>
         <li>
-          <span>2026–present</span>
-          <strong>UW–Madison</strong>
-          <p>Medical Physics PhD student with Dr. Ran Zhang</p>
+          <a href="/experience#uw-medical-physics">
+            <IdentityMark label="University of Wisconsin–Madison" compact contextual />
+            <span>2026–present</span>
+            <strong>UW–Madison</strong>
+            <p>Medical Physics PhD student with Dr. Ran Zhang</p>
+          </a>
         </li>
       </ol>
     </section>
@@ -522,19 +530,21 @@ function Life() {
         </div>
       </div>
       <div className="life-notes">
-        <article>
-          <span className="meta">Scuba</span>
-          <h3>Below the surface</h3>
-          <p>PADI Advanced Open Water and Nitrox training built on an earlier SSI Open Water qualification.</p>
-          <a className="text-link" href="/beyond#scuba">Dive into the story</a>
+        <article className="life-note-photo">
+          <a className="life-note-image" href="/beyond#scuba" aria-label="Open the scuba story"><Photo asset={imageAssets.beyondScuba} caption="Open-water dive · May 2025" /></a>
+          <div><span className="meta">Scuba</span>
+            <h3>Below the surface</h3>
+            <p>PADI Advanced Open Water and Nitrox training built on an earlier SSI Open Water qualification.</p>
+            <a className="text-link" href="/beyond#scuba">Dive into the story</a></div>
         </article>
-        <article>
-          <span className="meta">Equestrian</span>
-          <h3>Time in the saddle</h3>
-          <p>English riding, Western horsemanship, horse care, and time helping at an Alabama lesson barn.</p>
-          <a className="text-link" href="/beyond#equestrian">Follow the riding path</a>
+        <article className="life-note-photo">
+          <a className="life-note-image" href="/beyond#equestrian" aria-label="Open the equestrian story"><Photo asset={imageAssets.beyondEquestrian} caption="Trail riding · August 2025" /></a>
+          <div><span className="meta">Equestrian</span>
+            <h3>Time in the saddle</h3>
+            <p>English riding, Western horsemanship, horse care, and time helping at an Alabama lesson barn.</p>
+            <a className="text-link" href="/beyond#equestrian">Follow the riding path</a></div>
         </article>
-        <article>
+        <article className="life-note-text">
           <span className="meta">Creative practice</span>
           <h3>A musical thread</h3>
           <p>
@@ -551,7 +561,7 @@ function Life() {
 const featuredAwards = ['coop-student-year', 'aapm-blue-ribbon', 'sps-poster'].map(id => awardRecords.find(record => record.id === id)!)
 
 function AwardsHighlight() {
-  return <section className="home-awards section"><div className="wrap"><div className="section-heading"><h2>Milestones<br /><em>along the way.</em></h2><div><p>Selected recognition from research and co-op work, with the full source-linked record kept in one place.</p><a className="text-link" href="/awards">Explore awards, training & recognition</a></div></div><div className="home-award-list">{featuredAwards.map(record => <a href={`/awards#${record.id}`} key={record.id}><span className="meta">{record.year} · {record.issuer}</span><div className="home-award-heading"><IdentityMark label={record.issuer || record.title} compact /><h3>{record.title}</h3></div><p>{record.detail}</p><strong>View the record →</strong></a>)}</div></div></section>
+  return <section className="home-awards section"><div className="wrap"><div className="section-heading"><h2>Milestones<br /><em>along the way.</em></h2><div><p>Selected recognition from research and co-op work, with the full source-linked record kept in one place.</p><a className="text-link" href="/awards">Explore awards, training & recognition</a></div></div><div className="home-award-list">{featuredAwards.map(record => <a href={`/awards#${record.id}`} key={record.id}><span className="meta">{record.year} · {record.issuer}</span><div className="home-award-heading"><IdentityMark label={record.issuer || record.title} compact contextual /><h3>{record.title}</h3></div><p>{record.detail}</p><strong>View the record →</strong></a>)}</div></div></section>
 }
 
 function Contact() {

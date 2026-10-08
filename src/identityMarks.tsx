@@ -4,6 +4,7 @@ type MarkDefinition = {
   src?: string
   compactSrc?: string
   fallbackLabel?: string
+  requiresLightGround?: boolean
   source: string
   matches: string[]
 }
@@ -13,6 +14,7 @@ const marks: MarkDefinition[] = [
     id: 'uw-madison',
     label: 'University of Wisconsin–Madison',
     src: '/assets/sourced/uw-madison-logo.png',
+    requiresLightGround: true,
     source: 'https://brand.wisc.edu/resource/uw-institutional-logos-for-web-digital-use/',
     matches: ['university of wisconsin', 'uw–madison', 'uw-madison'],
   },
@@ -20,6 +22,7 @@ const marks: MarkDefinition[] = [
     id: 'mcmaster',
     label: 'McMaster University',
     src: '/assets/brands/mcmaster.png',
+    requiresLightGround: true,
     source: 'https://brand.mcmaster.ca/logos-and-marks/logos-and-marks-cont-mcmaster-logo-minimal-size/',
     matches: ['mcmaster'],
   },
@@ -28,6 +31,7 @@ const marks: MarkDefinition[] = [
     label: 'University of Alabama at Birmingham',
     src: '/assets/brands/uab.svg',
     compactSrc: '/assets/brands/uab-monogram.svg',
+    requiresLightGround: true,
     source: 'https://www.uab.edu/brandguide',
     matches: ['university of alabama at birmingham', 'uab ', 'uab·', 'uab radiation', 'uab heersink', 'mary heersink'],
   },
@@ -35,6 +39,7 @@ const marks: MarkDefinition[] = [
     id: 'hamilton-health-sciences',
     label: 'Hamilton Health Sciences',
     src: '/assets/brands/hamilton-health-sciences.png',
+    requiresLightGround: true,
     source: 'https://www.hamiltonhealthsciences.ca/',
     matches: ['hamilton health sciences', 'juravinski cancer'],
   },
@@ -42,6 +47,7 @@ const marks: MarkDefinition[] = [
     id: 'western',
     label: 'Western University',
     src: '/assets/brands/western.svg',
+    requiresLightGround: true,
     source: 'https://www.communications.uwo.ca/web_design/components/icons-logos.html',
     matches: ['western university', 'western ·', 'western /', 'western lawson'],
   },
@@ -49,6 +55,7 @@ const marks: MarkDefinition[] = [
     id: 'st-josephs',
     label: 'St. Joseph’s Healthcare Hamilton',
     src: '/assets/brands/st-josephs-healthcare-hamilton.png',
+    requiresLightGround: true,
     source: 'https://www.stjoes.ca/',
     matches: ['st. joseph', 'st joseph', 'hamilton centre for kidney research'],
   },
@@ -56,6 +63,7 @@ const marks: MarkDefinition[] = [
     id: 'mclaren-racing',
     label: 'McLaren Racing',
     src: '/assets/brands/mclaren-racing.svg',
+    requiresLightGround: true,
     source: 'https://www.arrowmclaren.com/',
     matches: ['arrow mclaren', 'mclaren racing'],
   },
@@ -70,6 +78,7 @@ const marks: MarkDefinition[] = [
     id: 'aapm',
     label: 'American Association of Physicists in Medicine',
     src: '/assets/brands/aapm.png',
+    requiresLightGround: true,
     source: 'https://www.aapm.org/',
     matches: ['american association of physicists in medicine', 'aapm'],
   },
@@ -77,6 +86,7 @@ const marks: MarkDefinition[] = [
     id: 'first',
     label: 'FIRST',
     src: '/assets/brands/first.svg',
+    requiresLightGround: true,
     source: 'https://www.firstinspires.org/brand/logos-guidelines',
     matches: ['first robotics', 'frc 4939', 'frc team'],
   },
@@ -110,15 +120,6 @@ const marks: MarkDefinition[] = [
   },
 ]
 
-const featuredInstitutionLabels = [
-  'University of Wisconsin–Madison',
-  'McMaster University',
-  'University of Alabama at Birmingham',
-  'Hamilton Health Sciences',
-  'Western University',
-  'St. Joseph’s Healthcare Hamilton',
-]
-
 const normalize = (value: string) => value.toLowerCase().replaceAll('–', '-').replaceAll('’', "'")
 
 function resolveIdentityMark(label: string) {
@@ -126,29 +127,18 @@ function resolveIdentityMark(label: string) {
   return marks.find(mark => mark.matches.some(match => normalized.includes(normalize(match))))
 }
 
-function fallbackInitials(label: string) {
-  const words = label
-    .replaceAll('·', ' ')
-    .replaceAll('/', ' ')
-    .split(/\s+/)
-    .map(word => word.replace(/[^A-Za-z0-9]/g, ''))
-    .filter(word => word && !['and', 'at', 'for', 'of', 'the'].includes(word.toLowerCase()))
-  return words.slice(0, 3).map(word => word[0]).join('').toUpperCase() || '•'
-}
-
-export function IdentityMark({ label, compact = false }: { label: string; compact?: boolean }) {
+export function IdentityMark({ label, compact = false, contextual = false }: { label: string; compact?: boolean; contextual?: boolean }) {
   const mark = resolveIdentityMark(label)
+  const contextualLabel = contextual && mark && ({
+    'uw-madison': 'UW–Madison',
+    mcmaster: 'McMaster',
+    uab: 'UAB',
+    aapm: 'AAPM',
+  } as Record<string, string>)[mark.id]
   const wide = mark && ['uab', 'hamilton-health-sciences', 'western', 'st-josephs', 'mclaren-racing', 'first', 'hosa'].includes(mark.id)
-  const type = mark?.src ? 'official' : mark?.fallbackLabel ? 'named' : 'typographic'
-  return <span className={`identity-mark${compact ? ' is-compact' : ''}${wide ? ' is-wide' : ''}${type === 'named' ? ' is-named' : ''}${type === 'typographic' ? ' is-typographic' : ''}`} data-mark-id={mark?.id ?? 'fallback'} data-mark-type={type} title={mark?.label ?? label}>
-    {mark?.src ? <picture>{mark.compactSrc && <source media="(max-width: 520px)" srcSet={mark.compactSrc} />}<img src={mark.src} alt="" loading="lazy" /></picture> : <span aria-hidden="true">{mark?.fallbackLabel ?? fallbackInitials(label)}</span>}
+  const type = contextualLabel ? 'named' : mark?.src ? 'official' : mark?.fallbackLabel ? 'named' : 'typographic'
+  const requiresLightGround = mark?.requiresLightGround && !contextual
+  return <span className={`identity-mark${compact ? ' is-compact' : ''}${wide ? ' is-wide' : ''}${contextual ? ' is-contextual' : ''}${requiresLightGround ? ' requires-light-ground' : ''}${type === 'named' ? ' is-named' : ''}${type === 'typographic' ? ' is-typographic' : ''}`} data-mark-id={mark?.id ?? 'fallback'} data-mark-type={type} title={mark?.label ?? label}>
+    {contextualLabel ? <span>{contextualLabel}</span> : mark?.src ? <picture>{mark.compactSrc && <source media="(max-width: 520px)" srcSet={mark.compactSrc} />}<img src={mark.src} alt="" loading="lazy" /></picture> : <span>{mark?.fallbackLabel ?? label}</span>}
   </span>
-}
-
-export function IdentityMarkRail({ labels = featuredInstitutionLabels, eyebrow = 'Institutions along the way' }: { labels?: string[]; eyebrow?: string }) {
-  const railMarks = labels.map(resolveIdentityMark).filter((mark): mark is MarkDefinition & { src: string } => Boolean(mark?.src))
-  return <aside className="identity-mark-rail" aria-label={eyebrow}>
-    <span className="meta">{eyebrow}</span>
-    <div>{railMarks.map(mark => <a href={mark.source} key={mark.id} title={`${mark.label} identity source`}><img src={mark.src} alt={mark.label} loading="lazy" /></a>)}</div>
-  </aside>
 }

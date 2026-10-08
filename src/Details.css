@@ -73,3 +73,203 @@
 .reading-list-page{padding-bottom:90px}.reading-list-page>section{padding:55px 0;border-top:1px solid var(--line)}.shared-list{background:var(--tint);box-shadow:0 0 0 100vmax var(--tint);clip-path:inset(0 -100vmax)}.reading-list-heading{display:flex;justify-content:space-between;align-items:center;gap:28px;margin-bottom:28px}.reading-list-heading h2{font-size:42px;margin-top:10px}.reading-list-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.text-button{border:0;background:transparent;color:var(--ink);text-decoration:underline;padding:10px}.reading-list-items article{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:start;border-top:1px solid var(--line);padding:27px 0}.reading-list-items h2{font-size:28px;line-height:1.3;margin:9px 0}.reading-list-items h2 a{text-decoration:none}.reading-list-items p{font-size:15px;max-width:72ch}.list-notice{background:var(--paper);border-left:3px solid var(--rust);padding:13px 16px;margin:15px 0;font-size:14px}.share-fallback{display:grid;gap:8px;margin:18px 0 30px;font-size:12px;color:var(--muted)}.share-fallback input{width:100%;padding:12px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font:12px monospace}.empty-reading-list{padding:45px 0}.empty-reading-list h3{font-size:30px}.empty-reading-list p{margin:12px 0 25px}.reading-list-page .button{border:1px solid var(--green)}
 @media(max-width:760px){.reading-list-heading{align-items:flex-start;flex-direction:column}.reading-list-heading h2{font-size:34px}.reading-list-items article{grid-template-columns:1fr;gap:15px}.curated-related article{border-top:1px solid var(--line);padding-top:22px}.study-title-line>.card-actions{margin-top:15px}}
 @media print{.save-button,.search-trigger,.reading-list-link,.share-fallback,.reading-list-actions{display:none!important}}
+
+/* Context-first identity and life pages. These overrides intentionally replace the
+   earlier logo-card treatment with marks that sit inside the story they identify. */
+.identity-page-intro{
+  display:grid;
+  grid-template-columns:minmax(0,1.18fr) minmax(320px,.72fr);
+  column-gap:8vw;
+  align-items:end;
+  padding-top:25px;
+  padding-bottom:28px;
+}
+.identity-page-intro .back-link,.identity-page-intro .page-eyebrow{grid-column:1/-1}
+.identity-page-intro .back-link{margin-bottom:18px}
+.identity-page-intro .page-eyebrow{margin-bottom:11px}
+.identity-page-intro h1{font-size:clamp(48px,5.8vw,78px);margin:0;max-width:760px}
+.identity-page-intro .page-lede{align-self:end;padding-bottom:5px;max-width:590px}
+.identity-page-intro .page-lede>p{font-size:17px;line-height:1.58}
+.identity-page-intro .intro-actions{gap:10px 22px;margin-top:15px}
+
+.identity-mark{
+  width:86px;
+  height:58px;
+  padding:0;
+  background:transparent;
+  border:0;
+  overflow:hidden;
+}
+.identity-mark.is-wide{width:124px;padding:0}
+.identity-mark.is-compact{width:62px;height:44px;padding:0}
+.identity-mark.is-compact.is-wide{width:92px;height:44px;padding:0}
+.identity-mark.requires-light-ground{background:#fff;border:1px solid color-mix(in srgb,var(--line) 70%,#fff);padding:8px}
+.identity-mark.requires-light-ground.is-wide{padding:8px 10px}
+.identity-mark.requires-light-ground.is-compact{padding:6px}
+.identity-mark.is-named,.identity-mark.is-typographic{
+  width:auto;
+  min-width:72px;
+  max-width:132px;
+  height:auto;
+  min-height:38px;
+  padding:7px 9px;
+  background:transparent;
+  border-block:1px solid var(--line);
+  color:var(--green);
+  font-size:12px;
+  letter-spacing:.02em;
+}
+.identity-mark.is-contextual{height:34px;width:72px;overflow:visible}
+.identity-mark.is-contextual.is-wide{width:78px}
+.identity-mark.is-contextual.is-named{
+  min-width:0;
+  max-width:none;
+  min-height:0;
+  width:auto;
+  padding:0;
+  border:0;
+  color:var(--green);
+  font:700 14px/1.1 Arial,sans-serif;
+  letter-spacing:.01em;
+  text-align:left;
+}
+.identity-mark.is-contextual[data-mark-id="uw-madison"]{color:#c5050c}
+.identity-mark.is-contextual[data-mark-id="mcmaster"]{color:var(--ink)}
+.identity-mark.is-contextual[data-mark-id="aapm"]{color:#394d8c}
+.identity-mark.is-contextual[data-mark-id="uab"]{width:72px;height:28px}
+
+.experience-overview{
+  display:block;
+  padding-block:24px 34px;
+  border-top:1px solid var(--line);
+}
+.identity-archive-intro h2{font-size:clamp(38px,4.6vw,61px);line-height:1.08;margin-top:15px}
+.experience-overview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.experience-overview-grid>a{
+  min-width:0;
+  padding:2px 30px 12px;
+  border-left:1px solid var(--line);
+  text-decoration:none;
+}
+.experience-overview-grid>a:first-child{border-left:0;padding-left:0}.experience-overview-grid>a:last-child{padding-right:0}
+.experience-overview-mark{height:36px;display:flex;align-items:flex-start;margin-bottom:7px}
+.experience-institution{display:block;font:18px/1.25 var(--serif);margin-bottom:9px}
+.experience-overview-grid h2{font-size:28px;line-height:1.14;margin:8px 0 9px}
+.experience-overview-grid p{font-size:14px;line-height:1.58;min-height:44px}
+.experience-overview-grid strong{display:inline-flex;align-items:center;gap:7px;margin-top:12px;color:var(--green);font-size:12px}
+.experience-overview-grid strong svg{width:15px;height:15px}
+.experience-overview-grid>a:hover h3{color:var(--rust)}
+
+.identity-archive-intro{
+  display:grid;
+  grid-template-columns:minmax(280px,.7fr) minmax(300px,.55fr);
+  justify-content:space-between;
+  align-items:end;
+  gap:40px;
+  padding-block:64px 32px;
+  border-top:1px solid var(--line);
+}
+.identity-archive-intro>.meta{grid-column:1/-1}
+.identity-archive-intro h2{margin-top:0}
+.identity-archive-intro>p{font-size:15px;padding-bottom:6px;max-width:48ch}
+.identity-filters{padding-block:20px;grid-template-columns:minmax(260px,.85fr) minmax(0,1.3fr);gap:11px 28px}
+.identity-filters .search-input{height:48px}
+.identity-filters>label{font-size:12px}
+.filter-buttons button{padding:8px 11px;font-size:11px}
+.identity-filters>p{margin:0}
+
+.identity-timeline{padding-block:10px 28px}
+.identity-row{
+  grid-template-columns:175px minmax(0,1fr);
+  gap:45px;
+  padding:27px 0;
+}
+.identity-date strong{font-size:21px}.identity-date span{font-size:11px;margin-top:7px}
+.identity-row h2{font-size:clamp(27px,3vw,38px);margin:8px 0 4px}
+.record-institution{color:var(--rust);font-size:14px;margin-bottom:13px}
+.identity-row>div:last-child>p{font-size:15px;line-height:1.68}
+.record-details{margin-top:14px;font-size:13px}
+.record-details>summary{cursor:pointer;color:var(--green);font-size:13px}
+.record-details>div{padding:8px 0 2px}
+.record-details ul{margin:10px 0 0;padding-left:19px;columns:2;column-gap:38px}
+.record-details li{break-inside:avoid;margin-bottom:7px;font-size:14px;line-height:1.55}
+.identity-actions{margin-top:12px;gap:14px}.identity-actions .save-control{margin-left:0}
+.project-index-section{padding-block:70px}.project-index-section .section-heading{padding-bottom:24px}
+.project-records{gap:0 46px;margin-top:22px}
+.project-record{padding:25px 0}.project-record h3{font-size:27px;margin:10px 0 6px}.project-record>.meta{font-size:10px}
+
+.awards-feature{
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(340px,.92fr);
+  gap:clamp(40px,7vw,96px);
+  align-items:center;
+  padding-block:30px 78px;
+}
+.awards-feature>figure{margin:0}.awards-feature>figure img{display:block;width:100%;aspect-ratio:1.3;object-fit:cover;object-position:center 44%}
+.awards-feature>figure figcaption{font-size:12px;margin-top:10px;color:var(--muted)}
+.awards-feature-copy h2{font-size:clamp(42px,5vw,67px);line-height:1.05;margin:16px 0 24px}
+.awards-feature-copy>p{font-size:17px;line-height:1.72;max-width:53ch}.awards-feature-copy>.text-link{display:inline-block;margin-top:22px}
+.awards-feature-secondary{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:38px;padding-top:18px;border-top:1px solid var(--line)}
+.awards-feature-secondary>a{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;text-decoration:none;min-width:0}
+.awards-feature-secondary small,.awards-feature-secondary strong{display:block}.awards-feature-secondary small{font-size:10px;color:var(--muted);margin-bottom:5px}.awards-feature-secondary strong{font:18px/1.25 var(--serif)}
+.awards-feature-secondary>a:hover strong{color:var(--rust)}
+.award-ledger{padding-block:18px 35px}
+.award-group{display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;border-top:1px solid var(--line);padding-block:30px 10px}
+.award-group-heading{position:sticky;top:110px;align-self:start;padding-right:18px}
+.award-group>.award-row{grid-column:2}
+.award-group-heading h2{font-size:27px;line-height:1.15;margin-bottom:12px}.award-group-heading p{font-size:13px;line-height:1.58;color:var(--muted)}
+.award-row{display:grid;grid-template-columns:95px minmax(0,1fr);gap:26px;padding:22px 0}
+.award-year{font-size:20px;padding-top:5px}
+.award-title-line{display:flex;gap:16px;align-items:flex-start;margin:5px 0 9px}.award-title-line>div{min-width:0}
+.award-row h3{font-size:26px;line-height:1.22;margin:0 0 4px}.award-issuer{font-size:13px;margin:0}.award-record-main>p{font-size:14px;line-height:1.65}
+.ownership-label{font-size:10px;margin:4px 0 12px;padding:7px 10px}
+
+.beyond-hero{
+  display:grid;
+  grid-template-columns:minmax(340px,.76fr) minmax(0,1.24fr);
+  gap:clamp(40px,7vw,100px);
+  align-items:center;
+  padding-block:42px 72px;
+}
+.beyond-hero .back-link{margin-bottom:38px}.beyond-hero h1{font-size:clamp(52px,6vw,83px);line-height:1.04;margin:17px 0 25px}.beyond-hero-copy>p{font-size:18px;line-height:1.7;max-width:48ch}
+.beyond-hero-nav{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:29px;font-size:13px}
+.beyond-hero-gallery{display:grid;grid-template-columns:1.25fr .75fr;grid-template-rows:auto auto;gap:18px;align-items:start}
+.beyond-hero-gallery>a{display:block;text-decoration:none;min-width:0}.beyond-hero-gallery figure{margin:0}
+.beyond-hero-gallery img{display:block;width:100%;object-fit:cover}
+.beyond-hero-scuba{grid-row:1/3}.beyond-hero-scuba img{aspect-ratio:4/5;object-position:center 55%}.beyond-hero-equestrian img,.beyond-hero-motorsport img{aspect-ratio:4/3}.beyond-hero-gallery figcaption{font-size:11px;margin-top:7px;color:var(--muted)}
+.qualification-list{margin:24px 0 2px;border-top:1px solid var(--line)}
+.qualification-list>div{display:grid;grid-template-columns:118px minmax(0,1fr);gap:18px;align-items:center;padding:15px 0;border-bottom:1px solid var(--line)}
+.qualification-list dt{font:18px var(--serif);color:var(--green)}.qualification-list dd{margin:0}.qualification-list dd strong,.qualification-list dd span{display:block}.qualification-list dd strong{font-size:14px}.qualification-list dd span{font-size:11px;color:var(--muted);margin-top:4px}
+
+@media(max-width:1000px){
+  .identity-page-intro{grid-template-columns:1fr 1fr;column-gap:45px}
+  .award-group{grid-template-columns:175px minmax(0,1fr);gap:28px}
+  .awards-feature{gap:44px}.beyond-hero{gap:45px}
+}
+@media(max-width:820px){
+  .identity-page-intro{grid-template-columns:1fr;gap:22px}.identity-page-intro h1,.identity-page-intro .page-lede{grid-column:1}.identity-page-intro .page-lede{padding-bottom:0}
+  .experience-overview-grid{grid-template-columns:1fr 1fr}.experience-overview-grid>a:last-child{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);padding:22px 0 0;margin-top:18px}.experience-overview-grid p{min-height:0}
+  .identity-archive-intro{grid-template-columns:1fr 1fr}
+  .awards-feature{grid-template-columns:1fr}.awards-feature>figure{max-width:680px}.awards-feature-copy{max-width:680px}
+  .beyond-hero{grid-template-columns:1fr;padding-top:28px}.beyond-hero-copy{max-width:720px}.beyond-hero-gallery{max-width:720px}
+}
+@media(max-width:760px){
+  .identity-page-intro{padding-top:18px;padding-bottom:22px;gap:12px}.identity-page-intro .back-link{margin-bottom:11px}.identity-page-intro h1{font-size:46px}.identity-page-intro .page-lede>p{font-size:16px}.identity-page-intro .intro-actions{margin-top:12px}
+  .experience-overview{padding-block:14px 30px}.experience-overview-grid{grid-template-columns:1fr}.experience-overview-grid>a,.experience-overview-grid>a:last-child{grid-column:auto;border-left:0;border-top:1px solid var(--line);padding:16px 0;margin:0}.experience-overview-grid>a:first-child{border-top:0}.experience-overview-mark{height:25px;margin-bottom:4px}.experience-institution{font-size:17px;margin-bottom:6px}.experience-overview-grid h2{font-size:25px;margin:5px 0 7px}.experience-overview-grid p{font-size:13px}.experience-overview-grid strong{margin-top:8px}
+  .identity-archive-intro{grid-template-columns:1fr;gap:16px;padding-block:48px 24px}.identity-archive-intro>.meta{grid-column:auto}.identity-archive-intro h2{font-size:41px}.identity-archive-intro>p{padding:0}
+  .identity-filters{grid-template-columns:1fr}.identity-row{grid-template-columns:1fr;gap:10px;padding:25px 0}.identity-date{display:flex}.record-details ul{columns:1}.project-index-section{padding-block:54px}
+  .awards-feature{padding-block:15px 56px;gap:30px}.awards-feature-copy h2{font-size:45px}.awards-feature-secondary{grid-template-columns:1fr}.award-group{grid-template-columns:1fr;gap:10px;padding-block:25px}.award-group-heading{position:static;padding:0 0 8px}.award-group>.award-row{grid-column:1}.award-group-heading p{max-width:52ch}.award-row{grid-template-columns:70px minmax(0,1fr);gap:18px}.award-title-line{gap:12px}.award-row h3{font-size:24px}
+  .beyond-hero{padding-block:24px 52px}.beyond-hero .back-link{margin-bottom:25px}.beyond-hero h1{font-size:48px}.beyond-hero-gallery{gap:12px}.qualification-list>div{grid-template-columns:95px minmax(0,1fr)}
+}
+@media(max-width:480px){
+  .identity-archive-intro h2{font-size:38px}
+  .awards-feature-secondary>a{grid-template-columns:62px minmax(0,1fr)}
+  .award-row{grid-template-columns:1fr;gap:6px}.award-year{font-size:18px}.award-title-line{align-items:center}.award-title-line .identity-mark{flex:none}
+  .beyond-hero-gallery{grid-template-columns:1fr 1fr}.beyond-hero-scuba{grid-column:1/-1;grid-row:auto}.beyond-hero-scuba img{aspect-ratio:4/3}.beyond-hero-equestrian img,.beyond-hero-motorsport img{aspect-ratio:1}.beyond-hero-gallery figcaption{font-size:10px}
+}
+@media print{
+  .identity-filters,.identity-actions,.beyond-hero-nav{display:none!important}
+  .identity-page-intro,.experience-overview,.awards-feature,.beyond-hero{display:block}
+  .experience-overview-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+  .award-group{display:block}.award-group-heading{position:static}.record-details>div{display:block}
+}
