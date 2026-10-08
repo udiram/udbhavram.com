@@ -3,7 +3,7 @@ import path from 'node:path'
 import { classifyFetchError, classifyHttpResult } from './audit-url-result.mjs'
 
 const root = process.cwd()
-const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/portfolioContent.ts'), path.join(root, 'src/siteContent.ts'), path.join(root, 'src/expandedContent.ts'), path.join(root, 'src/DetailPages.tsx'), path.join(root, 'src/personalPhotos.json'), path.join(root, 'src/bibliography.json'), path.join(root, 'src/presentations.json'), path.join(root, 'src/mediaContent.json'), path.join(root, 'src/MediaPage.tsx')]
+const contentPaths = [path.join(root, 'src/App.tsx'), path.join(root, 'src/portfolioContent.ts'), path.join(root, 'src/siteContent.ts'), path.join(root, 'src/expandedContent.ts'), path.join(root, 'src/DetailPages.tsx'), path.join(root, 'src/identityMarks.tsx'), path.join(root, 'src/personalPhotos.json'), path.join(root, 'src/bibliography.json'), path.join(root, 'src/presentations.json'), path.join(root, 'src/mediaContent.json'), path.join(root, 'src/MediaPage.tsx')]
 const contentSource = (await Promise.all(contentPaths.map((filePath) => fs.readFile(filePath, 'utf8')))).join('\n')
 
 const localAssets = [
@@ -19,6 +19,17 @@ const imageAssetBlocks = [...contentSource.matchAll(/(?<key>\w+):\s*{\s*src:\s*'
 
 async function imageSize(filePath) {
   const buffer = await fs.readFile(filePath)
+
+  if (path.extname(filePath).toLowerCase() === '.svg') {
+    const source = buffer.toString('utf8')
+    const viewBox = source.match(/\bviewBox=["']\s*[-\d.]+\s+[-\d.]+\s+([\d.]+)\s+([\d.]+)\s*["']/i)
+    const width = source.match(/\bwidth=["']([\d.]+)(?:px)?["']/i)
+    const height = source.match(/\bheight=["']([\d.]+)(?:px)?["']/i)
+    const dimensions = viewBox
+      ? { width: Number(viewBox[1]), height: Number(viewBox[2]) }
+      : { width: Number(width?.[1] ?? 0), height: Number(height?.[1] ?? 0) }
+    return { ...dimensions, type: 'svg' }
+  }
 
   if (buffer.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))) {
     return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20), type: 'png' }
@@ -83,7 +94,10 @@ for (const asset of localAssets) {
       continue
     }
     const size = await imageSize(filePath)
-    assetResults.push({ asset, ok: size.width >= 120 && size.height >= 80, ...size })
+    const isBrandAsset = asset.startsWith('/assets/brands/')
+    const minimumWidth = isBrandAsset ? 64 : 120
+    const minimumHeight = isBrandAsset ? (size.type === 'svg' ? 24 : 40) : 80
+    assetResults.push({ asset, ok: size.width >= minimumWidth && size.height >= minimumHeight, ...size })
   } catch (error) {
     assetResults.push({ asset, ok: false, error: error instanceof Error ? error.message : String(error) })
   }

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Dietary compounds and amyloid membrane study schematic</title>
+  <desc id="desc">An original schematic of four compounds evaluated in a synthetic brain membrane model with amyloid beta 25 to 35.</desc>
+  <rect width="1200" height="760" fill="#f4f1ea"/>
+  <text x="72" y="78" fill="#18352b" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="3">GROUNDED STUDY SCHEMATIC</text>
+  <text x="72" y="126" fill="#1c1c1a" font-family="Georgia, serif" font-size="36">Four compounds. One controlled membrane model.</text>
+  <g font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle">
+    <g transform="translate(95 195)"><circle cx="90" cy="76" r="66" fill="#9f4c3b"/><text x="90" y="82" fill="#fff">RESVERATROL</text></g>
+    <g transform="translate(355 195)"><circle cx="90" cy="76" r="66" fill="#315f70"/><text x="90" y="82" fill="#fff">CAFFEINE</text></g>
+    <g transform="translate(615 195)"><circle cx="90" cy="76" r="66" fill="#d07b2d"/><text x="90" y="72" fill="#fff">BETA-</text><text x="90" y="94" fill="#fff">CAROTENE</text></g>
+    <g transform="translate(875 195)"><circle cx="90" cy="76" r="66" fill="#3a735c"/><text x="90" y="82" fill="#fff">EGCG</text></g>
+  </g>
+  <g transform="translate(85 425)">
+    <path d="M0 0h1030" stroke="#b34b34" stroke-width="6"/>
+    <path d="M0 68h1030" stroke="#b34b34" stroke-width="6"/>
+    <g fill="#d9b96e"><circle cx="30" cy="0" r="15"/><circle cx="85" cy="0" r="15"/><circle cx="140" cy="0" r="15"/><circle cx="195" cy="0" r="15"/><circle cx="250" cy="0" r="15"/><circle cx="305" cy="0" r="15"/><circle cx="360" cy="0" r="15"/><circle cx="415" cy="0" r="15"/><circle cx="470" cy="0" r="15"/><circle cx="525" cy="0" r="15"/><circle cx="580" cy="0" r="15"/><circle cx="635" cy="0" r="15"/><circle cx="690" cy="0" r="15"/><circle cx="745" cy="0" r="15"/><circle cx="800" cy="0" r="15"/><circle cx="855" cy="0" r="15"/><circle cx="910" cy="0" r="15"/><circle cx="965" cy="0" r="15"/><circle cx="1020" cy="0" r="15"/></g>
+    <g fill="#d9b96e"><circle cx="30" cy="68" r="15"/><circle cx="85" cy="68" r="15"/><circle cx="140" cy="68" r="15"/><circle cx="195" cy="68" r="15"/><circle cx="250" cy="68" r="15"/><circle cx="305" cy="68" r="15"/><circle cx="360" cy="68" r="15"/><circle cx="415" cy="68" r="15"/><circle cx="470" cy="68" r="15"/><circle cx="525" cy="68" r="15"/><circle cx="580" cy="68" r="15"/><circle cx="635" cy="68" r="15"/><circle cx="690" cy="68" r="15"/><circle cx="745" cy="68" r="15"/><circle cx="800" cy="68" r="15"/><circle cx="855" cy="68" r="15"/><circle cx="910" cy="68" r="15"/><circle cx="965" cy="68" r="15"/><circle cx="1020" cy="68" r="15"/></g>
+    <path d="M425-73c44-25 70 3 53 30-16 25-58 11-42 43 14 28 62 5 76 40 13 34-18 59-51 40" fill="none" stroke="#6f4aa2" stroke-width="12" stroke-linecap="round"/>
+    <text x="515" y="128" fill="#18352b" font-family="Arial, sans-serif" font-size="20" font-weight="700" text-anchor="middle">SYNTHETIC BRAIN MEMBRANE + AMYLOID-β25–35</text>
+  </g>
+  <text x="72" y="650" fill="#5b615e" font-family="Arial, sans-serif" font-size="16">Original explanatory artwork; not a microscopy image or figure reproduced from the paper.</text>
+  <text x="72" y="680" fill="#5b615e" font-family="Arial, sans-serif" font-size="14">Source: Molecular Nutrition &amp; Food Research, doi:10.1002/mnfr.202000632</text>
+</svg>

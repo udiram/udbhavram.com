@@ -231,6 +231,7 @@
       "url": "https://www.youtube.com/watch?v=NMcoTPjPJ1g",
       "duration": "5:04",
       "summary": "A recorded overview of the invited SPSCon poster on Ethos 2.0 high-fidelity radiosurgery planning.",
+      "relationship": "Recorded poster overview",
       "related_pages": [
         "/research/radiosurgery-planning",
         "/publications#presentations"
@@ -246,6 +247,7 @@
       "url": "https://www.youtube.com/watch?v=ITW86kDzaNQ",
       "duration": "3:49",
       "summary": "A short research presentation on language-model-assisted target-name adherence in radiation oncology.",
+      "relationship": "Recorded study presentation",
       "related_pages": [
         "/research/clinical-language-models",
         "/publications#presentations"
@@ -261,6 +263,7 @@
       "url": "https://www.youtube.com/watch?v=jlnFADrlgfM",
       "duration": "9:14",
       "summary": "The final thesis presentation comparing 6X and 10X flattening-filter-free beams at Juravinski Cancer Centre.",
+      "relationship": "Final thesis presentation",
       "related_pages": [
         "/research/lung-beam-energy",
         "/publications#presentations"
@@ -277,6 +280,7 @@
       "url": "https://www.youtube.com/watch?v=JfKKX6gta-M",
       "duration": "2:50",
       "summary": "A short collaboration showcase about Udi’s visiting-scholar experience, AI research and student exchange between UAB and McMaster.",
+      "relationship": "Collaboration overview",
       "related_pages": [
         "/about#mentorship",
         "/research",
@@ -293,6 +297,7 @@
       "url": "https://www.youtube.com/watch?v=7JgRKwVRkEo",
       "duration": "12:43",
       "summary": "A recorded presentation on optimizing dose delivery during fractionated radiotherapy, associated with CUPC 2023.",
+      "relationship": "Earlier related dose-delivery talk",
       "related_pages": [
         "/research",
         "/publications#presentations"
@@ -309,6 +314,7 @@
       "url": "https://www.youtube.com/watch?v=8IKr1QauMGc",
       "duration": "14:46",
       "summary": "A talk on deep-learning contouring of abdominal organs, associated with the 2023 Physics Undergraduate Conference.",
+      "relationship": "Earlier project recording · 2023",
       "related_pages": [
         "/research/organ-segmentation",
         "/publications#presentations"
@@ -324,6 +330,7 @@
       "url": "https://www.youtube.com/watch?v=iubpGRBjZN0",
       "duration": "12:24",
       "summary": "A CUPC 2022 presentation about automated abdominal-organ segmentation in radiation oncology.",
+      "relationship": "Earlier project recording · 2022",
       "related_pages": [
         "/research/organ-segmentation",
         "/publications#presentations"
@@ -340,6 +347,7 @@
       "url": "https://www.youtube.com/watch?v=A7_TRUWW6EI",
       "duration": "4:18",
       "summary": "A short Canadian Undergraduate Medical Physics Conference presentation on deep-learning abdominal multi-organ segmentation.",
+      "relationship": "Earlier project recording · 2022",
       "related_pages": [
         "/research/organ-segmentation",
         "/publications#presentations"

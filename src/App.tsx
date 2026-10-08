@@ -531,14 +531,14 @@ function Life() {
       </div>
       <div className="life-notes">
         <article className="life-note-photo">
-          <a className="life-note-image" href="/beyond#scuba" aria-label="Open the scuba story"><Photo asset={imageAssets.beyondScuba} caption="Open-water dive · May 2025" /></a>
+          <a className="life-note-image" href="/beyond#scuba" aria-label="Open the scuba story"><Photo asset={imageAssets.beyondScuba} caption={imageAssets.beyondScuba.caption!} /></a>
           <div><span className="meta">Scuba</span>
             <h3>Below the surface</h3>
             <p>PADI Advanced Open Water and Nitrox training built on an earlier SSI Open Water qualification.</p>
             <a className="text-link" href="/beyond#scuba">Dive into the story</a></div>
         </article>
         <article className="life-note-photo">
-          <a className="life-note-image" href="/beyond#equestrian" aria-label="Open the equestrian story"><Photo asset={imageAssets.beyondEquestrian} caption="Trail riding · August 2025" /></a>
+          <a className="life-note-image" href="/beyond#equestrian" aria-label="Open the equestrian story"><Photo asset={imageAssets.beyondEquestrian} caption={imageAssets.beyondEquestrian.caption!} /></a>
           <div><span className="meta">Equestrian</span>
             <h3>Time in the saddle</h3>
             <p>English riding, Western horsemanship, horse care, and time helping at an Alabama lesson barn.</p>

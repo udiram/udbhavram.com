@@ -35,9 +35,7 @@ function ExperienceRow({ record }: { record: ExperienceRecord }) {
   return <article className="identity-row" id={record.id} tabIndex={-1}>
     <div className="identity-date"><strong>{record.period}</strong><span>{record.status}</span></div>
     <div className="identity-record-main">
-      <span className="meta">{record.category}{record.location ? ` · ${record.location}` : ''}</span>
-      <h2>{record.role}</h2>
-      <p className="record-institution">{record.institution}</p>
+      <div className="identity-record-heading"><IdentityMark label={record.institution} compact /><div><span className="meta">{record.category}{record.location ? ` · ${record.location}` : ''}</span><h2>{record.role}</h2><p className="record-institution">{record.institution}</p></div></div>
       <p>{record.summary}</p>
       <details className="record-details"><summary>Work and sources</summary><div><ul>{record.work.map(item => <li key={item}>{item}</li>)}</ul>{record.note && <p className="record-note">Evidence note: {record.note}</p>}<Sources sources={record.sources} /></div></details>
       <div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`experience:${record.id}`} compact /></div>
@@ -117,7 +115,7 @@ const awardGroups = [
 function AwardRow({ record }: { record: AwardRecord }) {
   return <article className="award-row" id={record.id} tabIndex={-1}>
     <div className="award-year">{record.year}</div>
-    <div className="award-record-main"><span className="meta">{record.category} · {record.evidence}</span><div className="award-title-line">{record.issuer && <IdentityMark label={record.issuer} compact />}<div><h3>{record.title}</h3>{record.issuer && <p className="award-issuer">{record.issuer}</p>}</div></div>{record.ownership === 'Mentor or collaborator' && <div className="ownership-label">Recipient: Carlos Cardenas · collaborator context</div>}<p>{record.detail}</p><details className="record-details"><summary>Source and record note</summary><div>{record.note && <p className="record-note">{record.note}</p>}<Sources sources={record.sources} /></div></details><div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`award:${record.id}`} compact /></div></div>
+    <div className="award-record-main"><span className="meta">{record.category} · {record.evidence}</span><div className="award-title-line"><IdentityMark label={record.issuer ?? record.title} compact /><div><h3>{record.title}</h3>{record.issuer ? <p className="award-issuer">{record.issuer}</p> : <p className="award-issuer">Issuer or organizer not named in the public record</p>}</div></div>{record.ownership === 'Mentor or collaborator' && <div className="ownership-label">Recipient: Carlos Cardenas · collaborator context</div>}<p>{record.detail}</p><details className="record-details"><summary>Source and record note</summary><div>{record.note && <p className="record-note">{record.note}</p>}<Sources sources={record.sources} /></div></details><div className="identity-actions"><a className="record-permalink" href={`#${record.id}`}>Link to this record</a><SaveButton id={`award:${record.id}`} compact /></div></div>
   </article>
 }
 

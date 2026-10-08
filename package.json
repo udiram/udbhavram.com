@@ -22,6 +22,8 @@
     "test:lap": "node scripts/test-lap-analysis.mjs",
     "test:experience": "node scripts/test-experience.mjs",
     "test:identity": "node scripts/test-identity.mjs",
+    "test:research": "node scripts/test-research-media.mjs",
+    "test:visuals": "node scripts/test-route-visuals.mjs",
     "test:discovery": "node scripts/test-discovery.mjs"
   },
   "dependencies": {

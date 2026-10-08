@@ -69,7 +69,9 @@ try {
       await page.screenshot({ path: `${process.env.EVIDENCE_DIR}/software-conference-${width}.png` })
     }
     await page.goto(`${base}/beyond`)
-    assert.equal(await page.locator('.signature-pursuit img').count(), 2)
+    assert.equal(await page.locator('.signature-pursuit > .page-photo img').count(), 2)
+    assert.equal(await page.locator('.signature-pursuit .identity-mark img').count(), 3)
+    assert.equal(await page.locator('#scuba .identity-mark[data-mark-id="padi"][data-mark-type="official"] img').count(), 1)
     assert.match(await page.locator('.signature-pursuits').innerText(), /Scuba diving/)
     assert.match(await page.locator('.signature-pursuits').innerText(), /Equestrian life/)
     if (process.env.EVIDENCE_DIR) {

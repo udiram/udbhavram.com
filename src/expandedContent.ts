@@ -15,7 +15,7 @@ export const studies: Study[] = [
     subtitle: 'Characterizing contouring uncertainty across clinical specialties in CBCT-guided online adaptive partial breast irradiation',
     year: 'September 29, 2026', status: 'ASTRO 2026 · Poster 3104 · Boston',
     intro: 'Adaptive radiotherapy adjusts treatment to the anatomy seen on the day. But before a plan can adapt, a person has to decide where the treatment target begins and ends. This work examines how those decisions vary across clinical specialties.',
-    image: imageAssets.uabRadonc, caption: 'Radiation-oncology research at UAB · Institutional treatment-planning imagery',
+    image: imageAssets.adaptiveResearch, caption: 'Original AAPM 2026 poster on contouring uncertainty in online adaptive partial-breast irradiation',
     facts: [{ value: '14', label: 'patients' }, { value: '14', label: 'observers across 4 professions' }, { value: '1–5 mm', label: 'margins evaluated' }],
     sections: [
       { heading: 'The clinical question', paragraphs: ['Partial-breast irradiation focuses treatment on a smaller part of the breast. In an online adaptive workflow, the clinical team reviews the day’s images and contours before adapting the plan. Variation in those contours is therefore a practical uncertainty in the workflow.', 'The project studies contouring uncertainty across clinical specialties using cone-beam computed tomography (CBCT), the imaging used to guide the online adaptation. It connects image interpretation, clinical judgment, and treatment planning rather than treating contours as a purely geometric problem.'] },
@@ -60,7 +60,7 @@ export const studies: Study[] = [
     subtitle: 'Quantitative performance and expert review of deep-learning frameworks for abdominal-organ segmentation',
     year: '2025', status: 'First-author journal article · Intelligent Oncology',
     intro: 'Good overlap scores are useful, but they do not tell the whole story of an automatically drawn organ. This head-to-head study pairs quantitative evaluation with blinded physician review.',
-    image: imageAssets.heroCollage, caption: 'Medical-imaging research · CT, MR, code, and radiation-dose visualizations',
+    image: imageAssets.organSegmentationResearch, caption: 'Published Figure 3 · nnU-Net, Auto3DSeg, SwinUNETR, and ground-truth contours',
     facts: [{ value: '122', label: 'training CT images' }, { value: '72', label: 'holdout CT images' }, { value: '3 × 30', label: 'physicians × reviewed cases' }],
     sections: [
       { heading: 'Comparing approaches fairly', paragraphs: ['The project compared nnU-Net, MONAI Auto3DSeg, and SwinUNETR on a shared abdominal computed-tomography (CT) segmentation task. The two automated machine-learning (AutoML) frameworks and the transformer-based model were evaluated on the same data.', 'Automating organ segmentation can reduce repetitive work, but a useful comparison needs to address both the geometry of an output and its acceptability to a clinical reader.'] },
@@ -75,7 +75,7 @@ export const studies: Study[] = [
     subtitle: 'Fusing pre-radiotherapy brain-metastasis contours with follow-up MRI',
     year: '2026 issue · Online 2025', status: 'Co-authored journal article · Neuro-Oncology Practice',
     intro: 'Follow-up imaging asks clinicians to understand what has changed since treatment. This project brings earlier treatment contours into the follow-up magnetic-resonance image so that history is easier to review.',
-    image: imageAssets.heroCollage, caption: 'Imaging and radiation-oncology research · Illustrative research imagery',
+    image: imageAssets.brainFollowupResearch, caption: 'Original explanatory schematic of the published contour-registration workflow · Not patient data',
     facts: [{ value: '40', label: 'patients in the study' }, { value: '7.97 min', label: 'average review time before' }, { value: '3.95 min', label: 'average review time with framework' }],
     sections: [
       { heading: 'The information gap', paragraphs: ['After radiotherapy, a follow-up magnetic resonance imaging (MRI) examination needs to be interpreted in light of what was previously treated. Treatment contours and current images can be separate pieces of the clinical record.', 'The co-authored framework brings pre-radiotherapy brain-metastasis contours into follow-up MRI to support that assessment.'] },
@@ -91,7 +91,7 @@ export const studies: Study[] = [
   "year": "2025",
   "status": "First-author AAPM poster",
   "intro": "Beam energy affects more than delivery speed. This planning-and-phantom study asks how the choice between two flattening-filter-free photon beams changes lung-treatment dosimetry and efficiency.",
-  "caption": "Radiation-oncology planning research · Institutional treatment-planning imagery",
+  "caption": "Original AAPM 2025 lung SBRT beam-energy poster",
   "facts": [
     {
       "value": "2",
@@ -135,7 +135,7 @@ export const studies: Study[] = [
       "href": "https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf"
     }
   ],
-  "image": imageAssets.uabRadonc
+  "image": imageAssets.lungBeamResearch
 },
 {
   "slug": "amyloid-membranes",
@@ -144,7 +144,7 @@ export const studies: Study[] = [
   "year": "2020",
   "status": "Co-authored journal article · Molecular Nutrition & Food Research",
   "intro": "Before the clinical-AI projects, biophysics offered a way to study complex biological questions through a controlled model system. This paper investigates interactions between selected compounds, synthetic membranes, and amyloid aggregates.",
-  "caption": "A research thread spanning biophysics and medical imaging · Illustrative research imagery",
+  "caption": "Original explanatory schematic of the published membrane model · Not a paper figure",
   "facts": [
     {
       "value": "4",
@@ -191,7 +191,7 @@ export const studies: Study[] = [
       "href": "https://pubmed.ncbi.nlm.nih.gov/32981185/"
     }
   ],
-  "image": imageAssets.heroCollage
+  "image": imageAssets.amyloidResearch
 }
 ]
 

@@ -55,7 +55,16 @@ Historical items whose public page does not name an issuer retain that uncertain
 - `activities-scuba.webp` is the 225 x 124 image published in the Scuba section of the earlier public Activities page. It is displayed at native dimensions so the interface does not imply higher-resolution evidence.
 - `activities-10.webp` is the image published in the Equestrian section of that page. Captions describe source-page context, not facial identification.
 - The withdrawn community-music and outdoor-gathering images are absent from both UI references and the static asset payload.
+- The rejected `beyond-equestrian-2025.webp` is also absent. Its replacement is a different owner-library image from November 8, 2024 in which the authenticated library identifies Udbhav; the published file is `beyond-equestrian-2024.webp`.
 - The existing public Formula LGB onboard recording remains the verified motorsport video. No trustworthy additional scuba or equestrian video was found in the reviewed public source set, so none was added.
+
+## Visual identity coverage
+
+Every experience row renders one adjacent identity treatment. Official parent-organization marks cover UW–Madison, McMaster units and teams, UAB units and programs, Hamilton Health Sciences / Juravinski, Western / Lawson, St. Joseph’s, Arrow McLaren, FIRST, MAC Formula Electric, Synth-Med, JSPG, Anytime Fitness, and the current Humber Health identity. Momentum Motorsports uses an authentic activity photograph. WaaW, Robotique Zone01, Sparkin’ STEM, and MRF / Volkswagen Polo Cup use honest role-specific activity symbols where no safely reusable official mark was established. No experience row uses a generated word tile or an unrelated source-page screenshot.
+
+Every recognition row renders one adjacent issuer, qualification, or activity treatment. Named issuers use an official asset when reuse is supported (McMaster, UAB, AAPM, SPS, HOSA, FIRST, SSI, and PADI) or authentic record evidence (CUPC and SPARK). The historical Varian Clinical School course uses a training symbol rather than a screenshot of a current Siemens education page. College Board’s published third-party trademark restriction is respected with an academic activity symbol. Other records without a reusable issuer asset use an activity symbol and retain the sourced issuer name or explicit evidence gap in adjacent copy; they do not present the symbol as an issuer logo.
+
+The `/beyond` equestrian story uses the exact provider name “The American Cowboy Academy,” its official mark and official site. The site explicitly states that it is unaffiliated with the similarly named `.org` organization; the portfolio links only to `theamericancowboyacademy.com`.
 
 ## Stable public identities
 

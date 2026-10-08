@@ -14,14 +14,24 @@ const destinations: Record<string, string> = {
 }
 function Connections({ pages }: { pages: string[] }) { return <div className="media-connections"><span>Follow the story</span>{pages.slice(0, 3).map(p => <a href={p} key={p}>{destinations[p] ?? 'Explore the related work'} →</a>)}</div> }
 
-function Video({ video: v }: { video: typeof media.videos[number] }) {
+function Video({ video: v, compact = false }: { video: typeof media.videos[number]; compact?: boolean }) {
   const [loaded, setLoaded] = useState(false)
+  const relationship = 'relationship' in v ? v.relationship : undefined
   return <article className="media-video" id={v.id} tabIndex={-1} data-media-video>
     <div className={`video-stage video-${v.topic === 'Motorsport' ? 'driving' : 'talk'}`}>
       {loaded ? <iframe src={v.embed_url} title={v.title} allow="encrypted-media; picture-in-picture; fullscreen" allowFullScreen referrerPolicy="strict-origin-when-cross-origin" /> : <button className="video-load" onClick={() => setLoaded(true)} aria-label={`Load YouTube video: ${v.title}`}><img src={`/assets/media/video-thumbnails/${v.video_id}.jpg`} alt="" width="480" height="360" loading="lazy" /><span><Play size={32} weight="fill" /><b>Load video</b><small>{v.duration} · YouTube</small></span></button>}
     </div>
-    <div className="video-caption"><span className="meta">{v.topic} · {v.duration}</span><h3>{v.title}</h3><p>{v.summary}</p><p className="media-date">Uploaded {date(v.upload_date)}{v.event_date && <><br />{v.topic === 'Motorsport' ? 'Driven' : 'Event'}: {date(v.event_date)}</>}</p><div className="card-actions"><a className="text-link" href={v.url}>Watch on YouTube <ArrowUpRight /></a><SaveButton id={`media:video:${v.id}`} compact /></div>{loaded && <button className="video-unload" onClick={() => setLoaded(false)}>Close video</button>}<Connections pages={v.related_pages} /></div>
+    <div className="video-caption"><span className="meta">{compact && relationship ? relationship : v.topic} · {v.duration}</span><h3>{v.title}</h3>{!compact && <><p>{v.summary}</p><p className="media-date">Uploaded {date(v.upload_date)}{v.event_date && <><br />{v.topic === 'Motorsport' ? 'Driven' : 'Event'}: {date(v.event_date)}</>}</p></>}<div className="card-actions"><a className="text-link" href={v.url}>Watch on YouTube <ArrowUpRight /></a>{!compact && <SaveButton id={`media:video:${v.id}`} compact />}</div>{loaded && <button className="video-unload" onClick={() => setLoaded(false)}>Close video</button>}{!compact && <Connections pages={v.related_pages} />}</div>
   </article>
+}
+
+export function StudyVideoSet({ path, compact = false }: { path: string; compact?: boolean }) {
+  const videos = media.videos.filter(video => video.related_pages.includes(path))
+  if (!videos.length) return null
+  return <section className={`study-video-set${compact ? ' is-compact' : ''}`} aria-label={`Research recordings for ${path}`}>
+    <div className="study-video-heading"><span className="meta">Original public recordings</span><h3>{videos.length === 1 ? 'Watch the study.' : `${videos.length} ways to watch the work.`}</h3><p>Preview images load from this site. YouTube connects only after you press play.</p></div>
+    <div className="media-video-grid">{videos.map(video => <Video key={video.id} video={video} compact={compact} />)}</div>
+  </section>
 }
 
 export function RelatedMedia({ path }: { path: string }) {

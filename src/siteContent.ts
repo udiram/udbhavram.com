@@ -1,4 +1,4 @@
-export type ImageAsset = { src: string; alt: string; source?: string }
+export type ImageAsset = { src: string; alt: string; source?: string; caption?: string }
 type LinkItem = { label: string; href: string }
 type IconName =
   | 'mail'
@@ -125,11 +125,18 @@ export const imageAssets = {
   beyondScuba: {
     src: '/assets/personal/beyond-scuba-2025.webp',
     alt: 'Three scuba divers suspended in open water beneath rising bubbles',
+    caption: 'Open-water dive · Personal archive, May 2025',
   },
   beyondEquestrian: {
-    src: '/assets/personal/beyond-equestrian-2025.webp',
-    alt: 'Udbhav Ram riding a palomino horse on a wooded trail',
+    src: '/assets/personal/beyond-equestrian-2024.webp',
+    alt: 'Udbhav Ram seated on a white horse during horsemanship training',
+    caption: 'Horsemanship training · Personal archive, November 2024',
   },
+  adaptiveResearch: { src: '/assets/sourced/aapm-2026-adaptive-poster.jpg', alt: 'AAPM 2026 poster on contouring uncertainty in online adaptive partial-breast irradiation', source: 'https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf' },
+  organSegmentationResearch: { src: '/assets/sourced/organ-segmentation-figure-3.jpg', alt: 'Published comparison of abdominal organ contours from nnU-Net, Auto3DSeg, SwinUNETR, and ground truth', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F3/' },
+  brainFollowupResearch: { src: '/assets/sourced/brain-followup-workflow.svg', alt: 'Original schematic of prior treatment contours registered into follow-up brain MRI', source: 'https://academic.oup.com/nop/article/13/3/497/8382617' },
+  lungBeamResearch: { src: '/assets/sourced/aapm-2025-lung-6x10x-poster.webp', alt: 'AAPM 2025 poster comparing 6X-FFF and 10X-FFF for lung SBRT', source: 'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf' },
+  amyloidResearch: { src: '/assets/sourced/amyloid-membrane-schematic.svg', alt: 'Original schematic of four dietary compounds studied with amyloid beta in a synthetic brain membrane model', source: 'https://doi.org/10.1002/mnfr.202000632' },
 } satisfies Record<string, ImageAsset>
 
 export const selectedWork: WorkStory[] = [
