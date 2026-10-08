@@ -26,7 +26,7 @@ try {
   assert.equal(search.rankContent('physician segmentation', 'All')[0]?.id, 'study:organ-segmentation')
   assert.equal(search.rankContent('physician segmentation', 'All').some(item => item.id === 'collection:research-record:abdominal-organ-auto-segmentation'), false, 'canonical studies suppress source-identical historical echoes')
   assert.ok(search.rankContent('explorer', 'Software').every(item => item.kind === 'Software'))
-  for (const kind of ['Study', 'Software', 'Paper', 'Presentation', 'Media', 'Collection']) {
+  for (const kind of ['Study', 'Experience', 'Project', 'Award', 'Software', 'Paper', 'Presentation', 'Media', 'Collection']) {
     const defaults = search.rankContent('', kind)
     assert.ok(defaults.length > 0 && defaults.length <= 6, `${kind} has bounded empty-query defaults`)
     assert.ok(defaults.every(item => item.kind === kind), `${kind} defaults stay in category`)
@@ -53,7 +53,7 @@ const server = createAppServer()
 server.listen(0, '127.0.0.1')
 await once(server, 'listening')
 const base = `http://127.0.0.1:${server.address().port}`
-const browser = await chromium.launch({ headless: true, ...(process.env.PLAYWRIGHT_CHANNEL ? { channel: process.env.PLAYWRIGHT_CHANNEL } : {}) })
+const browser = await chromium.launch({ headless: true, channel: process.env.PLAYWRIGHT_CHANNEL || 'chrome' })
 const errors = []
 const screenshotDir = process.env.DISCOVERY_SCREENSHOTS_DIR
 if (screenshotDir) await mkdir(screenshotDir, { recursive: true })

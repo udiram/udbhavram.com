@@ -9,7 +9,7 @@ const ids=inventory.events.map(e=>e.id)
 let server
 let base=process.env.TEST_ORIGIN
 if(!base){server=createAppServer();server.listen(0,'127.0.0.1');await once(server,'listening');base=`http://127.0.0.1:${server.address().port}`}
-const browser=await chromium.launch({headless:true,...(process.env.PLAYWRIGHT_CHANNEL?{channel:process.env.PLAYWRIGHT_CHANNEL}:{})})
+const browser=await chromium.launch({headless:true,channel:process.env.PLAYWRIGHT_CHANNEL||'chrome'})
 const errors=[]
 async function targeted(page,id){
  await page.waitForFunction(id=>{const t=document.getElementById(id);if(!t)return false;const r=t.getBoundingClientRect(),header=document.querySelector('.site-header').getBoundingClientRect();return t.dataset.permalinkTarget==='true'&&document.activeElement===t&&r.top>=header.bottom&&r.top<innerHeight-60},id,{timeout:5000})

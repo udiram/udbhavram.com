@@ -65,9 +65,27 @@ The circuit centerline and all 17 labels are traced from page 36 of the [FIA 201
 
 Software-image provenance is recorded in `public/assets/software/PROVENANCE.md`. RSNA Explorer corpus counts come from its frozen `data/source-manifest.json` and README: 946 current sessions, 6,931 current presentations, and 128,237 public archive records spanning 2003–2025. The RSNA and OncoScout cards now use actual application captures rather than concept renders. The CT Forge image is labelled as a July 2026 application capture and is not combined with October status evidence; a new authenticated workspace capture was not published because the current local app requires a private operator session.
 
-Two new personal-story images were selected from the owner’s authenticated personal photo library and downloaded inbound only: a shared community music performance dated August 26, 2025, and an outdoor group gathering dated October 4, 2025. Public copies were resized, converted to WebP, and stripped of original metadata. Captions remain observational; no person, event, or location is inferred beyond what the visible image and library date establish.
+Two personal-story images selected on October 6 were withdrawn on October 8 after the site owner reported that the pictured people were not them. Both files were removed from the interface and public static payload. They are not identity evidence.
+
+The expanded Beyond page instead uses media from the matching Scuba and Equestrian sections of the owner’s earlier public Activities page. The scuba image was converted to a metadata-free local WebP; the existing equestrian WebP is a resized copy of the source-page image. The page labels each image by the portfolio section that supplied it and explicitly avoids facial identity inference.
 
 The authenticated photo-library source pass also searched UW–Madison, Madison, UAB, printer, poster, AAPM, and ASTRO. It did not yield a clearly attributable new lab, printer/phantom, or Udi presentation photograph suitable for a project card. Existing source-backed UAB presentation and AAPM poster images remain attached to their research stories; unrelated search matches were not published to fill space.
+
+## October 8 identity, experience, and recognition expansion
+
+`src/identityContent.ts` is the typed public ledger for `/experience` and `/awards`: 30 experience and affiliation records, 30 institution-connected project records, and 31 recognition, training, competition, arts, and feature records. Every record has a stable ID and at least one labelled public source. `IDENTITY_SOURCE_COVERAGE.md` reconciles the typed ledger against the earlier Research, Projects, Motorsport, Activities, and Awards chapters.
+
+The October 2026 public CV supports the exact date ranges published for the UW research assistantship (June 2026–present), Juravinski thesis (September 2024–May 2025), Western/Lawson (August 2022–January 2023), St. Joseph's kidney research (September 2021–August 2022), McMaster membrane lab (September 2019–August 2022), W Booth (January–June 2023), Arrow McLaren (June–August 2023), MAC Formula Electric (October 2021–January 2024), and McMaster teaching or mentoring appointments (September 2024–May 2025). It also supports the earlier Synth-Med, WaaW, JSPG, and McMaster yoga roles without inventing more precise dates than the public document provides. The public edition excludes private contact information.
+
+The continuing UAB research collaboration is separate from the completed 2024 and 2025 visiting-scholar appointments. Historical roles with no public month range are labelled as such.
+
+The project index connects each project to an institution, timeframe, category, documented outcome, and source. It includes the full current software catalog but reuses each software project's canonical search and reading-list identity rather than creating duplicate saved records. Exploratory work is not presented as deployed or clinically validated.
+
+The awards ledger contains every item in the earlier Awards page, restores the full `AP Scholar with Distinction` title, and adds the source-backed 2026 McMaster Science Co-op Student of the Year, the project-documented SPARK result, and the three public scuba qualifications. Personal honors are distinguished from training, participation/features, and the 2025 mentor/employer award received by Carlos Cardenas.
+
+The equestrian narrative uses site-owner-supplied context: English and Western riding; about two years helping at an Alabama lesson barn focused on Western riding and barrel racing; and American Cowboy Academy horsemanship and horse-care training. This context is not used to claim professional rodeo experience.
+
+The retained scuba image is the 225 x 124 source image from the Scuba section of the earlier public Activities page and is intentionally shown at native size. The retained equestrian image is a local WebP of the Equestrian-section image. The Yoga, Western classical violin, Carnatic violin, Carnatic vocal, and Motorsport images likewise retain their original section-level attribution in `src/personalPhotos.json`. No new scuba or equestrian video met the reviewed public-source and identity threshold; the existing verified Formula LGB onboard recording remains the motorsport video.
 
 ## October 8 discovery registry and reading list
 

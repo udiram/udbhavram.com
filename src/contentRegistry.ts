@@ -4,8 +4,9 @@ import media from './mediaContent.json'
 import { portfolioCollections, type RecordItem } from './portfolioContent'
 import { presentations } from './presentationData'
 import { softwareProjects } from './softwareContent'
+import { awardRecords, experienceRecords, projectRecords } from './identityContent'
 
-export type ContentKind = 'Study' | 'Software' | 'Paper' | 'Presentation' | 'Media' | 'Collection'
+export type ContentKind = 'Study' | 'Software' | 'Paper' | 'Presentation' | 'Media' | 'Experience' | 'Project' | 'Award' | 'Collection'
 
 export type PublicContentItem = {
   id: string
@@ -111,6 +112,38 @@ const mediaWritingItems: PublicContentItem[] = media.writing.map(entry => ({
   keywords: [],
 }))
 
+const experienceItems: PublicContentItem[] = experienceRecords.map(record => ({
+  id: `experience:${record.id}`,
+  kind: 'Experience',
+  title: `${record.role} · ${record.institution}`,
+  summary: record.summary,
+  meta: `${record.period} · ${record.category} · ${record.status}`,
+  href: `/experience#${record.id}`,
+  keywords: [record.location, record.note, ...record.work].filter((value): value is string => Boolean(value)),
+}))
+
+// Software projects appear in the institution-connected project index, but
+// their canonical discovery/save identity remains `software:<id>`.
+const projectIdentityItems: PublicContentItem[] = projectRecords.filter(project => !project.id.startsWith('software-')).map(project => ({
+  id: `project:${project.id}`,
+  kind: 'Project',
+  title: project.title,
+  summary: project.summary,
+  meta: `${project.institution} · ${project.period} · ${project.category}`,
+  href: `/experience#project-${project.id}`,
+  keywords: [project.outcome],
+}))
+
+const awardItems: PublicContentItem[] = awardRecords.map(record => ({
+  id: `award:${record.id}`,
+  kind: 'Award',
+  title: record.title,
+  summary: record.detail,
+  meta: [record.year, record.issuer, record.category].filter(Boolean).join(' · '),
+  href: `/awards#${record.id}`,
+  keywords: [record.ownership, record.evidence, record.note].filter((value): value is string => Boolean(value)),
+}))
+
 const canonicalSourceHrefs = new Set<string>([
   ...studies.flatMap(study => study.sources.map(source => source.href)),
   ...bibliography.flatMap(paper => [paper.url, 'index_url' in paper ? paper.index_url : undefined]),
@@ -165,6 +198,9 @@ const candidates = [
   ...mediaVideoItems,
   ...mediaProfileItems,
   ...mediaWritingItems,
+  ...experienceItems,
+  ...projectIdentityItems,
+  ...awardItems,
   ...collectionItems,
 ]
 

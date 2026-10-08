@@ -4,7 +4,7 @@ import type { ContentKind } from './contentRegistry'
 import SaveButton from './SaveButton'
 import { rankContent } from './searchRanking'
 
-const categories: (ContentKind | 'All')[] = ['All', 'Study', 'Software', 'Paper', 'Presentation', 'Media', 'Collection']
+const categories: (ContentKind | 'All')[] = ['All', 'Study', 'Experience', 'Project', 'Award', 'Software', 'Paper', 'Presentation', 'Media', 'Collection']
 
 export default function SearchDialog({ onClose, returnFocus }: { onClose: () => void; returnFocus: React.RefObject<HTMLButtonElement | null> }) {
   const dialog = useRef<HTMLDivElement>(null)

@@ -69,11 +69,11 @@ try {
       await page.screenshot({ path: `${process.env.EVIDENCE_DIR}/software-conference-${width}.png` })
     }
     await page.goto(`${base}/beyond`)
-    assert.equal(await page.locator('.recent-story-grid img').count(), 2)
-    assert.match(await page.locator('.recent-stories').innerText(), /A few moments\s+beyond the lab/)
-    assert.doesNotMatch(await page.locator('.recent-stories').innerText(), /without assigning identities|file does not verify/i)
+    assert.equal(await page.locator('.signature-pursuit img').count(), 2)
+    assert.match(await page.locator('.signature-pursuits').innerText(), /Scuba diving/)
+    assert.match(await page.locator('.signature-pursuits').innerText(), /Equestrian life/)
     if (process.env.EVIDENCE_DIR) {
-      await page.locator('.recent-stories').evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }))
+      await page.locator('.signature-pursuits').evaluate(element => element.scrollIntoView({ block: 'start', behavior: 'instant' }))
       await page.screenshot({ path: `${process.env.EVIDENCE_DIR}/personal-stories-${width}.png` })
     }
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)

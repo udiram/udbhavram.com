@@ -352,6 +352,7 @@ export const portfolioCollections: PortfolioCollection[] = [
       {
         title: 'Academic, service, and training credentials listed earlier',
         items: [
+          { title: 'AP Scholar with Distinction' },
           { title: 'HOSA - second place nationally' },
           { title: 'Top 25% in Mathematics' },
           { title: 'Certified yoga teacher' },

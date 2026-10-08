@@ -25,6 +25,7 @@ import DetailPages, { LatestWork, ExploreMore, PageFooter } from './DetailPages'
 import FirstVisitGuide from './FirstVisitGuide'
 import routeMeta from './routeMeta.json'
 import { ReadingListProvider, useReadingList } from './ReadingListContext'
+import { awardRecords } from './identityContent'
 import './App.css'
 import './Details.css'
 
@@ -32,6 +33,8 @@ const SearchDialog = lazy(() => import('./SearchDialog'))
 
 const nav = [
   { id: 'trajectory', label: 'About', href: '/about' },
+  { id: 'experience', label: 'Experience', href: '/experience' },
+  { id: 'awards', label: 'Awards', href: '/awards' },
   { id: 'work', label: 'Research', href: '/research' },
   { id: 'projects', label: 'Software', href: '/software' },
   { id: 'life', label: 'Beyond the lab', href: '/beyond' },
@@ -518,20 +521,16 @@ function Life() {
       </div>
       <div className="life-notes">
         <article>
-          <span className="meta">Outside</span>
-          <h3>On the move</h3>
-          <p>
-            Horseback riding and scuba diving offer different ways to
-            explore. I’ve also spent time with hockey and yoga.
-          </p>
+          <span className="meta">Scuba</span>
+          <h3>Below the surface</h3>
+          <p>PADI Advanced Open Water and Nitrox training built on an earlier SSI Open Water qualification.</p>
+          <a className="text-link" href="/beyond#scuba">Dive into the story</a>
         </article>
         <article>
-          <span className="meta">Hands-on</span>
-          <h3>Making & mentoring</h3>
-          <p>
-            3D printing lets me turn ideas into objects. Robotics mentorship has
-            given me a way to share that joy of building with others.
-          </p>
+          <span className="meta">Equestrian</span>
+          <h3>Time in the saddle</h3>
+          <p>English riding, Western horsemanship, horse care, and time helping at an Alabama lesson barn.</p>
+          <a className="text-link" href="/beyond#equestrian">Follow the riding path</a>
         </article>
         <article>
           <span className="meta">Creative practice</span>
@@ -540,10 +539,17 @@ function Life() {
             Western and Carnatic violin, piano, and Carnatic singing have been
             another part of my life alongside science.
           </p>
+          <a className="text-link" href="/beyond#music">Hear the musical thread</a>
         </article>
       </div>
     </section>
   )
+}
+
+const featuredAwards = ['coop-student-year', 'aapm-blue-ribbon', 'sps-poster'].map(id => awardRecords.find(record => record.id === id)!)
+
+function AwardsHighlight() {
+  return <section className="home-awards section"><div className="wrap"><div className="section-heading"><h2>Milestones<br /><em>along the way.</em></h2><div><p>Selected recognition from research and co-op work, with the full source-linked record kept in one place.</p><a className="text-link" href="/awards">Explore awards, training & recognition</a></div></div><div className="home-award-list">{featuredAwards.map(record => <a href={`/awards#${record.id}`} key={record.id}><span className="meta">{record.year} · {record.issuer}</span><h3>{record.title}</h3><p>{record.detail}</p><strong>View the record →</strong></a>)}</div></div></section>
 }
 
 function Contact() {
@@ -653,7 +659,7 @@ function AppContent() {
         tabIndex={-1}
         data-portfolio-items={portfolioItemCount}
       >
-        {isHome ? <><Hero /><LatestWork /><FirstVisitGuide /><About /><Research /><Life /><ExploreMore /><Contact /></> : <><DetailPages path={path} /><PageFooter /></>}
+        {isHome ? <><Hero /><LatestWork /><FirstVisitGuide /><About /><Research /><Life /><AwardsHighlight /><ExploreMore /><Contact /></> : <><DetailPages path={path} /><PageFooter /></>}
       </main>
     </>
   )

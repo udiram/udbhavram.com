@@ -7,6 +7,14 @@
     "title": "Biography & CV | Udbhav Ram",
     "description": "Udbhav Ram’s education, research experience, mentorship, recognition, and downloadable public CV, updated October 2026."
   },
+  "/experience": {
+    "title": "Experience, Projects & Affiliations | Udbhav Ram",
+    "description": "A source-linked breakdown of Udbhav Ram’s education, research affiliations, engineering roles, service, and projects by institution and date."
+  },
+  "/awards": {
+    "title": "Awards, Training & Recognition | Udbhav Ram",
+    "description": "The complete evidence-labelled record of Udbhav Ram’s personal honors, training, competitions, arts recognition, institutional features, and mentor awards."
+  },
   "/research": {
     "title": "Research | Udbhav Ram",
     "description": "Detailed medical-physics research case studies, including ASTRO 2026 adaptive breast radiotherapy, segmentation, SRS planning, and clinical AI."

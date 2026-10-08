@@ -4,7 +4,7 @@ const normalize = (value: string) => value.normalize('NFKD').replace(/[\u0300-\u
 const indexed = publicContentRegistry.map((item, order) => ({ item, order, title: normalize(item.title), summary: normalize(item.summary), meta: normalize(item.meta), keywords: normalize(item.keywords.join(' ')) }))
 // Prefer the current, interpretive surfaces when a historical collection echo
 // also matches; exact-title scores can still put a specific record first.
-const kindWeight = { Study: 60, Software: 35, Paper: 24, Presentation: 16, Media: 10, Collection: 0 } as const
+const kindWeight: Record<ContentKind, number> = { Study: 60, Experience: 48, Software: 35, Award: 28, Paper: 24, Presentation: 16, Media: 10, Project: 0, Collection: 0 }
 
 export function rankContent(query: string, category: ContentKind | 'All'): PublicContentItem[] {
   const normalized = normalize(query)

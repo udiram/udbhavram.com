@@ -1,8 +1,5 @@
-# Personal story photo provenance
+# Withdrawn personal-story assets
 
-Selected October 6, 2026 from the site owner’s authenticated personal photo library.
+The two images previously documented here were removed on October 8, 2026 after the site owner reported that the pictured people were not them. They are no longer part of the UI or public static payload.
 
-- `community-music-2025.webp` — shared library photo dated August 26, 2025; visible flute and tabla performance on a decorated community stage. Public copy resized to 1800 × 1013.
-- `outdoor-gathering-2025.webp` — library photo dated October 4, 2025; visible outdoor group gathering in front of wooded hills. Public copy resized to 1600 × 1200.
-
-Both public copies were converted with local `cwebp` at quality 82, which strips the original file metadata. Captions do not infer identities or a location not established by the visible image and library date.
+The Beyond page now uses only photographs already published within the matching Scuba, Equestrian, Yoga, Music, and Motorsport sections of the owner’s earlier public portfolio. Their source-page context supports the activity labels; the site does not infer a person’s identity from facial appearance. The 225 x 124 Scuba source is displayed at native size rather than enlarged, and the Equestrian asset is a local WebP rendition of the source-section image.
