@@ -11,6 +11,24 @@ export type Study = {
 export const cvPath = `/downloads/Udbhav_Ram_Public_CV_October_2026.pdf?v=${cvManifest.pdfSha256.slice(0, 12)}`
 export const studies: Study[] = [
   {
+    slug: 'radkev',
+    title: 'RadKev: a decision model built for radiology.',
+    subtitle: 'An open-weight model for fixed-choice radiology decisions',
+    year: 'October 13, 2026',
+    status: 'medRxiv preprint · submitting author',
+    intro: 'RadKev is an open-weight AI model for radiology decisions with a fixed set of answers. It can run inside an institution, returns probabilities in one step, and was evaluated against general decision models and language models across fifteen tasks.',
+    image: imageAssets.heroCollage,
+    caption: 'Medical-imaging and computation collage from the public research portfolio',
+    facts: [{ value: '36,109', label: 'training records' }, { value: '14,142', label: 'held-out questions' }, { value: '15', label: 'radiology tasks' }],
+    sections: [
+      { heading: 'The question', paragraphs: ['Many radiology tasks ask for one answer from a known set: whether a report contains a finding, how urgently a study should be read, or which diagnosis best fits a case. A decision model returns a probability for each allowed answer instead of generating free text.', 'The project asked whether an open-weight decision model specialized for radiology could improve accuracy while remaining fast enough to run within an institution.'] },
+      { heading: 'The approach', paragraphs: ['We fine-tuned Kev-27B and Kev-9B on 36,109 records from public radiology datasets, then evaluated the resulting RadKev models on 14,142 held-out questions across fifteen report-reading, diagnosis, classification, and knowledge tasks.', 'The comparison included the original Kev models, two hosted decision models, and a same-size language model with and without reasoning. The prespecified primary outcome was task-averaged accuracy relative to Kev-27B.'] },
+      { heading: 'What the evaluation found', paragraphs: ['RadKev-27B exceeded Kev-27B by 4.9 percentage points in task-averaged accuracy. RadKev-9B exceeded Kev-9B by 6.9 points and did not differ detectably from Kev-27B, despite being one-third its size.', 'On the subset used for the language-model comparison, RadKev-27B was more accurate and returned an answer in 128 milliseconds on average, compared with 16.9 seconds for reasoning with Qwen3.8-27B. These are benchmark results, not evidence of clinical readiness. A hospital would still need to validate the model on its own data and workflow.'] },
+      { heading: 'Open record', paragraphs: ['I am the submitting and first-listed author of the preprint with Ran Zhang. medRxiv posted version 1 on October 13, 2026; it has not been peer reviewed.', 'The training, evaluation, and statistical-analysis code is public. Model adapters and pointer heads are released for non-commercial research use under the terms stated in the repository and model cards.'] },
+    ],
+    sources: [{ label: 'Read the medRxiv preprint', href: 'https://www.medrxiv.org/content/10.64898/2026.10.07.26364991v1' }, { label: 'Resolve the DOI', href: 'https://doi.org/10.64898/2026.10.07.26364991' }, { label: 'Code and reproducibility record', href: 'https://github.com/udiram/RadKev' }],
+  },
+  {
     slug: 'adaptive-breast-radiotherapy', title: 'The human side of adaptive radiotherapy.',
     subtitle: 'Characterizing contouring uncertainty across clinical specialties in CBCT-guided online adaptive partial breast irradiation',
     year: 'September 29, 2026', status: 'ASTRO 2026 · Poster 3104 · Boston',

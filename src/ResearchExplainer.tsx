@@ -30,7 +30,7 @@ export default function ResearchExplainer() {
   return <section className="research-explainer" aria-labelledby="explainer-title">
     <div className="explainer-intro">
       <span className="meta">Interactive explainer · synthetic example</span>
-      <h2 id="explainer-title">Passing a rule<br /><em>isn’t the same as being right.</em></h2>
+      <h2 id="explainer-title">Rule checks and clinical meaning</h2>
       <p>My TG-263 work exposed a useful safety distinction. Explore the three checks below; no patient data or clinical recommendation is shown.</p>
     </div>
     <div className="explainer-card">

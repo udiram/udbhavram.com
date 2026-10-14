@@ -24,7 +24,8 @@
     "test:identity": "node scripts/test-identity.mjs",
     "test:research": "node scripts/test-research-media.mjs",
     "test:visuals": "node scripts/test-route-visuals.mjs",
-    "test:discovery": "node scripts/test-discovery.mjs"
+    "test:discovery": "node scripts/test-discovery.mjs",
+    "test:curation": "node scripts/test-curation-archive.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

@@ -92,7 +92,7 @@ fs.writeFileSync(
     Object.keys(routes)
       .map(
         (route) =>
-          `<url><loc>${origin + route}</loc><lastmod>2026-10-05</lastmod></url>`,
+          `<url><loc>${origin + route}</loc><lastmod>2026-10-14</lastmod></url>`,
       )
       .join('') +
     '</urlset>',

@@ -32,8 +32,12 @@
     "description": "Motorsport engineering, music, riding, yoga, scuba, mentorship, and authentic photographs from Udbhav’s personal portfolio."
   },
   "/collection": {
-    "title": "The Collection | Udbhav Ram",
-    "description": "Search research, presentations, engineering, motorsport, activities, recognition, and media from Udbhav Ram’s portfolio."
+    "title": "Archive | Udbhav Ram",
+    "description": "Search the complete source-linked record of Udbhav Ram’s research, experience, software, presentations, recognition, and historical portfolio."
+  },
+  "/archive": {
+    "title": "Archive | Udbhav Ram",
+    "description": "Search the complete source-linked record of Udbhav Ram’s research, experience, software, presentations, recognition, and historical portfolio."
   },
   "/reading-list": {
     "title": "Reading List | Udbhav Ram",
@@ -42,6 +46,10 @@
   "/research/adaptive-breast-radiotherapy": {
     "title": "Contouring Uncertainty at ASTRO 2026 | Udbhav Ram",
     "description": "Contouring Uncertainty at ASTRO 2026: research question, methods, findings, limitations, and original sources."
+  },
+  "/research/radkev": {
+    "title": "RadKev Radiology Decision Model | Udbhav Ram",
+    "description": "RadKev is an open-weight radiology decision model described in a medRxiv preprint posted October 13, 2026."
   },
   "/research/clinical-language-models": {
     "title": "Clinical Language Models & TG-263 | Udbhav Ram",

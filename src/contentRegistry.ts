@@ -53,7 +53,7 @@ const paperItems: PublicContentItem[] = bibliography.map(paper => ({
   title: paper.title,
   summary: `${paper.role}. Published in ${paper.journal}.`,
   meta: `${paper.issue_date} · ${paper.journal}`,
-  href: `/publications#paper-${paper.id}`,
+  href: `/research#paper-${paper.id}`,
   keywords: [...paper.authors, paper.doi, paper.status],
 }))
 
@@ -63,7 +63,7 @@ const presentationItems: PublicContentItem[] = presentations.map(presentation =>
   title: presentation.title,
   summary: `${presentation.role}. ${presentation.status}${presentation.presenter ? ` Presenter: ${presentation.presenter}.` : ''}`,
   meta: `${presentation.date} · ${presentation.venue} · ${presentation.format}`,
-  href: `/publications#${presentation.id}`,
+  href: `/research#${presentation.id}`,
   keywords: [presentation.location, presentation.programCode, presentation.award, ...presentation.variants].filter((value): value is string => Boolean(value)),
 }))
 
@@ -144,41 +144,36 @@ const awardItems: PublicContentItem[] = awardRecords.map(record => ({
   keywords: [record.ownership, record.evidence, record.note].filter((value): value is string => Boolean(value)),
 }))
 
-const canonicalSourceHrefs = new Set<string>([
-  ...studies.flatMap(study => study.sources.map(source => source.href)),
-  ...bibliography.flatMap(paper => [paper.url, 'index_url' in paper ? paper.index_url : undefined]),
-  ...presentations.flatMap(presentation => presentation.sources.map(source => source.url)),
-  ...media.articles.map(article => article.url),
-  ...media.videos.map(video => video.url),
-  ...media.profiles.map(profile => profile.url),
-  ...media.writing.map(entry => entry.url),
-  ...softwareProjects.map(project => project.href),
-].filter((href): href is string => Boolean(href)))
-
-// Historical collection records sometimes point at an item that already has a
-// richer canonical surface. Keep those records in their chapter, but make Save
-// resolve to the canonical registry identity instead of creating a dead alias.
-const canonicalIdBySourceHref = new Map<string, string>()
-const registerCanonicalSource = (href: string | undefined, id: string) => {
-  if (href && !canonicalIdBySourceHref.has(href)) canonicalIdBySourceHref.set(href, id)
-}
-bibliography.forEach(paper => {
-  registerCanonicalSource(paper.url, `paper:${paper.id}`)
-  if ('index_url' in paper) registerCanonicalSource(paper.index_url, `paper:${paper.id}`)
-})
-presentations.forEach(presentation => presentation.sources.forEach(source => registerCanonicalSource(source.url, `presentation:${presentation.id}`)))
-media.articles.forEach(article => registerCanonicalSource(article.url, `media:article:${article.story_group}`))
-media.videos.forEach(video => registerCanonicalSource(video.url, `media:video:${video.id}`))
-media.profiles.forEach(profile => registerCanonicalSource(profile.url, `media:profile:${profile.id}`))
-media.writing.forEach(entry => registerCanonicalSource(entry.url, `media:writing:${entry.id}`))
-softwareProjects.forEach(project => registerCanonicalSource(project.href, `software:${project.id}`))
-studies.forEach(study => study.sources.forEach(source => registerCanonicalSource(source.href, `study:${study.slug}`)))
+// A source URL is evidence, not identity: one article or recording may support a
+// project, award, presentation, profile, and historical collection entry. Only
+// aliases reviewed as the same underlying record are folded into a canonical ID.
+// Keeping this table semantic and explicit prevents first-source-wins collisions.
+const collectionCanonicalIds = new Map<string, string>([
+  [collectionRecordContentId('research-record', { title: 'Ethos adaptive partial-breast irradiation contour variability' }), 'project:adaptive-breast'],
+  [collectionRecordContentId('research-record', { title: 'Ethos 2.0 high-fidelity multi-met SRS' }), 'project:ethos-srs'],
+  [collectionRecordContentId('research-record', { title: 'Abdominal-organ auto-segmentation' }), 'project:auto-segmentation'],
+  [collectionRecordContentId('research-record', { title: 'Smartphone gel-electrophoresis analysis' }), 'project:gel-analysis'],
+  [collectionRecordContentId('research-record', { title: 'Augmented reality for chronic-kidney-disease surgery models' }), 'project:kidney-ar'],
+  [collectionRecordContentId('research-record', { title: "Nutrition, Alzheimer's disease, and amyloid aggregation" }), 'project:amyloid'],
+  [collectionRecordContentId('recognition', { title: 'AAPM Blue Ribbon Poster' }), 'award:aapm-blue-ribbon'],
+  [collectionRecordContentId('recognition', { title: 'McMaster Emerging Science Co-op Employer of the Year' }), 'award:employer-year'],
+  [collectionRecordContentId('recognition', { title: 'McMaster feature' }), 'award:mcmaster-feature'],
+  [collectionRecordContentId('recognition', { title: 'UAB feature' }), 'award:uab-feature'],
+  [collectionRecordContentId('recognition', { title: 'CUPC 2023 Best Talk - first place' }), 'award:cupc-talk'],
+  [collectionRecordContentId('media', { title: "Undergrad adds ‘international visiting scholar in radiation oncology’ to a jam-packed résumé" }), 'media:article:visiting-scholar-2024'],
+  [collectionRecordContentId('media', { title: "Udbhav Ram’s co-op supervisors flew in from Alabama to give him an award" }), 'media:article:coop-award-2026'],
+  [collectionRecordContentId('media', { title: 'Convocation countdown with Udbhav Ram' }), 'media:article:convocation-2026'],
+  [collectionRecordContentId('media', { title: 'International student and mentor drive changes in medicine through AI' }), 'media:article:uab-ai-profile-2024'],
+  [collectionRecordContentId('media', { title: 'Cardenas receives McMaster Co-op Emerging Employer of the Year Award' }), 'media:article:employer-recognition-2025'],
+  [collectionRecordContentId('media', { title: 'Recognizing Excellence in Science: 2024 Co-op Employer of the Year Awards' }), 'media:article:employer-recognition-2025'],
+])
 
 const collectionItems: PublicContentItem[] = portfolioCollections.flatMap(collection =>
   collection.groups.flatMap((group, groupIndex) => group.items.flatMap((item, itemIndex) => {
-    if (item.presentationId || (item.href && canonicalSourceHrefs.has(item.href))) return []
+    const historicalId = collectionRecordContentId(collection.id, item)
+    if (item.presentationId || collectionCanonicalIds.has(historicalId)) return []
     return [{
-      id: collectionRecordContentId(collection.id, item),
+      id: historicalId,
       kind: 'Collection' as const,
       title: item.title,
       summary: item.detail ?? item.note ?? `A record from ${collection.title}.`,
@@ -216,8 +211,7 @@ export const publicContentById = new Map(publicContentRegistry.map(item => [item
 export function resolveCollectionRecordContentId(collectionId: string, item: RecordItem) {
   if (item.presentationId) return `presentation:${item.presentationId}`
   const historicalId = collectionRecordContentId(collectionId, item)
-  if (publicContentById.has(historicalId)) return historicalId
-  return (item.href && canonicalIdBySourceHref.get(item.href)) || historicalId
+  return collectionCanonicalIds.get(historicalId) ?? historicalId
 }
 
 export const starterContentIds = [

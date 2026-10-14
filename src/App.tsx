@@ -2,7 +2,6 @@ import { useHashNavigation } from './useHashNavigation'
 import { homePresentations } from './presentationData'
 import {
   ArrowUpRight,
-  ArrowDown,
   List,
   X,
   Moon,
@@ -21,10 +20,10 @@ import {
   type ImageAsset,
 } from './siteContent'
 import { portfolioItemCount } from './portfolioContent'
-import DetailPages, { LatestWork, ExploreMore, PageFooter } from './DetailPages'
-import FirstVisitGuide from './FirstVisitGuide'
+import DetailPages, { PageFooter } from './DetailPages'
 import routeMeta from './routeMeta.json'
 import { ReadingListProvider, useReadingList } from './ReadingListContext'
+import { studies } from './expandedContent'
 import { awardRecords } from './identityContent'
 import { IdentityMark } from './identityMarks'
 import './App.css'
@@ -33,14 +32,11 @@ import './Details.css'
 const SearchDialog = lazy(() => import('./SearchDialog'))
 
 const nav = [
+  { id: 'home', label: 'Home', href: '/' },
   { id: 'trajectory', label: 'About', href: '/about' },
-  { id: 'experience', label: 'Experience', href: '/experience' },
-  { id: 'awards', label: 'Awards', href: '/awards' },
   { id: 'work', label: 'Research', href: '/research' },
   { id: 'projects', label: 'Software', href: '/software' },
-  { id: 'life', label: 'Beyond the lab', href: '/beyond' },
-  { id: 'media', label: 'Media', href: '/media' },
-  { id: 'collection', label: 'Collection', href: '/collection' },
+  { id: 'archive', label: 'Archive', href: '/archive' },
 ]
 const aliases: Record<string, string> = {
   about: 'trajectory',
@@ -55,33 +51,12 @@ const aliases: Record<string, string> = {
   'google-site-archive': 'recognition',
   sources: 'recognition',
 }
-const researchStories = [
-  {
-    title: 'Helping AI speak the clinic’s language',
-    topic: 'Language models · AAPM 2025',
-    summary:
-      'Radiotherapy teams need consistent names for treatment targets. I explored how locally hosted language models can help standardize them, while keeping clinical meaning in view.',
-    detail:
-      'The pipeline evaluated 1,000 clinical names. All outputs passed the TG-263 naming rules, but some changed the intended meaning. The finding: rule compliance still needs clinical review.',
-  },
-  {
-    title: 'More precise treatment. Less dose beyond it.',
-    topic: 'Radiotherapy planning · JACMP 2025',
-    summary:
-      'How can treatment planning better protect healthy tissue? My first-author study compared four Ethos planning configurations for patients with multiple brain metastases.',
-    detail:
-      'Across 45 patients, high-fidelity mode with control rings improved conformity and dose falloff, reduced normal-tissue dose, and lowered plan complexity. This was a planning study, not a clinical-outcomes trial.',
-  },
-  {
-    title: 'Measuring what makes a useful contour',
-    topic: 'Medical imaging · Intelligent Oncology 2025',
-    summary:
-      'An automatically drawn organ boundary needs to be useful to a clinician. I compared three deep-learning approaches using both quantitative measures and blinded physician review.',
-    detail:
-      'The study used 122 training and 72 holdout CT images, with three physicians reviewing 30 cases. Both AutoML frameworks outperformed SwinUNETR; physicians preferred nnU-Net over MONAI Auto3DSeg.',
-  },
-]
-
+const researchStories = studies.slice(2, 5).map(study => ({
+  title: study.title,
+  topic: `${study.year} · ${study.status}`,
+  summary: study.intro,
+  detail: study.sections.map(section => section.paragraphs[0]).join(' '),
+}))
 function ExternalLink({
   href,
   children,
@@ -205,7 +180,7 @@ function Header({
             <a
               key={item.id}
               href={item.href}
-              aria-current={window.location.pathname.startsWith(item.href) ? 'page' : active === item.id ? 'location' : undefined}
+              aria-current={(item.href === '/' ? window.location.pathname === '/' : window.location.pathname.startsWith(item.href)) ? 'page' : active === item.id ? 'location' : undefined}
               onClick={() => setOpen(false)}
             >
               {item.label}
@@ -244,45 +219,22 @@ function Hero() {
   return (
     <section className="hero wrap" id="home" tabIndex={-1}>
       <div className="hero-copy">
-        <h1>
-          Hi, I’m Udi.
-          <br />
-          <em>Curiosity,</em>
-          <br />
-          with a <i>human purpose.</i>
-        </h1>
-        <p>
-          I’m a Medical Physics PhD student at UW–Madison, researching
-          artificial intelligence (AI) for imaging and cancer care. Outside the
-          lab, I’m drawn to motorsport, music, and the outdoors.
-        </p>
+        <h1>I’m Udi — a Medical Physics PhD student at UW–Madison.</h1>
+        <p>I build AI tools for radiation oncology, mostly around imaging and treatment planning.</p>
       </div>
       <Photo
         asset={imageAssets.heroPortrait}
         priority
         className="hero-photo"
-        caption="Udbhav Ram · At McMaster University"
       />
       <div className="hero-actions">
-        <a className="button" href="#work">
-          Explore my research <ArrowUpRight />
-        </a>
-        <a className="text-link" href="/about">
-          A little about me <ArrowDown />
-        </a>
-      </div>
-      <div className="current-note">
-        <span>Currently at UW–Madison</span>
-        <p>
-          Medical Physics PhD student <span aria-hidden="true">/</span> Advised
-          by Dr. Ran Zhang
-        </p>
+        <a className="button" href="/about">About me <ArrowUpRight /></a>
       </div>
     </section>
   )
 }
 
-function About() {
+export function LegacyHomeAbout() {
   return (
     <section
       className="about-section wrap section"
@@ -368,7 +320,7 @@ function About() {
   )
 }
 
-function Research() {
+export function LegacyHomeResearch() {
   return (
     <section className="research-section section" id="work" tabIndex={-1}>
       <div className="wrap">
@@ -493,7 +445,7 @@ function Research() {
   )
 }
 
-function Life() {
+export function LegacyHomeLife() {
   return (
     <section className="life-section wrap section" id="life" tabIndex={-1}>
       <h2>
@@ -558,13 +510,25 @@ function Life() {
   )
 }
 
+const homeStudySlugs = ['radkev', 'clinical-language-models', 'radiosurgery-planning', 'organ-segmentation']
+const homeStudies = homeStudySlugs.map(slug => studies.find(study => study.slug === slug)!).filter(Boolean)
+
+function CuratedResearch() {
+  const [lead, ...highlights] = homeStudies
+  return <section className="curated-research section" id="work" tabIndex={-1}><div className="wrap"><div className="section-heading"><h2>Research</h2><p>Recent work ranges from radiology decision models to treatment-planning and imaging studies.</p></div><article className="curated-research-lead"><Photo asset={lead.image} /><div><span className="meta">{lead.year} · {lead.status}</span><h3>{lead.title}</h3><p>{lead.intro}</p><div className="card-actions"><a className="button" href={`/research/${lead.slug}`}>Read the preprint story</a><a className="text-link" href={lead.sources[0].href}>medRxiv record</a></div></div></article><div className="curated-research-grid">{highlights.map(study => <article key={study.slug}><Photo asset={study.image} /><span className="meta">{study.year} · {study.status}</span><h3>{study.title}</h3><p>{study.intro}</p><a className="text-link" href={`/research/${study.slug}`}>Read the case study</a></article>)}</div><div className="curated-section-links"><a className="button" href="/research">All research</a></div></div></section>
+}
+
+function CuratedMotorsport() {
+  return <section className="curated-motorsport wrap section" id="life"><Photo asset={imageAssets.arrowMcLaren} caption="Arrow McLaren IndyCar · 2023" /><div><span className="meta">Outside the lab</span><h2>Motorsport</h2><p>In 2023, I worked at Arrow McLaren IndyCar as a data-and-strategy intern. I built race-strategy simulations and worked with telemetry and performance tools during race weekends. Formula SAE and test-driving taught me the same lesson from another angle: a model is useful only when it helps someone make a decision. I still make time for music, riding, and diving, but motorsport is the thread that most directly shapes how I build.</p><a className="text-link" href="/beyond#race-engineering">More beyond the lab →</a></div></section>
+}
+
 const featuredAwards = ['coop-student-year', 'aapm-blue-ribbon', 'sps-poster'].map(id => awardRecords.find(record => record.id === id)!)
 
-function AwardsHighlight() {
+export function LegacyHomeAwardsHighlight() {
   return <section className="home-awards section"><div className="wrap"><div className="section-heading"><h2>Milestones<br /><em>along the way.</em></h2><div><p>Selected recognition from research and co-op work, with the full source-linked record kept in one place.</p><a className="text-link" href="/awards">Explore awards, training & recognition</a></div></div><div className="home-award-list">{featuredAwards.map(record => <a href={`/awards#${record.id}`} key={record.id}><span className="meta">{record.year} · {record.issuer}</span><div className="home-award-heading"><IdentityMark label={record.issuer || record.title} compact contextual /><h3>{record.title}</h3></div><p>{record.detail}</p><strong>View the record →</strong></a>)}</div></div></section>
 }
 
-function Contact() {
+export function LegacyHomeContact() {
   const [copied, setCopied] = useState(false)
   const [copyFailed, setCopyFailed] = useState(false)
   const copyEmail = async () => {
@@ -671,7 +635,7 @@ function AppContent() {
         tabIndex={-1}
         data-portfolio-items={portfolioItemCount}
       >
-        {isHome ? <><Hero /><LatestWork /><FirstVisitGuide /><About /><Research /><Life /><AwardsHighlight /><ExploreMore /><Contact /></> : <><DetailPages path={path} /><PageFooter /></>}
+        {isHome ? <><Hero /><CuratedResearch /><CuratedMotorsport /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
       </main>
     </>
   )
