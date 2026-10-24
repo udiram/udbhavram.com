@@ -21,6 +21,7 @@
     "test:media": "node scripts/test-media.mjs",
     "test:lap": "node scripts/test-lap-analysis.mjs",
     "test:experience": "node scripts/test-experience.mjs",
+    "test:homepage": "node scripts/test-homepage.mjs",
     "test:identity": "node scripts/test-identity.mjs",
     "test:research": "node scripts/test-research-media.mjs",
     "test:visuals": "node scripts/test-route-visuals.mjs",

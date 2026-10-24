@@ -26,6 +26,9 @@ import { ReadingListProvider, useReadingList } from './ReadingListContext'
 import { studies } from './expandedContent'
 import { awardRecords } from './identityContent'
 import { IdentityMark } from './identityMarks'
+import SyntheticCtDemo from './SyntheticCtDemo'
+import HomeSoftware from './HomeSoftware'
+import OnMyDesk from './OnMyDesk'
 import './App.css'
 import './Details.css'
 
@@ -57,6 +60,33 @@ const researchStories = studies.slice(2, 5).map(study => ({
   summary: study.intro,
   detail: study.sections.map(section => section.paragraphs[0]).join(' '),
 }))
+
+function useHomeEntryMotion(enabled: boolean) {
+  useEffect(() => {
+    if (!enabled) return
+    const items = [...document.querySelectorAll<HTMLElement>('.home-reveal')]
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion || !('IntersectionObserver' in window)) {
+      items.forEach(item => item.setAttribute('data-revealed', 'true'))
+      return
+    }
+
+    document.documentElement.classList.add('home-motion-ready')
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return
+        ;(entry.target as HTMLElement).setAttribute('data-revealed', 'true')
+        observer.unobserve(entry.target)
+      })
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 })
+    items.forEach(item => observer.observe(item))
+
+    return () => {
+      observer.disconnect()
+      document.documentElement.classList.remove('home-motion-ready')
+    }
+  }, [enabled])
+}
 function ExternalLink({
   href,
   children,
@@ -219,8 +249,8 @@ function Hero() {
   return (
     <section className="hero wrap" id="home" tabIndex={-1}>
       <div className="hero-copy">
-        <h1>I’m Udi — a Medical Physics PhD student at UW–Madison.</h1>
-        <p>I build AI tools for radiation oncology, mostly around imaging and treatment planning.</p>
+        <h1>I’m Udi. I build at the intersection of physics, medicine, and software.</h1>
+        <p>Medical Physics PhD student at UW–Madison, building research tools around imaging, AI, and radiation oncology.</p>
       </div>
       <Photo
         asset={imageAssets.heroPortrait}
@@ -228,7 +258,8 @@ function Hero() {
         className="hero-photo"
       />
       <div className="hero-actions">
-        <a className="button" href="/about">About me <ArrowUpRight /></a>
+        <a className="button" href="#featured-work">Explore my work <ArrowUpRight /></a>
+        <a className="text-link" href="/about">About me</a>
       </div>
     </section>
   )
@@ -515,7 +546,7 @@ const homeStudies = homeStudySlugs.map(slug => studies.find(study => study.slug 
 
 function CuratedResearch() {
   const [lead, ...highlights] = homeStudies
-  return <section className="curated-research section" id="work" tabIndex={-1}><div className="wrap"><div className="section-heading"><h2>Research</h2><p>Recent work ranges from radiology decision models to treatment-planning and imaging studies.</p></div><article className="curated-research-lead"><Photo asset={lead.image} /><div><span className="meta">{lead.year} · {lead.status}</span><h3>{lead.title}</h3><p>{lead.intro}</p><div className="card-actions"><a className="button" href={`/research/${lead.slug}`}>Read the preprint story</a><a className="text-link" href={lead.sources[0].href}>medRxiv record</a></div></div></article><div className="curated-research-grid">{highlights.map(study => <article key={study.slug}><Photo asset={study.image} /><span className="meta">{study.year} · {study.status}</span><h3>{study.title}</h3><p>{study.intro}</p><a className="text-link" href={`/research/${study.slug}`}>Read the case study</a></article>)}</div><div className="curated-section-links"><a className="button" href="/research">All research</a></div></div></section>
+  return <section className="curated-research section" id="work" tabIndex={-1}><div className="wrap"><div className="section-heading"><h2>Research</h2><p>Recent work ranges from radiology decision models to treatment-planning and imaging studies.</p></div><article className="curated-research-lead home-reveal"><Photo asset={lead.image} /><div><span className="meta">{lead.year} · {lead.status}</span><h3>{lead.title}</h3><p>{lead.intro}</p><div className="card-actions"><a className="button" href={`/research/${lead.slug}`}>Read the preprint story</a><a className="text-link" href={lead.sources[0].href}>medRxiv record</a></div></div></article><div className="curated-research-grid">{highlights.map(study => <article className="home-reveal" key={study.slug}><Photo asset={study.image} /><span className="meta">{study.year} · {study.status}</span><h3>{study.title}</h3><p>{study.intro}</p><a className="text-link" href={`/research/${study.slug}`}>Read the case study</a></article>)}</div><div className="curated-section-links"><a className="button" href="/research">All research</a></div></div></section>
 }
 
 function CuratedMotorsport() {
@@ -607,6 +638,7 @@ function AppContent() {
       return false
     }
   })
+  useHomeEntryMotion(isHome)
   useHashNavigation(aliases)
   useEffect(() => {
     const meta = routeMeta[path as keyof typeof routeMeta]
@@ -635,7 +667,7 @@ function AppContent() {
         tabIndex={-1}
         data-portfolio-items={portfolioItemCount}
       >
-        {isHome ? <><Hero /><CuratedResearch /><CuratedMotorsport /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
+        {isHome ? <><Hero /><SyntheticCtDemo /><HomeSoftware /><CuratedResearch /><CuratedMotorsport /><OnMyDesk /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
       </main>
     </>
   )
