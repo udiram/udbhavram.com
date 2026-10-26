@@ -6,6 +6,26 @@ import { pathToFileURL } from 'node:url'
 
 const defaultDistRoot = resolve(process.cwd(), 'dist')
 
+// Full policy is report-only: Google Analytics and YouTube are third-party and
+// frame-ancestors is ignored on a report-only policy, so the clickjacking
+// controls are enforced on their own. Browsers ignore HSTS on plain HTTP.
+const enforcedContentSecurityPolicy = "frame-ancestors 'none'; object-src 'none'; base-uri 'self'"
+const reportOnlyContentSecurityPolicy = [
+  "default-src 'self'",
+  "script-src 'self' https://*.googletagmanager.com https://www.youtube.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com",
+  "font-src 'self'",
+  "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://www.google.com",
+  "frame-src https://www.youtube-nocookie.com https://www.youtube.com",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "frame-ancestors 'none'",
+].join('; ')
+
+const mutableFileNames = new Set(['robots.txt', 'sitemap.xml', 'gtag.js'])
+
 const contentTypes = {
   '.css': 'text/css; charset=utf-8',
   '.html': 'text/html; charset=utf-8',
@@ -82,8 +102,13 @@ export function createAppServer({ distRoot = defaultDistRoot } = {}) {
   const absoluteDistRoot = resolve(distRoot)
 
   return createServer(async (request, response) => {
-    response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+    response.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
     response.setHeader('X-Content-Type-Options', 'nosniff')
+    response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin')
+    response.setHeader('X-Frame-Options', 'DENY')
+    response.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=()')
+    response.setHeader('Content-Security-Policy', enforcedContentSecurityPolicy)
+    response.setHeader('Content-Security-Policy-Report-Only', reportOnlyContentSecurityPolicy)
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       response.setHeader('Allow', 'GET, HEAD')
@@ -111,7 +136,7 @@ export function createAppServer({ distRoot = defaultDistRoot } = {}) {
 
     const filePath = resolvedRequest.filePath
     const fileName = filePath.split(sep).at(-1)
-    const isMutableDocument = extname(filePath) === '.html' || fileName === 'robots.txt' || fileName === 'sitemap.xml'
+    const isMutableDocument = extname(filePath) === '.html' || mutableFileNames.has(fileName)
     response.statusCode = resolvedRequest.status
     response.setHeader('Content-Type', contentTypes[extname(filePath).toLowerCase()] || 'application/octet-stream')
     response.setHeader('Cache-Control', isMutableDocument ? 'no-cache' : 'public, max-age=31536000, immutable')
