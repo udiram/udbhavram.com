@@ -60,7 +60,7 @@ try {
     assert.equal(Number(await slider.inputValue()), initialSlice + 1, 'keyboard changes the real CT slice')
     assert.equal(await page.locator('.ct-canvas').getAttribute('data-slice'), String(initialSlice + 1), 'slice state reaches the rendered CT')
     assert.equal(await slider.getAttribute('max'), String(ctManifest.frames.length - 1))
-    assert.match(await page.locator('.ct-demo-copy').innerText(), /Medical Segmentation Decathlon/)
+    assert.match(await page.locator('.ct-figure figcaption').innerText(), /Medical Segmentation Decathlon/)
     assert.match(await page.locator('.ct-demo-copy').innerText(), /not a model prediction/)
 
     if (width === 1440) {
@@ -82,15 +82,51 @@ try {
         assert.equal(await page.locator('.ct-canvas').getAttribute('data-source-slice'), String(ctManifest.frames[Number(value)].sourceSlice))
       }
       await slider.fill(String(ctManifest.display.defaultIndex))
+      await page.locator('.ct-canvas[data-loading="false"] img').waitFor()
+
+      // Window presets: a real radio group, also reachable on keys 1 to 3 while the viewer has focus.
+      const defaultFrame = ctManifest.frames[ctManifest.display.defaultIndex]
+      const presets = page.getByRole('radiogroup', { name: 'Window preset' })
+      assert.deepEqual(await presets.getByRole('radio').evaluateAll(inputs => inputs.map(input => input.value)), ctManifest.display.presets.map(preset => preset.id))
+      await slider.focus()
+      await page.keyboard.press('3')
+      await page.locator('.ct-canvas[data-preset="bone"][data-loading="false"]').waitFor()
+      assert.equal(new URL(await page.locator('.ct-canvas img').getAttribute('src'), base).pathname, defaultFrame.sources.bone)
+      assert.match(await page.locator('.ct-mark-window').innerText(), /W 1800 · L 400/)
+      await presets.getByRole('radio', { name: 'Narrow' }).click()
+      await page.locator('.ct-canvas[data-preset="narrow"][data-loading="false"]').waitFor()
+      await slider.focus()
+      await slider.press('PageDown')
+      assert.equal(Number(await slider.inputValue()), ctManifest.display.defaultIndex - 5, 'PageDown steps five slices')
+      await slider.press('End')
+      assert.equal(Number(await slider.inputValue()), ctManifest.frames.length - 1)
+      await slider.fill(String(ctManifest.display.defaultIndex))
+      await page.keyboard.press('1')
+      await page.locator('.ct-canvas[data-preset="soft"][data-loading="false"]').waitFor()
+      assert.match(await page.locator('.ct-readout').innerText(), new RegExp(`Slice ${ctManifest.display.defaultIndex + 1} / ${ctManifest.frames.length} · z ${defaultFrame.zMm.toFixed(1)} mm`))
+
+      // HU readout: the stored voxel value, fetched on the first pointer move.
+      // Focus moves scroll the page smoothly; measure the image only once it is still.
+      await page.evaluate(async () => { let last = -1; while (last !== scrollY) { last = scrollY; await new Promise(resolve => setTimeout(resolve, 120)) } })
+      const stage = await page.locator('.ct-image-stage').boundingBox()
+      const crop = ctManifest.display.crop
+      await page.mouse.move(stage.x + (388.5 / crop.w) * stage.width, stage.y + ((296.5 - crop.y0) / crop.h) * stage.height)
+      await page.locator('.ct-hu').waitFor()
+      assert.equal(await page.locator('.ct-hu').innerText(), '122 HU · spleen', 'readout is the source voxel inside the reference label')
+      await page.mouse.move(stage.x + (10.5 / crop.w) * stage.width, stage.y + stage.height / 2)
+      await page.waitForFunction(() => /^-\d+ HU$/.test(document.querySelector('.ct-hu')?.textContent ?? ''))
+      await page.keyboard.press('Escape')
+      assert.equal(await page.locator('.ct-hu').count(), 0, 'Escape hides the readout')
+      await page.mouse.move(0, 0)
     }
 
-    const contour = page.getByRole('checkbox', { name: 'Reference contour' })
+    const contour = page.getByRole('switch', { name: 'Show contour' })
     assert.equal(await contour.isChecked(), true)
     await contour.focus()
     await contour.press('Space')
     assert.equal(await contour.isChecked(), false)
     assert.equal(await page.locator('.ct-contour').count(), 0, 'contour control changes the rendered overlay')
-    await page.locator('.contour-control').click({ position: { x: 62, y: 11 } })
+    await page.locator('.contour-control').click({ position: { x: 62, y: 22 } })
     assert.equal(await contour.isChecked(), true, 'pointer interaction restores the contour')
 
     const box = await slider.boundingBox()

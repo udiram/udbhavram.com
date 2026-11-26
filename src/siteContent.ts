@@ -1,4 +1,23 @@
-export type ImageAsset = { src: string; alt: string; source?: string; caption?: string }
+export type ImageAsset = {
+  src: string; alt: string; source?: string; caption?: string
+  /** Published figures and posters: shown unaltered in the PublishedFigure frame. */
+  figureNumber?: string; title?: string; kind?: 'Published figure' | 'Preprint figure' | 'Conference poster'
+  /** Venue and DOI as printed under the figure; `license` is appended only when it is verified. */
+  credit?: string; license?: string
+  width?: number; height?: number
+}
+
+export type PublishedFigureAsset = ImageAsset & Required<Pick<ImageAsset, 'figureNumber' | 'title' | 'credit' | 'width' | 'height'>>
+
+export function isPublishedFigure(asset: ImageAsset): asset is PublishedFigureAsset {
+  return Boolean(asset.figureNumber && asset.title && asset.credit && asset.width && asset.height)
+}
+
+/** Credit line as shown under the figure: venue and DOI, then the license when one is known. */
+export function figureCredit(asset: PublishedFigureAsset) {
+  return asset.license ? `${asset.credit} · ${asset.license}` : asset.credit
+}
+
 type LinkItem = { label: string; href: string }
 type IconName =
   | 'mail'
@@ -80,6 +99,8 @@ export const imageAssets = {
     alt: 'AAPM poster describing a locally hosted language-model pipeline for TG-263 naming quality assurance',
     source:
       'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20105/AAPM2025_BRP_LLM.pdf',
+    figureNumber: 'Poster', title: 'TG-263 naming checks with local language models', kind: 'Conference poster',
+    credit: 'AAPM 67th Annual Meeting, 2025 · Blue Ribbon Poster', width: 1600, height: 900,
   },
   arrowMcLaren: {
     src: '/assets/optimized/arrow-mclaren.webp',
@@ -132,15 +153,14 @@ export const imageAssets = {
     alt: 'Udbhav Ram seated on a white horse during horsemanship training',
     caption: 'Horsemanship training · Personal archive, November 2024',
   },
-  radkevResearch: { src: '/assets/sourced/radkev-figure-5-comparison.png', alt: 'Published RadKev Figure 5 comparing task accuracy and response latency across decision and language models', source: 'https://github.com/udiram/RadKev/blob/main/figures/fig5_comparison.png' },
-  adaptiveResearch: { src: '/assets/sourced/astro-2026-contouring-uncertainty-poster.webp', alt: 'ASTRO 2026 poster on contouring uncertainty across clinical specialties in online adaptive partial-breast irradiation', source: '/assets/sourced/astro-2026-contouring-uncertainty-poster.pdf' },
-  adaptiveAapmResearch: { src: '/assets/sourced/aapm-2026-adaptive-poster.jpg', alt: 'AAPM 2026 digital poster on inter-observer variability in online adaptive partial-breast irradiation', source: 'https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf' },
-  organSegmentationFigure2: { src: '/assets/sourced/organ-segmentation-figure-2.jpg', alt: 'Published Figure 2 showing quantitative segmentation metrics for nnU-Net, Auto3DSeg, and SwinUNETR', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F2/' },
-  organSegmentationResearch: { src: '/assets/sourced/organ-segmentation-figure-3.jpg', alt: 'Published comparison of abdominal organ contours from nnU-Net, Auto3DSeg, SwinUNETR, and ground truth', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F3/' },
-  organSegmentationFigure4: { src: '/assets/sourced/organ-segmentation-figure-4.jpg', alt: 'Published Figure 4 showing physicians\' blinded Likert review of abdominal organ segmentations', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F4/' },
-  brainFollowupResearch: { src: '/assets/sourced/brain-followup-published-figure-5.jpg', alt: 'Published Figure 5 showing planning CT target contours, follow-up MRI, and treated target contours fused into follow-up MRI', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC13161908/figure/npaf126-F5/' },
-  lungBeamResearch: { src: '/assets/sourced/aapm-2025-lung-6x10x-poster.webp', alt: 'AAPM 2025 poster comparing 6X-FFF and 10X-FFF for lung SBRT', source: 'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf' },
-  amyloidResearch: { src: '/assets/sourced/amyloid-paper-figure-4-microscopy.webp', alt: 'Published Figure 4 microscopy panels comparing synthetic membranes and amyloid beta with resveratrol, caffeine, beta-carotene, and EGCG', source: 'https://doi.org/10.1002/mnfr.202000632' },
+  radkevResearch: { src: '/assets/sourced/radkev-figure-5-comparison.png', alt: 'Published RadKev Figure 5 comparing task accuracy and response latency across decision and language models', source: 'https://github.com/udiram/RadKev/blob/main/figures/fig5_comparison.png', figureNumber: 'Figure 5', title: 'Task accuracy and latency', kind: 'Preprint figure', credit: 'medRxiv preprint, doi:10.64898/2026.10.07.26364991 · not peer reviewed', width: 2125, height: 1511 },
+  adaptiveResearch: { src: '/assets/sourced/astro-2026-contouring-uncertainty-poster.webp', alt: 'ASTRO 2026 poster on contouring uncertainty across clinical specialties in online adaptive partial-breast irradiation', source: '/assets/sourced/astro-2026-contouring-uncertainty-poster.pdf', figureNumber: 'Poster 3104', title: 'Contouring uncertainty across specialties', kind: 'Conference poster', credit: 'ASTRO 68th Annual Meeting, 2026', width: 4096, height: 2304 },
+  adaptiveAapmResearch: { src: '/assets/sourced/aapm-2026-adaptive-poster.jpg', alt: 'AAPM 2026 digital poster on inter-observer variability in online adaptive partial-breast irradiation', source: 'https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf', figureNumber: 'Poster', title: 'Inter-observer variability in adaptive breast irradiation', kind: 'Conference poster', credit: 'AAPM | COMP Annual Meeting, 2026', width: 1584, height: 1224 },
+  organSegmentationFigure2: { src: '/assets/sourced/organ-segmentation-figure-2.jpg', alt: 'Published Figure 2 showing quantitative segmentation metrics for nnU-Net, Auto3DSeg, and SwinUNETR', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F2/', figureNumber: 'Figure 2', title: 'Quantitative geometric performance', kind: 'Published figure', credit: 'Intelligent Oncology 2025, doi:10.1016/j.intonc.2025.03.003', width: 1733, height: 2100 },
+  organSegmentationResearch: { src: '/assets/sourced/organ-segmentation-figure-3.jpg', alt: 'Published comparison of abdominal organ contours from nnU-Net, Auto3DSeg, SwinUNETR, and ground truth', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F3/', figureNumber: 'Figure 3', title: 'CT contour comparison', kind: 'Published figure', credit: 'Intelligent Oncology 2025, doi:10.1016/j.intonc.2025.03.003', width: 1650, height: 1477 },
+  organSegmentationFigure4: { src: '/assets/sourced/organ-segmentation-figure-4.jpg', alt: 'Published Figure 4 showing physicians\' blinded Likert review of abdominal organ segmentations', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F4/', figureNumber: 'Figure 4', title: 'Blinded physician review', kind: 'Published figure', credit: 'Intelligent Oncology 2025, doi:10.1016/j.intonc.2025.03.003', width: 1650, height: 1341 },
+  brainFollowupResearch: { src: '/assets/sourced/brain-followup-published-figure-5.jpg', alt: 'Published Figure 5 showing planning CT target contours, follow-up MRI, and treated target contours fused into follow-up MRI', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC13161908/figure/npaf126-F5/', figureNumber: 'Figure 5', title: 'Contours carried into follow-up MRI', kind: 'Published figure', credit: 'Neuro-Oncology Practice, doi:10.1093/nop/npaf126', license: 'CC BY-NC 4.0', width: 720, height: 240 },
+  lungBeamResearch: { src: '/assets/sourced/aapm-2025-lung-6x10x-poster.webp', alt: 'AAPM 2025 poster comparing 6X-FFF and 10X-FFF for lung SBRT', source: 'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf', figureNumber: 'Poster', title: '6X-FFF and 10X-FFF for lung SBRT', kind: 'Conference poster', credit: 'AAPM 67th Annual Meeting, 2025', width: 1600, height: 900 },
 } satisfies Record<string, ImageAsset>
 
 export const selectedWork: WorkStory[] = [

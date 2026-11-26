@@ -3,7 +3,9 @@ import { imageAssets, type ImageAsset } from './siteContent'
 
 export type Study = {
   slug: string; title: string; subtitle: string; year: string; status: string;
-  intro: string; image: ImageAsset; caption: string;
+  intro: string; image?: ImageAsset; caption: string;
+  /** Caption printed beside a published figure on the study page. */
+  figureCaption?: string;
   facts: { value: string; label: string }[];
   sections: { heading: string; paragraphs: string[] }[];
   sources: { label: string; href: string }[];
@@ -94,6 +96,7 @@ export const studies: Study[] = [
     year: '2026 issue · Online 2025', status: 'Co-authored journal article · Neuro-Oncology Practice',
     intro: 'Follow-up imaging asks clinicians to understand what has changed since treatment. This project brings earlier treatment contours into the follow-up magnetic-resonance image so that history is easier to review.',
     image: imageAssets.brainFollowupResearch, caption: 'Published Figure 5 · Planning CT, follow-up MRI, and fused treated-target contours · CC BY-NC 4.0',
+    figureCaption: 'Planning CT with treated GTVs (left) is fused with follow-up MRI (middle). On the fused follow-up (right), GTV3 and GTV4 read as improved or stable, and a new brain metastasis (BM) is boxed.',
     facts: [{ value: '40', label: 'patients in the study' }, { value: '7.97 min', label: 'average review time before' }, { value: '3.95 min', label: 'average review time with framework' }],
     sections: [
       { heading: 'The information gap', paragraphs: ['After radiotherapy, a follow-up magnetic resonance imaging (MRI) examination needs to be interpreted in light of what was previously treated. Treatment contours and current images can be separate pieces of the clinical record.', 'The co-authored framework brings pre-radiotherapy brain-metastasis contours into follow-up MRI to support that assessment.'] },
@@ -162,7 +165,7 @@ export const studies: Study[] = [
   "year": "2020",
   "status": "Co-authored journal article · Molecular Nutrition & Food Research",
   "intro": "Before the clinical-AI projects, biophysics offered a way to study complex biological questions through a controlled model system. This paper investigates interactions between selected compounds, synthetic membranes, and amyloid aggregates.",
-  "caption": "Published Figure 4 · Optical and fluorescence microscopy of the exact synthetic-membrane experiment",
+  "caption": "Publication · Molecular Nutrition & Food Research, 2020",
   "facts": [
     {
       "value": "4",
@@ -212,8 +215,7 @@ export const studies: Study[] = [
       "label": "PubMed record",
       "href": "https://pubmed.ncbi.nlm.nih.gov/32981185/"
     }
-  ],
-  "image": imageAssets.amyloidResearch
+  ]
 }
 ]
 

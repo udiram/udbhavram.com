@@ -13,6 +13,7 @@ import {
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   imageAssets,
+  isPublishedFigure,
   selectedWork,
   publications,
   currentBuilds,
@@ -26,6 +27,7 @@ import { ReadingListProvider, useReadingList } from './ReadingListContext'
 import { studies } from './expandedContent'
 import { awardRecords } from './identityContent'
 import { IdentityMark } from './identityMarks'
+import PublishedFigure from './PublishedFigure'
 import RealCtViewer from './RealCtViewer'
 import HomeSoftware from './HomeSoftware'
 import OnMyDesk from './OnMyDesk'
@@ -525,7 +527,7 @@ function CuratedResearch() {
           <p>Using AI and computational methods to study medical images and radiation treatment.</p>
         </div>
         <article className="curated-research-lead">
-          <Photo asset={lead.image} />
+          {lead.image && (isPublishedFigure(lead.image) ? <PublishedFigure asset={lead.image} /> : <Photo asset={lead.image} />)}
           <div>
             <h3><a href={`/research/${lead.slug}`}>{homeStudyTitles[lead.slug]}</a></h3>
             <p>{homeStudySummaries[lead.slug]}</p>

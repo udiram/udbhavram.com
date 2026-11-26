@@ -3,11 +3,12 @@ import PresentationRecord from './PresentationRecord'
 import { presentations, eventPresentations, outreachPresentations, presentationYears, presentationScope } from './presentationData'
 import { useEffect, useState, type ReactNode } from 'react'
 import { MagnifyingGlass, DownloadSimple, ArrowLeft, } from '@phosphor-icons/react'
-import { imageAssets, type ImageAsset } from './siteContent'
+import { imageAssets, isPublishedFigure, type ImageAsset } from './siteContent'
 import { portfolioCollections, portfolioItemCount, type PortfolioCollection } from './portfolioContent'
 import { cvPath, studies } from './expandedContent'
 import photos from './personalPhotos.json'
 import bibliography from './bibliography.json'
+import PublishedFigure from './PublishedFigure'
 import ResearchExplainer from './ResearchExplainer'
 import SoftwareShowcase from './SoftwareShowcase'
 import SaveButton from './SaveButton'
@@ -27,12 +28,48 @@ const sortedBibliography = [...bibliography].sort((a,b)=>publicationOrder.indexO
 const recordId = (group: number, item: number) => `entry-${group}-${item}`
 function SourceLink({ href, children }: { href: string; children: ReactNode }) { return <a className="source-link" href={href}>{children}</a> }
 function PagePhoto({ asset, caption, className = '' }: { asset: ImageAsset; caption: string; className?: string }) { const resolvedCaption = asset.caption ?? caption; return <figure className={`page-photo ${className}`}><img src={asset.src} alt={asset.alt} width="1000" height="750" loading="lazy" /><figcaption>{resolvedCaption}{asset.source && <> · <a href={asset.source}>Source</a></>}</figcaption></figure> }
-const organFigures = [
-  { asset: imageAssets.organSegmentationFigure2, caption: 'Published Figure 2 · Quantitative geometric performance' },
-  { asset: imageAssets.organSegmentationResearch, caption: 'Published Figure 3 · Real CT contour comparison' },
-  { asset: imageAssets.organSegmentationFigure4, caption: 'Published Figure 4 · Blinded physician review' },
+const organFigures = [imageAssets.organSegmentationFigure2, imageAssets.organSegmentationResearch, imageAssets.organSegmentationFigure4].filter(isPublishedFigure)
+const amyloidPaper = { href: 'https://doi.org/10.1002/mnfr.202000632', journal: 'Mol Nutr Food Res 2020', doi: 'doi:10.1002/mnfr.202000632' }
+const amyloidGuide = [
+  ['Resveratrol', 'Grapes', 'Membranes thicken and become less fluid. The volume fraction of peptide aggregates is not reduced.'],
+  ['Caffeine', 'Coffee', 'Membranes thicken and become less fluid. The volume fraction of peptide aggregates is not reduced.'],
+  ['β-Carotene', 'Orange fruits and vegetables', 'Membrane fluidity is preserved or increased. Plaque size is significantly reduced.'],
+  ['EGCG', 'Green tea', 'Membrane fluidity is preserved or increased. Peptide aggregates dissolve, and the cross-β and β-sheet signals decrease significantly.'],
 ]
-function OrganFigureGallery() { return <div className="organ-figure-gallery" aria-label="Three published organ-segmentation figures">{organFigures.map(({asset, caption}) => <PagePhoto key={asset.src} asset={asset} caption={caption} className="research-art" />)}</div> }
+/** The amyloid study shows the citation in the published-figure frame, with no reproduced figure. */
+function PublicationCard({ compact = false }: { compact?: boolean }) {
+  return <figure className={`pub-figure pub-citation${compact ? ' is-compact' : ''}`} aria-label="Publication: amyloid aggregation in synthetic brain membranes">
+    <div className="pub-head"><strong>Journal article · 2020</strong><span className="pub-tag">Publication</span></div>
+    <div className="pub-citation-mat">
+      <div className="pub-citation-ref">
+        <p className="pub-citation-title">The Effects of Resveratrol, Caffeine, <span className="nowrap">β-Carotene</span>, and Epigallocatechin Gallate (EGCG) on <span className="nowrap">Amyloid-β<sub>25–35</sub></span> Aggregation in Synthetic Brain Membranes</p>
+        <p className="pub-citation-authors">Gastaldo, Himbert, <strong>Ram</strong>, Rheinstädter</p>
+        <p className="pub-citation-journal">{amyloidPaper.journal}</p>
+        <a className="button pub-citation-link" href={amyloidPaper.href}>Read the paper</a>
+      </div>
+      {!compact && <table className="pub-citation-guide"><caption>Reading guide: what the paper reports for each compound</caption><thead><tr><th scope="col">Compound</th><th scope="col">Found in</th><th scope="col">What the paper reports</th></tr></thead><tbody>{amyloidGuide.map(([compound, found, reported]) => <tr key={compound}><th scope="row">{compound}</th><td>{found}</td><td>{reported}</td></tr>)}</tbody></table>}
+    </div>
+    <figcaption className="pub-caption">
+      <p className="pub-text">Each compound was added to synthetic brain membranes containing amyloid-β<sub>25–35</sub> aggregates. This is a model system, not a clinical study.</p>
+      <p className="pub-credit">Gastaldo, Himbert, Ram & Rheinstädter · {amyloidPaper.journal} · {amyloidPaper.doi} · Reading guide is site text summarising the paper; no figure is reproduced</p>
+    </figcaption>
+  </figure>
+}
+function OrganFigureGallery({ compact = false }: { compact?: boolean }) { return <div className="organ-figure-gallery" role="group" aria-label="Three published organ-segmentation figures">{organFigures.map(asset => <PublishedFigure key={asset.src} asset={asset} className={compact ? 'is-compact' : ''} />)}</div> }
+/** Card-sized art for a study on the research index: the published figure in its frame, or a photograph. */
+function StudyIndexArt({ study }: { study: (typeof studies)[number] }) {
+  if (study.slug === 'organ-segmentation') return <OrganFigureGallery compact />
+  if (!study.image) return <PublicationCard compact />
+  if (!isPublishedFigure(study.image)) return <PagePhoto asset={study.image} caption={study.caption} className="research-art" />
+  return <PublishedFigure asset={study.image} />
+}
+/** The figure block under a study's heading. */
+function StudyFigures({ study }: { study: (typeof studies)[number] }) {
+  if (study.slug === 'organ-segmentation') return <div className="study-figures"><OrganFigureGallery /></div>
+  if (!study.image) return <div className="study-figures"><PublicationCard /></div>
+  if (!isPublishedFigure(study.image)) return <div className="study-figures"><PagePhoto asset={study.image} caption={study.caption} className="research-art" /></div>
+  return <div className="study-figures"><PublishedFigure asset={study.image} caption={study.figureCaption} layout="side" priority /></div>
+}
 function PageIntro({ eyebrow, title, children }: { eyebrow: string; title: ReactNode; children: ReactNode }) { return <div className="page-intro wrap"><a className="back-link" href="/"><ArrowLeft /> Home</a><span className="meta page-eyebrow">{eyebrow}</span><h1>{title}</h1><div className="page-lede">{children}</div></div> }
 function SectionNav({ items }: { items: { id: string; label: string }[] }) { return <nav className="section-nav wrap" aria-label="On this page"><span>On this page</span>{items.map(i => <a href={`#${i.id}`} key={i.id}>{i.label}</a>)}</nav> }
 export function CVLink({ className = 'button' }: { className?: string }) { return <a className={className} href={cvPath} download="Udbhav_Ram_Public_CV_October_2026.pdf"><DownloadSimple /> Download public CV <span className="pdf-label">PDF</span></a> }
@@ -59,8 +96,8 @@ function AboutPage() { return <>
 </> }
 
 function ResearchPage() { return <>
-  <section className="wrap research-hero"><div className="research-hero-copy"><a className="back-link" href="/"><ArrowLeft /> Home</a><span className="meta page-eyebrow">Latest research · {studies[0].status}</span><h1>Research</h1><p>{studies[0].intro}</p><div className="intro-actions"><a className="button" href={`/research/${studies[0].slug}`}>Read the RadKev case study</a><a className="text-link" href="#journal-articles">Publications and talks</a></div><ResearchMaterialActions slug={studies[0].slug} /></div><PagePhoto asset={studies[0].image} caption={studies[0].caption} className="poster-photo" /></section>
-  <div className="wrap research-index"><div className="research-index-heading"><span className="meta">Case studies</span><h2>Methods, results, and limits</h2></div>{studies.slice(1).map(s => <article className="study-index-row" key={s.slug}>{s.slug === 'organ-segmentation' ? <OrganFigureGallery /> : <PagePhoto asset={s.image} caption={s.caption} className="research-art" />}<div><span className="meta">{s.year} · {s.status}</span><h2><a href={`/research/${s.slug}`}>{s.title}</a></h2><p>{s.intro}</p><div className="card-actions"><a className="text-link" href={`/research/${s.slug}`}>Read the case study</a><SaveButton id={`study:${s.slug}`} /></div><ResearchMaterialActions slug={s.slug} /></div></article>)}</div>
+  <section className="wrap research-hero"><div className="research-hero-copy"><a className="back-link" href="/"><ArrowLeft /> Home</a><span className="meta page-eyebrow">Latest research · {studies[0].status}</span><h1>Research</h1><p>{studies[0].intro}</p><div className="intro-actions"><a className="button" href={`/research/${studies[0].slug}`}>Read the RadKev case study</a><a className="text-link" href="#journal-articles">Publications and talks</a></div><ResearchMaterialActions slug={studies[0].slug} /></div><StudyIndexArt study={studies[0]} /></section>
+  <div className="wrap research-index"><div className="research-index-heading"><span className="meta">Case studies</span><h2>Methods, results, and limits</h2></div>{studies.slice(1).map(s => <article className="study-index-row" key={s.slug}><StudyIndexArt study={s} /><div><span className="meta">{s.year} · {s.status}</span><h2><a href={`/research/${s.slug}`}>{s.title}</a></h2><p>{s.intro}</p><div className="card-actions"><a className="text-link" href={`/research/${s.slug}`}>Read the case study</a><SaveButton id={`study:${s.slug}`} /></div><ResearchMaterialActions slug={s.slug} /></div></article>)}</div>
   <section className="wrap research-recordings"><StudyVideoSet path="/research" /></section>
   <div className="detail-band research-explainer-band"><div className="wrap"><ResearchExplainer /></div></div>
   <section className="wrap reading-width detail-section" id="journal-articles"><div className="section-heading"><h2>Publications</h2><p>Peer-reviewed articles and the RadKev preprint, kept distinct.</p></div><article className="research-preprint"><span className="meta">October 13, 2026 · medRxiv preprint · submitting author</span><h3><a href="https://doi.org/10.64898/2026.10.07.26364991">RadKev: An Open-Weight Decision Model for Radiology</a></h3><p>This preprint has not been peer reviewed.</p></article><ol className="bibliography">{sortedBibliography.map((paper,index) => <li key={paper.id} id={`paper-${paper.id}`}><span className="bibliography-number">0{index + 1}</span><div><span className="meta">{paper.issue_date} · {paper.journal} · {paper.role}</span><h3><a href={paper.url}>{paper.title}</a></h3><p>DOI: {paper.doi}</p></div></li>)}</ol></section>
@@ -76,7 +113,7 @@ function PublicationsResearchRoute() {
   return <ResearchPage />
 }
 function StudyPage({ slug }: { slug: string }) { const s=studies.find(x=>x.slug===slug); if(!s) return <NotFound />; const related=(studyRelations[s.slug]??[]).map(relation=>({relation,item:publicContentById.get(relation.id)})).filter((entry):entry is {relation:typeof entry.relation,item:NonNullable<typeof entry.item>}=>Boolean(entry.item)); return <>
-  <section className="wrap study-hero"><div className="study-hero-heading"><a className="back-link" href="/research"><ArrowLeft /> Research</a><span className="meta page-eyebrow">{s.year} · {s.status}</span><h1>{s.title}</h1></div>{s.slug === 'organ-segmentation' ? <OrganFigureGallery /> : <PagePhoto asset={s.image} caption={s.caption} className="research-art" />}<div className="study-hero-lede"><p>{s.intro}</p><span>{s.subtitle}</span><div className="card-actions"><SaveButton id={`study:${s.slug}`} /><a href="/research">All research</a></div></div></section>
+  <section className="wrap study-hero"><div className="study-hero-heading"><a className="back-link" href="/research"><ArrowLeft /> Research</a><span className="meta page-eyebrow">{s.year} · {s.status}</span><h1>{s.title}</h1></div><div className="study-hero-lede"><p>{s.intro}</p><span>{s.subtitle}</span><div className="card-actions"><SaveButton id={`study:${s.slug}`} /><a href="/research">All research</a></div></div><StudyFigures study={s} /></section>
   <ResearchMaterialShelf slug={s.slug} />
   <div className="wrap study-layout"><aside className="study-sidebar"><div className="study-stats">{s.facts.map(f=><div key={f.label}><strong>{f.value}</strong><span>{f.label}</span></div>)}</div><nav aria-label="Study sections">{s.sections.map((section,i)=><a href={`#study-section-${i}`} key={section.heading}>{section.heading}</a>)}<a href="#study-sources">Sources & further reading</a></nav></aside><article className="study-prose"><StudyVideoSet path={`/research/${s.slug}`} />{s.sections.map((section,i)=><section className="prose" id={`study-section-${i}`} key={section.heading}><h2>{section.heading}</h2>{section.paragraphs.map(p=><p key={p}>{p}</p>)}</section>)}<section className="prose source-box" id="study-sources"><h2>Sources & further reading</h2><ul>{s.sources.map(source=><li key={source.href}><a href={source.href}>{source.label}</a></li>)}</ul><p className="small-note">Page last reviewed October 14, 2026.</p></section></article></div>
   {related.length > 0 && <section className="wrap related-strip curated-related"><div><span className="meta">Connected evidence</span><h2>Keep exploring.</h2></div>{related.map(({relation,item})=><article key={item.id}><a href={item.href}><span className="meta">{item.kind} · {item.meta}</span><h3>{item.title}</h3><p>{relation.reason}</p></a><SaveButton id={item.id} compact /></article>)}</section>}

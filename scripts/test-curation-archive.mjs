@@ -218,7 +218,7 @@ try {
   assert.equal(await mobile.locator('.archive-hero').getAttribute('inert'), null)
   assert.equal(await mobile.evaluate(() => document.body.style.overflow), '')
   await trigger.click(); await mobile.locator('.archive-filter-scrim').click({ position: { x: 10, y: 10 } }); assert.equal(await trigger.evaluate(element => element === document.activeElement), true, 'scrim closure restores focus')
-  await trigger.click(); await mobile.setViewportSize({ width: 900, height: 844 }); assert.equal(await mobile.locator('.archive-filters.is-open').count(), 0, 'desktop resize exits modal state')
+  await trigger.click(); await mobile.setViewportSize({ width: 900, height: 844 }); await mobile.locator('.archive-filters.is-open').waitFor({ state: 'detached' }); assert.equal(await mobile.locator('.archive-filters.is-open').count(), 0, 'desktop resize exits modal state')
   await mobileContext.close()
   if (evidence) {
     const darkDesktopContext = await browser.newContext({ viewport: { width: 1200, height: 900 } })

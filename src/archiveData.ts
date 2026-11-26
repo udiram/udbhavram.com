@@ -123,7 +123,7 @@ const setMetadata = (id: string, values: Omit<ArchiveMetadata, 'years'> & { year
 
 studies.forEach(study => {
   const id = `study:${study.slug}`
-  mergeDetail(id, { sources: study.sources, details: [study.subtitle, ...study.facts.map(fact => `${fact.value} ${fact.label}`)], image: study.image.src, imageAlt: study.image.alt })
+  mergeDetail(id, { sources: study.sources, details: [study.subtitle, ...study.facts.map(fact => `${fact.value} ${fact.label}`)], image: study.image?.src, imageAlt: study.image?.alt })
   setMetadata(id, { date: dateFrom(study.year), yearSource: study.year, institutions: study.slug === 'radkev' ? ['University of Wisconsin–Madison'] : [], roleType: 'Research study' })
 })
 softwareProjects.forEach(project => {
