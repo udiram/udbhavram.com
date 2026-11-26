@@ -17,8 +17,8 @@ export const studies: Study[] = [
     year: 'October 13, 2026',
     status: 'medRxiv preprint · submitting author',
     intro: 'RadKev is an open-weight AI model for radiology decisions with a fixed set of answers. It can run inside an institution, returns probabilities in one step, and was evaluated against general decision models and language models across fifteen tasks.',
-    image: imageAssets.heroCollage,
-    caption: 'Medical-imaging and computation collage from the public research portfolio',
+    image: imageAssets.radkevResearch,
+    caption: 'Preprint Figure 5 · Task accuracy and latency across decision and language models',
     facts: [{ value: '36,109', label: 'training records' }, { value: '14,142', label: 'held-out questions' }, { value: '15', label: 'radiology tasks' }],
     sections: [
       { heading: 'The question', paragraphs: ['Many radiology tasks ask for one answer from a known set: whether a report contains a finding, how urgently a study should be read, or which diagnosis best fits a case. A decision model returns a probability for each allowed answer instead of generating free text.', 'The project asked whether an open-weight decision model specialized for radiology could improve accuracy while remaining fast enough to run within an institution.'] },
@@ -33,15 +33,15 @@ export const studies: Study[] = [
     subtitle: 'Characterizing contouring uncertainty across clinical specialties in CBCT-guided online adaptive partial breast irradiation',
     year: 'September 29, 2026', status: 'ASTRO 2026 · Poster 3104 · Boston',
     intro: 'Adaptive radiotherapy adjusts treatment to the anatomy seen on the day. But before a plan can adapt, a person has to decide where the treatment target begins and ends. This work examines how those decisions vary across clinical specialties.',
-    image: imageAssets.adaptiveResearch, caption: 'Original AAPM 2026 poster on contouring uncertainty in online adaptive partial-breast irradiation',
+    image: imageAssets.adaptiveResearch, caption: 'ASTRO 2026 poster 3104 · Exact Boston presentation version',
     facts: [{ value: '14', label: 'patients' }, { value: '14', label: 'observers across 4 professions' }, { value: '1–5 mm', label: 'margins evaluated' }],
     sections: [
       { heading: 'The clinical question', paragraphs: ['Partial-breast irradiation focuses treatment on a smaller part of the breast. In an online adaptive workflow, the clinical team reviews the day’s images and contours before adapting the plan. Variation in those contours is therefore a practical uncertainty in the workflow.', 'The project studies contouring uncertainty across clinical specialties using cone-beam computed tomography (CBCT), the imaging used to guide the online adaptation. It connects image interpretation, clinical judgment, and treatment planning rather than treating contours as a purely geometric problem.'] },
-      { heading: 'Study design and findings', paragraphs: ['In this retrospective, single-institution study, 14 observers reviewed 14 patients: five radiation oncologists, three physicists, three dosimetrists, and three therapists. Observers edited propagated lumpectomy-cavity contours on treatment fractions 1 and 5.', 'The analysis compared the resulting coverage and treated volume at margins from 1 to 5 mm, using majority-vote physician contours as the reference. Small margins substantially improved overlap; median coverage of the physician-consensus reference approached 100% around 3 mm across groups.', 'The finding is a coverage–volume tradeoff, not a universal margin prescription. Physician consensus is a practical reference rather than known biological ground truth, and the retrospective single-institution design limits generalization.'] },
+      { heading: 'Study design and findings', paragraphs: ['In this retrospective, single-institution study, 14 observers reviewed 14 patients: five radiation oncologists, three physicists, three dosimetrists, and three therapists. Each observer edited propagated lumpectomy-cavity contours on treatment fractions 1 and 5, producing 392 edits.', 'The ASTRO poster reports role-specific margins needed to reach 90% coverage for 90% of cases: 0 mm for automated contours, 1 mm for dosimetrists and therapists, and 2 mm for radiation oncologists and physicists.', 'Those values describe this study\'s coverage–volume tradeoff, not a universal margin prescription. Physician consensus is a practical reference rather than known biological ground truth, and the retrospective single-institution design limits generalization.'] },
       { heading: 'Where it fits in my work', paragraphs: ['This project grew from my medical-physics and radiation-oncology research at UAB. It continues a broader thread in my work: evaluating computational tools in the context of the people who have to use them.', 'My related projects compare physician assessments of automatically generated contours, evaluate planning configurations, and explore how clinical information can be carried more clearly from one stage of care to another.'] },
       { heading: 'Latest public record', paragraphs: ['As first author and presenter, I shared this work at the 2026 American Society for Radiation Oncology (ASTRO) Annual Meeting in Boston on September 29, 2026. The official program lists it as poster 3104.', 'The conference presentation is the current public record linked here. A separate full journal article is not listed as published on this page.'] },
     ],
-    sources: [{ label: 'ASTRO presentation and abstract', href: 'https://amportal.astro.org/sessions/pqa-05-22824/characterizing-contouring-uncertainty-across-clinical-specialties-in-cbct-guided-online-adapt-112788' }, { label: 'ASTRO presenter profile', href: 'https://amportal.astro.org/udbhav-ram-bs-135368427' }],
+    sources: [{ label: 'Open the ASTRO 2026 poster (PDF)', href: '/assets/sourced/astro-2026-contouring-uncertainty-poster.pdf' }, { label: 'ASTRO presentation and abstract', href: 'https://amportal.astro.org/sessions/pqa-05-22824/characterizing-contouring-uncertainty-across-clinical-specialties-in-cbct-guided-online-adapt-112788' }, { label: 'ASTRO presenter profile', href: 'https://amportal.astro.org/udbhav-ram-bs-135368427' }, { label: 'Open the distinct AAPM 2026 poster', href: 'https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf' }],
   },
   {
     slug: 'clinical-language-models', title: 'Teaching a model the clinic’s language.',
@@ -93,7 +93,7 @@ export const studies: Study[] = [
     subtitle: 'Fusing pre-radiotherapy brain-metastasis contours with follow-up MRI',
     year: '2026 issue · Online 2025', status: 'Co-authored journal article · Neuro-Oncology Practice',
     intro: 'Follow-up imaging asks clinicians to understand what has changed since treatment. This project brings earlier treatment contours into the follow-up magnetic-resonance image so that history is easier to review.',
-    image: imageAssets.brainFollowupResearch, caption: 'Original explanatory schematic of the published contour-registration workflow · Not patient data',
+    image: imageAssets.brainFollowupResearch, caption: 'Published Figure 5 · Planning CT, follow-up MRI, and fused treated-target contours · CC BY-NC 4.0',
     facts: [{ value: '40', label: 'patients in the study' }, { value: '7.97 min', label: 'average review time before' }, { value: '3.95 min', label: 'average review time with framework' }],
     sections: [
       { heading: 'The information gap', paragraphs: ['After radiotherapy, a follow-up magnetic resonance imaging (MRI) examination needs to be interpreted in light of what was previously treated. Treatment contours and current images can be separate pieces of the clinical record.', 'The co-authored framework brings pre-radiotherapy brain-metastasis contours into follow-up MRI to support that assessment.'] },
@@ -162,7 +162,7 @@ export const studies: Study[] = [
   "year": "2020",
   "status": "Co-authored journal article · Molecular Nutrition & Food Research",
   "intro": "Before the clinical-AI projects, biophysics offered a way to study complex biological questions through a controlled model system. This paper investigates interactions between selected compounds, synthetic membranes, and amyloid aggregates.",
-  "caption": "Original explanatory schematic of the published membrane model · Not a paper figure",
+  "caption": "Published Figure 4 · Optical and fluorescence microscopy of the exact synthetic-membrane experiment",
   "facts": [
     {
       "value": "4",
@@ -203,6 +203,10 @@ export const studies: Study[] = [
     {
       "label": "Read the publication",
       "href": "https://doi.org/10.1002/mnfr.202000632"
+    },
+    {
+      "label": "Author-posted full text and figures",
+      "href": "https://www.researchgate.net/publication/344420376_The_Effects_of_Resveratrol_Caffeine_b-Carotene_and_Epigallocatechin_Gallate_EGCG_on_Amyloid-b25--35_Aggregation_in_Synthetic_Brain_Membranes"
     },
     {
       "label": "PubMed record",

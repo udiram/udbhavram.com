@@ -132,11 +132,15 @@ export const imageAssets = {
     alt: 'Udbhav Ram seated on a white horse during horsemanship training',
     caption: 'Horsemanship training · Personal archive, November 2024',
   },
-  adaptiveResearch: { src: '/assets/sourced/aapm-2026-adaptive-poster.jpg', alt: 'AAPM 2026 poster on contouring uncertainty in online adaptive partial-breast irradiation', source: 'https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf' },
+  radkevResearch: { src: '/assets/sourced/radkev-figure-5-comparison.png', alt: 'Published RadKev Figure 5 comparing task accuracy and response latency across decision and language models', source: 'https://github.com/udiram/RadKev/blob/main/figures/fig5_comparison.png' },
+  adaptiveResearch: { src: '/assets/sourced/astro-2026-contouring-uncertainty-poster.webp', alt: 'ASTRO 2026 poster on contouring uncertainty across clinical specialties in online adaptive partial-breast irradiation', source: '/assets/sourced/astro-2026-contouring-uncertainty-poster.pdf' },
+  adaptiveAapmResearch: { src: '/assets/sourced/aapm-2026-adaptive-poster.jpg', alt: 'AAPM 2026 digital poster on inter-observer variability in online adaptive partial-breast irradiation', source: 'https://aapm.confex.com/aapm/2026am/mediafile/Handout/Paper27281/AAPM2026_Poster_IOV.pdf' },
+  organSegmentationFigure2: { src: '/assets/sourced/organ-segmentation-figure-2.jpg', alt: 'Published Figure 2 showing quantitative segmentation metrics for nnU-Net, Auto3DSeg, and SwinUNETR', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F2/' },
   organSegmentationResearch: { src: '/assets/sourced/organ-segmentation-figure-3.jpg', alt: 'Published comparison of abdominal organ contours from nnU-Net, Auto3DSeg, SwinUNETR, and ground truth', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F3/' },
-  brainFollowupResearch: { src: '/assets/sourced/brain-followup-workflow.svg', alt: 'Original schematic of prior treatment contours registered into follow-up brain MRI', source: 'https://academic.oup.com/nop/article/13/3/497/8382617' },
+  organSegmentationFigure4: { src: '/assets/sourced/organ-segmentation-figure-4.jpg', alt: 'Published Figure 4 showing physicians\' blinded Likert review of abdominal organ segmentations', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC12462693/figure/F4/' },
+  brainFollowupResearch: { src: '/assets/sourced/brain-followup-published-figure-5.jpg', alt: 'Published Figure 5 showing planning CT target contours, follow-up MRI, and treated target contours fused into follow-up MRI', source: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC13161908/figure/npaf126-F5/' },
   lungBeamResearch: { src: '/assets/sourced/aapm-2025-lung-6x10x-poster.webp', alt: 'AAPM 2025 poster comparing 6X-FFF and 10X-FFF for lung SBRT', source: 'https://aapm.confex.com/aapm/2025am/mediafile/Handout/Paper20068/AAPM2025_eposter_6X10X.pdf' },
-  amyloidResearch: { src: '/assets/sourced/amyloid-membrane-schematic.svg', alt: 'Original schematic of four dietary compounds studied with amyloid beta in a synthetic brain membrane model', source: 'https://doi.org/10.1002/mnfr.202000632' },
+  amyloidResearch: { src: '/assets/sourced/amyloid-paper-figure-4-microscopy.webp', alt: 'Published Figure 4 microscopy panels comparing synthetic membranes and amyloid beta with resveratrol, caffeine, beta-carotene, and EGCG', source: 'https://doi.org/10.1002/mnfr.202000632' },
 } satisfies Record<string, ImageAsset>
 
 export const selectedWork: WorkStory[] = [

@@ -29,12 +29,18 @@ try {
   await page.goto(`${base}/research`)
   assert.match(await page.locator('.research-hero').innerText(), /RadKev/)
   assert.equal(await page.locator('.study-index-row').count(), 7)
+  assert.equal(await page.locator('.study-index-row').filter({ has: page.locator('h2 a[href="/research/organ-segmentation"]') }).locator('.organ-figure-gallery img').count(), 3, 'organ study index shows exactly three published figures')
   assert.match(await page.locator('#journal-articles').innerText(), /This preprint has not been peer reviewed/)
   for (const study of studies) {
     await page.goto(`${base}/research/${study.slug}`)
     assert.equal(await page.locator('.study-prose .prose').count(), study.sections.length + 1)
-    assert.equal(await page.locator('.study-hero img').getAttribute('src'), study.image.src)
-    assert.equal(await page.locator('.study-hero img').evaluate(element => getComputedStyle(element).objectFit), 'contain', `${study.slug} art is not cropped`)
+    if (study.slug === 'organ-segmentation') {
+      assert.deepEqual(await page.locator('.study-hero .organ-figure-gallery img').evaluateAll(images => images.map(image => image.getAttribute('src'))), [2, 3, 4].map(figure => `/assets/sourced/organ-segmentation-figure-${figure}.jpg`))
+    } else {
+      assert.equal(await page.locator('.study-hero img').first().getAttribute('src'), study.image.src)
+      assert.equal(await page.locator('.study-hero img').first().evaluate(element => getComputedStyle(element).objectFit), 'contain', `${study.slug} art is not cropped`)
+    }
+    assert.ok(await page.locator('.research-material-shelf .research-material-card').count(), `${study.slug} has directly linked public materials`)
     const expected = media.videos.filter(video => video.related_pages.includes(`/research/${study.slug}`))
     assert.equal(await page.locator('.study-prose .study-video-set [data-media-video]').count(), expected.length, `${study.slug} exposes every related recording`)
     for (const video of expected) {
@@ -44,6 +50,15 @@ try {
       assert.equal(await card.locator(`a[href="${video.url}"]`).count(), 1)
     }
   }
+  await page.goto(`${base}/research/adaptive-breast-radiotherapy`)
+  assert.equal(await page.locator('.research-material-card img[src="/assets/sourced/astro-2026-contouring-uncertainty-poster.webp"]').count(), 1, 'ASTRO uses the exact ASTRO poster')
+  assert.equal(await page.locator('.research-material-card img[src="/assets/sourced/aapm-2026-adaptive-poster.jpg"]').count(), 1, 'AAPM remains a distinct event version')
+  assert.match(await page.locator('.study-prose').innerText(), /392 edits/)
+  assert.match(await page.locator('.study-prose').innerText(), /2 mm for radiation oncologists and physicists/)
+  await page.goto(`${base}/research/brain-metastases-follow-up`)
+  assert.equal(await page.locator('.study-hero img').first().getAttribute('src'), '/assets/sourced/brain-followup-published-figure-5.jpg')
+  await page.goto(`${base}/research/amyloid-membranes`)
+  assert.equal(await page.locator('.study-hero img').first().getAttribute('src'), '/assets/sourced/amyloid-paper-figure-4-microscopy.webp')
   const consentStudy = studies.find(study => media.videos.some(video => video.related_pages.includes(`/research/${study.slug}`)))
   await page.goto(`${base}/research/${consentStudy.slug}`)
   const firstVideo = page.locator('.study-prose [data-media-video]').first()
@@ -55,12 +70,12 @@ try {
   await page.setViewportSize({ width: 390, height: 844 })
   for (const study of studies) {
     await page.goto(`${base}/research/${study.slug}`)
-    const hero = page.locator('.study-hero img')
+    const hero = page.locator('.study-hero img').first()
     await hero.evaluate(async element => { if (!element.complete) await new Promise(resolve => element.addEventListener('load', resolve, { once: true })); await element.decode?.() })
     const box = await hero.boundingBox()
     assert.ok(box && box.y < 844 && box.y + box.height > 0, `${study.slug} art enters the first mobile viewport`)
     assert.equal(await page.locator('.study-sidebar').evaluate(element => element.getBoundingClientRect().top > document.querySelector('.study-prose').getBoundingClientRect().top), true, `${study.slug} navigation follows evidence on mobile`)
   }
   assert.deepEqual(errors, [])
-  console.log('PASS research: RadKev leads eight source-grounded case studies with distinct uncropped visuals, exact recording coverage, click-to-load consent, and mobile evidence ordering.')
+  console.log('PASS research: eight source-grounded case studies expose direct paper/event/recording/code materials; ASTRO and AAPM remain distinct, published figures replace schematics, organ segmentation shows exactly three figures, and recording consent/mobile ordering remain intact.')
 } finally { await browser.close(); server.close(); await once(server, 'close') }
