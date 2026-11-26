@@ -23,7 +23,7 @@ try {
     assert.equal(await page.locator('.curated-experience-list > li').count(), 10)
     await page.goto(`${base}/software`)
     const softwareText = await page.locator('main').innerText()
-    for (const name of ['CT Forge', 'ProtocolIQ', 'RadKev', 'VoxelWeave Designer', 'MedPhysBench', 'RSNA Explorer']) assert.ok(softwareText.includes(name))
+    for (const name of ['CT Forge', 'ProtocolIQ', 'RadKev', 'VoxelWeave Designer', 'MedPhysBench', 'Scout', 'RSNA Explorer']) assert.ok(softwareText.includes(name))
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
     assert.deepEqual(errors, [])
     await page.close()

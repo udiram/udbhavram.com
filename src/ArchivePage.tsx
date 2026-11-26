@@ -108,7 +108,7 @@ export default function ArchivePage({ legacyCategory }: { legacyCategory?: strin
   const filterPanel = useRef<HTMLElement>(null)
   const filterTrigger = useRef<HTMLButtonElement>(null)
   const searchRef = useRef<HTMLInputElement>(null)
-  const restoreFocus = useRef(true)
+  const restoreFocus = useRef(false)
 
   const commitState = useCallback((next: ArchiveState, mode: 'push' | 'replace' = 'push', hash = window.location.hash) => {
     stateRef.current = next

@@ -107,6 +107,7 @@ const softwareContext: Record<string, { institution: string; period: string }> =
   'voxelweave-designer': { institution: 'Independent imaging-to-fabrication project', period: 'Active 2026' },
   medphysbench: { institution: 'Independent medical-physics evaluation project', period: 'Active 2026' },
   'glioblastoma-analysis': { institution: 'Independent imaging-research project', period: 'Updated 2026' },
+  scout: { institution: 'Independent research tooling', period: 'Active 2026' },
   'rsna-explorer': { institution: 'Independent conference software', period: '2026 public-program snapshot' },
   'oncoscout-2026': { institution: 'Independent conference software', period: 'ASTRO 2026 edition' },
   'aapm-2026-explorer': { institution: 'Independent conference software', period: 'AAPM 2026 edition' },

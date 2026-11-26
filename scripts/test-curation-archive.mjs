@@ -91,7 +91,7 @@ try {
   assert.equal(archive.legacyArchiveTargetIds.get('/collection/research-record#astro-2026-3104'), 'presentation:astro-2026-3104')
   assert.equal(archive.legacyArchiveTargetIds.get('/publications#paper-ethos-2025'), 'paper:ethos-2025')
   assert.equal(studiesModule.studies.length, 8)
-  assert.equal(softwareModule.softwareProjects.length, 9)
+  assert.equal(softwareModule.softwareProjects.length, 10)
   assert.equal(presentationModule.presentations.length, 27)
   expectedNewest = archiveRecords.toSorted((a, b) => a.date === null ? b.date === null ? a.title.localeCompare(b.title) : 1 : b.date === null ? -1 : b.date.localeCompare(a.date) || a.title.localeCompare(b.title)).map(record => record.id)
 } finally { await vite.close() }
@@ -111,7 +111,7 @@ try {
   const page = await context.newPage(); observeRuntime(page)
   await page.goto(base)
   assert.equal(await page.locator('.curated-research, .curated-motorsport').locator('a[href^="/archive"]').count(), 0, 'home body does not send readers into the Archive')
-  assert.notEqual(await page.locator('.hero p').innerText(), await page.locator('.curated-research .section-heading p').innerText(), 'research intro does not repeat the hero')
+  assert.notEqual(await page.locator('.hero p').innerText(), await page.locator('.curated-research .home-section-heading p').innerText(), 'research intro does not repeat the hero')
   await page.goto(`${base}/about`)
   assert.equal(await page.locator('.curated-experience-list > li').count(), 10)
   assert.doesNotMatch(await page.locator('main').innerText(), /merge map|source IDs|database/i)
