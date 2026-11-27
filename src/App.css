@@ -1200,7 +1200,9 @@ details[open] > summary > svg {
 
 /* Scout demo screenshots: one frame per theme, and only the matching one is displayed (and loaded). */
 .scout-shot { margin: 0; min-width: 0; }
-.scout-shot-frame { display: block; padding: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.scout-shot-frame { display: block; width: 100%; padding: 8px; cursor: zoom-in; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.scout-shot-frame:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.scout-shot-frame picture { display: block; }
 .scout-shot-frame img { display: block; width: 100%; height: auto; border: 0; border-radius: 4px; background: none; }
 .scout-shot-frame.is-dark,
 :root[data-theme='dark'] .scout-shot-frame.is-light { display: none; }
@@ -1212,7 +1214,7 @@ details[open] > summary > svg {
 .home-scout-copy h2 { margin-top: 12px; }
 .home-scout-copy p { margin-top: 18px; }
 .home-scout-copy .text-link { margin-top: 20px; font-weight: 600; }
-.home-scout-supporting { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin-top: 48px; }
+.home-scout-supporting { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1.61fr); gap: 32px; align-items: start; margin-top: 48px; }
 .ct-forge-story.scout-story .scout-shot { position: static; }
 .ct-forge-story.scout-story p { font-size: 16px; }
 .ct-forge-story.scout-story .project-boundary { margin-block: 18px; }
@@ -1220,7 +1222,9 @@ details[open] > summary > svg {
   .home-scout-layout { grid-template-columns: 1fr; gap: 32px; }
   .home-scout-copy { padding-top: 0; }
 }
+@media (max-width: 768px) {
+  .home-scout-supporting { grid-template-columns: 1fr; gap: 28px; margin-top: 32px; }
+}
 @media (max-width: 600px) {
-  .home-scout-supporting { grid-template-columns: 1fr; gap: 28px; margin-top: 28px; }
   .scout-shot-frame { padding: 6px; }
 }

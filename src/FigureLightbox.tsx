@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 
-export type LightboxFigure = { src: string; alt: string; width: number; height: number; heading: string; credit: string }
+/** note follows the credit in the footer; it defaults to the published-figure wording. */
+export type LightboxFigure = { src: string; alt: string; width: number; height: number; heading: string; credit: string; note?: string }
 
 const maxZoom = 3
 const zoomStep = 1.25
@@ -123,7 +124,7 @@ export default function FigureLightbox({ figure, onClose }: { figure: LightboxFi
           <img src={figure.src} alt={figure.alt} width={figure.width} height={figure.height} draggable={false} style={{ width: `${Math.round(figure.width * scale)}px` }} />
         </div>
         <div className="figure-lightbox-foot">
-          <span>{figure.credit} · Shown unaltered</span>
+          <span>{[figure.credit, figure.note ?? 'Shown unaltered'].filter(Boolean).join(' · ')}</span>
           <span>Pinch or use − and + to zoom · drag to pan</span>
         </div>
       </div>

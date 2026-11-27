@@ -19,7 +19,8 @@ export default function PublishedFigure({ asset, caption, layout = 'stack', prio
   const heading = `${asset.figureNumber} · ${asset.title}`
   const credit = figureCredit(asset)
   // Never upscale: the plate stops at the image's own width (16px mat each side plus the border).
-  const plateMax = Math.min(asset.width, 720) + 34
+  // Wide strips (about 5:2 and wider) may use more of the column so their panels stay legible.
+  const plateMax = Math.min(asset.width, asset.width / asset.height >= 2.5 ? 900 : 720) + 34
 
   return (
     <figure className={`pub-figure ${className}`.trim()} data-layout={layout} style={{ '--pub-plate-max': `${plateMax}px` } as React.CSSProperties}>

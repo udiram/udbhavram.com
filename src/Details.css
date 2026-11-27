@@ -311,7 +311,7 @@
 .pub-figure .pub-caption .pub-credit{font:500 12px/1.6 var(--mono);color:var(--muted)}
 .pub-text+.pub-credit{margin-top:8px}
 .pub-open{display:inline-flex;align-items:center;min-height:32px;margin-top:6px;font-size:14px;font-weight:600}
-.pub-figure[data-layout=side]{display:grid;grid-template-columns:minmax(0,var(--pub-plate-max)) minmax(0,1fr);column-gap:40px;align-items:start}
+.pub-figure[data-layout=side]{display:grid;grid-template-columns:minmax(0,var(--pub-plate-max)) minmax(280px,1fr);column-gap:40px;align-items:start}
 .pub-figure[data-layout=side] .pub-head{grid-column:1/-1}
 .pub-figure[data-layout=side] .pub-caption{margin-top:0}
 .pub-figure.is-compact .pub-head{display:block;border:0;padding:0;margin-bottom:8px}
