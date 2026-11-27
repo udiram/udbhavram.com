@@ -30,6 +30,7 @@ import { IdentityMark } from './identityMarks'
 import PublishedFigure from './PublishedFigure'
 import RealCtViewer from './RealCtViewer'
 import HomeSoftware from './HomeSoftware'
+import HomeScout from './HomeScout'
 import OnMyDesk from './OnMyDesk'
 import './App.css'
 import './Details.css'
@@ -676,7 +677,7 @@ function AppContent() {
         tabIndex={-1}
         data-portfolio-items={portfolioItemCount}
       >
-        {isHome ? <><Hero /><RealCtViewer /><HomeSoftware /><CuratedResearch /><CuratedMotorsport /><OnMyDesk /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
+        {isHome ? <><Hero /><RealCtViewer /><HomeScout /><HomeSoftware /><CuratedResearch /><CuratedMotorsport /><OnMyDesk /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
       </main>
     </>
   )

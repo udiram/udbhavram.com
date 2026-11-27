@@ -59,6 +59,7 @@
 .ct-demo-copy .text-link { margin-top: 12px; font-weight: 600; }
 .ct-figure { margin: 0; min-width: 0; }
 .ct-viewer { padding: 16px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; }
+.ct-viewer:focus { outline: 2px solid var(--green); outline-offset: 3px; }
 .ct-viewer-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 14px; }
 .ct-viewer-heading strong,
 .ct-readout { display: block; }

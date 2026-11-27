@@ -11,7 +11,7 @@ Every published figure and conference poster is shown unaltered in the shared `P
 - `clinical-language-models`: original AAPM 2025 TG-263 poster.
 - `radiosurgery-planning`: UAB presentation photograph from the linked UAB profile (a photograph, so it is not in the figure frame).
 - `organ-segmentation`: published Figures 2, 3 and 4 from the article in Intelligent Oncology, doi:10.1016/j.intonc.2025.03.003.
-- `brain-metastases-follow-up`: published Figure 5 (planning CT with treated GTVs, follow-up MRI, and the fused follow-up) from Neuro-Oncology Practice, doi:10.1093/nop/npaf126, PMC13161908, CC BY-NC 4.0. The file is the 720 × 240 copy deposited in PMC and Europe PMC, which is the largest copy those archives hold; it is never displayed wider than 720 CSS px.
+- `brain-metastases-follow-up`: published Figure 5 (planning CT with treated GTVs, follow-up MRI, and the fused follow-up) from Neuro-Oncology Practice, doi:10.1093/nop/npaf126, PMC13161908, CC BY-NC 4.0. The file is the journal's own 1800 × 600 figure from Oxford Academic (same paper, same license), shown unaltered: not upscaled, padded or regenerated. The lightbox opens it at full size.
 - `lung-beam-energy`: metadata-free WebP rendering of the original AAPM 2025 6X/10X-FFF poster (SHA-256 `2271818dd3101185da6e6cab7b7a7f951f779b8cba32a75b2b9c8088028f1f63`).
 - `amyloid-membranes`: no reproduced figure. The article (Mol Nutr Food Res 2020, doi:10.1002/mnfr.202000632) is under Wiley standard terms, so the study shows a citation card in the published-figure frame, tagged "Publication": title, authors, a "Read the paper" link to the DOI, and a site-authored reading guide (compound, where it is found, what the paper reports) summarising the abstract. It has no lightbox.
 

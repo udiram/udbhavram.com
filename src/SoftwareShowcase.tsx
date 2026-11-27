@@ -1,5 +1,6 @@
 import { ArrowUpRight } from '@phosphor-icons/react'
-import { conferenceProjects, workbenchProjects, type SoftwareProject } from './softwareContent'
+import { conferenceProjects, scoutProject, workbenchProjects, type SoftwareProject } from './softwareContent'
+import ScoutShot from './ScoutShot'
 import SaveButton from './SaveButton'
 
 function Preview({ project, featured = false }: { project: SoftwareProject; featured?: boolean }) {
@@ -12,9 +13,13 @@ function Preview({ project, featured = false }: { project: SoftwareProject; feat
 export default function SoftwareShowcase() {
   return <>
     <section className="wrap software-showcase" aria-labelledby="showcase-title">
-      <div className="section-heading"><h2 id="showcase-title">Research tools</h2><p>Software for running experiments, evaluating models, handling imaging workflows, and finding conference sessions.</p></div>
+      <div className="section-heading"><h2 id="showcase-title">Research tools</h2><p>Software for running experiments, asking CT-order questions, evaluating models, handling imaging workflows, and finding conference sessions.</p></div>
+      <article className="ct-forge-story scout-story" id="software-scout">
+        <ScoutShot scene="hero" />
+        <div><span className="meta">{scoutProject.meta}</span><h3>{scoutProject.name}</h3><p>{scoutProject.copy}</p><p className="project-boundary">{scoutProject.boundary}</p><SaveButton id="software:scout" /></div>
+      </article>
       <article className="ct-forge-story" id="ct-forge">
-        <figure><img src="/assets/software/ct-forge-live.webp" alt="CT Forge operations interface with compute, model, and printer status panels" width="1440" height="922" loading="eager" /><figcaption>Application interface · July 2026</figcaption></figure>
+        <figure><img src="/assets/software/ct-forge-live.webp" alt="CT Forge operations interface with compute, model, and printer status panels" width="1440" height="922" loading="lazy" /><figcaption>Application interface · July 2026</figcaption></figure>
         <div><span className="meta">Research operations workspace · active 2026</span><h3>CT Forge</h3><p>CT Forge brings lab computing, research jobs, imaging workflows, and fabrication into one workspace.</p><ol><li><strong>Check compute and jobs</strong><span>See which services are available, what is running, and where attention is needed.</span></li><li><strong>Work with permitted files</strong><span>Move research files between approved node-backed roots through the web desktop while keeping the destination visible.</span></li><li><strong>See printers and enroll nodes</strong><span>Review printer visibility and connect a new compute node through a guided enrollment flow before using it.</span></li></ol><p className="project-boundary">Historical interface; device status shown reflects the capture.</p><SaveButton id="software:ct-forge" /></div>
       </article>
       <div className="software-subheading"><span className="meta">Clinical and research systems</span><h2>Model evaluation and fabrication</h2></div>

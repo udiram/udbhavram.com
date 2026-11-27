@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent } from 'react'
+import type { KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent, PointerEvent as ReactPointerEvent } from 'react'
 import viewerData from './ctViewerData.json'
 
 const CT_INTRO_FIRST_LINE = 'Most of my research starts with images like this one.'
@@ -7,6 +7,9 @@ const CT_INTRO_FIRST_LINE = 'Most of my research starts with images like this on
 type PresetId = keyof (typeof viewerData.frames)[number]['sources']
 type Contour = { d: string }
 type Probe = { x: number; y: number; hu: number | null; inLabel: boolean }
+
+// Shown until the first hover: a source voxel inside the reference spleen label on the default slice.
+const defaultProbe: Probe = { x: 388.5, y: 256.5, hu: 122, inLabel: true }
 
 const frames = viewerData.frames
 const { display } = viewerData
@@ -38,7 +41,7 @@ export default function RealCtViewer() {
   const [failed, setFailed] = useState(false)
   const [retry, setRetry] = useState(0)
   const [contourSets, setContourSets] = useState<Contour[][] | null>(null)
-  const [probe, setProbe] = useState<Probe | null>(null)
+  const [probe, setProbe] = useState<Probe | null>(defaultProbe)
   const [announcement, setAnnouncement] = useState('')
   const titleId = useId()
   const descriptionId = useId()
@@ -128,6 +131,12 @@ export default function RealCtViewer() {
     holdTimer.current = window.setTimeout(() => probeAt(clientX, clientY, currentTarget), 300)
   }
 
+  // Clicking the image (not a control inside it) focuses the viewer, so 1 to 3 pick a window.
+  function onStageClick(event: ReactMouseEvent<HTMLDivElement>) {
+    if ((event.target as HTMLElement).closest('button, a, input, select, textarea')) return
+    viewer.current?.focus({ preventScroll: true })
+  }
+
   function onViewerKeyDown(event: ReactKeyboardEvent<HTMLDivElement>) {
     if (event.metaKey || event.ctrlKey || event.altKey) return
     if (event.key === 'Escape' && probe) { hideProbe(); return }
@@ -159,7 +168,7 @@ export default function RealCtViewer() {
         </div>
 
         <figure className="ct-figure home-reveal">
-          <div className="ct-viewer" ref={viewer} role="group" aria-label="CT viewer" aria-describedby={descriptionId} onKeyDown={onViewerKeyDown}>
+          <div className="ct-viewer" ref={viewer} tabIndex={0} role="group" aria-label="CT viewer" aria-describedby={descriptionId} onKeyDown={onViewerKeyDown}>
             <div className="ct-viewer-heading">
               <div>
                 <strong>Abdominal CT, axial</strong>
@@ -176,7 +185,7 @@ export default function RealCtViewer() {
             </div>
 
             <div className="ct-canvas" data-slice={slice} data-source-slice={frame.sourceSlice} data-preset={presetId} data-contour={showContour ? 'visible' : 'hidden'} data-loading={loading || !contours ? 'true' : 'false'}>
-              <div className="ct-image-stage" onPointerMove={onPointerMove} onPointerDown={onPointerDown} onPointerUp={event => { if (event.pointerType === 'touch') hideProbe() }} onPointerCancel={hideProbe} onPointerLeave={hideProbe}>
+              <div className="ct-image-stage" onClick={onStageClick} onPointerMove={onPointerMove} onPointerDown={onPointerDown} onPointerUp={event => { if (event.pointerType === 'touch') hideProbe() }} onPointerCancel={hideProbe} onPointerLeave={hideProbe}>
                 <img
                   src={imageSrc}
                   width={display.width}

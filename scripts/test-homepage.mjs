@@ -61,6 +61,11 @@ try {
     assert.equal(await page.locator('.ct-canvas').getAttribute('data-slice'), String(initialSlice + 1), 'slice state reaches the rendered CT')
     assert.equal(await slider.getAttribute('max'), String(ctManifest.frames.length - 1))
     assert.match(await page.locator('.ct-figure figcaption').innerText(), /Medical Segmentation Decathlon/)
+    assert.match(await page.locator('#home-scout').innerText(), /thousands of CT orders/)
+    assert.equal(await page.locator('#home-scout a[href="/software#software-scout"] span').first().innerText(), 'More about Scout')
+    assert.equal(await page.locator('#home-scout figure').count(), 3)
+    assert.equal(await page.locator('#home-scout img:not([loading="lazy"])').count(), 0, 'Scout screenshots are lazy')
+    assert.equal(await page.evaluate(() => [...document.querySelectorAll('main > section, main section')].findIndex(section => section.id === 'home-scout') < [...document.querySelectorAll('main > section, main section')].findIndex(section => section.id === 'featured-work')), true, 'Scout sits before Selected software')
     assert.match(await page.locator('.ct-demo-copy').innerText(), /not a model prediction/)
 
     if (width === 1440) {
@@ -105,6 +110,27 @@ try {
       await page.locator('.ct-canvas[data-preset="soft"][data-loading="false"]').waitFor()
       assert.match(await page.locator('.ct-readout').innerText(), new RegExp(`Slice ${ctManifest.display.defaultIndex + 1} / ${ctManifest.frames.length} · z ${defaultFrame.zMm.toFixed(1)} mm`))
 
+      // Keys 1 to 3 work once the image is clicked, and never while focus is outside the viewer.
+      await page.locator('.ct-image-stage').click({ position: { x: 40, y: 40 } })
+      assert.equal(await page.locator('.ct-viewer').evaluate(element => element === document.activeElement), true, 'clicking the image focuses the viewer region')
+      assert.notEqual(await page.locator('.ct-viewer').evaluate(element => getComputedStyle(element).outlineStyle), 'none', 'the focused viewer shows a focus ring')
+      await page.keyboard.press('2')
+      await page.locator('.ct-canvas[data-preset="narrow"][data-loading="false"]').waitFor()
+      await page.locator('.ct-demo-copy .ct-eyebrow').click()
+      assert.equal(await page.locator('.ct-viewer').evaluate(element => element.contains(document.activeElement)), false, 'focus left the viewer')
+      await page.keyboard.press('3')
+      await page.locator('.hero a.button').first().focus()
+      await page.keyboard.press('3')
+      await page.waitForTimeout(250)
+      assert.equal(await page.locator('.ct-canvas').getAttribute('data-preset'), 'narrow', 'keys outside the viewer do not change the preset')
+      await page.locator('.ct-viewer').focus()
+      await page.keyboard.press('Tab')
+      assert.equal(await page.getByRole('radio', { name: 'Narrow' }).evaluate(element => element === document.activeElement), true, 'Tab moves on from the viewer region to its first control')
+      await page.keyboard.press('Shift+Tab')
+      assert.equal(await page.locator('.ct-viewer').evaluate(element => element === document.activeElement), true, 'the viewer region is reachable by Tab')
+      await page.keyboard.press('1')
+      await page.locator('.ct-canvas[data-preset="soft"][data-loading="false"]').waitFor()
+
       // HU readout: the stored voxel value, fetched on the first pointer move.
       // Focus moves scroll the page smoothly; measure the image only once it is still.
       await page.evaluate(async () => { let last = -1; while (last !== scrollY) { last = scrollY; await new Promise(resolve => setTimeout(resolve, 120)) } })
@@ -145,6 +171,8 @@ try {
   assert.equal(await noJsPage.locator('#featured-work .home-reveal').first().evaluate(element => getComputedStyle(element).opacity), '1', 'no-JS homepage content remains visible')
   assert.equal(await noJsPage.locator('.ct-viewer img').getAttribute('src'), ctManifest.frames[ctManifest.display.defaultIndex].src, 'no-JS output includes the default real CT image')
   assert.ok(await noJsPage.locator('.ct-contour path').count(), 'no-JS output includes the matched reference contour')
+  assert.equal(await noJsPage.locator('.ct-hu').innerText(), '122 HU · spleen', 'the default readout marks a spleen voxel before any hover')
+  assert.equal(await noJsPage.locator('.ct-viewer').getAttribute('tabindex'), '0')
   await noJsContext.close()
 
   console.log('PASS homepage: hero focus flow, exact real CT/reference-mask frames, loading failure/retry, keyboard/pointer controls, no-JS/reduced-motion behavior, source-backed projects, preserved motorsport, dated desk strip, and 1440/1024/768/390/320 responsive layouts.')

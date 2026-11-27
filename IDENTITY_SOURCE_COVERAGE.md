@@ -24,7 +24,7 @@ Engineering, simulation, and outreach: `f1-lap-simulation`, `strategy-simulator`
 
 Open-source contributions: `monai-contribution`, `openhands-contribution`.
 
-Canonical software shown in the institution-connected index: `software-ct-forge`, `software-protocoliq`, `software-radkev`, `software-voxelweave-designer`, `software-medphysbench`, `software-glioblastoma-analysis`, `software-rsna-explorer`, `software-oncoscout-2026`, `software-aapm-2026-explorer`.
+Canonical software shown in the institution-connected index: `software-scout`, `software-ct-forge`, `software-protocoliq`, `software-radkev`, `software-voxelweave-designer`, `software-medphysbench`, `software-glioblastoma-analysis`, `software-rsna-explorer`, `software-oncoscout-2026`, `software-aapm-2026-explorer`.
 
 Those nine software rows save and resolve through their existing `software:<id>` identities. They are not duplicated as `project:software-*` search or reading-list records.
 

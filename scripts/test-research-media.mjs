@@ -84,8 +84,12 @@ try {
     const dialog = page.getByRole('dialog', { name: heading })
     await dialog.waitFor()
     assert.equal(await dialog.evaluate(element => element.matches(':modal')), true, 'lightbox is modal, so focus stays inside it')
+    // Figures larger than the screen open fitted, so the starting level is not always 100%.
+    const level = dialog.getByRole('button', { name: /^Zoom level \d+ percent/ }).locator('output')
+    const fitted = Number.parseInt(await level.innerText(), 10)
+    assert.ok(fitted > 0 && fitted <= 100, 'a figure opens fitted and is never upscaled')
     await dialog.getByRole('button', { name: 'Zoom in' }).click()
-    await dialog.getByRole('button', { name: /Zoom level 12\d percent/ }).waitFor()
+    await dialog.getByRole('button', { name: new RegExp(`Zoom level ${Math.round(fitted * 1.25) - 1}|Zoom level ${Math.round(fitted * 1.25)}|Zoom level ${Math.round(fitted * 1.25) + 1}`) }).waitFor()
     await page.keyboard.press('Escape')
     await dialog.waitFor({ state: 'detached' })
     assert.equal(await plate.evaluate(element => element === document.activeElement), true, 'focus returns to the plate')
