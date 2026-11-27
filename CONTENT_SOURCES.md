@@ -51,6 +51,8 @@ The public URLs, publisher names, dates, original/adapted relationships, video t
 
 The three additional local motorsport photographs (`motorsports-01.webp` through `motorsports-03.webp`) come from Udi’s [existing public portfolio](https://sites.google.com/view/udbhav-ram/motorsports). Existing institutional photography is reused; no newly scraped publisher imagery was added. Video posters use local images or text, with a user-initiated YouTube privacy-enhanced embed.
 
+Scout on `/software` and the home page is Lattice Scout, the Zhang Lab's private CT-orders chat for UW Health radiology staff. Its copy is owner-approved and fixed, it has no public URL or repository link, and its screenshots are demo-mode captures with simulated data. It is separate from OncoScout2026.
+
 Conference tools: [AAPM 2026 Explorer retrospective](https://x.com/UdbhavRam/status/2080675842980557111) and [OncoScout2026 launch](https://x.com/UdbhavRam/status/2103868337612857350). Both are independent personal projects, not organizer-operated or endorsed tools. [Personal automation notes](https://x.com/UdbhavRam/status/2071427843754463536) support the small everyday-building example; no actual telemetry or private trip information is published.
 
 The owner verified PADI Advanced Open Water Diver and Enriched Air Diver (Nitrox), confirmed May 2025, and the earlier SSI Open Water Diver qualification issued June 3, 2023. These are consistent across biography, interests, collection, and public CV. Private issuing correspondence and credential identifiers are excluded from the repository.

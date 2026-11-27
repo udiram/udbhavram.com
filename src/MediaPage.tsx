@@ -38,7 +38,8 @@ export function RelatedMedia({ path }: { path: string }) {
   const videos = media.videos.filter(v => v.related_pages.some(p => p.split('#')[0] === path)).slice(0, 2)
   const article = media.articles.find(a => a.related_pages.some(p => p.split('#')[0] === path))
   if (!videos.length && !article) return null
-  return <aside className="wrap media-related"><span className="meta">Related material</span><h2>Coverage and recordings</h2><div>{article && <a href={`/media#${article.id}`}><span>In print · {article.publisher}</span><strong>{article.title}</strong></a>}{videos.map(v => <a key={v.id} href={`/media#${v.id}`}><span>Watch · {v.duration}</span><strong>{v.title}</strong></a>)}</div><a className="text-link" href="/media">All coverage and videos →</a></aside>
+  const articleImages: Record<string, string> = { 'mcmaster-coop-2026': '/assets/optimized/coop-award.webp', 'mcmaster-profile-2024': '/assets/sourced/mcmaster-uab-scholar.png', 'uab-ai-profile-2024': '/assets/optimized/uab-presentation.webp', 'aapm-newsletter-2025': '/assets/optimized/aapm-2025-tg263-poster.webp' }
+  return <aside className="wrap media-related"><div className="media-related-heading"><div><span className="meta">Related material</span><h2>Continue with the source.</h2></div><a className="text-link" href="/media">All coverage and videos →</a></div><div className="media-related-grid">{article && <a className="media-related-card" href={`/media#${article.id}`}>{articleImages[article.id] && <img src={articleImages[article.id]} alt="" loading="lazy" />}<span>In print · {article.publisher}</span><strong>{article.title}</strong><small>Read source →</small></a>}{videos.map(v => <a className="media-related-card" key={v.id} href={`/media#${v.id}`}><img src={`/assets/media/video-thumbnails/${v.video_id}.jpg`} alt="" loading="lazy" /><span>Recording · {v.duration}</span><strong>{v.title}</strong><small>Watch →</small></a>)}</div></aside>
 }
 
 export default function MediaPage() {

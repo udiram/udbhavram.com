@@ -13,6 +13,7 @@ import {
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import {
   imageAssets,
+  isPublishedFigure,
   selectedWork,
   publications,
   currentBuilds,
@@ -26,11 +27,14 @@ import { ReadingListProvider, useReadingList } from './ReadingListContext'
 import { studies } from './expandedContent'
 import { awardRecords } from './identityContent'
 import { IdentityMark } from './identityMarks'
-import SyntheticCtDemo from './SyntheticCtDemo'
+import PublishedFigure from './PublishedFigure'
+import RealCtViewer from './RealCtViewer'
 import HomeSoftware from './HomeSoftware'
+import HomeScout from './HomeScout'
 import OnMyDesk from './OnMyDesk'
 import './App.css'
 import './Details.css'
+import './Home.css'
 
 const SearchDialog = lazy(() => import('./SearchDialog'))
 
@@ -61,32 +65,6 @@ const researchStories = studies.slice(2, 5).map(study => ({
   detail: study.sections.map(section => section.paragraphs[0]).join(' '),
 }))
 
-function useHomeEntryMotion(enabled: boolean) {
-  useEffect(() => {
-    if (!enabled) return
-    const items = [...document.querySelectorAll<HTMLElement>('.home-reveal')]
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reducedMotion || !('IntersectionObserver' in window)) {
-      items.forEach(item => item.setAttribute('data-revealed', 'true'))
-      return
-    }
-
-    document.documentElement.classList.add('home-motion-ready')
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return
-        ;(entry.target as HTMLElement).setAttribute('data-revealed', 'true')
-        observer.unobserve(entry.target)
-      })
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 })
-    items.forEach(item => observer.observe(item))
-
-    return () => {
-      observer.disconnect()
-      document.documentElement.classList.remove('home-motion-ready')
-    }
-  }, [enabled])
-}
 function ExternalLink({
   href,
   children,
@@ -144,7 +122,6 @@ function Header({
   const { ids: readingListIds } = useReadingList()
   const toggle = useRef<HTMLButtonElement>(null)
   const header = useRef<HTMLElement>(null)
-  const [active, setActive] = useState('')
   const closeSearch = useCallback(() => setSearchOpen(false), [])
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -174,20 +151,6 @@ function Header({
     window.addEventListener('keydown', onShortcut)
     return () => window.removeEventListener('keydown', onShortcut)
   }, [])
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.find((entry) => entry.isIntersecting)
-        if (visible) setActive(visible.target.id)
-      },
-      { rootMargin: '-15% 0px -65% 0px' },
-    )
-    ;[{ id: 'home' }, ...nav].forEach((item) => {
-      const element = document.getElementById(item.id)
-      if (element) observer.observe(element)
-    })
-    return () => observer.disconnect()
-  }, [])
   return (
     <header className="site-header" ref={header}>
       <div className="header-inner">
@@ -196,7 +159,6 @@ function Header({
           href="/"
           onClick={() => {
             setOpen(false)
-            setActive('')
           }}
         >
           Udbhav Ram<span className="brand-dot">.</span>
@@ -210,7 +172,7 @@ function Header({
             <a
               key={item.id}
               href={item.href}
-              aria-current={(item.href === '/' ? window.location.pathname === '/' : window.location.pathname.startsWith(item.href)) ? 'page' : active === item.id ? 'location' : undefined}
+              aria-current={(item.href === '/' ? window.location.pathname === '/' : window.location.pathname.startsWith(item.href)) ? 'page' : undefined}
               onClick={() => setOpen(false)}
             >
               {item.label}
@@ -219,7 +181,7 @@ function Header({
         </nav>
         <div className="header-actions">
           <button className="search-trigger" type="button" ref={searchButton} aria-label="Search site" aria-haspopup="dialog" onClick={() => { setOpen(false); setSearchOpen(true) }}><MagnifyingGlass /><span>Search</span><kbd>⌘K</kbd></button>
-          <a className="reading-list-link" href="/reading-list" aria-label={`Reading list with ${readingListIds.length} saved ${readingListIds.length === 1 ? 'item' : 'items'}`}><BookmarkSimple /><span className="reading-list-label">List</span>{readingListIds.length > 0 && <b>{readingListIds.length}</b>}</a>
+          <a className="reading-list-link" href="/reading-list" aria-label={`Saved reading list with ${readingListIds.length} ${readingListIds.length === 1 ? 'item' : 'items'}`}><BookmarkSimple /><span className="reading-list-label">Saved</span>{readingListIds.length > 0 && <b>{readingListIds.length}</b>}</a>
           <button
             className="icon-button theme-toggle"
             type="button"
@@ -249,18 +211,18 @@ function Hero() {
   return (
     <section className="hero wrap" id="home" tabIndex={-1}>
       <div className="hero-copy">
-        <h1>I’m Udi. I build at the intersection of physics, medicine, and software.</h1>
-        <p>Medical Physics PhD student at UW–Madison, building research tools around imaging, AI, and radiation oncology.</p>
+        <h1>I’m Udi.<span>I build research tools.</span></h1>
+        <p>Udbhav Ram, Medical Physics PhD student at UW-Madison. I work on medical imaging, AI, and radiation oncology.</p>
+        <div className="hero-actions">
+          <a className="button" href="#featured-work">Explore my work <ArrowUpRight /></a>
+          <a className="text-link" href="/about">About me</a>
+        </div>
       </div>
       <Photo
         asset={imageAssets.heroPortrait}
         priority
         className="hero-photo"
       />
-      <div className="hero-actions">
-        <a className="button" href="#featured-work">Explore my work <ArrowUpRight /></a>
-        <a className="text-link" href="/about">About me</a>
-      </div>
     </section>
   )
 }
@@ -543,14 +505,60 @@ export function LegacyHomeLife() {
 
 const homeStudySlugs = ['radkev', 'clinical-language-models', 'radiosurgery-planning', 'organ-segmentation']
 const homeStudies = homeStudySlugs.map(slug => studies.find(study => study.slug === slug)!).filter(Boolean)
+const homeStudyTitles: Record<string, string> = {
+  radkev: 'AI models for radiology',
+  'clinical-language-models': 'Checking treatment labels with local AI',
+  'radiosurgery-planning': 'Evaluating radiosurgery plans',
+  'organ-segmentation': 'Reviewing automated organ contours',
+}
+const homeStudySummaries: Record<string, string> = {
+  radkev: 'Evaluating models that answer radiology questions by choosing from a defined set of options.',
+  'clinical-language-models': 'Checking radiation-treatment target names against a shared naming standard, using locally hosted language models.',
+  'radiosurgery-planning': 'Comparing plan quality and workflow for treating multiple brain metastases in one radiosurgery plan.',
+  'organ-segmentation': 'Evaluating automated abdominal organ contours with both numerical measures and physician review.',
+}
 
 function CuratedResearch() {
   const [lead, ...highlights] = homeStudies
-  return <section className="curated-research section" id="work" tabIndex={-1}><div className="wrap"><div className="section-heading"><h2>Research</h2><p>Recent work ranges from radiology decision models to treatment-planning and imaging studies.</p></div><article className="curated-research-lead home-reveal"><Photo asset={lead.image} /><div><span className="meta">{lead.year} · {lead.status}</span><h3>{lead.title}</h3><p>{lead.intro}</p><div className="card-actions"><a className="button" href={`/research/${lead.slug}`}>Read the preprint story</a><a className="text-link" href={lead.sources[0].href}>medRxiv record</a></div></div></article><div className="curated-research-grid">{highlights.map(study => <article className="home-reveal" key={study.slug}><Photo asset={study.image} /><span className="meta">{study.year} · {study.status}</span><h3>{study.title}</h3><p>{study.intro}</p><a className="text-link" href={`/research/${study.slug}`}>Read the case study</a></article>)}</div><div className="curated-section-links"><a className="button" href="/research">All research</a></div></div></section>
+  return (
+    <section className="curated-research section" id="work" tabIndex={-1} aria-labelledby="home-research-title">
+      <div className="wrap">
+        <div className="home-section-heading">
+          <h2 id="home-research-title">Selected research</h2>
+          <p>Using AI and computational methods to study medical images and radiation treatment.</p>
+        </div>
+        <article className="curated-research-lead">
+          {lead.image && (isPublishedFigure(lead.image) ? <PublishedFigure asset={lead.image} /> : <Photo asset={lead.image} />)}
+          <div>
+            <h3><a href={`/research/${lead.slug}`}>{homeStudyTitles[lead.slug]}</a></h3>
+            <p>{homeStudySummaries[lead.slug]}</p>
+            <p className="home-study-status">{lead.status}</p>
+            <div className="card-actions">
+              <a className="text-link" href={`/research/${lead.slug}`}>Read the study <ArrowUpRight /></a>
+              <a className="home-source-link" href={lead.sources[0].href}>Preprint on medRxiv <ArrowUpRight /></a>
+            </div>
+          </div>
+        </article>
+        <div className="curated-research-grid">
+          {highlights.map(study => (
+            <article key={study.slug}>
+              <div>
+                <h3><a href={`/research/${study.slug}`}>{homeStudyTitles[study.slug]}</a></h3>
+                <p>{homeStudySummaries[study.slug]}</p>
+                <p className="home-study-status">{study.year} · {study.status}</p>
+              </div>
+              <a className="text-link" href={`/research/${study.slug}`}>Read the study <ArrowUpRight /></a>
+            </article>
+          ))}
+        </div>
+        <a className="text-link curated-section-links" href="/research">All research <ArrowUpRight /></a>
+      </div>
+    </section>
+  )
 }
 
 function CuratedMotorsport() {
-  return <section className="curated-motorsport wrap section" id="life"><Photo asset={imageAssets.arrowMcLaren} caption="Arrow McLaren IndyCar · 2023" /><div><span className="meta">Outside the lab</span><h2>Motorsport</h2><p>In 2023, I worked at Arrow McLaren IndyCar as a data-and-strategy intern. I built race-strategy simulations and worked with telemetry and performance tools during race weekends. Formula SAE and test-driving taught me the same lesson from another angle: a model is useful only when it helps someone make a decision. I still make time for music, riding, and diving, but motorsport is the thread that most directly shapes how I build.</p><a className="text-link" href="/beyond#race-engineering">More beyond the lab →</a></div></section>
+  return <section className="curated-motorsport wrap section" id="life"><Photo asset={imageAssets.arrowMcLaren} caption="Arrow McLaren IndyCar · 2023" /><div><h2>Beyond the lab</h2><p>In 2023, I worked at Arrow McLaren IndyCar as a data-and-strategy intern, building race-strategy simulations and working with race telemetry.</p><a className="text-link" href="/beyond#race-engineering">My motorsport story <ArrowUpRight /></a></div></section>
 }
 
 const featuredAwards = ['coop-student-year', 'aapm-blue-ribbon', 'sps-poster'].map(id => awardRecords.find(record => record.id === id)!)
@@ -633,12 +641,13 @@ function AppContent() {
   const isHome = path === '/'
   const [dark, setDark] = useState(() => {
     try {
-      return localStorage.getItem('udbhav-theme') === 'dark'
+      const saved = localStorage.getItem('udbhav-theme')
+      if (saved === 'dark' || saved === 'light') return saved === 'dark'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
     } catch {
-      return false
+      return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
     }
   })
-  useHomeEntryMotion(isHome)
   useHashNavigation(aliases)
   useEffect(() => {
     const meta = routeMeta[path as keyof typeof routeMeta]
@@ -649,7 +658,7 @@ function AppContent() {
     document.documentElement.dataset.theme = dark ? 'dark' : 'light'
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', dark ? '#19251f' : '#f7f5ef')
+      ?.setAttribute('content', dark ? '#19251f' : '#fafbf9')
     try {
       localStorage.setItem('udbhav-theme', dark ? 'dark' : 'light')
     } catch {
@@ -664,10 +673,11 @@ function AppContent() {
       <Header dark={dark} setDark={setDark} />
       <main
         id="main-content"
+        className={isHome ? 'home-page' : undefined}
         tabIndex={-1}
         data-portfolio-items={portfolioItemCount}
       >
-        {isHome ? <><Hero /><SyntheticCtDemo /><HomeSoftware /><CuratedResearch /><CuratedMotorsport /><OnMyDesk /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
+        {isHome ? <><Hero /><RealCtViewer /><HomeScout /><HomeSoftware /><CuratedResearch /><CuratedMotorsport /><OnMyDesk /><PageFooter /></> : <><DetailPages path={path} /><PageFooter /></>}
       </main>
     </>
   )

@@ -1,20 +1,22 @@
+import { ArrowUpRight } from '@phosphor-icons/react'
+
 const deskItems = [
   {
-    label: 'Building',
+    label: 'Public build',
     title: 'VoxelWeave Designer',
-    copy: 'A public 2026 imaging-to-fabrication workspace with explicit prepare, send, and verify stages.',
+    copy: 'An imaging-to-fabrication workspace with explicit prepare, send, and verify stages.',
     href: '/software#software-voxelweave-designer',
   },
   {
-    label: 'Research',
+    label: 'Preprint',
     title: 'RadKev',
-    copy: 'A source-linked preprint story and open evaluation record for radiology-specialized decision models.',
+    copy: 'An open evaluation record for radiology-specialized decision models.',
     href: '/research/radkev',
   },
   {
-    label: 'Exploring',
+    label: 'Evaluation',
     title: 'MedPhysBench',
-    copy: 'Open evaluation infrastructure for testing AI and agent systems on medical-physics tasks.',
+    copy: 'Infrastructure for testing AI and agent systems on medical-physics tasks.',
     href: '/software#software-medphysbench',
   },
 ]
@@ -25,17 +27,16 @@ export default function OnMyDesk() {
       <div className="wrap">
         <div className="desk-heading">
           <div>
-            <span className="meta">Editorial snapshot · October 24, 2026</span>
-            <h2 id="desk-title">On my desk</h2>
+            <h2 id="desk-title">Current projects</h2>
+            <p className="desk-date">Public project snapshot, October 24, 2026</p>
           </div>
-          <p>A selection of public projects, as of October 2026.</p>
         </div>
         <div className="desk-items home-reveal">
           {deskItems.map(item => (
             <a href={item.href} key={item.label}>
               <span>{item.label}</span>
-              <strong>{item.title}</strong>
-              <p>{item.copy}</p>
+              <div><strong>{item.title}</strong><p>{item.copy}</p></div>
+              <ArrowUpRight />
             </a>
           ))}
         </div>

@@ -10,7 +10,7 @@ try {
   const content = await vite.ssrLoadModule('/src/contentRegistry.ts')
   const search = await vite.ssrLoadModule('/src/searchRanking.ts')
   registry = content.publicContentRegistry
-  assert.equal(registry.length, 234)
+  assert.equal(registry.length, 235)
   assert.equal(new Set(registry.map(item => item.id)).size, registry.length)
   assert.equal(search.rankContent('physician segmentation', 'All')[0]?.id, 'study:organ-segmentation')
   assert.ok(search.rankContent('RadKev', 'All').some(item => item.id === 'study:radkev'))

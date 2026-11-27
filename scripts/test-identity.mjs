@@ -15,7 +15,7 @@ try {
     vite.ssrLoadModule('/src/curatedExperience.ts'),
   ])
   ;({ experienceRecords, projectRecords, awardRecords } = identity)
-  assert.deepEqual([experienceRecords.length, projectRecords.length, awardRecords.length], [30, 30, 31])
+  assert.deepEqual([experienceRecords.length, projectRecords.length, awardRecords.length], [30, 31, 31])
   for (const [label, records] of [['experience', experienceRecords], ['project', projectRecords], ['award', awardRecords]]) {
     assert.equal(new Set(records.map(record => record.id)).size, records.length, `${label} IDs are unique`)
     assert.ok(records.every(record => record.sources.length > 0), `${label} records keep sources`)
@@ -26,7 +26,7 @@ try {
   assert.ok(awardRecords.every(record => registryIds.has(`award:${record.id}`)))
   assert.equal(curated.curatedExperiences.length, 10)
   assert.ok(curated.curatedExperiences.flatMap(item => item.sourceIds).every(id => experienceRecords.some(record => record.id === id)))
-  console.log('PASS identity coverage: 30 experience, 30 project, and 31 award source records remain unique, sourced, and resolvable; 10 curated cards map to valid source IDs.')
+  console.log('PASS identity coverage: 30 experience, 31 project, and 31 award source records remain unique, sourced, and resolvable; 10 curated cards map to valid source IDs.')
 } finally { await vite.close() }
 
 const server = createAppServer(); server.listen(0, '127.0.0.1'); await once(server, 'listening')
